@@ -92,7 +92,6 @@ function editIngredient(index, newValues){
     valuesList[index].ingredient  = newValues.ingredient
     valuesList[index].weight  = newValues.weight
     localStorage.setItem('valuesList', JSON.stringify(valuesList));
-    //console.log(valuesList)
 }
 function saveParams(e){
     let unitWeight = document.getElementById('eachOneWeight').value;

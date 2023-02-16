@@ -9,20 +9,21 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <title>Recipe Calculator</title>
     <link rel="icon" href="./favicon.png">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 
 <body class="bg-dark">
     <div class="container ">
         <h1 class="navbar bg-primary text-light rounded-2 text-center ps-5 mt-5 mb-3">@PW Recipe Calculator!</h1>
-        <h4 class="border rounded-2 p-4 bg-dark text-light mb-3 ">"With the Recipe Calculator, you can enter a
+        <h4 class="border rounded-2 p-4 bg-light mb-3 ">"With the Recipe Calculator, you can enter a
             basic recipe and modify it proportionally according to a specific amount of units you want to prepare.".
         </h4>
     </div>
     <div class="container">
         <div class="row">
             <div class="col md-5">
-                <div class="card">
+                <div class="card shadow">
                     <h4 class="bg-success text-light p-2 rounded-2">Recipe Name:</h4>
                     <form class="form-control my-2 border-0 needs-validation bg-light" id="recipeName">
                         <input type="text" id="name" placeholder="Recipe Name: (Ex: 'Baguettes')" class="form-control" required>
@@ -53,7 +54,7 @@
                 </div>
             </div>
             <div class="col md-7">
-                <div class="card p-3 mt-3">
+                <div class="card p-3 mt-3 shadow">
                     <div id="recipeView" class="text-center mb-3 bg-warning rounded-2 text-light">
                     </div>
                     <!-- Basic Recipe -->
@@ -70,9 +71,9 @@
                     </div>
                 </div>
                 <section id="calculated">
-                    <div class="card p-3 mt-3">
+                    <div class="card p-3 mt-3 shadow">
                         <div id="getConvertionHeader" class="mb-3 text-light"></div>
-                        <table class="table table-hover table-striped">
+                        <table class="table table-hover table-striped shadow">
                             <th class="table-primary">Ingredient</th>
                             <th class="table-primary">Weight(g)</th>
                             <tbody id="savedRecipe">

@@ -8,14 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <title>Recipe Calculator</title>
-    <link rel="icon" href="favicon.png">
+    <link rel="icon" href="./favicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 
 <body class="bg-dark">
     <div class="container ">
-        <h1 class="navbar bg-success text-light rounded-2 text-center ps-5 mt-5 mb-3">@PW Recipe Calculator!</h1>
-        <h4 class="border rounded-5 p-4 border-1 border-light bg-light mb-3">"With the Recipe Calculator, you can enter a
+        <h1 class="navbar bg-primary text-light rounded-2 text-center ps-5 mt-5 mb-3">@PW Recipe Calculator!</h1>
+        <h4 class="border rounded-2 p-4 bg-dark text-light mb-3 ">"With the Recipe Calculator, you can enter a
             basic recipe and modify it proportionally according to a specific amount of units you want to prepare.".
         </h4>
     </div>
@@ -25,8 +25,8 @@
                 <div class="card">
                     <h4 class="bg-success text-light p-2 rounded-2">Recipe Name:</h4>
                     <form class="form-control my-2 border-0 needs-validation bg-light" id="recipeName">
-                        <input type="text" id="name" placeholder="Recipe Name:" class="form-control" required>
-                        <button type="submit" class="btn btn-primary mt-2">Save</button>
+                        <input type="text" id="name" placeholder="Recipe Name: (Ex: 'Baguettes')" class="form-control" required>
+                        <button type="submit" class="btn btn-primary mt-2">Add</button>
                     </form>
                 </div>
                 <div class="card my-3 shadow">
@@ -36,7 +36,7 @@
                         <input required type="text" id="ingredient" placeholder="Ingredient:" class="form-control">
                         <label for="weight" class="label">Enter the weight in grams (g):</label>
                         <input required type="number" id="weight" placeholder="Weight(g):" class="form-control">
-                        <button type="submit" id="submitBtn" class="btn btn-primary mt-2">Add</button>
+                        <button type="submit" id="submitBtn" class="btn btn-primary mt-2" value="">Add</button>
                     </form>
                 </div>
                 <div class="card shadow">
@@ -47,48 +47,48 @@
                         <input required type="number" id="unitsAmount" placeholder="Amount:" class="form-control">
                         <label for="eachOneWeight" class="label">Enter the weight in grams of each unit:</label>
                         <input required type="number" id="eachOneWeight" placeholder="Weight(g):" class="form-control">
-                        <button type="submit" class="btn btn-primary mt-2">Calculate</button>
+                        <a  href="#calculated"><button type="submit" class="btn btn-primary mt-2">Calculate</button></a>
 
                     </form>
                 </div>
             </div>
             <div class="col md-7">
-                <div class="card p-3">
-                    <div id="recipeView" class="card text-center mb-3 bg-success text-light">
+                <div class="card p-3 mt-3">
+                    <div id="recipeView" class="text-center mb-3 bg-warning rounded-2 text-light">
                     </div>
                     <!-- Basic Recipe -->
                     <div class="bg-light">
                         <table class="table table-hover table-striped">
                             <th class="table-primary">Ingredients</th>
                             <th class="table-primary">Weight(g)</th>
-                            <th class="table-primary">Delete Ingredient</th>
+                            <th class="table-primary"></th>
+                            <th class="table-primary"></th>
                             <tbody id="recipe"></tbody>
                         </table>
                         <div class="container">
                         </div>
                     </div>
                 </div>
-
-                <div class="card p-3 mt-3">
-                    <div id="getConvertionHeader" class="card mb-3 bg-success text-light"></div>
-                    <table class="table table-hover table-striped">
-                        <th class="table-primary">Ingredient</th>
-                        <th class="table-primary">Weight(g)</th>
-                        <tbody id="savedRecipe">
-                            <!-- Calculated Recipe -->
-                        </tbody>
-                    </table>
-                </div>
+                <section id="calculated">
+                    <div class="card p-3 mt-3">
+                        <div id="getConvertionHeader" class="mb-3 text-light"></div>
+                        <table class="table table-hover table-striped">
+                            <th class="table-primary">Ingredient</th>
+                            <th class="table-primary">Weight(g)</th>
+                            <tbody id="savedRecipe">
+                                <!-- Calculated Recipe -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
-
-
         </div>
     </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-    <script src="main.js"></script>
+    <script src="./main.js"></script>
 </body>
 
 </html>

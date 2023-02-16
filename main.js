@@ -5,6 +5,7 @@ document.getElementById('userIngredients').addEventListener('submit', saveIngred
 document.getElementById('recipeName').addEventListener('submit', saveName);
 document.getElementById('amounts').addEventListener('submit', saveParams);
 
+
 function saveName(e){
     let name = document.getElementById('name').value;
     const rname = {
@@ -18,24 +19,43 @@ function saveName(e){
 function getName(){
     let name = JSON.parse(localStorage.getItem('recipeTitle'));
     let nameView = document.getElementById('recipeView');
-    nameView.innerHTML = `<h4 class='bg-success my-2'>${name.name}</h4>`
+    nameView.innerHTML = `<h4 class='my-2'>${name.name}</h4>`
+}
+function setEditableIngredient(index){
+    let ingInput  = document.getElementById('ingredient')
+    let weightInput  = document.getElementById('weight')
+    let button = document.getElementById("submitBtn")
+    let ings  = JSON.parse(localStorage.getItem('valuesList'))
+    ingInput.value  = ings[index].ingredient
+    weightInput.value = ings[index].weight
+    button.textContent = "Edit"
+    button.value = index
 }
 function saveIngredient(e){
     let ingredient = document.getElementById('ingredient').value;
     let weight = document.getElementById('weight').value;
+    let button = document.getElementById('submitBtn');
     const values = {
         ingredient,
         weight
-    };   
-    if (localStorage.getItem('valuesList') === null) {
-        let valuesList = [];
-        valuesList.push(values);
-        localStorage.setItem('valuesList', JSON.stringify(valuesList));
+    };
+    if (button.textContent == "Add"){  
+        if (localStorage.getItem('valuesList') === null) {
+            let valuesList = [];
+            valuesList.push(values);
+            localStorage.setItem('valuesList', JSON.stringify(valuesList));
+        } else {
+            let valuesList = JSON.parse(localStorage.getItem('valuesList'));
+            valuesList.push(values);
+            localStorage.setItem('valuesList', JSON.stringify(valuesList))
+        }
+        button.textContent = "Add"
     } else {
-        let valuesList = JSON.parse(localStorage.getItem('valuesList'));
-        valuesList.push(values);
-        localStorage.setItem('valuesList', JSON.stringify(valuesList))
+        let index = button.value 
+        editIngredient(index, values)
+        button.textContent = "Add"
     }
+    
     getValues();
     document.getElementById('userIngredients').reset();
     e.preventDefault();
@@ -50,9 +70,9 @@ function getValues(){
         recipeView.innerHTML +=`
         <td>${ingredient}</td>
         <td>${weight} g</td>
-        <td><a class="btn btn-outline-danger" onclick="deleteIngredient('${ingredient}')">X</a></td>
-        ` 
-        //<td><a class="bi bi-pencil" onclick="editIngredient('${valuesList[i]}')"></a></td>
+        <td><a class="btn btn-outline-danger" onclick="deleteIngredient('${ingredient}')"><i class="bi bi-trash"></i></a></td>
+         
+        <td><a id="editBtn"class="btn btn-outline-primary" value="${i}"onclick="setEditableIngredient('${i}')"><i class="bi bi-pencil"></i></a></td>`
                    
     }   
 }    
@@ -66,9 +86,14 @@ function deleteIngredient(ingredient){
     localStorage.setItem('valuesList', JSON.stringify(valuesList));
     getValues()
 }
-//function editIngredient(valuesList){
-//    console.log(valuesList.ingredient)}
-
+function editIngredient(index, newValues){
+    let valuesList = JSON.parse(localStorage.getItem('valuesList')); 
+    toEdit = valuesList[index]
+    valuesList[index].ingredient  = newValues.ingredient
+    valuesList[index].weight  = newValues.weight
+    localStorage.setItem('valuesList', JSON.stringify(valuesList));
+    //console.log(valuesList)
+}
 function saveParams(e){
     let unitWeight = document.getElementById('eachOneWeight').value;
     let amount = document.getElementById('unitsAmount').value;
@@ -125,7 +150,7 @@ function getConvertionHeader(){
     let name = JSON.parse(localStorage.getItem('recipeTitle'));
     let amountWeight = JSON.parse(localStorage.getItem('amountWeight'));
     let calculatedView = document.getElementById('getConvertionHeader');
-    calculatedView.innerHTML = `<h4 class='bg-success text-light p-2 rounded-2'>For ${amountWeight.amount} units of ${name.name} at ${amountWeight.unitWeight}g each, you need:</h4>`  
+    calculatedView.innerHTML = `<h4 class='bg-warning text-light p-2 rounded-2'>For ${amountWeight.amount} units of ${name.name} of ${amountWeight.unitWeight}g each, you need:</h4>`  
 }
 function getCalculatedRecipe(){
     let calculatedRecipe = JSON.parse(localStorage.getItem('calculatedRecipe'));

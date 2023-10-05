@@ -27,25 +27,25 @@ function newRecipe() {
   location.reload();
 }
 function saveName(e) {
-  let name = document.getElementById("name").value;
+  const name = document.getElementById("name").value;
   const rname = {
     name,
   };
   localStorage.setItem("recipeTitle", JSON.stringify(rname));
-  getName();
+  getName(name);
   document.getElementById("recipeName").reset();
   e.preventDefault();
 }
 
 function saveIngredient(values) {
   if (localStorage.getItem("valuesList") === null) {
-    let valuesList = [];
+    const valuesList = [];
     valuesList.push(values);
     localStorage.setItem("valuesList", JSON.stringify(valuesList));
   } else {
-    let valuesList = JSON.parse(localStorage.getItem("valuesList"));
+    const valuesList = JSON.parse(localStorage.getItem("valuesList"));
 
-    let repited = valuesList.filter((n) => n.ingredient == values.ingredient);
+    const repited = valuesList.filter((n) => n.ingredient == values.ingredient);
     if (repited.length === 0) {
       valuesList.push(values);
       localStorage.setItem("valuesList", JSON.stringify(valuesList));
@@ -58,8 +58,8 @@ function saveIngredient(values) {
 }
 
 function save(e) {
-  let ingredient = e.target.ingredient.value;
-  let weight = e.target.weight.value;
+  const ingredient = e.target.ingredient.value;
+  const weight = e.target.weight.value;
   const values = {
     ingredient,
     weight,
@@ -70,21 +70,21 @@ function save(e) {
 }
 
 function modalEdit(e) {
-  let ingredient = e.target.ingredientEdit.value;
-  let weight = e.target.weightEdit.value;
+  const ingredient = e.target.ingredientEdit.value;
+  const weight = e.target.weightEdit.value;
   const values = {
     ingredient,
     weight,
   };
-  let index = e.target.submitBtnEdit.value;
+  const index = e.target.submitBtnEdit.value;
   editIngredient(index, values);
   getValues();
   e.preventDefault();
 }
 
 function edit_delete(e) {
-  let index = e.target.id;
-  let value = e.target.value;
+  const index = e.target.id;
+  const value = e.target.value;
   if (index.includes("delete")) {
     deleteIngredient(value);
   } else {
@@ -93,17 +93,17 @@ function edit_delete(e) {
 }
 
 function setEditableIngredient(index) {
-  let ingInput = document.getElementById("ingredientEdit");
-  let weightInput = document.getElementById("weightEdit");
-  let button = document.getElementById("submitBtnEdit");
-  let ings = JSON.parse(localStorage.getItem("valuesList"));
+  const ingInput = document.getElementById("ingredientEdit");
+  const weightInput = document.getElementById("weightEdit");
+  const button = document.getElementById("submitBtnEdit");
+  const ings = JSON.parse(localStorage.getItem("valuesList"));
   ingInput.value = ings[index].ingredient;
   weightInput.value = ings[index].weight;
   button.value = index;
 }
 
 function deleteIngredient(ingredient) {
-  let valuesList = JSON.parse(localStorage.getItem("valuesList"));
+  const valuesList = JSON.parse(localStorage.getItem("valuesList"));
   for (let i = 0; i < valuesList.length; i++) {
     if (valuesList[i].ingredient == ingredient) {
       valuesList.splice(i, 1);
@@ -114,8 +114,8 @@ function deleteIngredient(ingredient) {
 }
 
 function editIngredient(index, newValues) {
-  let valuesList = JSON.parse(localStorage.getItem("valuesList"));
-  let existingIndex = valuesList.findIndex(
+  const valuesList = JSON.parse(localStorage.getItem("valuesList"));
+  const existingIndex = valuesList.findIndex(
     (n) => n.ingredient === newValues.ingredient
   );
   if (existingIndex == index || existingIndex === -1) {
@@ -129,14 +129,14 @@ function editIngredient(index, newValues) {
 }
 
 function saveParams(e) {
-  let unitWeight = document.getElementById("eachOneWeight").value;
-  let amount = document.getElementById("unitsAmount").value;
+  const unitWeight = document.getElementById("eachOneWeight").value;
+  const amount = document.getElementById("unitsAmount").value;
   const params = {
     unitWeight,
     amount,
   };
   if (localStorage.getItem("amountWeight") === null) {
-    let amountWeight = params;
+    const amountWeight = params;
     localStorage.setItem("amountWeight", JSON.stringify(amountWeight));
   } else {
     localStorage.setItem("amountWeight", JSON.stringify(params));
@@ -147,23 +147,23 @@ function saveParams(e) {
 }
 
 function saveMyRecipe(e) {
-  let index = e.target.value;
-  let values = JSON.parse(localStorage.getItem("valuesList"));
-  let name = JSON.parse(localStorage.getItem("recipeTitle"));
-  let myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
+  const index = e.target.value;
+  const values = JSON.parse(localStorage.getItem("valuesList"));
+  const name = JSON.parse(localStorage.getItem("recipeTitle"));
+  const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
 
   if (index == "") {
-    let myRecipe = {
+    const myRecipe = {
       name: name.name,
       values,
     };
     if (localStorage.getItem("myRecipes") === null) {
-      let myRecipes = [];
+      const myRecipes = [];
       myRecipes.push(myRecipe);
       localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
       alert("Recipe saved on this device.");
     } else {
-      let repited = myRecipes.filter((n) => n.name == myRecipe.name);
+      const repited = myRecipes.filter((n) => n.name == myRecipe.name);
       if (repited.length === 0) {
         myRecipes.push(myRecipe);
         localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
@@ -179,17 +179,17 @@ function saveMyRecipe(e) {
 }
 
 function getMyRecipe(e) {
-  let myRecipeName = e.target.id;
-  let nameJSON = { name: myRecipeName };
+  const myRecipeName = e.target.id;
+  const nameJSON = { name: myRecipeName };
   localStorage.setItem("recipeTitle", JSON.stringify(nameJSON));
-  let a = JSON.parse(localStorage.getItem("myRecipes"));
-  let recipe = a.filter((a) => a.name == myRecipeName);
-  let index = a.findIndex((a) => a.name == myRecipeName);
-  let values = recipe[0].values;
+  const a = JSON.parse(localStorage.getItem("myRecipes"));
+  const recipe = a.filter((a) => a.name == myRecipeName);
+  const index = a.findIndex((a) => a.name == myRecipeName);
+  const values = recipe[0].values;
   localStorage.setItem("valuesList", JSON.stringify(values));
-  let buttonContainer = document.getElementById("saveButtonContainer");
-  let saveBtn = document.getElementById("saveButton");
-  let deleteBtn = document.getElementById("deleteButton");
+  const buttonContainer = document.getElementById("saveButtonContainer");
+  const saveBtn = document.getElementById("saveButton");
+  const deleteBtn = document.getElementById("deleteButton");
   saveBtn.textContent = "Save Changes";
   saveBtn.setAttribute("value", index);
   deleteBtn.className = "btn btn-danger";
@@ -202,16 +202,16 @@ function getMyRecipe(e) {
 }
 
 function saveChanges(index, myRecipes) {
-  let name = JSON.parse(localStorage.getItem("recipeTitle"));
-  let values = JSON.parse(localStorage.getItem("valuesList"));
-  let repited = myRecipes.filter((a) => a.name == name.name);
+  const name = JSON.parse(localStorage.getItem("recipeTitle"));
+  const values = JSON.parse(localStorage.getItem("valuesList"));
+  const repited = myRecipes.filter((a) => a.name == name.name);
   if (repited.length == 1) {
     for (let i = 0; i < myRecipes.length; i++) {
       if (myRecipes[i].name === name.name) {
         if (i != index) {
           alert("This recipe name already exists");
         } else {
-          let myRecipe = {
+          const myRecipe = {
             name: name.name,
             values,
           };
@@ -224,7 +224,7 @@ function saveChanges(index, myRecipes) {
       }
     }
   } else {
-    let myRecipe = {
+    const myRecipe = {
       name: name.name,
       values,
     };

@@ -1,22 +1,24 @@
+
+
 export function getName(reference = "recipeTitle") {
   if (reference == "recipeTitle") {
-    let name = JSON.parse(localStorage.getItem(reference));
+    const name = JSON.parse(localStorage.getItem(reference));
     if (name) {
-      let nameView = document.getElementById("recipeView");
+      const nameView = document.getElementById("recipeView");
       nameView.innerHTML = `<h4 class='my-2'>${name.name}</h4>`;
     } else {
       alert("No Recipes Available");
     }
   } else {
-    let nameView = document.getElementById("recipeView");
+    const nameView = document.getElementById("recipeView");
     nameView.innerHTML = `<h4 class='my-2'>${reference}</h4>`;
   }
 }
 
 export function getConvertionHeader() {
-  let name = JSON.parse(localStorage.getItem("recipeTitle"));
-  let amountWeight = JSON.parse(localStorage.getItem("amountWeight"));
-  let calculatedView = document.getElementById("getConvertionHeader");
+  const name = JSON.parse(localStorage.getItem("recipeTitle"));
+  const amountWeight = JSON.parse(localStorage.getItem("amountWeight"));
+  const calculatedView = document.getElementById("getConvertionHeader");
   calculatedView.innerHTML = `<h4 class='bg-success text-light p-2 rounded-2'>For ${amountWeight.amount} units of ${name.name} of ${amountWeight.unitWeight}g each, you need:</h4>`;
 }
 
@@ -35,7 +37,7 @@ export function getCalculatedRecipe() {
 
 export function getValues(reference = "valuesList") {
   let valuesList = "";
-  let recipeView = document.getElementById("recipe");
+  const recipeView = document.getElementById("recipe");
   recipeView.innerHTML = "";
   if (reference == "valuesList") {
     valuesList = JSON.parse(localStorage.getItem(reference));
@@ -44,8 +46,8 @@ export function getValues(reference = "valuesList") {
   }
   if (valuesList) {
     valuesList.forEach((value, i) => {
-      let ingredient = value.ingredient;
-      let weight = value.weight;
+      const ingredient = value.ingredient;
+      const weight = value.weight;
       recipeView.innerHTML += `
         <td>${ingredient}</td>
         <td>${weight} g</td>
@@ -58,17 +60,17 @@ export function getValues(reference = "valuesList") {
 }
 
 export function calculate() {
-  let values = JSON.parse(localStorage.getItem("valuesList"));
-  let params = JSON.parse(localStorage.getItem("amountWeight"));
+  const values = JSON.parse(localStorage.getItem("valuesList"));
+  const params = JSON.parse(localStorage.getItem("amountWeight"));
 
-  let sumatory = values
+  const sumatory = values
     .map((v) => parseFloat(v.weight))
     .reduce((a, b) => a + b);
-  let totalRequiredDought =
+  const totalRequiredDought =
     parseFloat(params.amount) * parseFloat(params.unitWeight);
-  let percentages = values.map((b) => parseFloat(b.weight) / sumatory);
-  let convertion = [];
-  let ingredients = values.map((i) => i.ingredient);
+  const percentages = values.map((b) => parseFloat(b.weight) / sumatory);
+  const convertion = [];
+  const ingredients = values.map((i) => i.ingredient);
 
   for (let i = 0; i < values.length; i++) {
     let b = parseInt(totalRequiredDought * percentages[i]);
@@ -87,10 +89,10 @@ export function calculate() {
 }
 
 export function myRecipesDropdown() {
-  let recipeNames = JSON.parse(localStorage.getItem("myRecipes"));
+  const recipeNames = JSON.parse(localStorage.getItem("myRecipes"));
   recipeNames.forEach((recipe) => {
-    let ulDropdown = document.getElementById("recipes-dropdown");
-    let li = document.createElement("li");
+    const ulDropdown = document.getElementById("recipes-dropdown");
+    const li = document.createElement("li");
     li.className = "btn btn-light d-block ";
     li.innerHTML = recipe.name;
     li.setAttribute("id", recipe.name);

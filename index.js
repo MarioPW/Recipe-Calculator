@@ -4,6 +4,7 @@ import {
     calculate,
     getCalculatedRecipe,
     myRecipesDropdown,
+    convertAndStoreRecipes
 } from "./ui.js";
 import { Recipe, Ingredient } from "./models.js";
 
@@ -43,6 +44,7 @@ function saveIngredient(ingredient /* Type Ingredient */) {
     if (localStorage.getItem("ingredients") === null) {
         const ingredients = [];
         ingredients.push(ingredient);
+        console.log(ingredients)
         localStorage.setItem("ingredients", JSON.stringify(ingredients));
     } else {
         const ingredients = JSON.parse(localStorage.getItem("ingredients"));
@@ -53,7 +55,7 @@ function saveIngredient(ingredient /* Type Ingredient */) {
         } else {
             alert("Ingerdient already exist!");
         }
-    } 
+    }
     getValues();
     document.getElementById("userIngredients").reset();
 }
@@ -76,7 +78,7 @@ function modalEdit(e) {
     const editedIngredient = new Ingredient(
         name,
         weight
-        );
+    );
     const index = e.target.submitBtnEdit.value;
     editIngredient(index, editedIngredient);
     getValues();
@@ -106,7 +108,7 @@ function setEditableIngredient(index) {
 function deleteIngredient(ingredient) {
     const message = `Sure you want to delete ${ingredient}?`
     const confirmDelete = confirm(message);
-    if (confirmDelete){
+    if (confirmDelete) {
         const ingredients = JSON.parse(localStorage.getItem("ingredients"));
         for (let i = 0; i < ingredients.length; i++) {
             if (ingredients[i].name == ingredient) {
@@ -114,7 +116,8 @@ function deleteIngredient(ingredient) {
             }
         }
         localStorage.setItem("ingredients", JSON.stringify(ingredients));
-        getValues();}
+        getValues();
+    }
 }
 
 function editIngredient(index, newValues) {
@@ -160,7 +163,7 @@ function saveMyRecipe(e) {
         const myRecipe = new Recipe(
             name.name,
             ingredients,
-            );
+        );
         if (localStorage.getItem("myRecipes") === null) {
             const myRecipes = [];
             myRecipes.push(myRecipe);
@@ -214,13 +217,13 @@ function saveChanges(index, myRecipes) {
     const repited = myRecipes.filter((a) => a.name == name.name);
     if (repited.length != 1) {
         const myRecipe = new Recipe(
-        name.name,
-        ingredients,
+            name.name,
+            ingredients,
         );
-    myRecipes[index] = myRecipe;
-    localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
+        myRecipes[index] = myRecipe;
+        localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
 
-    alert("Changes Saved Successfully");
+        alert("Changes Saved Successfully");
     }
     for (let i = 0; i < myRecipes.length; i++) {
         if (myRecipes[i].name === name.name) {
@@ -230,13 +233,13 @@ function saveChanges(index, myRecipes) {
                 const myRecipe = new Recipe(
                     name.name,
                     ingredients,
-                    );
+                );
                 myRecipes[index] = myRecipe;
                 localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
                 alert("Changes Saved ok");
             }
         }
-    }        
+    }
 }
 
 function deleteRecipe(e) {
@@ -256,7 +259,5 @@ function deleteRecipe(e) {
         newRecipe();
     }
 }
-
-getName();
-getValues();
-myRecipesDropdown();
+convertAndStoreRecipes()
+myRecipesDropdown()

@@ -93,7 +93,7 @@ export function myRecipesDropdown() {
   const recipeNames = myRecipes.map((r) => r.name);
   recipeNames.sort();
   const ulDropdown = document.getElementById("recipes-dropdown");
-  ulDropdown.innerHTML = ''; // Limpia cualquier contenido previo
+  ulDropdown.innerHTML = '';
   recipeNames.forEach((name) => {
     const li = document.createElement("li");
     li.className = "btn btn-light d-block ";

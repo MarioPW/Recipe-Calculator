@@ -31,20 +31,25 @@ function newRecipe() {
 
 function saveName(e) {
     const name = document.getElementById("name").value;
-    const recipeName = {
-        name,
-    };
-    localStorage.setItem("recipeName", JSON.stringify(recipeName));
-    getName(name);
-    document.getElementById("recipeName").reset();
-    e.preventDefault();
+
+    const names = JSON.parse(localStorage.getItem("myRecipes")).map((recipe) => recipe.name)
+    if (names.includes(name)) {
+        alert(`Recipe name ${name} already exists`)
+    } else {
+        const recipeName = {
+            name,
+        };
+        localStorage.setItem("recipeName", JSON.stringify(recipeName));
+        getName(name);
+        document.getElementById("recipeViewContainer").className = "card p-3 shadow rounded-0";
+        e.preventDefault();
+    }
 }
 
 function saveIngredient(ingredient /* Type Ingredient */) {
     if (localStorage.getItem("ingredients") === null) {
         const ingredients = [];
         ingredients.push(ingredient);
-        console.log(ingredients)
         localStorage.setItem("ingredients", JSON.stringify(ingredients));
     } else {
         const ingredients = JSON.parse(localStorage.getItem("ingredients"));
@@ -187,6 +192,7 @@ function saveMyRecipe(e) {
 }
 
 function getMyRecipe(e) {
+    document.getElementById("recipeViewContainer").className = "card p-3 shadow rounded-0";
     const nameCard = document.getElementById("name-card")
     nameCard.className = "hide"
     const myRecipeName = e.target.id;

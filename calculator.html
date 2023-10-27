@@ -135,29 +135,30 @@
           <div class="dropdown my-3 rounded-0">
             <button class="btn btn-info text-light p-2 dropdown-toggle rounded-0" type="button"
               data-bs-toggle="dropdown" aria-expanded="false">Add Ingredients:</button>
+            <form class="form-control my-2 border-0 bg-light dropdown-item" id="userIngredients">
+              <ul class="dropdown-menu p-2 rounded-0">
+                <li>
 
-            <ul class="dropdown-menu p-2">
-              <li>
-                <form class="form-control my-2 border-0 bg-light dropdown-item" id="userIngredients">
                   <label for="ingredient" class="label">Enter the name of each ingredient:</label>
                   <input required type="text" id="ingredient" placeholder="Ingredient:" class="form-control" />
                   <label for="weight" class="label">Enter the weight in grams (g):</label>
                   <input type="number" id="weight" placeholder="Weight(g):" class="form-control" required />
-                  <button type="submit" id="submitBtn" class="btn btn-primary mt-2" value="">
+                  <button type="submit" id="submitBtn" class="btn btn-primary mt-2 btn-sm" value="">
                     Add
                   </button>
-                </form>
-              </li>
-            </ul>
+
+                </li>
+              </ul>
+            </form>
           </div>
 
 
         </table>
         <div id="saveButtonContainer" class="d-grid gap-2">
-          <button id="saveButton" class="btn btn-primary">
+          <button id="saveButton" class="btn btn-primary btn-sm">
             Save this Recipe
           </button>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#amountWeight">
+          <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#amountWeight">
             Calculate
           </button>
           <button id="deleteButton" class="d-none"></button>

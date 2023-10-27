@@ -6,20 +6,20 @@ export class Ingredient {
         this.costPerKg = costperKg
         this.suplier = suplier
     }
-    getIngredient(){
-        try{
+    getIngredient() {
+        try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients"))
             return ingredients.find((ingredient) => this.name === ingredient.name)
-        }catch{
+        } catch {
             console.error("Error parsing or retrieving data from localStorage:", error);
             return undefined;
         }
     }
-    setIngerdient(){
-        try{
+    setIngerdient() {
+        try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients"))
-            if (!ingredients){
-            console.error("No ingredients available");
+            if (!ingredients) {
+                console.error("No ingredients available");
             }
             ingredients.push(this)
             localStorage.setItem(JSON.stringify(ingredients))
@@ -31,40 +31,38 @@ export class Ingredient {
     }
 }
 export class Recipe {
-    constructor(name, ingredients) {
-        this.name = name
-        this.ingredients = ingredients
+    constructor() {
+        this.name = "";
+        this.ingredients = [];
     }
+
+    setName(name) {
+        this.name = name;
+    }
+
+    setIngredients(ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    saveRecipe() {
+        try {
+            const recipes = JSON.parse(localStorage.getItem("myRecipes")) || [];
+            recipes.push({ name: this.name, ingredients: this.ingredients });
+            localStorage.setItem("myRecipes", JSON.stringify(recipes));
+            return true;
+        } catch (error) {
+            console.error("Error parsing or saving data to localStorage:", error);
+            return false;
+        }
+    }
+
     getRecipeByName() {
         try {
-            const recipes = JSON.parse(localStorage.getItem("myRecipes"))
-            return recipes.find((recipe) => this.name === recipe.name)
-        }
-        catch (error) {
+            const recipes = JSON.parse(localStorage.getItem("myRecipes")) || [];
+            return recipes.find((recipe) => this.name.toLowerCase() === recipe.name.toLowerCase());
+        } catch (error) {
             console.error("Error parsing or retrieving data from localStorage:", error);
             return undefined;
         }
-
-    }
-    setRecipe(){
-        try{
-            const recipes = JSON.parse(localStorage.getItem("myRecipes"))
-            if (!recipes){
-            console.error("No recipes available");
-            }
-            recipes.push(this)
-            localStorage.setItem(JSON.stringify(recipes))
-        }
-        catch {
-            console.error("Error setting recipe", error);
-            return undefined;
-        }
-    }
-}
-// ToDo:
-export class RecipeIngredient {
-    constructor(ingredientName, recipeName) {
-        this.ingredientName = ingredientName
-        this.recipeName = recipeName
     }
 }

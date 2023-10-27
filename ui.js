@@ -90,17 +90,21 @@ export function calculate() {
 
 export function myRecipesDropdown() {
   const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
-  const recipeNames = myRecipes.map((r) => r.name);
-  recipeNames.sort();
-  const ulDropdown = document.getElementById("recipes-dropdown");
-  ulDropdown.innerHTML = '';
-  recipeNames.forEach((name) => {
-    const li = document.createElement("li");
-    li.className = "btn btn-light d-block ";
-    li.innerHTML = name;
-    li.setAttribute("id", name);
-    ulDropdown.appendChild(li);
-  });
+  if (!myRecipes) {
+    
+  } else {
+    const recipeNames = myRecipes.map((r) => r.name);
+    recipeNames.sort();
+    const ulDropdown = document.getElementById("recipes-dropdown");
+    ulDropdown.innerHTML = '';
+    recipeNames.forEach((name) => {
+      const li = document.createElement("li");
+      li.className = "btn btn-light d-block ";
+      li.innerHTML = name;
+      li.setAttribute("id", name);
+      ulDropdown.appendChild(li);
+    })
+  };
 }
 
 export function convertAndStoreRecipes() {

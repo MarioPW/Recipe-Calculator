@@ -3,7 +3,8 @@ import {
     getValues,
     calculate,
     getCalculatedRecipe,
-    myRecipesDropdown
+    myRecipesDropdown,
+    convertAndStoreRecipes
 } from "./ui.js";
 import { Recipe, Ingredient } from "./models.js";
 
@@ -92,16 +93,18 @@ function save(e) {
 }
 
 function modalEdit(e) {
-    const weight = e.target.weightEdit.value;
-    const name = e.target.ingredientEdit.value;
-    const editedIngredient = new Ingredient(
-        name,
-        weight
-    );
-    const index = e.target.submitBtnEdit.value;
-    editIngredient(index, editedIngredient);
-    getValues();
-    e.preventDefault();
+    if (e.target) {
+        const weight = e.target.weightEdit.value;
+        const name = e.target.ingredientEdit.value;
+        const editedIngredient = new Ingredient(
+            name,
+            weight
+        );
+        const index = e.target.submitBtnEdit.value;
+        editIngredient(index, editedIngredient);
+        getValues();
+        e.preventDefault();
+    }
 }
 
 function edit_delete(e) {
@@ -195,78 +198,78 @@ function saveMyRecipe(e) {
                 alert("This recipe already exists");
             }
         }
+
     } else {
         saveChanges(index, myRecipes);
     }
+    myRecipesDropdown()
 }
 
 function getMyRecipe(e) {
-    document.getElementById("recipeViewContainer").className = "card p-3 shadow rounded-0";
-    //document.getElementById("name-card").className = "hide"
-    const myRecipeName = e.target.id;
-    const nameJSON = { name: myRecipeName };
-    localStorage.setItem("recipeName", JSON.stringify(nameJSON));
-    const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
-    const recipe = myRecipes.filter((myRecipe) => myRecipe.name == myRecipeName);
-    const index = myRecipes.findIndex((myRecipe) => myRecipe.name == myRecipeName);
-    const ingredients = recipe[0].ingredients;
-    if (ingredients) {
-        localStorage.setItem("ingredients", JSON.stringify(ingredients));
-    }
-    const buttonContainer = document.getElementById("saveButtonContainer");
-    const saveBtn = document.getElementById("saveButton");
-    const deleteBtn = document.getElementById("deleteButton");
-    saveBtn.textContent = "Save Changes";
-    saveBtn.setAttribute("value", index);
-    deleteBtn.className = "btn btn-danger btn-sm";
-    deleteBtn.textContent = "Delete";
-    deleteBtn.setAttribute("value", recipe[0].name);
-    buttonContainer.className = "";
+    if (e.target.localName == "li" || e.target.nodeName == "LI") {
+        document.getElementById("recipeViewContainer").className = "card p-3 shadow rounded-0"
+        const myRecipeName = e.target.id;
+        const nameJSON = { name: myRecipeName };
+        localStorage.setItem("recipeName", JSON.stringify(nameJSON));
+        const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
+        const recipe = myRecipes.filter((myRecipe) => myRecipe.name == myRecipeName);
+        const index = myRecipes.findIndex((myRecipe) => myRecipe.name == myRecipeName);
+        const ingredients = recipe[0].ingredients;
+        if (ingredients) {
+            localStorage.setItem("ingredients", JSON.stringify(ingredients));
+        }
+        const buttonContainer = document.getElementById("saveButtonContainer");
+        const saveBtn = document.getElementById("saveButton");
+        const deleteBtn = document.getElementById("deleteButton");
+        saveBtn.textContent = "Save Changes";
+        saveBtn.setAttribute("value", index);
+        deleteBtn.className = "btn btn-danger btn-sm";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.setAttribute("value", recipe[0].name);
+        buttonContainer.className = "";
 
-    getName(myRecipeName);
-    getValues(ingredients);
+        getName(myRecipeName);
+        getValues(ingredients);
+    }
 }
 
 function saveChanges(index, myRecipes) {
-    console.log(myRecipes[index].ingredients)
     const name = JSON.parse(localStorage.getItem("recipeName"));
     let ingredients = JSON.parse(localStorage.getItem("ingredients"));
-    if (!ingredients) { // Only recipe name was changed
-        ingredients = myRecipes[index].ingredients
+
+    // Check if ingredients are not present in the localStorage
+    if (!ingredients) {
+        ingredients = myRecipes[index].ingredients;
     }
-    const repited = myRecipes.filter((a) => a.name == name.name);
-    if (repited.length != 1) {
-        recipe.setName(name.name)
-        recipe.setIngredients(ingredients)
-        myRecipes[index] = recipe;
+
+    // Check if the new recipe name is the same as the old name
+    if (name.name === recipe.name) {
+        recipe.setIngredients(ingredients);
+        myRecipes[index] = recipe
         localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
+        alert("Changes Saved Successfully ok");
+    } else {
+        // Check if the new recipe name already exists
+        const isNameAlreadyExists = myRecipes.some((r, i) => i != index && r.name == name.name);
 
-        alert("Changes Saved Successfully");
-    }
-    for (let i = 0; i < myRecipes.length; i++) {
-        if (myRecipes[i].name === name.name) {
-            if (i != index) {
-                alert(`Recipe with name ${name.name} already exists`);
-            } else {
-
-                recipe.setIngredients(ingredients)
-                recipe.setName(name.name)
-                myRecipes[index] = recipe;
-                localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
-                alert("Changes Saved ok");
-            }
+        if (isNameAlreadyExists) {
+            alert(`Recipe with name ${name.name} already exists`);
+        } else {
+            recipe.setName(name.name);
+            recipe.setIngredients(ingredients);
+            localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
+            alert("Changes Saved Successfully");
         }
     }
 }
 
 function deleteRecipe(e) {
     const message = `Sure you want to delete ${e.target.value}?`
-    const confirmDelete = confirm(message);
-    if (confirmDelete === true) {
+    if (confirm(message)) {
         const recipeName = e.target.value;
         const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
         const del = myRecipes.findIndex((a) => a.name === recipeName);
-        const ingredients = JSON.parse(localStorage.getItem("ingredients"));
+        //const ingredients = JSON.parse(localStorage.getItem("ingredients"));
         if (del != -1) {
             myRecipes.splice(del, 1);
             localStorage.removeItem("ingredients");
@@ -276,5 +279,5 @@ function deleteRecipe(e) {
         newRecipe();
     }
 }
-// convertAndStoreRecipes()
+convertAndStoreRecipes()
 myRecipesDropdown()

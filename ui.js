@@ -90,9 +90,7 @@ export function calculate() {
 
 export function myRecipesDropdown() {
   const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
-  if (!myRecipes) {
-    
-  } else {
+  if (myRecipes) {
     const recipeNames = myRecipes.map((r) => r.name);
     recipeNames.sort();
     const ulDropdown = document.getElementById("recipes-dropdown");

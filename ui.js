@@ -1,29 +1,17 @@
 
 
-export function getName(reference = "recipeName") {
-  if (reference == "recipeName") {
-    const name = JSON.parse(localStorage.getItem(reference));
-    if (name) {
-      const nameView = document.getElementById("recipeView");
-      nameView.innerHTML = `<h4 class='my-2'>${name.name}</h4>`;
-    } else {
-      alert("No Recipes Available");
-    }
-  } else {
-    const nameView = document.getElementById("recipeView");
-    nameView.innerHTML = `<h4 class='my-2'>${reference}</h4>`;
-  }
+export function getName(recipeName) {
+  const nameView = document.getElementById("recipeView");
+  nameView.innerHTML = `<h4 class='my-2'>${recipeName}</h4>`
 }
 
-export function getConvertionHeader() {
-  const name = JSON.parse(localStorage.getItem("recipeName"));
+export function getConvertionHeader(params) {
   const amountWeight = JSON.parse(localStorage.getItem("amountWeight"));
   const calculatedView = document.getElementById("getConvertionHeader");
-  calculatedView.innerHTML = `<h4 class='bg-success text-light p-2'>For ${amountWeight.amount} units of ${name.name} of ${amountWeight.unitWeight}g each, you need:</h4>`;
+  calculatedView.innerHTML = `<h4 class='bg-success text-light p-2'>For ${params.amount} units of ${params.name} of ${params.unitWeight}g each, you need:</h4>`;
 }
 
-export function getCalculatedRecipe() {
-  const calculatedRecipe = JSON.parse(localStorage.getItem("calculatedRecipe"));
+export function getCalculatedRecipe(calculatedRecipe) {
   const recipeView = document.getElementById("savedRecipe");
   recipeView.innerHTML = "";
 
@@ -35,34 +23,32 @@ export function getCalculatedRecipe() {
   });
 }
 
-export function getValues(reference = "ingredients") {
-  let valuesList = "";
+export function getRecipeItems(items = null) {
   const recipeView = document.getElementById("recipe");
   recipeView.innerHTML = "";
-  if (reference == "ingredients") {
-    valuesList = JSON.parse(localStorage.getItem(reference));
+  let ingredients = ""
+  if (items != null) {
+    ingredients = items
   } else {
-    valuesList = reference;
+    ingredients = JSON.parse(localStorage.getItem("ingredients"))
   }
-  if (valuesList) {
-    valuesList.forEach((value, i) => {
-      const ingredient = value.name;
-      const weight = value.weight;
+  if(ingredients){
+    ingredients.forEach((ingredient, i) => {
+      const name = ingredient.name;
+      const weight = ingredient.weight;
       recipeView.innerHTML += `
-          <td>${ingredient}</td>
+          <td>${name}</td>
           <td>${weight} g</td>
           
             <td><button type="button" id="editBtn${i}"class="btn btn-outline-primary bi bi-pencil" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="${i}"></button></td>
-            <td><button id="deleteBtn${i}"class="btn btn-outline-danger bi bi-trash" value="${ingredient}"></button></td>
+            <td><button id="deleteBtn${i}"class="btn btn-outline-danger bi bi-trash" value="${name}"></button></td>
       `;
     });
   }
 }
 
-export function calculate() {
+export function calculate(params) {
   const values = JSON.parse(localStorage.getItem("ingredients"));
-  const params = JSON.parse(localStorage.getItem("amountWeight"));
-
   const sumatory = values
     .map((v) => parseFloat(v.weight))
     .reduce((a, b) => a + b);
@@ -84,18 +70,17 @@ export function calculate() {
     ingredients,
     convertion,
   };
-  localStorage.setItem("calculatedRecipe", JSON.stringify(calculatedRecipe));
-  getConvertionHeader();
+  return calculatedRecipe;
 }
 
-export function myRecipesDropdown() {
-  const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
-  if (myRecipes) {
-    const recipeNames = myRecipes.map((r) => r.name);
-    recipeNames.sort();
-    const ulDropdown = document.getElementById("recipes-dropdown");
+export function dropdown(file, docElement) {
+  const myItems = JSON.parse(localStorage.getItem(file));
+  if (myItems) {
+    const itemNames = myItems.map((i) => i.name);
+    itemNames.sort();
+    const ulDropdown = document.getElementById(docElement);
     ulDropdown.innerHTML = '';
-    recipeNames.forEach((name) => {
+    itemNames.forEach((name) => {
       const li = document.createElement("li");
       li.className = "btn btn-light d-block ";
       li.innerHTML = name;
@@ -108,7 +93,7 @@ export function myRecipesDropdown() {
 export function convertAndStoreRecipes() {
   const oldFormatRecipes = JSON.parse(localStorage.getItem("myRecipes"))
 
-  if (oldFormatRecipes[0].values) {
+  if (Array.isArray(oldFormatRecipes) && oldFormatRecipes.length > 0 && oldFormatRecipes[0].values) {
     const newFormatRecipes = [];
     const confirmation = confirm("We have updated our website, so you need to convert your saved recipes to a new format so that the app can read them correctly. Do you want to make the conversion?")
     if (confirmation) {

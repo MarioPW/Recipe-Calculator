@@ -1,120 +1,170 @@
 import {
     getName,
-    getValues,
+    getRecipeItems,
     calculate,
     getCalculatedRecipe,
-    myRecipesDropdown,
+    getConvertionHeader,
+    dropdown,
     convertAndStoreRecipes
 } from "./ui.js";
-import { Recipe, Ingredient } from "./models.js";
-
-document.getElementById("recipeName").addEventListener("submit", saveName);
-document.getElementById("userIngredients").addEventListener("submit", save);
-document.getElementById("amounts").addEventListener("submit", saveParams);
-document.getElementById("recipe").addEventListener("click", edit_delete);
-document.getElementById("saveButton").addEventListener("click", saveMyRecipe);
-document
-    .getElementById("recipes-dropdown")
-    .addEventListener("click", getMyRecipe);
-document.getElementById("deleteButton").addEventListener("click", deleteRecipe);
-document.getElementById("userIngredientsEdit"),
-    addEventListener("submit", modalEdit);
-document.getElementById("newRecipe").addEventListener("click", newRecipe);
+import { Recipe, Ingredient, isRepited } from "./models.js";
 
 const recipe = new Recipe()
+const recipeViewContainer = document.getElementById("recipeViewContainer")
 
+document.getElementById("recipeName").addEventListener("submit", (e) => {
+    localStorage.removeItem("amountWeight")
+    localStorage.removeItem("calculatedRecipe")
+    localStorage.removeItem("ingredients")
+    const name = document.getElementById("name").value.toUpperCase()
+    if (isRepited(name, "myRecipes")) {
+        alert(`Recipe name ${name} already exists`)
+    } else {
+        recipe.setName(name)
+        recipeViewContainer.className = "card p-3 shadow rounded-0"
+        getName(recipe.name)
+       
+    }
+    e.preventDefault();
+});
+
+document.getElementById("userIngredients").addEventListener("submit", (e) => {
+    const name = e.target.ingredient.value
+    const weight = e.target.weight.value
+    if (isRepited(name, "ingredients")) {
+        alert(`Ingerdient ${name} already exist!`)
+    } else {
+        const ingredient = new Ingredient(
+            name,
+            weight
+        );
+        ingredient.saveIngredient()
+        getRecipeItems()
+        document.getElementById("userIngredients").reset()
+    }
+    e.preventDefault()
+});
+
+document.getElementById("amounts").addEventListener("submit", (e) => {
+    const unitWeight = document.getElementById("eachOneWeight").value;
+    const amount = document.getElementById("unitsAmount").value;
+    const params = {
+        unitWeight,
+        amount,
+        name: recipe.name,
+        unitWeight
+    };
+    const calculatedRecipe = calculate(params);
+    getCalculatedRecipe(calculatedRecipe);
+    getConvertionHeader(params);
+    e.preventDefault();
+});
+
+document.getElementById("recipe").addEventListener("click", (e) => {
+    if (e.target.localName == "button" || e.target.nodeName == "BUTTON") {
+        const index = e.target.id;
+        const value = e.target.value;
+        index.includes("delete") ?
+            deleteIngredient(value) :
+            setEditableIngredient(value);
+    }
+});
+
+const saveChangesButton = document.getElementById("saveButton")
+saveChangesButton.addEventListener("click", (e) => {
+    const index = e.target.value
+    const ingredients = JSON.parse(localStorage.getItem("ingredients"))
+    const myRecipes = JSON.parse(localStorage.getItem("myRecipes"))
+
+    if (index == "") {
+        recipe.setIngredients(ingredients)
+        if (localStorage.getItem("myRecipes") === null) {
+            const myRecipes = []
+            myRecipes.push(recipe)
+            localStorage.setItem("myRecipes", JSON.stringify(myRecipes))
+            alert("Recipe saved on this device.")
+        } else {
+            const repited = myRecipes.filter((n) => n.name == recipe.name)
+            if (repited.length === 0) {
+                myRecipes.push(recipe)
+                myRecipes.sort()
+                localStorage.setItem("myRecipes", JSON.stringify(myRecipes))
+                alert("Recipe saved on this device.")
+            } else {
+                alert("This recipe already exists")
+            }
+        }
+
+    } else {
+        saveChanges(index, myRecipes);
+    }
+    dropdown("myRecipes", "recipes-dropdown")
+});
+
+const getMyRecipe = document.getElementById("recipes-dropdown")
+getMyRecipe.addEventListener("click", (e) => {
+    if (e.target.localName == "li" || e.target.nodeName == "LI") {
+        recipeViewContainer.className = "card p-3 shadow rounded-0"
+        const myRecipeName = e.target.id;
+        const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
+        const recipe = myRecipes.filter((myRecipe) => myRecipe.name == myRecipeName);
+        const index = myRecipes.findIndex((myRecipe) => myRecipe.name == myRecipeName);
+        const ingredients = recipe[0].ingredients;
+        if (ingredients) {localStorage.setItem("ingredients", JSON.stringify(ingredients))}
+        document.getElementById("saveButtonContainer").className = "";;
+        const saveBtn = document.getElementById("saveButton");
+        const deleteBtn = document.getElementById("delete-button");
+        saveBtn.textContent = "Save Changes";
+        saveBtn.setAttribute("value", index);
+        deleteBtn.className = "btn btn-danger btn-sm";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.setAttribute("value", recipe[0].name);
+
+        getName(myRecipeName);
+        getRecipeItems(ingredients);
+    }
+})
+
+document.getElementById("delete-button").addEventListener("click", (e) => {
+    const message = `Sure you want to delete ${e.target.value}?`
+    if (confirm(message)) {
+        const recipeName = e.target.value;
+        const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
+        const del = myRecipes.findIndex((a) => a.name === recipeName);
+        if (del != -1) {
+            myRecipes.splice(del, 1);
+            localStorage.removeItem("ingredients");
+        }
+        localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
+        location.reload();
+        newRecipe();
+    }
+})
+
+document.getElementById("userIngredientsEdit")
+    .addEventListener("submit", (e) => {
+        if (e.target) {
+            const weight = e.target.weightEdit.value;
+            const name = e.target.ingredientEdit.value;
+            const editedIngredient = new Ingredient(
+                name,
+                weight
+            );
+            const index = e.target.submitBtnEdit.value;
+            editIngredient(index, editedIngredient);
+            getRecipeItems();
+            e.preventDefault();
+        }
+    })
+
+const setNewRecipe = document.getElementById("newRecipe")
+setNewRecipe.addEventListener("click", newRecipe)
 function newRecipe() {
     localStorage.removeItem("amountWeight")
     localStorage.removeItem("calculatedRecipe")
     localStorage.removeItem("recipeName")
     localStorage.removeItem("ingredients")
     location.reload()
-}
-
-function saveName(e) {
-    localStorage.removeItem("amountWeight")
-    localStorage.removeItem("calculatedRecipe")
-    localStorage.removeItem("ingredients")
-    const name = document.getElementById("name").value.toUpperCase()
-
-    const myRecipes = JSON.parse(localStorage.getItem("myRecipes"))
-    if (myRecipes) {
-        const names = myRecipes.map((recipe) => recipe.name)
-        if (names && names.includes(name)) {
-            alert(`Recipe name ${name} already exists`)
-            e.preventDefault()
-        } else {
-            recipe.setName(name)
-            const localStorageName = { name: `${name}` }
-            localStorage.setItem("recipeName", JSON.stringify(localStorageName));
-            getName(recipe.name);
-            document.getElementById("recipeViewContainer").className = "card p-3 shadow rounded-0";
-            e.preventDefault();
-        }
-    } else {
-        recipe.setName(name)
-        const localStorageName = { name: `${name}` }
-        localStorage.setItem("recipeName", JSON.stringify(localStorageName));
-        getName(recipe.name);
-        document.getElementById("recipeViewContainer").className = "card p-3 shadow rounded-0";
-        e.preventDefault();
-    }
-}
-
-function saveIngredient(ingredient /* Type Ingredient */) {
-    if (localStorage.getItem("ingredients") === null) {
-        const ingredients = [];
-        ingredients.push(ingredient);
-        localStorage.setItem("ingredients", JSON.stringify(ingredients));
-    } else {
-        const ingredients = JSON.parse(localStorage.getItem("ingredients"));
-        const repited = ingredients.filter((n) => n.name == ingredient.name);
-        if (repited.length === 0) {
-            ingredients.push(ingredient);
-            localStorage.setItem("ingredients", JSON.stringify(ingredients));
-        } else {
-            alert("Ingerdient already exist!");
-        }
-    }
-    getValues();
-    document.getElementById("userIngredients").reset();
-}
-
-function save(e) {
-    const name = e.target.ingredient.value;
-    const weight = e.target.weight.value;
-    const ingredient = new Ingredient(
-        name,
-        weight
-    );
-    saveIngredient(ingredient);
-    getValues();
-    e.preventDefault();
-}
-
-function modalEdit(e) {
-    if (e.target) {
-        const weight = e.target.weightEdit.value;
-        const name = e.target.ingredientEdit.value;
-        const editedIngredient = new Ingredient(
-            name,
-            weight
-        );
-        const index = e.target.submitBtnEdit.value;
-        editIngredient(index, editedIngredient);
-        getValues();
-        e.preventDefault();
-    }
-}
-
-function edit_delete(e) {
-    const index = e.target.id;
-    const value = e.target.value;
-    if (index.includes("delete")) {
-        deleteIngredient(value);
-    } else {
-        setEditableIngredient(value);
-    }
 }
 
 function setEditableIngredient(index) {
@@ -138,7 +188,7 @@ function deleteIngredient(ingredient) {
             }
         }
         localStorage.setItem("ingredients", JSON.stringify(ingredients));
-        getValues();
+        getRecipeItems();
     }
 }
 
@@ -157,84 +207,8 @@ function editIngredient(index, newValues) {
     }
 }
 
-function saveParams(e) {
-    const unitWeight = document.getElementById("eachOneWeight").value;
-    const amount = document.getElementById("unitsAmount").value;
-    const params = {
-        unitWeight,
-        amount,
-    };
-    if (localStorage.getItem("amountWeight") === null) {
-        const amountWeight = params;
-        localStorage.setItem("amountWeight", JSON.stringify(amountWeight));
-    } else {
-        localStorage.setItem("amountWeight", JSON.stringify(params));
-    }
-    calculate();
-    getCalculatedRecipe();
-    e.preventDefault();
-}
-
-function saveMyRecipe(e) {
-    const index = e.target.value;
-    const ingredients = JSON.parse(localStorage.getItem("ingredients"));
-    const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
-
-    if (index == "") {
-        recipe.setIngredients(ingredients)
-        if (localStorage.getItem("myRecipes") === null) {
-            const myRecipes = [];
-            myRecipes.push(recipe);
-            localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
-            alert("Recipe saved on this device.");
-        } else {
-            const repited = myRecipes.filter((n) => n.name == recipe.name);
-            if (repited.length === 0) {
-                myRecipes.push(recipe);
-                myRecipes.sort();
-                localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
-                alert("Recipe saved on this device.");
-            } else {
-                alert("This recipe already exists");
-            }
-        }
-
-    } else {
-        saveChanges(index, myRecipes);
-    }
-    myRecipesDropdown()
-}
-
-function getMyRecipe(e) {
-    if (e.target.localName == "li" || e.target.nodeName == "LI") {
-        document.getElementById("recipeViewContainer").className = "card p-3 shadow rounded-0"
-        const myRecipeName = e.target.id;
-        const nameJSON = { name: myRecipeName };
-        localStorage.setItem("recipeName", JSON.stringify(nameJSON));
-        const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
-        const recipe = myRecipes.filter((myRecipe) => myRecipe.name == myRecipeName);
-        const index = myRecipes.findIndex((myRecipe) => myRecipe.name == myRecipeName);
-        const ingredients = recipe[0].ingredients;
-        if (ingredients) {
-            localStorage.setItem("ingredients", JSON.stringify(ingredients));
-        }
-        const buttonContainer = document.getElementById("saveButtonContainer");
-        const saveBtn = document.getElementById("saveButton");
-        const deleteBtn = document.getElementById("deleteButton");
-        saveBtn.textContent = "Save Changes";
-        saveBtn.setAttribute("value", index);
-        deleteBtn.className = "btn btn-danger btn-sm";
-        deleteBtn.textContent = "Delete";
-        deleteBtn.setAttribute("value", recipe[0].name);
-        buttonContainer.className = "";
-
-        getName(myRecipeName);
-        getValues(ingredients);
-    }
-}
-
 function saveChanges(index, myRecipes) {
-    const name = JSON.parse(localStorage.getItem("recipeName"));
+    const name = myRecipes[index].name
     let ingredients = JSON.parse(localStorage.getItem("ingredients"));
 
     // Check if ingredients are not present in the localStorage
@@ -243,41 +217,25 @@ function saveChanges(index, myRecipes) {
     }
 
     // Check if the new recipe name is the same as the old name
-    if (name.name === recipe.name) {
+    if (name === recipe.name || recipe.name == "") {
+        recipe.setName(name);
         recipe.setIngredients(ingredients);
         myRecipes[index] = recipe
         localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
         alert("Changes Saved Successfully ok");
     } else {
         // Check if the new recipe name already exists
-        const isNameAlreadyExists = myRecipes.some((r, i) => i != index && r.name == name.name);
-
+        const isNameAlreadyExists = myRecipes.some((r, i) => i != index && r.name == name);
         if (isNameAlreadyExists) {
-            alert(`Recipe with name ${name.name} already exists`);
+            alert(`Recipe with name ${name} already exists`);
         } else {
-            recipe.setName(name.name);
             recipe.setIngredients(ingredients);
+            myRecipes[index] = recipe
             localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
             alert("Changes Saved Successfully");
         }
     }
 }
 
-function deleteRecipe(e) {
-    const message = `Sure you want to delete ${e.target.value}?`
-    if (confirm(message)) {
-        const recipeName = e.target.value;
-        const myRecipes = JSON.parse(localStorage.getItem("myRecipes"));
-        const del = myRecipes.findIndex((a) => a.name === recipeName);
-        //const ingredients = JSON.parse(localStorage.getItem("ingredients"));
-        if (del != -1) {
-            myRecipes.splice(del, 1);
-            localStorage.removeItem("ingredients");
-        }
-        localStorage.setItem("myRecipes", JSON.stringify(myRecipes));
-        location.reload();
-        newRecipe();
-    }
-}
 convertAndStoreRecipes()
-myRecipesDropdown()
+dropdown("myRecipes", "recipes-dropdown")

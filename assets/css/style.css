@@ -30,8 +30,126 @@ h1 {
 .start-font-size {
     font-size: 27px;
 }
-
 .hide {
     display: none;
 }
+.bg-blue{
+    background-color: #0D6EFD;
+}
+.bg-purple{
+    background-color: #D75ADE;
+}
+.bg-pink{
+    background-color: #FF5DA8;
+}
+.bg-orange{
+    background-color: #FF8B75;
+}
+.bg-yellow{
+	background-color:#FFC459;
+}
+.bg-light-yellow{
+    background-color: #F9F871;
+}
+
+.myButton-purple {
+	box-shadow:inset 0px 0px 0px 0px #e184f3;
+	background:linear-gradient(to bottom, #D75ADE 5%, #a20dbd 100%);
+	background-color:#D75ADE;
+	border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding: 5px 24px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #9b14b3;
+}
+.myButton-purple:hover {
+    color: #ffffff;
+	background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+	background-color:#a20dbd;
+}
+.myButton-purple:active {
+    color: #ffffff !important;
+	position:relative;
+	top:1px;
+}
+
+.myButton-primary {
+	box-shadow:inset 0px 0px 0px 0px #0dcaf0;
+	background:linear-gradient(to bottom, #0dcaf0 5%, #0D6EFD 100%);
+	background-color:#0D6EFD;
+	border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding: 5px 24px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #0D6EFD;
+}
+.myButton-primary:hover {
+    color: #ffffff;
+	background:linear-gradient(to bottom, #0D6EFD 5%, #0dcaf0 100%);
+	background-color:#0D6EFD;
+}
+.myButton-primary:active {
+    color: #ffffff !important;
+	position:relative;
+	top:1px;
+}
+
+.myButton-yellow {
+	box-shadow:inset 0px 0px 0px 0px #F9F871;
+	background:linear-gradient(to bottom, rgb(250, 203, 102) 5%, #fca910 100%);
+	background-color:#FFC459;
+	border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding: 5px 24px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #FFC459;
+}
+.myButton-yellow:hover {
+    color: #ffffff;
+	background:linear-gradient(to bottom, #FFC459 5%, #FFC459 100%);
+	background-color:#FFC459;
+}
+.myButton-yellow:active {
+    color: #ffffff !important;
+	position:relative;
+	top:1px;
+}
+
+.myButton-danger {
+	box-shadow:inset 0px 0px 0px 0px #e184f3;
+	background:linear-gradient(to bottom, #FF5DA8 5%, #fd0000 100%);
+	background-color:#fd0000;
+	border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding: 5px 24px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #fd0000;
+}
+.myButton-danger:hover {
+    color: #ffffff;
+	background:linear-gradient(to bottom, #fd0000 5%, #FF5DA8 100%);
+	background-color:#FF5DA8;
+}
+.myButton-danger:active {
+    color: #ffffff !important;
+	position:relative;
+	top:1px;
+}
+
 

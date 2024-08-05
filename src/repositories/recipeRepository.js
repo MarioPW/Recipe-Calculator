@@ -1,4 +1,5 @@
-export class RecipeService {
+export class RecipeRepository {
+    
     saveRecipe(recipe) {
         try {
             const recipes = JSON.parse(localStorage.getItem("myRecipes")) || [];
@@ -36,10 +37,9 @@ export class RecipeService {
             const index = myRecipes.findIndex((recipe) => recipe.id === updates.id)     
             myRecipes[index] = updates
             localStorage.setItem("myRecipes", JSON.stringify(myRecipes))
-            return true
+            alert("Changes Saved Successfully")
         } catch (error) {
-            console.error("Error updating recipe:", error);
-            return false
+            console.error("Error updating recipe:", error)
         }
     }
     delete(id) {

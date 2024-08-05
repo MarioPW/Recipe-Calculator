@@ -13,11 +13,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 
-<body class="bg-dark">
-  <div class="container">
+<body class="bg-light" id="body">
+  <div class="container" style="max-width: 800px;">
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary fs-5 mb-3" id="navbar">
       <div class="container-fluid">
-        <a class="navbar-brand text-light fs-4" href="../index.html">@PW Recipe Calculator!</a>
+        <a class="navbar-brand text-light fs-5" href="../index.html">@PW Recipe Calculator!</a>
         <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation">
@@ -28,12 +28,23 @@
             <li class="nav-item" id="newRecipe">
               <a class="nav-link active fs-6" aria-current="page" href="#">New Recipe</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link active fs-6" aria-current="page" id="newIngredient" href="#">New Ingredient</a>
+            </li>
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-light fs-6" href="#" id="navbarDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">My Recipes</a>
               <ul id="recipes-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <!-- My Recipes -->
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-light fs-6" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">My Ingredients</a>
+              <ul id="nav-ingredients-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <!-- My Ingredients -->
               </ul>
             </li>
           </ul>
@@ -53,21 +64,117 @@
       </div>
     </nav>
 
-    <!-- Recipe Name -->
-
+    <!-- START: Recipe Name -->
     <div class="card rounded-0" id="name-card">
       <h4 class="bg-purple text-light p-2">Recipe Name:</h4>
-      <form class="form-control my-2 border-0 needs-validation bg-light" id="recipeName">
+      <form class="form-control border-0 needs-validation bg-light " id="recipeName">
         <input type="text" id="name" placeholder="Ex: 'Baguettes'" class="form-control" required>
-        <button type="submit" class="btn myButton-purple mt-2">Add</button>
+        <div class="d-grid gap-2 justify-content-end">
+          <button type="submit" class="btn myButton-purple mt-2">Add</button>
+        </div>
       </form>
     </div>
+    <!-- END: Recipe Name -->
 
-    <!-- Basic Recipe  -->
+    <!-- START: New Ingredient Form -->
+    <div class="hide" id="newIngredientForm">
+      <header>
+        <h4 class="bg-purple text-light p-2" id="ingredientHeader">New Ingredient:</h4>
+      </header>
+      <form class="row form-control border-0" id="userIngredients">
+        <ul class="p-3 gap-2 rounded-0">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="name" class="form-label">Ingredient Name</label>
+              <input type="text" name="name" class="form-control" id="name" required>
+            </div>
+            <div class="col-md-6">
+              <label for="unitOfMeasure" class="form-label">Unit Of Measure</label>
+              <select id="unitOfMeasure" class="form-select" name="unitOfMeasure" required>
+                <!-- ToDo: Get Units Of measure from JS -->
+                <option selected value="" name="">Choose...</option>
+                <option value="Kg" name="Kg">Kg</option>
+                <option value="g" name="g">g</option>
+                <option value="lb" name="lb">lb</option>
+                <option value="L" name="L">L</option>
+                <option value="mL" name="mL">mL</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="brand" class="form-label">Brand</label>
+              <input type="text" name="brand" class="form-control" id="brand">
+            </div>
+            <div class="col-md-6">
+              <label for="supplier" class="form-label">Supplier</label>
+              <input type="text" name="supplier" class="form-control" id="supplier">
+            </div>
+          </div>
+          <div class="col-12">
+            <label for="presentation" class="form-label">Presentation</label>
+            <input type="text" name="presentation" class="form-control" id="presentation" placeholder="Ex: Bag x 50 Kg">
+          </div>
+          <div class="col-12">
+            <label for="purchasePrice" class="form-label">Purchase Price</label>
+            <input type="number" name="purchasePrice" class="form-control" id="purchasePrice">
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="portionPrice" class="form-label">Portion Price</label>
+              <input type="number" name="portionPrice" class="form-control" id="portionPrice">
+            </div>
+
+            <div class="col-md-3">
+              <label for="expirationDate" class="form-label">Expiration Date</label>
+              <input type="date" name="expirationDate" class="form-control" id="expirationDate">
+            </div>
+
+            <div class="col-md-3">
+              <label for="batch" class="form-label">Batch</label>
+              <input type="text" name="batch" class="form-control" id="batch">
+            </div>
+
+          </div>
+
+          <div class="d-flex gap-2 mt-2 justify-content-end">
+            <button type="button" class="hide" id="deleteIngredientButton">Delete</button>
+            <button type="submit" class="btn myButton-primary" id="saveIngredientButton">Save</button>
+          </div>
+        </ul>
+      </form>
+    </div>
+    <!-- END: New Ingredient Form -->
 
 
+    <!-- START: Modal Add Ingredient's Weight -->
+    <div class="modal fade" id="addIngredientsWeight" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" id="addWeightFormContainer">
+          <!-- Modal from ../src/ui.js -->
+          <div class="" id="weight-modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
 
-    <!-- Modal Edit Ingredient -->
+            </h5>
+          </div>
+          <form class="form-control my-2 border-0 bg-light" id="weightModalForm">
+            <label for="weightAdd" class="label" id="weightAddLabel"></label>
+            <input required type="number" step="0.1" id="weightAdd" placeholder="" class="form-control" value="">
+            <button type="submit" id="submitBtnAdd" class="btn myButton-primary mt-2" data-bs-dismiss="modal" value="">
+              Done
+            </button>
+            <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
+              Cancel
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <!-- END: Modal Add Ingredient's Weight -->
+
+    <!-- START: Modal Edit Ingredient -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -93,6 +200,10 @@
         </div>
       </div>
     </div>
+    <!-- END: Modal Edit Ingredient -->
+
+
+    <!-- START: Modal Calculate Recipe -->
 
     <div class="modal fade" id="amountWeight" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -107,19 +218,40 @@
               <input required type="number" id="unitsAmount" placeholder="Amount:" class="form-control">
               <label for="eachOneWeight" class="label">Enter the weight in grams of each unit:</label>
               <input required type="number" id="eachOneWeight" placeholder="Weight(g):" class="form-control">
-              <button type="submit" class="btn myButton-primary mt-2" data-bs-toggle="modal" data-bs-target="#calculated">
+              <button type="submit" class="btn myButton-primary mt-2" data-bs-toggle="modal"
+                data-bs-target="#calculated">
                 Calculate
+              </button>
+              <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
+                Exit
               </button>
             </form>
           </div>
         </div>
       </div>
     </div>
-
+    <!-- END: Modal Calculate Recipe -->
 
     <div id="recipeViewContainer" class="hide">
-      <div id="recipeView" class="text-center mb-3 bg-yellow text-light">
+      <div id="recipeView" class="text-center bg-yellow text-light">
         <!-- Basic Recipe -->
+      </div>
+
+      <!-- START: Add Igredient Form -->
+      <div class="d-grid gap-1" id="addIngredient">
+        <!-- Add Ingredients Dropdown from "../src/ui.js" -->
+
+        <div class="dropdown my-1 d-grid justify-content-end">
+          <button class="btn myButton-purple text-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">Add Ingredient:</button>
+
+          <ul id="ingredients-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown" data-bs-toggle="modal"
+            data-bs-target="#addIngredientsWeight">
+            <!-- My Ingredients from ui.js -->
+          </ul>
+        </div>
+        <!-- END: Add Igredient Form -->
+
       </div>
 
       <div class="bg-light">
@@ -127,7 +259,7 @@
           <thead>
             <tr>
               <th class="table-primary">Ingredients</th>
-              <th class="table-primary">Weight(g)</th>
+              <th class="table-primary">Weight</th>
               <th class="table-primary"></th>
               <th class="table-primary"></th>
             </tr>
@@ -137,49 +269,6 @@
             <!-- JS: | Ingerdient | Weight | Edit | Del | -->
           </tbody>
         </table>
-        <!-- Add Ingredients Dropdown -->
-        <div class="dropdown my-3 rounded-0">
-          <button class="btn myButton-purple text-light p-2 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Add Ingredient:</button>
-          <form class="form-control my-2 border-0 dropdown-item" id="userIngredients">
-            <ul class="dropdown-menu p-2 rounded-0">
-              <li>
-                <label for="ingredient" class="label">Ingredient:</label>
-                <input required type="text" id="ingredient" placeholder="Name:" class="form-control">
-                <label for="weight" class="label">Enter the weight in grams (g):</label>
-                <input type="number" id="weight" placeholder="Weight(g):" class="form-control" required>
-                <button type="submit" id="submitBtn" class="btn myButton-primary mt-2 btn-sm" value="">
-                  Add
-                </button>
-
-              </li>
-            </ul>
-          </form>
-        </div>
-
-        <!-- Select Ingredient
-        <div class="dropdown my-3 rounded-0">
-          <button class="btn btn-info text-light p-2 dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Add New Ingredient:</button>
-          <form class="form-control my-2 border-0 bg-light dropdown-item" id="ingredients-dropdown">
-            <ul class="dropdown-menu p-2 rounded-0">
-              <li>
-                <label for="ingredient" class="label">Name:</label>
-                <input required type="text" id="ingredient" placeholder="Ingredient:" class="form-control">
-                <label for="weight" class="label">Weight in grams (g):</label>
-                <input type="number" id="weight" placeholder="Weight(g):" class="form-control" required>
-                <label for="cost-per-Kg" class="label">Cost per Kg:</label>
-                <input type="number" id="cost-per-Kg" placeholder="$ " class="form-control" required>
-                <label for="supplier" class="label">Supplier:</label>
-                <input type="text" id="supplier" class="form-control" required>
-                <button type="submit" id="submitBtn" class="btn myButton-primary mt-2 btn-sm" value="">
-                  Add
-                </button>
-
-              </li>
-            </ul>
-          </form>
-        </div> -->
 
         <div id="saveButtonContainer" class="d-grid gap-2 d-md-block">
           <button id="save-button" class="btn myButton-primary">
@@ -196,8 +285,8 @@
         <div class="container"></div>
       </div>
     </div>
-    <!-- Modal Calculated Recipe -->
 
+    <!-- START: Modal Calculated Recipe -->
     <div class="modal fade" id="calculated" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -208,7 +297,7 @@
               <thead>
                 <tr>
                   <th class="table-primary">Ingredient</th>
-                  <th class="table-primary">Weight(g)</th>
+                  <th class="table-primary">Weight</th>
                 </tr>
               </thead>
 
@@ -216,13 +305,15 @@
                 <!-- Calculated Recipe -->
               </tbody>
             </table>
-            <button type="button" class="btn myButton-primary" data-bs-dismiss="modal">
+            <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
               Exit
             </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- END: Modal Calculated Recipe -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"></script>

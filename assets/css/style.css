@@ -3,44 +3,49 @@
     font-size:large;
 }
 
-.carousel-image {
+.carousel-image{
     width: 100%;
     height: 100vh;
     object-fit: cover;
   }
 
-.carousel-font-size {
+.carousel-font-size{
     font-size: 65px;
     text-shadow: 3px 3px 4px #000000;
 }
 
-h1 {
+h1{
     margin: auto;
     font-size: 56px;
     color: azure;
-    text-shadow: 3px 3px 4px #000000;
+    text-shadow: 3px 3px 4px #434343;
+}
+.bg-image-container{
+	position: relative;
+	display: block;
+	margin: 0;
 }
 
-.navbar-bg-transparent {
+.navbar-bg-transparent{
     background-color: transparent;
     position: absolute;
     z-index: 3;
 }
 
-.start-font-size {
+.start-font-size{
     font-size: 27px;
 }
-.hide {
+.hide{
     display: none;
 }
 .bg-blue{
-    background-color: #0D6EFD;
+    background: linear-gradient(0deg, rgba(13,110,253,1) 29%, rgba(213,253,255,1) 100%);
 }
 .bg-purple{
-    background-color: #D75ADE;
+    background: linear-gradient(90deg, rgba(215,90,222,1) 29%, rgba(255,213,213,1) 100%);
 }
 .bg-pink{
-    background-color: #FF5DA8;
+	background: linear-gradient(90deg, rgba(255,93,168,1) 29%, rgba(255,213,213,1) 100%);
 }
 .bg-orange{
     background-color: #FF8B75;
@@ -51,8 +56,13 @@ h1 {
 .bg-light-yellow{
     background-color: #F9F871;
 }
-
-.myButton-purple {
+.bg-light-gray{
+    background-color: #d5fdff;
+}
+.bg-light-red{
+    background-color: #ffd5d5;
+}
+.myButton-purple{
 	box-shadow:inset 0px 0px 0px 0px #e184f3;
 	background:linear-gradient(to bottom, #D75ADE 5%, #a20dbd 100%);
 	background-color:#D75ADE;
@@ -62,22 +72,22 @@ h1 {
 	color:#ffffff;
 	font-size:15px;
 	font-weight:bold;
-	padding: 5px 24px;
+	padding: 2px 24px;
 	text-decoration:none;
 	text-shadow:0px 0px 0px #9b14b3;
 }
-.myButton-purple:hover {
+.myButton-purple:hover{
     color: #ffffff;
 	background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
 	background-color:#a20dbd;
 }
-.myButton-purple:active {
+.myButton-purple:active{
     color: #ffffff !important;
 	position:relative;
 	top:1px;
 }
 
-.myButton-primary {
+.myButton-primary{
 	box-shadow:inset 0px 0px 0px 0px #0dcaf0;
 	background:linear-gradient(to bottom, #0dcaf0 5%, #0D6EFD 100%);
 	background-color:#0D6EFD;
@@ -87,22 +97,22 @@ h1 {
 	color:#ffffff;
 	font-size:15px;
 	font-weight:bold;
-	padding: 5px 24px;
+	padding: 2px 24px;
 	text-decoration:none;
 	text-shadow:0px 0px 0px #0D6EFD;
 }
-.myButton-primary:hover {
+.myButton-primary:hover{
     color: #ffffff;
 	background:linear-gradient(to bottom, #0D6EFD 5%, #0dcaf0 100%);
 	background-color:#0D6EFD;
 }
-.myButton-primary:active {
+.myButton-primary:active{
     color: #ffffff !important;
 	position:relative;
 	top:1px;
 }
 
-.myButton-yellow {
+.myButton-yellow{
 	box-shadow:inset 0px 0px 0px 0px #F9F871;
 	background:linear-gradient(to bottom, rgb(250, 203, 102) 5%, #fca910 100%);
 	background-color:#FFC459;
@@ -112,22 +122,22 @@ h1 {
 	color:#ffffff;
 	font-size:15px;
 	font-weight:bold;
-	padding: 5px 24px;
+	padding: 2px 24px;
 	text-decoration:none;
 	text-shadow:0px 0px 0px #FFC459;
 }
-.myButton-yellow:hover {
+.myButton-yellow:hover{
     color: #ffffff;
 	background:linear-gradient(to bottom, #FFC459 5%, #FFC459 100%);
 	background-color:#FFC459;
 }
-.myButton-yellow:active {
+.myButton-yellow:active{
     color: #ffffff !important;
 	position:relative;
 	top:1px;
 }
 
-.myButton-danger {
+.myButton-danger{
 	box-shadow:inset 0px 0px 0px 0px #e184f3;
 	background:linear-gradient(to bottom, #FF5DA8 5%, #fd0000 100%);
 	background-color:#fd0000;
@@ -137,16 +147,16 @@ h1 {
 	color:#ffffff;
 	font-size:15px;
 	font-weight:bold;
-	padding: 5px 24px;
+	padding: 2px 24px;
 	text-decoration:none;
 	text-shadow:0px 0px 0px #fd0000;
 }
-.myButton-danger:hover {
+.myButton-danger:hover{
     color: #ffffff;
 	background:linear-gradient(to bottom, #fd0000 5%, #FF5DA8 100%);
 	background-color:#FF5DA8;
 }
-.myButton-danger:active {
+.myButton-danger:active{
     color: #ffffff !important;
 	position:relative;
 	top:1px;

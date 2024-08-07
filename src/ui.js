@@ -6,18 +6,38 @@ export class Ui {
     nameView.innerHTML = `<h4 id='newRecipeName' class='my-2'>${recipeName}</h4>`
   }
   getCalculatedRecipe(calculatedRecipe, params) {
-    const calculatedView = document.querySelector("#getConvertionHeader")
-    calculatedView.innerHTML = `<h4 class='bg-purple text-light p-2'>For ${params.amount} units of ${params.name} of ${params.weightPerUnit}g each, you need:</h4>`
-    const recipeView = document.querySelector("#savedRecipe")
-    recipeView.innerHTML = ""
-
-    calculatedRecipe.ingredientNames.forEach((ingredient, i) => {
-      const weight = calculatedRecipe.convertion[i]
-      const unitOfMeasure = calculatedRecipe.unitOfMeasure[i]
+    const calculatedView = document.querySelector("#getConvertionHeader");
+    calculatedView.innerHTML = `<h4 class='bg-purple text-light p-2'>For ${params.amount} units of ${params.name} of ${params.weightPerUnit}g each, you need:</h4>`;
+    const recipeView = document.querySelector("#savedRecipe");
+    recipeView.innerHTML = "";
+  
+    calculatedRecipe.forEach((ingredient) => {
       recipeView.innerHTML += `
-            <td>${ingredient}</td>
-            <td>${weight} ${unitOfMeasure}</td>`
-    })
+        <tr>
+          <td>${ingredient.name}</td>
+          <td>${ingredient.conversion} ${ingredient.unitOfMeasure}</td>
+        </tr>`;
+    });
+  }
+  getTraceability(ingredients, calculatedProportions, recipeData) {
+    console.log(calculatedProportions)
+    const traceabilityHeader = document.querySelector("#traceabilityHeader")
+    traceabilityHeader.innerHTML = `<h5 class='bg-primary text-light p-2'>Product: ${recipeData.name} <br>Weight per Unit: ${recipeData.weightPerUnit} g <br>Amount: ${recipeData.amount}</h5>`
+    const traceabilityView = document.querySelector("#traceabilityTableBody")
+    traceabilityView.innerHTML = ""
+    ingredients.forEach((ingredient) => {
+      const { name, unitOfMeasure, batch, expirationDate } = ingredient
+      const calculatedProportion = calculatedProportions.find(item => item.name === name);
+      const weight = calculatedProportion ? calculatedProportion.conversion : "N/A";
+      traceabilityView.innerHTML += `
+        <tr>
+          <td>${name}</td>
+          <td>${weight}</td>
+          <td>${unitOfMeasure}</td>
+          <td>${batch}</td>
+          <td>${expirationDate}</td>
+        </tr>`;
+    });
   }
   getRecipeItems(items /* type: List */) {
     const recipeView = document.querySelector("#recipe")
@@ -55,7 +75,9 @@ export class Ui {
   setSavedRecipeButtons(id) {
     const saveButton = document.querySelector("#save-button")
     const deleteBtn = document.querySelector("#delete-button")
+    const traceability = document.querySelector("#calculateButton")
     saveButton.textContent = "Save Changes"
+    traceability.setAttribute("value", id)
     saveButton.setAttribute("value", id)
     deleteBtn.className = "btn myButton-danger btn-sm"
     deleteBtn.textContent = "Delete"
@@ -78,22 +100,33 @@ export class Ui {
     document.querySelector("#submitBtnAdd").value = myIngredient.id
     document.querySelector("#submitBtnAdd").textContent = "Done"
   }
-  setIngredientIntoForm(myIngredient){
+  setIngredientIntoForm(myIngredient) {
     const form = document.querySelector("#newIngredientForm");
     Object.entries(myIngredient).forEach(([key, value]) => {
-        const input = form.querySelector(`#${key}`);
-        if (input) {
-            input.value = value;
-        } else {
-            console.warn(`Input with id "${key}" not found in the form.`);
-        }
+      const input = form.querySelector(`#${key}`);
+      if (input) {
+        input.value = value;
+      } else {
+        console.warn(`Input with id "${key}" not found in the form.`);
+      }
     });
-
   }
   showHideWindows(elementToShow, classes) {
     document.querySelector("#newIngredientForm").classList = ("hide")
     document.querySelector("#name-card").classList = ("hide")
     document.querySelector("#recipeViewContainer").classList = ("hide")
-    document.querySelector(elementToShow).classList =(classes)
+    document.querySelector(elementToShow).classList = (classes)
   }
+  // getTraceability(ingredients, calculatedProportions, name) {
+  //   const traceability = document.querySelector("#traceability")
+  //   traceability.innerHTML = ""
+  //   ingredients.forEach((ingredient) => {
+  //     const { name, weight, id, unitOfMeasure } = ingredient
+  //     traceability.innerHTML += `
+  //       <td>${name}</td>
+  //       <td>${weight} ${unitOfMeasure}</td>
+  //      `
+  //   })
+  //   const recipe = document.querySelector("#recipe")
+  // }
 }

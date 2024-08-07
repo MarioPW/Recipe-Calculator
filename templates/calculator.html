@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 
-<body class="bg-light" id="body">
+<body class="" style="background-color: #00071a;" id="body">
   <div class="container" style="max-width: 800px;">
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary fs-5 mb-3" id="navbar">
       <div class="container-fluid">
@@ -215,13 +215,13 @@
             </h4>
             <form class="form-control my-2 border-0 bg-light" id="amounts">
               <label for="unitsAmount" class="label">Enter the number of units you want:</label>
-              <input required type="number" id="unitsAmount" placeholder="Amount:" class="form-control">
+              <input required type="number" id="unitsAmount" name="amount" placeholder="Amount:" class="form-control">
               <label for="eachOneWeight" class="label">Enter the weight in grams of each unit:</label>
-              <input required type="number" id="eachOneWeight" placeholder="Weight(g):" class="form-control">
-              <button type="submit" class="btn myButton-primary mt-2" data-bs-toggle="modal"
-                data-bs-target="#calculated">
-                Calculate
-              </button>
+              <input required type="number" id="eachOneWeight" name="weightPerUnit" placeholder="Weight(g):"
+                class="form-control">
+              <button id="calculateButton" type="submit" class="btn myButton-primary mt-2" data-bs-toggle="modal"></button>
+                <!-- data-bs-target="#calculated" -->
+             
               <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
                 Exit
               </button>
@@ -241,7 +241,13 @@
       <div class="d-grid gap-1" id="addIngredient">
         <!-- Add Ingredients Dropdown from "../src/ui.js" -->
 
-        <div class="dropdown my-1 d-grid justify-content-end">
+        <div class="dropdown d-flex flex-column flex-sm-row gap-2 mt-2 mb-2 justify-content-end">
+          <button id="calculateToggleButton" type="button" class="btn myButton-primary" data-bs-toggle="modal"
+            data-bs-target="#amountWeight">
+            Calculate
+          </button>
+          <button class="btn myButton-purple text-light" id="traceability" data-bs-toggle="modal"
+            data-bs-target="#amountWeight">Traceability</button>
           <button class="btn myButton-purple text-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">Add Ingredient:</button>
 
@@ -260,8 +266,8 @@
             <tr>
               <th class="table-primary">Ingredients</th>
               <th class="table-primary">Weight</th>
-              <th class="table-primary"></th>
-              <th class="table-primary"></th>
+              <th class="table-primary">Edit</th>
+              <th class="table-primary">Delete</th>
             </tr>
           </thead>
 
@@ -273,9 +279,6 @@
         <div id="saveButtonContainer" class="d-grid gap-2 d-md-block">
           <button id="save-button" class="btn myButton-primary">
             Save
-          </button>
-          <button type="button" class="btn myButton-primary" data-bs-toggle="modal" data-bs-target="#amountWeight">
-            Calculate
           </button>
           <button id="delete-button" class="d-none"></button>
           <!-- <button id="costButton" class="btn myButton-primary disabled my-3">
@@ -302,7 +305,7 @@
               </thead>
 
               <tbody id="savedRecipe">
-                <!-- Calculated Recipe -->
+                <!-- JS: Calculated Recipe -->
               </tbody>
             </table>
             <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
@@ -313,6 +316,37 @@
       </div>
     </div>
     <!-- END: Modal Calculated Recipe -->
+
+    <!-- START: Modal Calculated Recipe -->
+    <div class="modal fade" id="traceabilityModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="card p-3 mt-3 shadow rounded-0">
+            <div id="traceabilityHeader" class="mb-3 text-light"></div>
+            <table class="table table-hover table-striped shadow">
+              <thead>
+                <tr>
+                  <th class="table-primary">Ingerident</th>
+                  <th class="table-primary">Weight</th>
+                  <th class="table-primary">Unit Of Meassure</th>
+                  <th class="table-primary">Batch</th>
+                  <th class="table-primary">Expiration Date</th>
+                </tr>
+              </thead>
+
+              <tbody id="traceabilityTableBody">
+                <!-- JS: Taceability Recipe -->
+              </tbody>
+            </table>
+            <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
+              Exit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: Modal Taceability -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"

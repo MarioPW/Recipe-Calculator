@@ -20,7 +20,7 @@ export class IngredientRecipe {
 export class Ingredient {
     constructor({
         name,
-        unitOfMeasure = null,
+        unitOfMeasure,
         presentation = null,
         purchasePrice = null,
         brand = null,

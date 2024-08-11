@@ -1,14 +1,16 @@
-import { Ui } from "./src/ui.js"
-import { Recipe, Ingredient } from "./src/models.js"
-import { isRepeated, cleanLocalStorage, startNewRecipe, convertAndStoreRecipes } from "./src/services/utils.js"
-import { Calculator } from "./src/services/calculator.js"
-import { RecipeRepository } from "./src/repositories/recipeRepository.js"
-import { IngredientsRepository } from "./src/repositories/ingredientRepository.js"
+import { Ui } from "../ui.js"
+import { Recipe, Ingredient } from "../models.js"
+import { isRepeated, cleanLocalStorage, startNewRecipe, convertAndStoreRecipes } from "./utils.js"
+import { Calculator } from "./calculator.js"
+import { RecipeRepository } from "../repositories/recipeRepository.js"
+import { IngredientsRepository } from "../repositories/ingredientRepository.js"
+
+import "../firebaseAuth/logout.js"
+import { loggedUser } from "../../main.js"
 
 const recipeRepository = new RecipeRepository()
 export const ingredientRepository = new IngredientsRepository()
 const ui = new Ui()
-const recipeViewContainer = document.querySelector("#recipeViewContainer")
 const calculator = new Calculator()
 
 // ALL EVENT LISTENERS HERE:
@@ -19,7 +21,7 @@ recipeName.addEventListener("submit", (e) => {
     if (isRepeated(name, "myRecipes")) {
         alert(`Recipe name "${name}" already exists`)
     } else {
-        recipeViewContainer.className = "card p-3 shadow rounded-0"
+        ui.showHideWindows("#recipeViewContainer", "card p-3 shadow rounded-0")
         ui.getName(name)
     }
     e.preventDefault()
@@ -31,6 +33,7 @@ newIngredient.addEventListener("click", () => {
     document.querySelector("#ingredientHeader").textContent = `New Ingredient:`
     document.querySelector("#saveIngredientButton").textContent = "Save"
     ui.showHideWindows("#newIngredientForm", "")
+    console.log(loggedUser)
 })
 const userIngredients = document.querySelector("#userIngredients")
 userIngredients.addEventListener("submit", e => {
@@ -124,16 +127,21 @@ saveNewRecipe.addEventListener("click", (e) => {
 const setNewRecipe = document.querySelector("#newRecipe")
 setNewRecipe.addEventListener("click", () => {
     cleanLocalStorage()
-    ui.showHideWindows("#name-card", "card rounded-0")
-    location.reload()
-    document.querySelector("#newRecipeName")
-        ? document.querySelector("#name-card").classList = "card rounded-0"
-        : location.reload()
+    const ingredients = ingredientRepository.getMyAllIngredients()
+    if (!ingredients) {
+        alert("Please add ingredients first")
+    } else {
+        // location.reload()
+        ui.showHideWindows("#name-card", "card rounded-0")
+        // document.querySelector("#newRecipeName")
+        //     ? document.querySelector("#name-card").classList = "card rounded-0"
+        //     : location.reload()
+    }
 })
 const getMyRecipe = document.querySelector("#recipes-dropdown")
 getMyRecipe.addEventListener("click", (e) => {
     if (e.target.localName == "li" || e.target.nodeName == "LI") {
-        recipeViewContainer.className = "card p-3 shadow rounded-0"
+        ui.showHideWindows("#recipeViewContainer", "card p-3 shadow rounded-0")
         const myRecipe = recipeRepository.getRecipeById(e.target.id)
         ingredientRepository.storageIngredients(myRecipe.ingredients)
         ui.getName(myRecipe.name)
@@ -249,18 +257,12 @@ delteMyIngredient.addEventListener("click", (e) => {
         location.reload()
     }
 })
-const traceability = document.querySelector("#traceability")
-traceability.addEventListener("click", (e) => {
-    // const id = e.target.value
-    const button = document.querySelector(`#calculateButton`)
-    button.setAttribute("data-bs-target", "#traceabilityModal")
+const traceability = document.querySelector("#traceabilityToggleButton")
+traceability.addEventListener("click", () => {
+    const button = document.querySelector("#calculateButton")
     button.textContent = "Make Traceability"
-    // const recipe = recipeRepository.getRecipeById(id)
-    // const ingredients = recipe.ingredients.map(ingredient => {
-    //     return ingredientRepository.getMyIngredientByid(ingredient.id)
-    // })
-    // console.log(ingredients)
-    // ui.getTraceability()
+    button.setAttribute("data-bs-target", "#traceabilityModal")
+    console.log(button)
 })
 
 

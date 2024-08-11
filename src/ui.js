@@ -115,18 +115,7 @@ export class Ui {
     document.querySelector("#newIngredientForm").classList = ("hide")
     document.querySelector("#name-card").classList = ("hide")
     document.querySelector("#recipeViewContainer").classList = ("hide")
+    document.querySelector("#info").classList = ("hide")
     document.querySelector(elementToShow).classList = (classes)
   }
-  // getTraceability(ingredients, calculatedProportions, name) {
-  //   const traceability = document.querySelector("#traceability")
-  //   traceability.innerHTML = ""
-  //   ingredients.forEach((ingredient) => {
-  //     const { name, weight, id, unitOfMeasure } = ingredient
-  //     traceability.innerHTML += `
-  //       <td>${name}</td>
-  //       <td>${weight} ${unitOfMeasure}</td>
-  //      `
-  //   })
-  //   const recipe = document.querySelector("#recipe")
-  // }
 }

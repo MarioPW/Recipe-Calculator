@@ -13,26 +13,69 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="main.js" type="module"></script>
 </head>
 
-<body class="bg-light bg-image-container" style="font-family: sans-serif; font-weight: lighter;">
-  <nav class="navbar bg-purple">
-    <h1>Recipe Calculator</h1>
+<body class="bg-image-container" style="font-family: sans-serif; font-weight: lighter; background-color: #000011;">
+  <nav class="navbar bg-primary">
+    <h1 class="text-light fs-2">Recipe Calculator</h1>
   </nav>
-  <div class="d-flex align-items-center justify-content-center" style="height: 85vh;">
-
-    <div class="container">
-      <div class="d-grid gap-4 col-6 mx-auto">
-        <a href="./templates/calculator.html" class="btn myButton-primary " type="button">My Recipes</a>
-        <a href="./templates/ingredients.html" class="btn myButton-primary" type="button">Warehouse</a>
-        <a class="btn myButton-primary" type="button">Inventory</a>
-      </div>
+  <div class="d-flex align-items-center justify-content-center">
+    <!-- START: Login Form -->
+    <div class="container d-flex flex-column" style="margin-top: 15rem;" id="loginFormContainer">
+      <form class="bg-light p-4 rounded-2 m-auto" id="loginForm">
+        <h5 class="text-center text-light rounded-2 p-2" style="background-color: #000011;">Login</h5>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address:</label>
+          <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+            placeholder="email@example.com">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="******">
+        </div>
+        <!-- <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="check" name="check">
+              <label class="form-check-label" for="check">Check me out</label>
+            </div> -->
+        <div class="d-flex gap-2 justify-content-between align-items-center">
+          <button type="submit" class="btn btn-primary">Login</button>
+          <a href="#" style="font-size: smaller;" id="registerLink">Not registered? Click here!</a>
+        </div>
+        <button id="loginGoogle" class="btn btn-info my-3 text-light w-100" type="button"><img
+            src="https://cdn-teams-slug.flaticon.com/google.jpg" style="width: 1.5rem; height: 1.5rem;"
+            class="me-2 rounded-1" />Sign in with Google</button>
+      </form>
     </div>
-  </div>
+    <!-- END: Login Form -->
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-    crossorigin="anonymous"></script>
+    <!-- START: Register Form -->
+    <div class="hide" style="margin-top: 15rem;" id="registerFormContainer">
+      <form class="bg-light p-4 rounded-2" style="margin: auto;" id="registerForm">
+        <h5 class="text-center text-light rounded-2 p-2" style="background-color: #000011;">Register</h5>
+        <div class="mb-3">
+          <label for="emailRegister" class="form-label">Email address:</label>
+          <input type="email" class="form-control" id="emailRegister" name="email" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="passwordRegister" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="passwordRegister" name="password">
+          <div id="emailHelp" class="form-text">At least 6 characters.</div>
+        </div>
+        <div class="mb-3">
+          <label for="password2Regidter" class="form-label">Repeat Password</label>
+          <input type="password" class="form-control" id="password2Regidter" name="password2">
+        </div>
+        <!-- <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="check" name="check">
+              <label class="form-check-label" for="check">Check me out</label>
+            </div> -->
+        <button type="submit" class="btn btn-primary">Register</button>
+        <a href="#" style="font-size: smaller;" id="LoginLink">Back to login</a>
+      </form>
+    </div>
+    <!-- END: Register Form -->
+  </div>
 </body>
 
 </html>

@@ -8,7 +8,6 @@ export class Recipe {
         this.prodoctWeight = 0
     }
 }
-
 export class IngredientRecipe {
     constructor(id, name, weight, unitOfMeasure) {
         this.id = id

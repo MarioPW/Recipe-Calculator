@@ -18,7 +18,6 @@ h1{
     margin: auto;
     font-size: 56px;
     color: azure;
-    text-shadow: 3px 3px 4px #434343;
 }
 .bg-image-container{
 	position: relative;
@@ -158,6 +157,28 @@ h1{
 }
 .myButton-danger:active{
     color: #ffffff !important;
+	position:relative;
+	top:1px;
+}
+.myButton-success{
+	background:linear-gradient(to bottom, #009a2e 5%, #73f971 100%);
+	background-color:#f9f871;
+	border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:light;
+	padding: 2px 24px;
+	text-decoration:none;
+}
+.myButton-success:hover{
+	color: #ffffff;	
+	background:linear-gradient(to bottom, #f9f871 5%, #f9f871 100%);
+	background-color:#f9f871;
+}
+.myButton-success:active{
+	color: #ffffff !important;
 	position:relative;
 	top:1px;
 }

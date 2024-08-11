@@ -20,6 +20,15 @@ export class IngredientsRepository {
             return undefined;
         }
     }
+    getMyAllIngredients() {
+        try {
+            const ingredients = JSON.parse(localStorage.getItem("myIngredients"))
+            return ingredients;
+        } catch {
+            console.error(`Error parsing or retrieving ingredients from localStorage:`, error);
+            return undefined;
+        }
+    }
     getIngredientByid(id) {
         try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients"))

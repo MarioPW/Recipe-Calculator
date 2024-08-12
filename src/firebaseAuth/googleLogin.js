@@ -1,5 +1,6 @@
 import { auth } from "../firebaseConfig.js"
 import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { basePath } from "../../main.js";
 
 
 const googleLoginButton = document.querySelector("#loginGoogle")
@@ -8,7 +9,7 @@ if (googleLoginButton) {
         const provider = new GoogleAuthProvider()
         try {
             const response = await signInWithPopup(auth, provider)
-            window.location.href = "../../templates/calculator.html"
+            window.location.href = `${basePath}/templates/calculator.html`
         } catch (error) {
             console.log(error)
         }

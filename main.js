@@ -6,6 +6,7 @@ import "./src/firebaseAuth/login.js"
 import "./src/firebaseAuth/googleLogin.js"
 
 export let loggedUser = null
+export const basePath = "/Recipe-Calculator";
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {

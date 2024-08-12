@@ -1,5 +1,6 @@
 import { auth } from "../firebaseConfig.js"
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { basePath } from "../../main.js";
 
 const login = document.querySelector("#loginForm")
 
@@ -9,7 +10,7 @@ if (login) {
         const credentials = Object.fromEntries(new FormData(login))
         try {
             const user = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
-            window.location.href = "../templates/calculator.html"
+            window.location.href = `${basePath}/templates/calculator.html`
         } catch (error) {
             const firebaseErrors = {
                 "auth/invalid-login-credentials": "Invalid email or password",

@@ -7,7 +7,7 @@ const logout = document.querySelector("#logout")
 logout.addEventListener("click", async () => {
     try {
         await signOut(auth);
-        window.location.href = `${basePath}/templates/index.html`
+        window.location.href = `${basePath}/index.html`
         alert("Logged out successfully")
     } catch (error) {
         console.log(error);

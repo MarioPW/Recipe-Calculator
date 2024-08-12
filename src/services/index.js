@@ -33,7 +33,6 @@ newIngredient.addEventListener("click", () => {
     document.querySelector("#ingredientHeader").textContent = `New Ingredient:`
     document.querySelector("#saveIngredientButton").textContent = "Save"
     ui.showHideWindows("#newIngredientForm", "")
-    console.log(loggedUser)
 })
 const userIngredients = document.querySelector("#userIngredients")
 userIngredients.addEventListener("submit", e => {
@@ -262,7 +261,6 @@ traceability.addEventListener("click", () => {
     const button = document.querySelector("#calculateButton")
     button.textContent = "Make Traceability"
     button.setAttribute("data-bs-target", "#traceabilityModal")
-    console.log(button)
 })
 
 

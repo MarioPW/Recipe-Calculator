@@ -20,7 +20,6 @@ export class Ui {
     });
   }
   getTraceability(ingredients, calculatedProportions, recipeData) {
-    console.log(calculatedProportions)
     const traceabilityHeader = document.querySelector("#traceabilityHeader")
     traceabilityHeader.innerHTML = `<h5 class='bg-primary text-light p-2'>Product: ${recipeData.name} <br>Weight per Unit: ${recipeData.weightPerUnit} g <br>Amount: ${recipeData.amount}</h5>`
     const traceabilityView = document.querySelector("#traceabilityTableBody")

@@ -8,7 +8,7 @@ if (googleLoginButton) {
         const provider = new GoogleAuthProvider()
         try {
             const response = await signInWithPopup(auth, provider)
-            window.location.href = "../templates/calculator.html"
+            window.location.href = "../../templates/calculator.html"
         } catch (error) {
             console.log(error)
         }

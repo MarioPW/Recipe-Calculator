@@ -34,7 +34,7 @@ export function convertAndStoreRecipes() {
     const oldFormatRecipes = JSON.parse(localStorage.getItem("myRecipes"))
     if (Array.isArray(oldFormatRecipes) && oldFormatRecipes.length > 0 && oldFormatRecipes[0].values) {
       const newFormatRecipes = [];
-      const confirmation = confirm("We have updated our website, confirrm to update you're data.")
+      const confirmation = confirm("We have updated our website, confirm to update your recipes.")
       if (confirmation) {
         oldFormatRecipes.forEach((recipe) => {
           const newRecipe = {

@@ -24,7 +24,7 @@
     <!-- START: Login Form -->
     <div class="container d-flex flex-column" style="margin-top: 15rem;" id="loginFormContainer">
       <form class="bg-light p-4 rounded-2 m-auto" id="loginForm">
-        <h5 class="text-center text-light rounded-2 p-2" style="background-color: #000011;">Login</h5>
+        <h5 class="text-center text-light rounded-2 p-2 bg-success">Login</h5>
         <div class="mb-3">
           <label for="email" class="form-label">Email address:</label>
           <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
@@ -42,9 +42,16 @@
           <button type="submit" class="btn btn-primary">Login</button>
           <a href="#" style="font-size: smaller;" id="registerLink">Not registered? Click here!</a>
         </div>
-        <button id="loginGoogle" class="btn btn-info my-3 text-light w-100" type="button"><img
+        <hr>
+        <!-- SINGN IN WITH GOOGLE -->
+        <button id="loginGoogle" class="btn btn-info my-1 text-light w-100" type="button"><img
             src="https://cdn-teams-slug.flaticon.com/google.jpg" style="width: 1.5rem; height: 1.5rem;"
             class="me-2 rounded-1" />Sign in with Google</button>
+
+        <!-- SINGN IN WITH FACEBOOK -->
+        <button id="loginFacebook" class="btn btn-primary my-1 text-light w-100" type="button"><img
+            src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg" style="width: 1.5rem; height: 1.5rem;"
+            class="me-2 rounded-1" />Sign in with Facebook</button>
       </form>
     </div>
     <!-- END: Login Form -->
@@ -52,7 +59,7 @@
     <!-- START: Register Form -->
     <div class="hide" style="margin-top: 15rem;" id="registerFormContainer">
       <form class="bg-light p-4 rounded-2" style="margin: auto;" id="registerForm">
-        <h5 class="text-center text-light rounded-2 p-2" style="background-color: #000011;">Register</h5>
+        <h5 class="text-center text-light rounded-2 p-2 bg-success">Register</h5>
         <div class="mb-3">
           <label for="emailRegister" class="form-label">Email address:</label>
           <input type="email" class="form-control" id="emailRegister" name="email" aria-describedby="emailHelp">

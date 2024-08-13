@@ -4,10 +4,15 @@ import { auth } from "./src/firebaseConfig.js"
 import "./src/firebaseAuth/register.js"
 import "./src/firebaseAuth/login.js"
 import "./src/firebaseAuth/googleLogin.js"
+import "./src/firebaseAuth/facebookLogin.js"
+
+// Use this in PRODUCTION
+//export const basePath = "/Recipe-Calculator";
+
+// Use this in DEVELOPMENT
+export const basePath = "http://localhost:5500/";
 
 export let loggedUser = null
-export const basePath = "/Recipe-Calculator";
-
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         // User is signed in, see docs for a list of available properties

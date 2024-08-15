@@ -10,7 +10,7 @@ if (register) {
         if (user.password === user.password2) {
             try {
                 const response = await createUserWithEmailAndPassword(auth, user.email, user.password)
-                alert("Wellcome " + response.user.email + " !!!")
+                response.user.displayName !== null ? alert("Wellcome " + response.user.displayName + " !!!") : alert("Wellcome " + response.user.email + " !!!")
                 window.location.href = `${basePath}/templates/calculator.html`
             } catch (error) {
                 const firebaseErrors = {

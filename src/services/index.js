@@ -5,8 +5,9 @@ import { Calculator } from "./calculator.js"
 import { RecipeRepository } from "../repositories/recipeRepository.js"
 import { IngredientsRepository } from "../repositories/ingredientRepository.js"
 
+import { auth } from "../firebaseConfig.js"
+
 import "../firebaseAuth/logout.js"
-import { loggedUser } from "../../main.js"
 
 const recipeRepository = new RecipeRepository()
 export const ingredientRepository = new IngredientsRepository()
@@ -109,9 +110,7 @@ saveNewRecipe.addEventListener("click", (e) => {
         if (isRepeated(name, "myRecipes")) {
             alert(`Recipe name "${name}" already exists`)
         }
-        const recipe = new Recipe()
-        recipe.name = name
-        recipe.ingredients = ingredients
+        const recipe = new Recipe(name, ingredients)
         recipeRepository.saveRecipe(recipe)
         ui.setSavedRecipeButtons(recipe.id)
         alert("Recipe saved on this device.")

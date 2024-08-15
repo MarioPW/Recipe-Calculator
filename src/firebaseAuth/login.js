@@ -10,11 +10,13 @@ if (login) {
         const credentials = Object.fromEntries(new FormData(login))
         try {
             const user = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+            user.user.displayName !== null ? alert("Wellcome " + user.user.displayName + " !!!") : alert("Wellcome " + user.user.email + " !!!")
             window.location.href = `${basePath}/templates/calculator.html`
         } catch (error) {
             const firebaseErrors = {
                 "auth/invalid-login-credentials": "Invalid email or password",
-                "auth/missing-password": "Missing password"
+                "auth/missing-password": "Missing password",
+                "auth/missing-email": "Missing email"
             }
             alert(firebaseErrors[error.code] || "Error logging in")
         }

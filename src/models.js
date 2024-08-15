@@ -1,10 +1,10 @@
 import { uniqueId } from "./services/utils.js"
 
 export class Recipe {
-    constructor() {
+    constructor(name, ingredients) {
         this.id = uniqueId()
-        this.name = ""
-        this.ingredients = [] // Type: IngredientRecipe()
+        this.name = name
+        this.ingredients = ingredients // Type: IngredientRecipe()
         this.prodoctWeight = 0
     }
 }

@@ -3,6 +3,7 @@ import { auth } from "./src/firebaseConfig.js"
 
 import "./src/firebaseAuth/register.js"
 import "./src/firebaseAuth/login.js"
+import "./src/firebaseAuth/forgotPassword.js"
 import "./src/firebaseAuth/googleLogin.js"
 import "./src/firebaseAuth/facebookLogin.js"
 
@@ -12,13 +13,13 @@ export const basePath = "/Recipe-Calculator";
 // Use this in DEVELOPMENT
 // export const basePath = "http://localhost:5500/";
 
-export let loggedUser = null
+// export let loggedUser = null
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        loggedUser = user
-        
+        // loggedUser = user
+        // console.log(loggedUser)
         // ...
     } else {
         // User is signed out

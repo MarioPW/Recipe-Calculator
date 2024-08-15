@@ -9,6 +9,7 @@ if (googleLoginButton) {
         const provider = new GoogleAuthProvider()
         try {
             const response = await signInWithPopup(auth, provider)
+            response.user.displayName !== null ? alert("Wellcome " + response.user.displayName + " !!!") : alert("Wellcome " + response.user.email + " !!!")
             window.location.href = `${basePath}/templates/calculator.html`
         } catch (error) {
             console.log(error)

@@ -5,12 +5,12 @@ import { Calculator } from "./calculator.js"
 import { RecipeRepository } from "../repositories/recipeRepository.js"
 import { IngredientsRepository } from "../repositories/ingredientRepository.js"
 
-import { auth } from "../firebaseConfig.js"
+import { auth, db } from "../firebaseConfig.js"
 
 import "../firebaseAuth/logout.js"
 
 const recipeRepository = new RecipeRepository()
-export const ingredientRepository = new IngredientsRepository()
+export const ingredientRepository = new IngredientsRepository(db)
 const ui = new Ui()
 const calculator = new Calculator()
 
@@ -47,11 +47,16 @@ userIngredients.addEventListener("submit", e => {
             alert(`Ingerdient "${data.name}" already exist!`)
         } else {
             const ingredient = new Ingredient({ ...data })
-            alert(`Ingerdient "${data.name}" saved successfully`)
-            ingredientRepository.save(ingredient)
-            userIngredients.reset()
-            ui.getDropdown("myIngredients", "ingredients-dropdown")
-            ui.getDropdown("myIngredients", "nav-ingredients-dropdown")
+            const response = ingredientRepository.save(ingredient)
+            if (response != null && response != undefined) {
+                alert(`Ingerdient "${data.name}" already exist!`)
+            } else {
+                alert(`Ingerdient "${data.name}" saved successfully`)
+                userIngredients.reset()
+                ui.getDropdown("myIngredients", "ingredients-dropdown")
+                ui.getDropdown("myIngredients", "nav-ingredients-dropdown")
+            }
+
         }
     }
 })
@@ -60,6 +65,7 @@ calculateButton.addEventListener("click", () => {
     const button = document.querySelector("#calculateButton")
     button.setAttribute("data-bs-target", "#calculated")
     button.textContent = "Calculate"
+    button.name = "calculate"
 })
 const amounts = document.querySelector("#amounts")
 amounts.addEventListener("submit", (e) => {
@@ -69,10 +75,12 @@ amounts.addEventListener("submit", (e) => {
     const recipeData = { ...values, name }
     const ingredientsRecipe = ingredientRepository.getAllIngredients()
     const calculatedProportions = calculator.calculateInProportion(recipeData, ingredientsRecipe)
-    if (button.textContent == "Calculate") {
+    if (button.name == "calculate") {
+        
         ui.getCalculatedRecipe(calculatedProportions, recipeData)
+        amounts.reset()
 
-    } else if (button.textContent == "Make Traceability") {
+    } else if (button.name == "makeTraceability") {
         const id = button.value
         const recipe = recipeRepository.getRecipeById(id)
         const ingredients = recipe.ingredients.map(ingredient => {
@@ -129,11 +137,7 @@ setNewRecipe.addEventListener("click", () => {
     if (!ingredients) {
         alert("Please add ingredients first")
     } else {
-        // location.reload()
         ui.showHideWindows("#name-card", "card rounded-0")
-        // document.querySelector("#newRecipeName")
-        //     ? document.querySelector("#name-card").classList = "card rounded-0"
-        //     : location.reload()
     }
 })
 const getMyRecipe = document.querySelector("#recipes-dropdown")
@@ -169,14 +173,14 @@ weightModalForm.addEventListener("submit", (e) => {
     const weight = document.querySelector("#weightAdd").value
     const ingredient = ingredientRepository.getMyIngredientByid(id)
     const name = ingredient.name
-    if (submitButton.textContent === "Edit") {
+    if (submitButton.name === "editRecipeIngredient") {
         const updates = { name, weight, id }
         ingredientRepository.update(updates)
         const ingredients = ingredientRepository.getAllIngredients()
         ui.getRecipeItems(ingredients)
         e.preventDefault()
         document.querySelector("#weightModalForm").reset();
-    } else {
+    } else if (submitButton.name === "addIngredientToRecipe") {
         ui.getRecipeItem(ingredient, weight)
         ingredientRepository.storageIngredient(id, ingredient.name, weight, ingredient.unitOfMeasure)
     }
@@ -259,6 +263,7 @@ const traceability = document.querySelector("#traceabilityToggleButton")
 traceability.addEventListener("click", () => {
     const button = document.querySelector("#calculateButton")
     button.textContent = "Make Traceability"
+    button.name = "makeTraceability"
     button.setAttribute("data-bs-target", "#traceabilityModal")
 })
 

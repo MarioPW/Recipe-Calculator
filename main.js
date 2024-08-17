@@ -8,10 +8,10 @@ import "./src/firebaseAuth/googleLogin.js"
 import "./src/firebaseAuth/facebookLogin.js"
 
 // Use this in PRODUCTION
-export const basePath = "/Recipe-Calculator";
+// export const basePath = "/Recipe-Calculator";
 
 // Use this in DEVELOPMENT
-// export const basePath = "http://localhost:5500/";
+export const basePath = "http://localhost:5500/";
 
 // export let loggedUser = null
 onAuthStateChanged(auth, async (user) => {

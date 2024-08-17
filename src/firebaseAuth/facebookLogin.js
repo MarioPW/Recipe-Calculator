@@ -11,7 +11,16 @@ if (facebookLoginButton) {
             const response = await signInWithPopup(auth, provider)
             window.location.href = `${basePath}/templates/calculator.html`
         } catch (error) {
-            console.log(error)
+            const firebaseErrors = {
+                "auth/account-exists-with-different-credential": "Email already in use",
+                "auth/invalid-credential": "Invalid credentials",
+                "auth/invalid-email": "Invalid email",
+                "auth/operation-not-allowed": "Operation not allowed",
+                "auth/user-disabled": "User disabled",
+                "auth/user-not-found": "User not found",
+                "auth/unauthorized-domain": "Unauthorized Domain"
+            }
+            alert(firebaseErrors[error.code] || "Error logging in")
         }
     })
 }

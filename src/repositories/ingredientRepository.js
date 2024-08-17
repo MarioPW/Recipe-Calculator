@@ -1,7 +1,9 @@
+import { collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { auth, db } from "../firebaseConfig.js";
 import { IngredientRecipe } from "../models.js"
 
-export class IngredientsRepository {
 
+export class IngredientsRepository {
     getAllIngredients() {
         try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients"))
@@ -38,6 +40,21 @@ export class IngredientsRepository {
             return undefined;
         }
     }
+    // async saveIngredient(ingredient) {
+    //     try {
+    //         const userId = auth.currentUser.uid;
+    //         // Obtén la referencia a la colección "ingredients" dentro del subdirectorio del usuario
+    //         const ingredientsCollectionRef = collection(db, `ingredients`);
+
+    //         // Agrega el nuevo ingrediente a la colección con un campo adicional para el userId
+    //         const docRef = await addDoc(ingredientsCollectionRef, {userId: "123", ...ingredient });
+
+    //         console.log("Ingredient added with ID: ", docRef.id);
+    //     } catch (error) {
+    //         console.error("Error adding ingredient", error);
+    //         return undefined;
+    //     }
+    // }
     save(ingredient) {
         try {
             const ingredients = JSON.parse(localStorage.getItem("myIngredients")) || []
@@ -111,7 +128,7 @@ export class IngredientsRepository {
             console.error(`Ingredient with id not found.`);
         }
     }
-    deleteMyIngredient(id) {   
+    deleteMyIngredient(id) {
         const ingredients = JSON.parse(localStorage.getItem('myIngredients')) || [];
         const ingredientIndex = ingredients.findIndex(ingredient => ingredient.id === id);
         if (ingredientIndex !== -1) {

@@ -89,6 +89,7 @@ export class Ui {
     document.querySelector("#weightAdd").value = myIngredient.weight
     document.querySelector("#submitBtnAdd").value = myIngredient.id
     document.querySelector("#submitBtnAdd").textContent = "Edit"
+    document.querySelector("#submitBtnAdd").name = "editRecipeIngredient"
   }
 
   setIngredientNew(recipeName, myIngredient) {
@@ -98,6 +99,7 @@ export class Ui {
     document.querySelector("#weightAdd").placeholder = `Unit of mesure: ${myIngredient.unitOfMeasure}`
     document.querySelector("#submitBtnAdd").value = myIngredient.id
     document.querySelector("#submitBtnAdd").textContent = "Done"
+    document.querySelector("#submitBtnAdd").name = "addIngredientToRecipe"
   }
   setIngredientIntoForm(myIngredient) {
     const form = document.querySelector("#newIngredientForm");

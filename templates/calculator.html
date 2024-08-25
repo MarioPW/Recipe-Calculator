@@ -14,48 +14,48 @@
 </head>
 
 <body class="container" style="background-color: #000011;" id="body">
-  <div class="container" style="max-width: 1000px;">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-primary fs-5 mb-3" id="navbar">
-      <div class="container-fluid d-flex justify-content-between">
-        <div>
-          <a class="navbar-brand text-light fs-5" href="../index.html">@PW Recipe Calculator!</a>
-          <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon text-light"></span>
-          </button>
-        </div>
-        <div>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              
-              <li class="nav-item" id="newRecipe">
-                <a class="nav-link active fs-6" aria-current="page" href="#">New Recipe</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active fs-6" aria-current="page" id="newIngredient" href="#">New Ingredient</a>
-              </li>
-  
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-light fs-6" href="#" id="navbarDropdown" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false">My Recipes</a>
-                <ul id="recipes-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <!-- My Recipes -->
-                </ul>
-              </li>
-  
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-light fs-6" href="#" id="navbarDropdown" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false">My Ingredients</a>
-                <ul id="nav-ingredients-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <!-- My Ingredients -->
-                </ul>
-              </li>
-              <li class="">
-                <button class="myButton-success" id="logout">Logout</button>
-              </li>
-            </ul>
-            <!-- <form class="d-flex">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark fs-5 mb-3" id="navbar">
+    <div class="container d-flex flex-sm-column justify-content-between">
+      <div class="d-flex justify-content-between">
+          <a class="navbar-brand fs-6 text-light" href="../index.html" id="user-name"></a>
+        <li class="nav-item list-group-item text-light fs-6">
+          <a class="myButton-success" id="logout">Logout</a>
+        </li>
+        <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon text-light"></span>
+        </button>
+      </div>
+      <div style="border-top: 1px solid #a3a3a3;">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item" id="newRecipe">
+              <a class="nav-link active fs-6 text-light" aria-current="page" href="#">New Recipe</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active fs-6 text-light" aria-current="page" id="newIngredient" href="#">New
+                Ingredient</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-light fs-6" href="#" id="my-recipes" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">My Recipes</a>
+              <ul id="nav-recipes-dropdown" class="dropdown-menu" aria-labelledby="my-recipes">
+                <!-- My Recipes -->
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-light fs-6" href="#" id="my-ingredients" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">My Ingredients</a>
+              <ul id="nav-ingredients-dropdown" class="dropdown-menu" aria-labelledby="my-ingredients">
+                <!-- My Ingredients -->
+              </ul>
+            </li>
+
+          </ul>
+          <!-- <form class="d-flex">
                 <input
                   class="form-control me-2"
                   type="search"
@@ -67,59 +67,12 @@
                   <i class="bi bi-search"></i>
                 </button>
               </form> -->
-          </div>
-
-        </div>
-
-      </div>
-    </nav>
-
-    <!-- START: Info -->
-
-    <div class="container" id="info">
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col">
-          <div class="card h-100" style="max-width: 15rem;" id="ingredients">
-
-            <div class="card-body">
-              <h5 class="card-title">Ingredients</h5>
-              <p class="card-text" style="min-height: 5rem;">Save your ingredients to create and manage your recipes.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100 border-secondary mb-3" style="max-width: 15rem;">
-            <div class="card-body" id="recipes">
-              <h5 class="card-title">Recipes</h5>
-              <p class="card-text" style="min-height: 5rem;">Once your ingredients are saved, create your recipes to
-                manage them.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100" style="max-width: 15rem;">
-            <div class="card-body" id="traceability">
-              <h5 class="card-title">Traceability</h5>
-              <p class="card-text" style="min-height: 5rem;">Trace your recipes easily.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100" style="max-width: 15rem;">
-            <div class="card-body">
-              <h5 class="card-title">Cost</h5>
-              <p class="card-text" style="min-height: 5rem;">Cost your recipes.</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
+  </nav>
 
-    <!-- END: Info -->
+  <div class="container" style="max-width: 1000px;">
 
     <!-- START: Recipe Name -->
     <div class="hide" id="name-card">
@@ -134,16 +87,16 @@
     <!-- END: Recipe Name -->
 
     <!-- START: New Ingredient Form -->
-    <div class="hide" id="newIngredientForm">
+    <div class="" id="newIngredientForm">
       <header>
         <h4 class="bg-purple text-light p-2" id="ingredientHeader">New Ingredient:</h4>
       </header>
-      <form class="row form-control m-0" id="userIngredients">
+      <form class="row form-control m-0" id="userIngredientsForm">
         <ul class="p-3 gap-2 rounded-0">
           <div class="row">
             <div class="col-md-6">
               <label for="name" class="form-label">Ingredient Name</label>
-              <input type="text" name="name" class="form-control" id="name" required>
+              <input type="text" name="name" class="form-control" id="name">
             </div>
             <div class="col-md-6">
               <label for="unitOfMeasure" class="form-label">Unit Of Measure</label>
@@ -196,7 +149,7 @@
 
           <div class="d-flex gap-2 mt-2 justify-content-end">
             <button type="button" class="hide" id="deleteIngredientButton">Delete</button>
-            <button type="submit" class="btn myButton-primary" id="saveIngredientButton">Save</button>
+            <button type="submit" class="btn myButton-primary" id="saveIngredientButton" name="save">Save</button>
           </div>
         </ul>
       </form>
@@ -218,7 +171,8 @@
           <form class="form-control my-2 border-0 bg-light" id="weightModalForm">
             <label for="weightAdd" class="label" id="weightAddLabel"></label>
             <input required type="number" step="0.1" id="weightAdd" placeholder="" class="form-control" value="">
-            <button type="submit" id="submitBtnAdd" name="" class="btn myButton-primary mt-2" data-bs-dismiss="modal" value="">
+            <button type="submit" id="submitBtnAdd" name="" class="btn myButton-primary mt-2" data-bs-dismiss="modal"
+              value="">
               Done
             </button>
             <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
@@ -302,15 +256,15 @@
         <div class="dropdown d-flex flex-column flex-sm-row gap-2 mt-2 mb-2 justify-content-end">
           <button id="calculateToggleButton" type="button" class="btn myButton-primary" data-bs-toggle="modal"
             data-bs-target="#amountWeight">
-            Calculate
-          </button>
-          <button id="traceabilityToggleButton" class="btn myButton-purple text-light" type="button" data-bs-toggle="modal"
-            data-bs-target="#amountWeight">Traceability</button>
-          <button class="btn myButton-purple text-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Add Ingredient:</button>
+            Calculate </button>
 
-          <ul id="ingredients-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown" data-bs-toggle="modal"
-            data-bs-target="#addIngredientsWeight">
+          <button id="traceabilityToggleButton" class="btn myButton-purple text-light" type="button"
+            data-bs-toggle="modal" data-bs-target="#amountWeight">Traceability</button>
+          <button class="btn myButton-purple text-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false" id="addIngredientButton">Add Ingredient:</button>
+
+          <ul id="add-ingredients-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown"
+            data-bs-toggle="modal" data-bs-target="#addIngredientsWeight">
             <!-- My Ingredients from ui.js -->
           </ul>
         </div>
@@ -385,9 +339,9 @@
             <table class="table table-hover table-striped shadow">
               <thead>
                 <tr>
-                  <th class="table-primary">Ingerident</th>
+                  <th class="table-primary">Ingredient</th>
                   <th class="table-primary">Weight</th>
-                  <th class="table-primary">Unit Of Meassure</th>
+                  <th class="table-primary">U. of M.</th>
                   <th class="table-primary">Batch</th>
                   <th class="table-primary">Expiration Date</th>
                 </tr>
@@ -409,7 +363,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"></script>
-    <script src="../src/services/index.js" type="module"></script>
+    <script src="../index.js" type="module"></script>
   </div>
 </body>
 

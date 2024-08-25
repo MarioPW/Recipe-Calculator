@@ -13,12 +13,6 @@
     font-size: 65px;
     text-shadow: 3px 3px 4px #000000;
 }
-
-h1{
-    margin: auto;
-    font-size: 56px;
-    color: azure;
-}
 .bg-image-container{
 	position: relative;
 	display: block;

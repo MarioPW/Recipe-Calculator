@@ -1,31 +1,12 @@
-import { IngredientRecipe } from "../models.js"
+import { IngredientRecipe } from "../models.js";
 
-export class IngredientsRepository {
+export class IngRecipeRepo {
     getAllIngredients() {
         try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients"))
             return ingredients;
         } catch {
             console.error(`Error parsing or retrieving ingredients from localStorage:`, error);
-            return undefined;
-        }
-    }
-    getMyIngredientByid(id) {
-        try {
-            const ingredients = JSON.parse(localStorage.getItem("myIngredients"))
-            return (ingredients.find((ingredient) => ingredient.id === id))
-        } catch (error) {
-            console.error(`Error parsing or retrieving ingredient`, error);
-            return undefined;
-        }
-    }
-    getMyAllIngredients() {
-        try {
-            const ingredients = JSON.parse(localStorage.getItem("myIngredients"))
-            return ingredients;
-        } catch {
-            console.error(`Error parsing or retrieving ingredients from localStorage:`, error);
-            return undefined;
         }
     }
     getIngredientByid(id) {
@@ -35,19 +16,6 @@ export class IngredientsRepository {
         } catch (error) {
             console.error(`Error parsing or retrieving ingredient`, error);
             return undefined;
-        }
-    }
-    saveIngredient(ingredient) {
-        try {
-            const ingredients = JSON.parse(localStorage.getItem("myIngredients")) || []
-            ingredients.push(ingredient)
-            localStorage.setItem("myIngredients", JSON.stringify(ingredients))
-            alert(`Ingerdient "${ingredient.name}" saved successfully`)
-            return true
-        }
-        catch (error) {
-            console.error("Error setting ingredient", error);
-            return false
         }
     }
     storageIngredient(ingredientId, ingredientName, weight, unitOfMeasure) {
@@ -87,6 +55,7 @@ export class IngredientsRepository {
         }
     }
     deleteFromRecipe(id) {
+        console.log(id)
         try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients"));
             if (!ingredients) {
@@ -100,28 +69,6 @@ export class IngredientsRepository {
             }
         } catch (error) {
             console.error("Error deleting ingredient", error);
-        }
-    }
-    updateMyIngredient(id, updatedFields) {
-        const ingredients = JSON.parse(localStorage.getItem('myIngredients')) || [];
-        const ingredientIndex = ingredients.findIndex(ingredient => ingredient.id === id);
-        if (ingredientIndex !== -1) {
-            ingredients[ingredientIndex] = { ...ingredients[ingredientIndex], ...updatedFields };
-            localStorage.setItem('myIngredients', JSON.stringify(ingredients));
-            alert("Changes Saved Successfully")
-        } else {
-            alert(`Ingredient not found.`);
-        }
-    }
-    deleteMyIngredient(id) {
-        const ingredients = JSON.parse(localStorage.getItem('myIngredients')) || [];
-        const ingredientIndex = ingredients.findIndex(ingredient => ingredient.id === id);
-        if (ingredientIndex !== -1) {
-            ingredients.splice(ingredientIndex, 1);
-            localStorage.setItem('myIngredients', JSON.stringify(ingredients));
-            alert("Ingredient Deleted Successfully")
-        } else {
-            console.error(`Ingredient not found.`);
         }
     }
 }

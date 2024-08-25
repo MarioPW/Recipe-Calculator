@@ -10,7 +10,7 @@ export class Ui {
     calculatedView.innerHTML = `<h4 class='bg-purple text-light p-2'>For ${params.amount} units of ${params.name} of ${params.weightPerUnit}g each, you need:</h4>`;
     const recipeView = document.querySelector("#savedRecipe");
     recipeView.innerHTML = "";
-  
+
     calculatedRecipe.forEach((ingredient) => {
       recipeView.innerHTML += `
         <tr>
@@ -52,14 +52,14 @@ export class Ui {
     })
     document.querySelector("#newIngredientForm").classList = "hide"
   }
-  getRecipeItem(ingredient, weight) {
+  getRecipeItem(name, unitOfMeasure, weight, id) {
     const recipeView = document.querySelector("#recipe")
-    const { name, id, unitOfMeasure } = ingredient
+    // const { name, unitOfMeasure } = ingredient
     recipeView.innerHTML += `
     <td>${name}</td>
     <td>${weight} ${unitOfMeasure}</td>
-    <td><button type="button" id="editBtn${id}"class="btn btn-outline-primary bi bi-pencil" data-bs-toggle="modal" data-bs-target="#addIngredientsWeight" value="${id}"></button></td>
-    <td><button id="deleteBtn${id}"class="btn btn-outline-danger bi bi-trash" value="${id}"></button></td>
+    <td><button type="button" id="editIngredient"class="btn btn-outline-primary bi bi-pencil" data-bs-toggle="modal" data-bs-target="#addIngredientsWeight" value="${id}"></button></td>
+    <td><button id="deleteIngredient"class="btn btn-outline-danger bi bi-trash" value="${id}"></button></td>
     `
   }
   getDropdown(file, docElement) {
@@ -82,22 +82,30 @@ export class Ui {
     deleteBtn.textContent = "Delete"
     deleteBtn.setAttribute("value", id)
   }
-  setIngredientEdit(myIngredient) {
+  setIngredientEdit(myIngredient, id) {
     document.querySelector("#weight-modal-header").classList = ("modal-header bg-warning text-light")
+    document.querySelector("#weight-modal-header").name = `${myIngredient.name}`
     document.querySelector("#weight-modal-header").querySelector("h5").innerText = `Edit Ingredient "${myIngredient.name}":`
     document.querySelector("#weightAdd").placeholder = `Unit of mesure: ${myIngredient.unitOfMeasure}`
     document.querySelector("#weightAdd").value = myIngredient.weight
-    document.querySelector("#submitBtnAdd").value = myIngredient.id
+    document.querySelector("#submitBtnAdd").value = id
     document.querySelector("#submitBtnAdd").textContent = "Edit"
     document.querySelector("#submitBtnAdd").name = "editRecipeIngredient"
   }
 
-  setIngredientNew(recipeName, myIngredient) {
+  resetButtons() {
+    document.querySelector("#deleteIngredientButton").classList = "hide"
+    document.querySelector("#saveIngredientButton").textContent = "Save"
+  }
+
+  setIngredientNew(recipeName, myIngredient, id = "") {
     document.querySelector("#weight-modal-header").querySelector("h5").innerText = `Add "${myIngredient.name}" to "${recipeName}"`
+    document.querySelector("#weight-modal-header").name = `${myIngredient.name}`
     document.querySelector("#weight-modal-header").classList = ("modal-header bg-primary text-light")
     document.querySelector("#weightAddLabel").innerText = `Enter the quantity in ${myIngredient.unitOfMeasure} for "${myIngredient.name}"`
     document.querySelector("#weightAdd").placeholder = `Unit of mesure: ${myIngredient.unitOfMeasure}`
-    document.querySelector("#submitBtnAdd").value = myIngredient.id
+    document.querySelector("#weightAdd").name = `${myIngredient.unitOfMeasure}`
+    document.querySelector("#submitBtnAdd").value = id
     document.querySelector("#submitBtnAdd").textContent = "Done"
     document.querySelector("#submitBtnAdd").name = "addIngredientToRecipe"
   }
@@ -108,7 +116,9 @@ export class Ui {
       if (input) {
         input.value = value;
       } else {
-        console.warn(`Input with id "${key}" not found in the form.`);
+        if (key !== "id" && key !== "userId") {
+          console.warn(`Input with id "${key}" not found in the form.`)
+        }
       }
     });
   }
@@ -116,7 +126,6 @@ export class Ui {
     document.querySelector("#newIngredientForm").classList = ("hide")
     document.querySelector("#name-card").classList = ("hide")
     document.querySelector("#recipeViewContainer").classList = ("hide")
-    document.querySelector("#info").classList = ("hide")
     document.querySelector(elementToShow).classList = (classes)
   }
 }

@@ -1,4 +1,4 @@
-import { ingredientRepository } from "../services/index.js";
+import { ingredientRepository } from "../../index.js";
 import { IngredientRecipe } from "../models.js";
 
 export class Calculator {

@@ -1,7 +1,7 @@
 export function uniqueId(){
     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     let uniqueID = '';
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 8; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         uniqueID += characters.charAt(randomIndex);
     }

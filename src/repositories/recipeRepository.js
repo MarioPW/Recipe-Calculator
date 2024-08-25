@@ -1,10 +1,11 @@
 export class RecipeRepository {
-    
+
     saveRecipe(recipe) {
         try {
             const recipes = JSON.parse(localStorage.getItem("myRecipes")) || [];
             recipes.push(recipe);
             localStorage.setItem("myRecipes", JSON.stringify(recipes));
+            alert("Recipe saved on this device.")
         } catch (error) {
             console.error("Error parsing or saving data to localStorage:", error);
             return false;
@@ -34,7 +35,7 @@ export class RecipeRepository {
     update(updates) {
         try {
             const myRecipes = this.getAllRecipes()
-            const index = myRecipes.findIndex((recipe) => recipe.id === updates.id)     
+            const index = myRecipes.findIndex((recipe) => recipe.id === updates.id)
             myRecipes[index] = updates
             localStorage.setItem("myRecipes", JSON.stringify(myRecipes))
             alert("Changes Saved Successfully")

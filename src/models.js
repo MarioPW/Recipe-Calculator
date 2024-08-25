@@ -2,7 +2,6 @@ import { uniqueId } from "./services/utils.js"
 
 export class Recipe {
     constructor(name, ingredients) {
-        this.id = uniqueId()
         this.name = name
         this.ingredients = ingredients // Type: IngredientRecipe()
         this.prodoctWeight = 0
@@ -29,7 +28,6 @@ export class Ingredient {
         batch = null
         })
     {
-        this.id = uniqueId()
         this.name = name
         this.unitOfMeasure = unitOfMeasure
         this.presentation = presentation

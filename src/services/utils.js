@@ -21,6 +21,8 @@ export function isRepeated(itemName, file) {
 
 export function cleanLocalStorage() {
     localStorage.removeItem("ingredients")
+    localStorage.removeItem("recipeTitle")
+    localStorage.removeItem("valuesList")
 }
 
 export function startNewRecipe() {

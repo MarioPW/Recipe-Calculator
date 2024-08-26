@@ -141,7 +141,6 @@ saveNewRecipe.addEventListener("click", async (e) => {
 const setNewRecipe = document.querySelector("#newRecipe")
 setNewRecipe.addEventListener("click", () => {
     cleanLocalStorage()
-    startNewRecipe()
     ui.resetRecipeButtons()
     document.querySelector("#recipe").textContent = ""
     const ingredients = ingredientRepository.getAllIngredients()

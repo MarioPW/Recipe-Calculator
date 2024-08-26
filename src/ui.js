@@ -95,6 +95,7 @@ export class Ui {
 
   resetIngredientButtons() {
     document.querySelector("#deleteIngredientButton").classList = "hide"
+    document.querySelector("#saveIngredientButton").removeAttribute("value")
     document.querySelector("#saveIngredientButton").textContent = "Save"
   }
 

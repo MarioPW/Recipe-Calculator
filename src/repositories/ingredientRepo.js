@@ -1,6 +1,6 @@
 import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
-export class IngredientFBRepo {
+export class IngredientRepo {
     constructor(db, auth) {
         this.db = db;
         this.auth = auth;

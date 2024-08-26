@@ -2,27 +2,21 @@ import { Ui } from "./src/ui.js"
 import { Recipe, Ingredient } from "./src/models.js"
 import { isRepeated, cleanLocalStorage, startNewRecipe, convertAndStoreRecipes } from "./src/services/utils.js"
 import { Calculator } from "./src/services/calculator.js"
-import { RecipeRepository } from "./src/repositories/recipeRepository.js"
-import { IngredientsRepository } from "./src/repositories/ingredientRepository.js"
-import { IngredientFBRepo } from "./src/repositories/ingredients/firebaseRepo.js"
-import { RecipeFBRepo } from "./src/repositories/recipes/firestoreRepo.js"
-import { IngRecipeRepo } from "./src/repositories/ingRecipeRepo.js"
+import { IngredientRepo } from "./src/repositories/ingredientRepo.js"
+import { RecipeRepo } from "./src/repositories/recipeRepo.js"
+import { IngRecipeRepo } from "./src/repositories/ingredientRecipe.js"
 
 import { auth, db } from "./src/firebaseConfig.js"
-
 import "./src/firebaseAuth/logout.js"
 
-
-// ================ LOCALSTORAGE DB ================
-/* export const ingredientRepository = new IngredientsRepository(db)
- const recipeRepository = new RecipeRepository() */
+// ================ LOCALSTORAGE DB =============
 const ingredientRecipe = new IngRecipeRepo()
-// ---------------------------------------------------------------
+// ----------------------------------------------
 
-// ========== FIREBASE DB =========== 
-export const ingredientRepository = new IngredientFBRepo(db, auth)
-const recipeRepository = new RecipeFBRepo(db, auth)
-// --------------------------------------------------------------- 
+// ================ FIREBASE DB =================================
+export const ingredientRepository = new IngredientRepo(db, auth)
+const recipeRepository = new RecipeRepo(db, auth)
+// --------------------------------------------------------------
 
 const ui = new Ui()
 const calculator = new Calculator()

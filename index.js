@@ -46,7 +46,7 @@ newIngredientButton.addEventListener("click", () => {
     newIngredientForm.reset()
     document.querySelector("#ingredientHeader").textContent = `New Ingredient:`
     ui.showHideWindows("#newIngredientForm", "")
-    ui.resetButtons()
+    ui.resetIngredientButtons()
 })
 const userIngredientsForm = document.querySelector("#userIngredientsForm")
 userIngredientsForm.addEventListener("submit", async (e) => {
@@ -90,7 +90,6 @@ amounts.addEventListener("submit", async (e) => {
         amounts.reset()
 
     } else if (button.name == "makeTraceability") {
-        const id = button.value
         const recipeingredients = ingredientRecipe.getAllIngredients()
         const ingredientsPromises  = recipeingredients.map(async (ingredient) => {
             return await ingredientRepository.getMyIngredientByid(ingredient.id)
@@ -132,7 +131,6 @@ saveNewRecipe.addEventListener("click", async (e) => {
         const response = await recipeRepository.saveRecipe(recipe)
         ui.setSavedRecipeButtons(response.id)
     } else {
-        //const updates = recipeRepository.getRecipeById(id)
         const name = document.querySelector("#newRecipeName").textContent
         const recipeId = document.querySelector("#save-button").value
         const ingredientChanges = ingredientRecipe.getAllIngredients()
@@ -143,6 +141,9 @@ saveNewRecipe.addEventListener("click", async (e) => {
 const setNewRecipe = document.querySelector("#newRecipe")
 setNewRecipe.addEventListener("click", () => {
     cleanLocalStorage()
+    startNewRecipe()
+    ui.resetRecipeButtons()
+    document.querySelector("#recipe").textContent = ""
     const ingredients = ingredientRepository.getAllIngredients()
     if (!ingredients) {
         alert("Please add ingredients first")
@@ -263,7 +264,7 @@ deleteMyIngredient.addEventListener("click", (e) => {
         ingredientRepository.deleteMyIngredient(id)
         form.reset()
         name.textContent = "New Ingredient"
-        ui.resetButtons()
+        ui.resetIngredientButtons()
     }
 })
 const traceability = document.querySelector("#traceabilityToggleButton")

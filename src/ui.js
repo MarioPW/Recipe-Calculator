@@ -93,9 +93,17 @@ export class Ui {
     document.querySelector("#submitBtnAdd").name = "editRecipeIngredient"
   }
 
-  resetButtons() {
+  resetIngredientButtons() {
     document.querySelector("#deleteIngredientButton").classList = "hide"
     document.querySelector("#saveIngredientButton").textContent = "Save"
+  }
+
+  resetRecipeButtons() {
+    document.querySelector("#recipeName").reset()
+    document.querySelector("#save-button").textContent = "Save"
+    document.querySelector("#save-button").removeAttribute("value")
+    document.querySelector("#delete-button").removeAttribute("value")
+    document.querySelector("#delete-button").className = "hide"
   }
 
   setIngredientNew(recipeName, myIngredient, id = "") {

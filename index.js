@@ -23,7 +23,7 @@ const calculator = new Calculator()
 
 // ALL EVENT LISTENERS HERE:
 
-const recipeName = document.querySelector("#recipeName")
+const recipeName = document.querySelector("#recipeNameForm")
 recipeName.addEventListener("submit", (e) => {
     const name = document.querySelector("#name").value.toUpperCase()
     if (isRepeated(name, "myRecipes")) {
@@ -85,7 +85,7 @@ amounts.addEventListener("submit", async (e) => {
 
     } else if (button.name == "makeTraceability") {
         const recipeingredients = ingredientRecipe.getAllIngredients()
-        const ingredientsPromises  = recipeingredients.map(async (ingredient) => {
+        const ingredientsPromises = recipeingredients.map(async (ingredient) => {
             return await ingredientRepository.getMyIngredientByid(ingredient.id)
         })
         const ingredients = await Promise.all(ingredientsPromises);
@@ -143,6 +143,12 @@ setNewRecipe.addEventListener("click", () => {
     } else {
         ui.showHideWindows("#name-card", "card rounded-0")
     }
+})
+const editRecipeName = document.querySelector("#editNameButton")
+editRecipeName.addEventListener("click", () => {
+    const currentName = document.querySelector("#newRecipeName").textContent
+    document.querySelector("#name").value = currentName
+    ui.showHideWindows("#name-card", "card rounded-0")
 })
 const getMyRecipe = document.querySelector("#nav-recipes-dropdown")
 getMyRecipe.addEventListener("click", async (e) => {

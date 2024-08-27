@@ -77,7 +77,7 @@
     <!-- START: Recipe Name -->
     <div class="hide" id="name-card">
       <h4 class="bg-purple text-light p-2">Recipe Name:</h4>
-      <form class="form-control border-0 needs-validation bg-light " id="recipeName">
+      <form class="form-control border-0 needs-validation bg-light " id="recipeNameForm">
         <input type="text" id="name" placeholder="Ex: 'Baguettes'" class="form-control" required>
         <div class="d-grid gap-2 justify-content-end">
           <button type="submit" class="btn myButton-purple mt-2">Add</button>
@@ -246,7 +246,7 @@
 
     <div id="recipeViewContainer" class="hide">
       <div id="recipeView" class="text-center bg-yellow text-light">
-        <!-- Basic Recipe -->
+        <!-- Basic Recipe --> 
       </div>
 
       <!-- START: Add Igredient Form -->
@@ -254,6 +254,7 @@
         <!-- Add Ingredients Dropdown from "../src/ui.js" -->
 
         <div class="dropdown d-flex flex-column flex-sm-row gap-2 mt-2 mb-2 justify-content-end">
+          <button class="btn myButton-yellow" id="editNameButton">Edit Name</button>
           <button id="calculateToggleButton" type="button" class="btn myButton-primary" data-bs-toggle="modal"
             data-bs-target="#amountWeight">
             Calculate </button>

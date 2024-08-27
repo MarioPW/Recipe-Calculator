@@ -2,13 +2,11 @@
 .font-size-large{
     font-size:large;
 }
-
 .carousel-image{
     width: 100%;
     height: 100vh;
     object-fit: cover;
   }
-
 .carousel-font-size{
     font-size: 65px;
     text-shadow: 3px 3px 4px #000000;
@@ -18,13 +16,11 @@
 	display: block;
 	margin: 0;
 }
-
 .navbar-bg-transparent{
     background-color: transparent;
     position: absolute;
     z-index: 3;
 }
-
 .start-font-size{
     font-size: 27px;
 }
@@ -35,10 +31,10 @@
     background: linear-gradient(0deg, rgba(13,110,253,1) 29%, rgba(213,253,255,1) 100%);
 }
 .bg-purple{
-    background: linear-gradient(90deg, rgba(215,90,222,1) 29%, rgba(255,213,213,1) 100%);
+    background: rgba(215,90,222,1);
 }
 .bg-pink{
-	background: linear-gradient(90deg, rgba(255,93,168,1) 29%, rgba(255,213,213,1) 100%);
+	background: linear-gradient(90deg, rgba(255,93,168,1) 29%, rgb(255, 69, 69) 100%);
 }
 .bg-orange{
     background-color: #FF8B75;
@@ -48,12 +44,6 @@
 }
 .bg-light-yellow{
     background-color: #F9F871;
-}
-.bg-light-gray{
-    background-color: #d5fdff;
-}
-.bg-light-red{
-    background-color: #ffd5d5;
 }
 .myButton-purple{
 	box-shadow:inset 0px 0px 0px 0px #e184f3;
@@ -79,7 +69,6 @@
 	position:relative;
 	top:1px;
 }
-
 .myButton-primary{
 	box-shadow:inset 0px 0px 0px 0px #0dcaf0;
 	background:linear-gradient(to bottom, #0dcaf0 5%, #0D6EFD 100%);
@@ -104,7 +93,6 @@
 	position:relative;
 	top:1px;
 }
-
 .myButton-yellow{
 	box-shadow:inset 0px 0px 0px 0px #F9F871;
 	background:linear-gradient(to bottom, rgb(250, 203, 102) 5%, #fca910 100%);
@@ -129,7 +117,6 @@
 	position:relative;
 	top:1px;
 }
-
 .myButton-danger{
 	box-shadow:inset 0px 0px 0px 0px #e184f3;
 	background:linear-gradient(to bottom, #FF5DA8 5%, #fd0000 100%);
@@ -176,5 +163,3 @@
 	position:relative;
 	top:1px;
 }
-
-

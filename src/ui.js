@@ -100,7 +100,7 @@ export class Ui {
   }
 
   resetRecipeButtons() {
-    document.querySelector("#recipeName").reset()
+    document.querySelector("#recipeNameForm").reset()
     document.querySelector("#save-button").textContent = "Save"
     document.querySelector("#save-button").removeAttribute("value")
     document.querySelector("#delete-button").removeAttribute("value")

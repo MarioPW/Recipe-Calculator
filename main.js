@@ -55,9 +55,9 @@ onAuthStateChanged(auth, async (user) => {
             })
         } else if (userNameTag) {
             if (user.displayName !== null) {
-                userNameTag.textContent = `${user.displayName}`
+                userNameTag.textContent = `User: ${user.displayName}`
             } else {
-                userNameTag.textContent = `${user.email}`
+                userNameTag.textContent = `User: ${user.email}`
             }
         }
     } else {

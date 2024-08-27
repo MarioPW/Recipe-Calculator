@@ -6,10 +6,6 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.0.0/firebase
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-
-
-
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDLwd6jQmcE0RZ5r0N2MYWmV4eH9lXhzoo",

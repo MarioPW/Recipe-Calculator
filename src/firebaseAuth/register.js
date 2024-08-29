@@ -1,5 +1,5 @@
 import { auth } from "../firebaseConfig.js"
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { basePath } from "../../main.js";
 
 export const register = document.querySelector("#registerForm")
@@ -10,8 +10,14 @@ if (register) {
         if (user.password === user.password2) {
             try {
                 const response = await createUserWithEmailAndPassword(auth, user.email, user.password)
-                response.user.displayName !== null ? alert("Wellcome " + response.user.displayName + " !!!") : alert("Wellcome " + response.user.email + " !!!")
-                window.location.href = `${basePath}/templates/calculator.html`
+                await sendEmailVerification(response.user)
+                alert("Check your email to verify your account")
+                await response.user.reload()
+                if (response.user.emailVerified) {
+                    alert(`Welcome ${response.user.displayName || response.user.email} !!!`);
+                } else {
+                    alert("Please verify your email before accessing the calculator.");
+                }
             } catch (error) {
                 const firebaseErrors = {
                     "auth/weak-password": "Password must have at least 6 characters",

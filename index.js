@@ -17,7 +17,6 @@ const ingredientRecipe = new IngRecipeRepo()
 export const ingredientRepository = new IngredientRepo(db, auth)
 const recipeRepository = new RecipeRepo(db, auth)
 // --------------------------------------------------------------
-
 const ui = new Ui()
 const calculator = new Calculator()
 

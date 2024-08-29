@@ -1,7 +1,6 @@
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { onAuthStateChanged, signOut  } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { auth } from "./src/firebaseConfig.js"
 import { cleanLocalStorage } from "./src/services/utils.js"
-
 
 // --------- FIREBASE AUTH ----------
 
@@ -13,17 +12,14 @@ import "./src/firebaseAuth/facebookLogin.js"
 
 // ----------------------------------
 
-// Use this in PRODUCTION
+// Base Path in PRODUCTION
 export const basePath = "/Recipe-Calculator";
 
-// Use this in DEVELOPMENT
+// Base Path in DEVELOPMENT
 // export const basePath = "http://localhost:5500/";
 
 onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // ...
+    if (user.emailVerified) {
         const divUserInfo = document.querySelector("#nav-user-info")
         const userNameTag = document.querySelector("#user-name")
         if (divUserInfo) {
@@ -63,6 +59,7 @@ onAuthStateChanged(auth, async (user) => {
     } else {
         // User is signed out
         // ...
+        ""
     }
 });
 

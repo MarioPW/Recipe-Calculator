@@ -1,12 +1,3 @@
-export function uniqueId(){
-    const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let uniqueID = '';
-    for (let i = 0; i < 8; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        uniqueID += characters.charAt(randomIndex);
-    }
-    return uniqueID;
-}
 
 export function isRepeated(itemName, file) {
     const items = JSON.parse(localStorage.getItem(file))
@@ -31,7 +22,6 @@ export function startNewRecipe() {
         cleanLocalStorage()
     }
 }
-
 export function convertAndStoreRecipes() {
     const oldFormatRecipes = JSON.parse(localStorage.getItem("myRecipes"))
     if (Array.isArray(oldFormatRecipes) && oldFormatRecipes.length > 0 && oldFormatRecipes[0].values) {

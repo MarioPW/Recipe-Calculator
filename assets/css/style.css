@@ -24,9 +24,6 @@
 .start-font-size{
     font-size: 27px;
 }
-.hide{
-    display: none;
-}
 .bg-blue{
     background: linear-gradient(0deg, rgba(13,110,253,1) 29%, rgba(213,253,255,1) 100%);
 }

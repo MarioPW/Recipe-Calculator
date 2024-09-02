@@ -18,7 +18,7 @@ export class IngRecipeRepo {
             return undefined;
         }
     }
-    storageIngredient(ingredientId, ingredientName, weight, unitOfMeasure) {
+    storageIngredient(ingredientId, ingredientName, weight, unitOfMeasure, costPerKg) {
         try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients")) || [];
             const ingredientRecipe = new IngredientRecipe(ingredientId, ingredientName, weight, unitOfMeasure)
@@ -39,17 +39,15 @@ export class IngRecipeRepo {
             return undefined;
         }
     }
-    update(updates /* :Ingredient */) {
+    update(updates /* Type: Ingredient */) {
         try {
-            //const { name, weight, id } = updates
-            const ingredients = JSON.parse(localStorage.getItem("ingredients"))
-            const ingredient = this.getIngredientByid(updates.id)
-            ingredient.name = updates.name
-            ingredient.weight = updates.weight
-            const index = ingredients.findIndex((i) => i.id == updates.id)
-            ingredients[index] = ingredient
+            const ingredients = JSON.parse(localStorage.getItem("ingredients")) || [];
+            const index = ingredients.findIndex((i) => i.id === updates.id);
+            if (index === -1) {
+                console.error(`Ingredient with ID ${updates.id} not found.`);
+                return}
+            ingredients[index] = { ...ingredients[index], ...updates };
             localStorage.setItem("ingredients", JSON.stringify(ingredients));
-
         } catch (error) {
             console.error("Error updating ingredient", error);
         }

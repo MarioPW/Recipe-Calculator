@@ -1,5 +1,5 @@
 import { Ui } from "./src/ui.js"
-import { Recipe, Ingredient } from "./src/models.js"
+import { Recipe, Ingredient, IngredientRecipe } from "./src/models.js"
 import { isRepeated, cleanLocalStorage, startNewRecipe, convertAndStoreRecipes } from "./src/services/utils.js"
 import { Calculator } from "./src/services/calculator.js"
 import { IngredientRepo } from "./src/repositories/ingredientRepo.js"
@@ -78,18 +78,66 @@ amounts.addEventListener("submit", async (e) => {
     const recipeData = { ...values, name }
     const ingredientsRecipe = ingredientRecipe.getAllIngredients()
     const calculatedProportions = calculator.calculateInProportion(recipeData, ingredientsRecipe)
-    if (button.name == "calculate") {
-        ui.getCalculatedRecipe(calculatedProportions, recipeData)
-        amounts.reset()
+    const ingredientsPromises = ingredientsRecipe.map(async (ingredient) => {
+        return await ingredientRepository.getMyIngredientByid(ingredient.id)
+    })
+    const ingredients = await Promise.all(ingredientsPromises)
 
-    } else if (button.name == "makeTraceability") {
-        const recipeingredients = ingredientRecipe.getAllIngredients()
-        const ingredientsPromises = recipeingredients.map(async (ingredient) => {
-            return await ingredientRepository.getMyIngredientByid(ingredient.id)
-        })
-        const ingredients = await Promise.all(ingredientsPromises);
-        ui.getTraceability(ingredients, calculatedProportions, recipeData)
+    switch (button.name) {
+        case "calculate":
+            ui.getCalculatedRecipe(calculatedProportions, recipeData)
+            break
+        case "makeTraceability":
+            ui.getTraceability(ingredients, calculatedProportions, recipeData)
+            break
+        case "costRecipe":
+            const costParams = {
+                ...recipeData,
+                ingredients: ingredients.map((ing, index) => ({
+                    name: ing.name,
+                    requiredQuantity: calculatedProportions[index].conversion,
+                    costPerKg: ing.costPerKg,
+                    unitOfMeasure: ing.unitOfMeasure
+                }))
+            }
+            const calculations = calculator.costRecipe(costParams);
+            const tableContent = {
+                tableTitle: recipeData.name,
+                tableHeads: calculations.ingredients.map(ing => Object.keys(ing))[0],
+                tableItems: Object.values(calculations.ingredients)
+            }
+            console.log(tableContent)
+            console.log(recipeData)
+            const complements = document.querySelector("#custom-table-complements")
+            complements.classList.remove("d-none")
+            complements.innerHTML = `
+
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Weight Per Unit</th>
+                        <th>Cost Per Unit</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${recipeData.name}</td>
+                        <td>${recipeData.amount} Units</td>
+                        <td>${recipeData.weightPerUnit} g</td>
+                        <td>${calculations["Cost Per Unit"]}</td>
+                        <td>${calculations["Total Cost"]}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5 class='bg-primary text-light p-2'>Cost per ingredient:</h5>`
+            ui.getCustomTable(tableContent)
+            ui.showHideWindows("#custom-table-container", "card p-3 shadow rounded-0")
+            break
     }
+    amounts.reset()
 })
 const editDeleteIngredient = document.querySelector("#recipe")
 editDeleteIngredient.addEventListener("click", (e) => {
@@ -107,7 +155,8 @@ editDeleteIngredient.addEventListener("click", (e) => {
                 ui.getRecipeItems(ingredients)
             }
         } else {
-            ui.setIngredientEdit(ingredient, id)
+            const updates = new IngredientRecipe(id, ingredient.name, ingredient.weight, ingredient.unitOfMeasure)
+            ui.setIngredientEdit(updates)
         }
     }
 })
@@ -168,7 +217,7 @@ addIngredient.addEventListener("click", async (e) => {
         const ingredient = await ingredientRepository.getMyIngredientByid(id)
         const recipeName = document.querySelector("#newRecipeName").textContent
         if (isRepeated(ingredient.name, "ingredients")) {
-            ui.setIngredientEdit(ingredient, id)
+            ui.setIngredientEdit({ id: id, ...ingredient })
         } else {
             ui.setIngredientNew(recipeName, ingredient, id)
         }
@@ -179,11 +228,11 @@ weightModalForm.addEventListener("submit", async (e) => {
     e.preventDefault()
     const submitButton = document.querySelector("#submitBtnAdd")
     const id = submitButton.value
-    const weight = document.querySelector("#weightAdd").value
-    const unitOfMeasure = document.querySelector("#weightAdd").name
+    const weight = document.querySelector("#weightAddInput").value
+    const unitOfMeasure = document.querySelector("#weightAddInput").name
     if (submitButton.name === "editRecipeIngredient") {
         const name = document.querySelector("#weight-modal-header").name
-        const updates = { name, weight, id }
+        const updates = new IngredientRecipe(id, name, weight, unitOfMeasure)
         ingredientRecipe.update(updates)
         const ingredients = ingredientRecipe.getAllIngredients()
         ui.getRecipeItems(ingredients)
@@ -232,14 +281,6 @@ setMyIngredient.addEventListener("click", async (e) => {
         const ingredient = await ingredientRepository.getMyIngredientByid(id)
         if (ingredient) {
             ui.showHideWindows("#newIngredientForm", "")
-            document.querySelector("#ingredientHeader").textContent = `${ingredient.name}`
-            const deleteIngredientButton = document.querySelector("#deleteIngredientButton")
-            deleteIngredientButton.classList = "btn myButton-danger"
-            deleteIngredientButton.value = ingredient.FSId
-            const saveChangesButton = document.querySelector("#saveIngredientButton")
-            saveChangesButton.textContent = "Save Changes"
-            saveChangesButton.name = "save-changes"
-            saveChangesButton.value = ingredient.FSId
             ui.setIngredientIntoForm(ingredient)
         } else {
             alert("Ingredient not found")
@@ -293,6 +334,31 @@ getRecipesForDropdown.addEventListener("click", async () => {
     const ulDropdown = document.querySelector("#nav-recipes-dropdown");
     ulDropdown.innerHTML = '';
     ulDropdown.innerHTML = sortedItems.map(item => `<li class="btn btn-light d-block" id="${item.id}">${item.name}</li>`).join('');
+})
+
+const costRecipeButton = document.querySelector("#costRecipeButton")
+costRecipeButton.addEventListener("click", async () => {
+    const ingredientsRecipe = ingredientRecipe.getAllIngredients();
+    const ingredientsPromises = ingredientsRecipe.map(ing => {
+        return ingredientRepository.getMyIngredientByid(ing.id)
+    })
+    const ingredients = await Promise.all(ingredientsPromises)
+
+    for (const ing of ingredients) {
+        if (!ing.costPerKg) {
+            const modal = document.querySelector("#amountWeight")
+            bootstrap.Modal.getInstance(modal).hide()
+            const confirmEdit = confirm(`"${ing.name}" has no cost. Do you want to update it?`);
+            if (confirmEdit) {
+                ui.showHideWindows("#newIngredientForm", "")
+                ui.setIngredientIntoForm(ing)
+            }
+            break
+        }
+    }
+    const button = document.querySelector("#calculateButton")
+    button.textContent = "Cost Recipe"
+    button.name = "costRecipe"
 })
 startNewRecipe()
 convertAndStoreRecipes()

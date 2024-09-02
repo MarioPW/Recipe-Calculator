@@ -17,7 +17,7 @@
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark fs-5 mb-3" id="navbar">
     <div class="container d-flex flex-sm-column justify-content-between">
       <div class="d-flex justify-content-between">
-          <a class="navbar-brand fs-6 text-light" href="../index.html" id="user-name"></a>
+        <a class="navbar-brand fs-6 text-light" href="../index.html" id="user-name"></a>
         <li class="nav-item list-group-item text-light fs-6">
           <a class="myButton-success" id="logout">Logout</a>
         </li>
@@ -75,7 +75,7 @@
   <div class="container" style="max-width: 1000px;">
 
     <!-- START: Recipe Name -->
-    <div class="hide" id="name-card">
+    <div class="d-none" id="name-card">
       <h4 class="bg-purple text-light p-2">Recipe Name:</h4>
       <form class="form-control border-0 needs-validation bg-light " id="recipeNameForm">
         <input type="text" id="name" placeholder="Ex: 'Baguettes'" class="form-control" required>
@@ -121,18 +121,11 @@
               <input type="text" name="supplier" class="form-control" id="supplier">
             </div>
           </div>
-          <div class="col-12">
-            <label for="presentation" class="form-label">Presentation</label>
-            <input type="text" name="presentation" class="form-control" id="presentation" placeholder="Ex: Bag x 50 Kg">
-          </div>
-          <div class="col-12">
-            <label for="purchasePrice" class="form-label">Purchase Price</label>
-            <input type="number" name="purchasePrice" class="form-control" id="purchasePrice">
-          </div>
+
           <div class="row">
             <div class="col-md-3">
-              <label for="portionPrice" class="form-label">Portion Price</label>
-              <input type="number" name="portionPrice" class="form-control" id="portionPrice">
+              <label for="costPerKg" class="form-label">Cost per Kg or L</label>
+              <input type="number" name="costPerKg" class="form-control" id="costPerKg">
             </div>
 
             <div class="col-md-3">
@@ -144,11 +137,10 @@
               <label for="batch" class="form-label">Batch</label>
               <input type="text" name="batch" class="form-control" id="batch">
             </div>
-
           </div>
 
           <div class="d-flex gap-2 mt-2 justify-content-end">
-            <button type="button" class="hide" id="deleteIngredientButton">Delete</button>
+            <button type="button" class="d-none" id="deleteIngredientButton">Delete</button>
             <button type="submit" class="btn myButton-primary" id="saveIngredientButton" name="save">Save</button>
           </div>
         </ul>
@@ -164,18 +156,16 @@
         <div class="modal-content" id="addWeightFormContainer">
           <!-- Modal from ../src/ui.js -->
           <div class="" id="weight-modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">
-
-            </h5>
+            <h5 class="modal-title" id="staticBackdropLabel"></h5>
           </div>
           <form class="form-control my-2 border-0 bg-light" id="weightModalForm">
-            <label for="weightAdd" class="label" id="weightAddLabel"></label>
-            <input required type="number" step="0.1" id="weightAdd" placeholder="" class="form-control" value="">
+            <label for="weightAddInput" class="label" id="weightAddLabel" value=""></label>
+            <input required type="number" step="0.1" id="weightAddInput" placeholder="" class="form-control">
             <button type="submit" id="submitBtnAdd" name="" class="btn myButton-primary mt-2" data-bs-dismiss="modal"
               value="">
               Done
             </button>
-            <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
+            <button type="button" class="btn myButton-yellow mt-2" id="cancelBtnAdd" data-bs-dismiss="modal">
               Cancel
             </button>
           </form>
@@ -233,8 +223,7 @@
               <button id="calculateButton" type="submit" name="calculate" class="btn myButton-primary mt-2"
                 data-bs-toggle="modal"></button>
               <!-- data-bs-target="#calculated" -->
-
-              <button type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
+              <button id="cancelButton" type="button" class="btn myButton-yellow mt-2" data-bs-dismiss="modal">
                 Exit
               </button>
             </form>
@@ -244,23 +233,29 @@
     </div>
     <!-- END: Modal Calculate Recipe -->
 
-    <div id="recipeViewContainer" class="hide">
+    <!-- START: Recipe Table -->
+
+    <div id="recipeViewContainer" class="d-none">
       <div id="recipeView" class="text-center bg-yellow text-light">
-        <!-- Basic Recipe --> 
+        <!-- Basic Recipe -->
       </div>
 
-      <!-- START: Add Igredient Form -->
+      <!-- START: Recipe Options -->
       <div class="d-grid gap-1" id="addIngredient">
-        <!-- Add Ingredients Dropdown from "../src/ui.js" -->
 
         <div class="dropdown d-flex flex-column flex-sm-row gap-2 mt-2 mb-2 justify-content-end">
           <button class="btn myButton-yellow" id="editNameButton">Edit Name</button>
-          <button id="calculateToggleButton" type="button" class="btn myButton-primary" data-bs-toggle="modal"
-            data-bs-target="#amountWeight">
-            Calculate </button>
 
-          <button id="traceabilityToggleButton" class="btn myButton-purple text-light" type="button"
-            data-bs-toggle="modal" data-bs-target="#amountWeight">Traceability</button>
+          <button id="calculateToggleButton" type="button" class="btn myButton-primary" data-bs-toggle="modal"
+            data-bs-target="#amountWeight">Calculate</button>
+
+          <button id="costRecipeButton" type="button" class="btn myButton-primary" data-bs-toggle="modal"
+            data-bs-target="#amountWeight">Cost $</button>
+
+          <button id="traceabilityToggleButton" type="button" class="btn myButton-purple" data-bs-toggle="modal"
+            data-bs-target="#amountWeight">Traceability</button>
+
+          <!-- Add Ingredients Dropdown from "ui.js" -->
           <button class="btn myButton-purple text-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false" id="addIngredientButton">Add Ingredient:</button>
 
@@ -269,38 +264,51 @@
             <!-- My Ingredients from ui.js -->
           </ul>
         </div>
-        <!-- END: Add Igredient Form -->
-
       </div>
+      <!-- END: Recipe Options -->
 
-      <div class="bg-light">
-        <table class="table table-hover table-striped">
-          <thead>
-            <tr>
-              <th class="table-primary">Ingredients</th>
-              <th class="table-primary">Weight</th>
-              <th class="table-primary">Edit</th>
-              <th class="table-primary">Delete</th>
-            </tr>
-          </thead>
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="table-primary">Ingredients</th>
+            <th class="table-primary">Weight</th>
+            <th class="table-primary">Edit</th>
+            <th class="table-primary">Delete</th>
+          </tr>
+        </thead>
 
-          <tbody id="recipe">
-            <!-- JS: | Ingerdient | Weight | Edit | Del | -->
-          </tbody>
-        </table>
+        <tbody id="recipe">
+          <!-- JS: | Ingerdient | Weight | Edit | Del | -->
+        </tbody>
+      </table>
 
-        <div id="saveButtonContainer" class="d-flex gap-2 justify-content-end">
-          <button id="save-button" class="btn myButton-primary">
-            Save
-          </button>
-          <button id="delete-button" class="d-none"></button>
-          <!-- <button id="costButton" class="btn myButton-primary disabled my-3">
-                  $Cost Recipe$
-                </button> -->
-        </div>
-        <div class="container"></div>
+      <div id="saveButtonContainer" class="d-flex gap-2 justify-content-end">
+        <button id="save-button" class="btn myButton-primary">
+          Save
+        </button>
+        <button id="delete-button" class="d-none">Delete</button>
       </div>
     </div>
+    <!-- END: Recipe Table -->
+
+    <!-- START: Custom Table -->
+    <div class="d-none" id="custom-table-container">
+      <div class="text-center bg-yellow text-light">
+        <h4 id="custom-table-title"></h4>
+      </div>
+      <div id="custom-table-complements" class="d-none"></div>
+      <table class="table table-hover table-striped">
+        <thead id="custom-table-header">
+          <!-- JS  -->
+        </thead>
+
+        <tbody id="custom-table-body">
+          <!-- JS  -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- END: Custom Table -->
 
     <!-- START: Modal Calculated Recipe -->
     <div class="modal fade" id="calculated" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -330,7 +338,7 @@
     </div>
     <!-- END: Modal Calculated Recipe -->
 
-    <!-- START: Modal Calculated Recipe -->
+    <!-- START: Modal Taceability -->
     <div class="modal fade" id="traceabilityModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">

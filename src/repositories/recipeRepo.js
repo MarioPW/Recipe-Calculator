@@ -45,7 +45,7 @@ export class RecipeRepo {
             return undefined;
         }
     }
-    async getRecipeById(id) { /* -> type: Recipe() || undefined */
+    async getRecipeById(id) { /* -> type: Recipe() || console.error */
         try {
             const querySnapshot = await getDoc(doc(this.db, "recipes", id));
             return querySnapshot.data();

@@ -1,4 +1,3 @@
-import { uniqueId } from "./services/utils.js"
 
 export class Recipe {
     constructor(name, ingredients) {
@@ -19,22 +18,18 @@ export class Ingredient {
     constructor({
         name,
         unitOfMeasure,
-        presentation = null,
-        purchasePrice = null,
         brand = null,
         supplier = null,
-        portionPrice = null,
+        costPerKg = null,
         expirationDate = null,
         batch = null
         })
     {
         this.name = name
         this.unitOfMeasure = unitOfMeasure
-        this.presentation = presentation
-        this.purchasePrice = purchasePrice
+        this.costPerKg = costPerKg
         this.supplier = supplier
         this.brand = brand
-        this.portionPrice = portionPrice
         this.expirationDate = expirationDate
         this.batch = batch
     }

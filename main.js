@@ -59,7 +59,6 @@ onAuthStateChanged(auth, async (user) => {
     } else {
         // User is signed out
         // ...
-        ""
     }
 });
 
@@ -69,7 +68,7 @@ const login = document.querySelector("#loginLink")
 if (register || login) {
     register.addEventListener("click", () => {
         const login = document.querySelector("#loginFormContainer")
-        login.classList = ("hide")
+        login.classList = ("d-none")
         const register = document.querySelector("#registerFormContainer")
         register.classList = ("mt-2")
     })
@@ -78,7 +77,7 @@ if (register || login) {
         const login = document.querySelector("#loginFormContainer")
         login.classList = ("mt-2")
         const register = document.querySelector("#registerFormContainer")
-        register.classList = ("hide")
+        register.classList = ("d-none")
     })
 }
 

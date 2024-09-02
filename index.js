@@ -106,8 +106,6 @@ amounts.addEventListener("submit", async (e) => {
                 tableHeads: calculations.ingredients.map(ing => Object.keys(ing))[0],
                 tableItems: Object.values(calculations.ingredients)
             }
-            console.log(tableContent)
-            console.log(recipeData)
             const complements = document.querySelector("#custom-table-complements")
             complements.classList.remove("d-none")
             complements.innerHTML = `
@@ -359,6 +357,7 @@ costRecipeButton.addEventListener("click", async () => {
     const button = document.querySelector("#calculateButton")
     button.textContent = "Cost Recipe"
     button.name = "costRecipe"
+    button.removeAttribute("data-bs-target")
 })
 startNewRecipe()
 convertAndStoreRecipes()

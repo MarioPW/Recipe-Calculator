@@ -13,10 +13,10 @@ import "./src/firebaseAuth/facebookLogin.js"
 // ----------------------------------
 
 // Base Path in PRODUCTION
-// export const basePath = "/Recipe-Calculator";
+export const basePath = "/Recipe-Calculator";
 
 // Base Path in DEVELOPMENT
-export const basePath = "http://localhost:5500/";
+// export const basePath = "http://localhost:5500/";
 
 onAuthStateChanged(auth, async (user) => {
     if (user.emailVerified) {

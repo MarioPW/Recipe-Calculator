@@ -130,7 +130,7 @@ amounts.addEventListener("submit", async (e) => {
                     </tr>
                 </tbody>
             </table>
-            <h5 class='bg-primary text-light p-2'>Cost per ingredient:</h5>`
+            <h5 class='bg-primary text-light p-2 mb-0'>Cost per ingredient:</h5>`
             ui.getCustomTable(tableContent)
             ui.showHideWindows("#custom-table-container", "card p-3 shadow rounded-0")
             break

@@ -1,6 +1,6 @@
 import { onAuthStateChanged, signOut  } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { auth } from "./src/firebaseConfig.js"
-import { cleanLocalStorage } from "./src/services/utils.js"
+import { cleanLocalStorage } from "./src/utilities/utils.js"
 
 // --------- FIREBASE AUTH ----------
 
@@ -11,6 +11,7 @@ import "./src/firebaseAuth/googleLogin.js"
 import "./src/firebaseAuth/facebookLogin.js"
 
 // ----------------------------------
+
 
 // Base Path in PRODUCTION
 export const basePath = "/Recipe-Calculator";

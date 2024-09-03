@@ -1,19 +1,3 @@
-
-export class Recipe {
-    constructor(name, ingredients) {
-        this.name = name
-        this.ingredients = ingredients // Type: IngredientRecipe()
-        this.prodoctWeight = 0
-    }
-}
-export class IngredientRecipe {
-    constructor(id, name, weight, unitOfMeasure) {
-        this.id = id
-        this.name = name
-        this.weight = weight
-        this.unitOfMeasure = unitOfMeasure
-    }
-}
 export class Ingredient {
     constructor({
         name,

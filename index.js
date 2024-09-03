@@ -1,26 +1,31 @@
 import { Ui } from "./src/ui.js"
-import { Recipe, Ingredient, IngredientRecipe } from "./src/models.js"
-import { isRepeated, cleanLocalStorage, startNewRecipe, convertAndStoreRecipes } from "./src/services/utils.js"
-import { Calculator } from "./src/services/calculator.js"
-import { IngredientRepo } from "./src/repositories/ingredientRepo.js"
-import { RecipeRepo } from "./src/repositories/recipeRepo.js"
-import { IngRecipeRepo } from "./src/repositories/ingredientRecipe.js"
+import { Recipe } from "./src/recipes/adapters.js"
+import { Ingredient } from "./src/ingredients/adapters.js"
+import { IngredientRecipe } from "./src/ingredientsRecipePibot/adapters.js"
+import { isRepeated, cleanLocalStorage, startNewRecipe, convertAndStoreRecipes } from "./src/utilities/utils.js"
+import { Calculator } from "./src/utilities/calculator.js"
+import { IngredientRepo } from "./src/ingredients/services.js"
+import { RecipeRepo } from "./src/recipes/sevices.js"
+import { IngRecipeRepo } from "./src/ingredientsRecipePibot/services.js"
 
 import { auth, db } from "./src/firebaseConfig.js"
 import "./src/firebaseAuth/logout.js"
 
-// ================ LOCALSTORAGE DB =============
+// ------------------ LOCALSTORAGE DB ---------
 const ingredientRecipe = new IngRecipeRepo()
-// ----------------------------------------------
+// --------------------------------------------
 
-// ================ FIREBASE DB =================================
+// ------------------- FIREBASE DB ------------------------------
 export const ingredientRepository = new IngredientRepo(db, auth)
 const recipeRepository = new RecipeRepo(db, auth)
 // --------------------------------------------------------------
+
 const ui = new Ui()
 const calculator = new Calculator()
 
-// ALL EVENT LISTENERS HERE:
+// ==============================================================
+// ----------------- ALL USE CASES HERE -------------------------
+// ==============================================================
 
 const recipeName = document.querySelector("#recipeNameForm")
 recipeName.addEventListener("submit", (e) => {
@@ -358,6 +363,7 @@ costRecipeButton.addEventListener("click", async () => {
     button.textContent = "Cost Recipe"
     button.name = "costRecipe"
     button.removeAttribute("data-bs-target")
+    // button.removeAttribute("data-bs-toggle")
 })
 startNewRecipe()
 convertAndStoreRecipes()

@@ -1,5 +1,5 @@
 import { ingredientRepository } from "../../index.js";
-import { IngredientRecipe } from "../models.js";
+import { IngredientRecipe } from "../ingredientsRecipePibot/adapters.js";
 
 export class Calculator {
   calculateInProportion(recipeData, ingredients = IngredientRecipe) {
@@ -29,12 +29,12 @@ export class Calculator {
     const costPerUnit = (totalCost / costParams.amount).toFixed(2);
 
     const ingredients = costParams.ingredients.map((ing, index) => {
-        const cost = costPerIngredient[index];
+        const cost = costPerIngredient[index].toLocaleString('es-CO');
         const percentage = ((cost / totalCost) * 100).toFixed(2);
 
         return {
             "Ingredient": ing.name,
-            "Cost Per Kg": `$ ${ing.costPerKg}`,
+            "Cost Per Kg | mL": `$ ${ing.costPerKg.toLocaleString('es-CO')}`,
             "Required Quantity": `${ing.requiredQuantity} ${ing.unitOfMeasure}`,
             "Cost": `$${cost}`,
             "Percentage": `${percentage} %`

@@ -1,4 +1,4 @@
-import { IngredientRecipe } from "../models.js";
+import { IngredientRecipe } from "./adapters.js";
 
 export class IngRecipeRepo {
     getAllIngredients() {
@@ -18,7 +18,7 @@ export class IngRecipeRepo {
             return undefined;
         }
     }
-    storageIngredient(ingredientId, ingredientName, weight, unitOfMeasure, costPerKg) {
+    storageIngredient(ingredientId, ingredientName, weight, unitOfMeasure) {
         try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients")) || [];
             const ingredientRecipe = new IngredientRecipe(ingredientId, ingredientName, weight, unitOfMeasure)
@@ -53,7 +53,6 @@ export class IngRecipeRepo {
         }
     }
     deleteFromRecipe(id) {
-        console.log(id)
         try {
             const ingredients = JSON.parse(localStorage.getItem("ingredients"));
             if (!ingredients) {

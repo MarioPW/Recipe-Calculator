@@ -74,17 +74,17 @@ calculateButton.addEventListener("click", () => {
     button.textContent = "Calculate"
     button.name = "calculate"
 })
-const amounts = document.querySelector("#amounts")
-amounts.addEventListener("submit", async (e) => {
+const amountWeightForm = document.querySelector("#amountWeightForm")
+amountWeightForm.addEventListener("submit", async (e) => {
     e.preventDefault()
     const button = document.querySelector("#calculateButton")
     const name = document.querySelector("#newRecipeName").textContent
-    const values = Object.fromEntries(new FormData(amounts))
+    const values = Object.fromEntries(new FormData(amountWeightForm))
     const recipeData = { ...values, name }
     const ingredientsRecipe = ingredientRecipe.getAllIngredients()
     const calculatedProportions = calculator.calculateInProportion(recipeData, ingredientsRecipe)
-    const ingredientsPromises = ingredientsRecipe.map(async (ingredient) => {
-        return await ingredientRepository.getMyIngredientByid(ingredient.id)
+    const ingredientsPromises = ingredientsRecipe.map((ingredient) => {
+        return ingredientRepository.getMyIngredientByid(ingredient.id)
     })
     const ingredients = await Promise.all(ingredientsPromises)
 
@@ -111,36 +111,12 @@ amounts.addEventListener("submit", async (e) => {
                 tableHeads: calculations.ingredients.map(ing => Object.keys(ing))[0],
                 tableItems: Object.values(calculations.ingredients)
             }
-            const complements = document.querySelector("#custom-table-complements")
-            complements.classList.remove("d-none")
-            complements.innerHTML = `
-
-            <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Product</th>
-                        <th>Amount</th>
-                        <th>Weight Per Unit</th>
-                        <th>Cost Per Unit</th>
-                        <th>Total Cost</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>${recipeData.name}</td>
-                        <td>${recipeData.amount} Units</td>
-                        <td>${recipeData.weightPerUnit} g</td>
-                        <td>${calculations["Cost Per Unit"]}</td>
-                        <td>${calculations["Total Cost"]}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h5 class='bg-primary text-light p-2 mb-0'>Cost per ingredient:</h5>`
+            ui.getTableCostComplements(recipeData, calculations)
             ui.getCustomTable(tableContent)
             ui.showHideWindows("#custom-table-container", "card p-3 shadow rounded-0")
             break
     }
-    amounts.reset()
+    amountWeightForm.reset()
 })
 const editDeleteIngredient = document.querySelector("#recipe")
 editDeleteIngredient.addEventListener("click", (e) => {

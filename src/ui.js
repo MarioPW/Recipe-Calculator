@@ -154,8 +154,32 @@ export class Ui {
         const rowHTML = tableContent.tableHeads.map((head) => `<td>${row[head] || ''}</td>`).join('');
         tableBody.innerHTML += `<tr>${rowHTML}</tr>`;
     });
-
-
+  }
+  getTableCostComplements(recipeData, calculations) {
+    const complements = document.querySelector("#custom-table-complements")
+            complements.classList.remove("d-none")
+            complements.innerHTML = `
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Weight Per Unit</th>
+                        <th>Cost Per Unit</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${recipeData.name}</td>
+                        <td>${recipeData.amount} Units</td>
+                        <td>${recipeData.weightPerUnit} g</td>
+                        <td>${calculations["Cost Per Unit"]}</td>
+                        <td>${calculations["Total Cost"]}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5 class='bg-primary text-light p-2 mb-0'>Cost per ingredient:</h5>`
   }
   showHideWindows(elementToShow, classes) {
     document.querySelector("#newIngredientForm").classList = ("d-none")

@@ -29,19 +29,19 @@ export class Calculator {
     const costPerUnit = (totalCost / costParams.amount).toFixed(2);
 
     const ingredients = costParams.ingredients.map((ing, index) => {
-        const cost = costPerIngredient[index].toLocaleString('es-CO');
+        const cost = costPerIngredient[index];
         const percentage = ((cost / totalCost) * 100).toFixed(2);
 
         return {
             "Ingredient": ing.name,
-            "Cost Per Kg | mL": `$ ${ing.costPerKg.toLocaleString('es-CO')}`,
-            "Required Quantity": `${ing.requiredQuantity} ${ing.unitOfMeasure}`,
-            "Cost": `$${cost}`,
-            "Percentage": `${percentage} %`
+            "Cost Per Kg | mL": `$ ${parseFloat(ing.costPerKg).toLocaleString('es-ES')}`,
+            "Required Quantity": `${parseFloat(ing.requiredQuantity).toLocaleString('es-ES')} ${ing.unitOfMeasure}`,
+            "Cost": `$${parseFloat(cost).toLocaleString('es-ES')}`,
+            "Percentage": `${parseFloat(percentage).toLocaleString('es-ES')} %`
         };
     });
 
-    return { "Total Cost": `$ ${totalCost}`, ingredients, "Cost Per Unit": `$ ${costPerUnit}`,
+    return { "Total Cost": `$ ${parseFloat(totalCost).toLocaleString('es-ES')}`, ingredients, "Cost Per Unit": `$ ${parseFloat(costPerUnit).toLocaleString('es-ES')}`,
   };
 }
 

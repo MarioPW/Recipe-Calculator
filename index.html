@@ -12,22 +12,25 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
   <!-- Bootstrap-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Main JS -->
-  <script src="main.js" type="module"></script>
+  <script type="module" src="main.js"></script>
+  <script type="module" src="/src/main.jsx"></script>
 </head>
 
 <body style="font-family: sans-serif; font-weight: lighter; background-color: #000011;">
-  <div class="container">
+  <div class="container" id="root">
     <!-- <nav class="d-flex justify-content-between align-items-center bg-dark gap-4 p-3" id="navbarMain">
       
     </nav> -->
 
 
-    <nav class="navbar navbar-expand-lg navbar-dark"  id="navbarMain">
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark"  id="navbarMain">
       <div class="container-fluid">
         <h1 class="navbar-brand text-light">@PW Recipe Calculator</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,109 +41,10 @@
           </ul>
         </div> 
       </div>
-    </nav>
+    </nav> -->
 
 
-    <div class="d-flex flex-column flex-sm-row" style="justify-content: space-evenly;">
-      <!-- START: Login Form -->
-      <div class="mt-2" id="loginFormContainer">
-        <form class="bg-light p-4 rounded-2" id="loginForm">
-          <h5 class="text-center text-light rounded-2 p-2 bg-success">Login</h5>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address:</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-              placeholder="email@example.com">
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="******">
-          </div>
-          <!-- <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="check" name="check">
-              <label class="form-check-label" for="check">Check me out</label>
-            </div> -->
-          <div class="d-flex gap-2 justify-content-between align-items-center">
-            <div class="d-flex gap-2">
-              <a href="#" style="font-size: smaller;" id="forgotPasswordLink">Forgot Password?</a>
-              <a href="#" style="font-size: smaller;" id="registerLink">Not registered? Click here!</a>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-          </div>
-          <hr>
-          <!-- SINGN IN WITH GOOGLE -->
-          <button id="loginGoogle" class="btn btn-info my-1 text-light w-100" type="button"><img
-              src="https://cdn-teams-slug.flaticon.com/google.jpg" style="width: 1.5rem; height: 1.5rem;"
-              class="me-2 rounded-1" />Sign in with Google</button>
 
-          <!-- SINGN IN WITH FACEBOOK -->
-          <button id="loginFacebook" class="btn btn-primary my-1 text-light w-100" type="button"><img
-              src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg"
-              style="width: 1.5rem; height: 1.5rem;" class="me-2 rounded-1" />Sign in with Facebook</button>
-        </form>
-      </div>
-      <!-- END: Login Form -->
-
-      <!-- START: Register Form -->
-      <div class="d-none mt-2" id="registerFormContainer">
-        <form class="bg-light p-4 rounded-2" style="margin: auto;" id="registerForm">
-          <h5 class="text-center text-light rounded-2 p-2 bg-success">Register</h5>
-          <div class="mb-3">
-            <label for="emailRegister" class="form-label">Email address:</label>
-            <input type="email" class="form-control" id="emailRegister" name="email" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3">
-            <label for="passwordRegister" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="passwordRegister" name="password">
-            <div id="emailHelp" class="form-text">At least 6 characters.</div>
-          </div>
-          <div class="mb-3">
-            <label for="password2Regidter" class="form-label">Repeat Password</label>
-            <input type="password" class="form-control" id="password2Regidter" name="password2">
-          </div>
-          <!-- <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="check" name="check">
-              <label class="form-check-label" for="check">Check me out</label>
-            </div> -->
-          <div class="d-flex gap-2 justify-content-between align-items-center">
-            <a href="#" style="font-size: smaller;" id="loginLink">
-              << Back to Login</a>
-                <button type="submit" class="btn btn-primary">Register</button>
-          </div>
-        </form>
-      </div>
-      <!-- END: Register Form -->
-
-
-      <!-- START: Info -->
-      <div class="mt-2" id="info">
-        <div class="d-flex justify-content-center mb-3">
-          <div class="card text-bg-dark p-3">
-            <ul>
-              <li>
-                <h5 class="text-warning">Ingredients:</h5>
-                <p>Save your ingredients to create and manage your recipes.</p>
-              </li>
-              <hr>
-              <li>
-                <h5 class="text-warning">Recipes:</h5>
-                <p>Once your ingredients are saved, yuo can create your recipes.</p>
-              </li>
-              <hr>
-              <li>
-                <h5 class="text-warning">Traceability:</h5>
-                <p>Make traceability of your recipes easily.</p>
-              </li>
-              <hr>
-              <li>
-                <h5 class="text-warning">Cost:</h5>
-                <p>Cost your recipes easily.</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- END: Info -->
-      </div>
-    </div>
   </div>
 </body>
 

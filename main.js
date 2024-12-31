@@ -14,19 +14,18 @@ import "./src/firebaseAuth/facebookLogin.js"
 
 
 // Base Path in PRODUCTION
-export const basePath = "/Recipe-Calculator";
+// export const basePath = "/Recipe-Calculator";
 
 // Base Path in DEVELOPMENT
-// export const basePath = "http://localhost:5500/";
+export const basePath = "http://localhost:5173/";
 
 onAuthStateChanged(auth, async (user) => {
-    if (user.emailVerified) {
+    if (user && user.emailVerified) {
         const divUserInfo = document.querySelector("#nav-user-info")
         const userNameTag = document.querySelector("#user-name")
         if (divUserInfo) {
             const userName = document.createElement("li");
             userName.classList = "nav-item list-group-item text-light fs-6"
-            userName.classList
             userName.innerHTML = ` <a class="nav-link text-light fs-6" href="#">${user.email}</a>`;
             divUserInfo.appendChild(userName)
             

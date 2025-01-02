@@ -1,10 +1,35 @@
 import React, { useState } from 'react'
-import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { basePath } from "../../main.js";
 import { auth } from "../firebaseConfig.js"
 
 
 export const LoginRegister = () => {
+    const firebaseErrors = {
+        "auth/account-exists-with-different-credential": "Email already in use",
+        "auth/invalid-credential": "Invalid credentials",
+        "auth/invalid-email": "Invalid email",
+        "auth/operation-not-allowed": "Operation not allowed",
+        "auth/user-disabled": "User disabled",
+        "auth/user-not-found": "User not found",
+        "auth/unauthorized-domain": "Unauthorized Domain",
+        "auth/invalid-login-credentials": "Invalid email or password",
+        "auth/missing-password": "Missing password",
+        "auth/missing-email": "Missing email"
+    }
+    const [credentials, setCredentials] = useState({})
+    const [error, setError] = useState(null);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setCredentials({ ...credentials, [name]: value });
+        console.log(credentials);
+    }
     const [showLogin, setShowLogin] = useState(true);
     const handleSocialLogin = async (provider, auth) => {
         try {
@@ -13,15 +38,7 @@ export const LoginRegister = () => {
             alert(`Welcome ${userName} !!!`);
             window.location.href = "/templates/calculator.html";
         } catch (error) {
-            const firebaseErrors = {
-                "auth/account-exists-with-different-credential": "Email already in use",
-                "auth/invalid-credential": "Invalid credentials",
-                "auth/invalid-email": "Invalid email",
-                "auth/operation-not-allowed": "Operation not allowed",
-                "auth/user-disabled": "User disabled",
-                "auth/user-not-found": "User not found",
-                "auth/unauthorized-domain": "Unauthorized Domain"
-            }
+
             alert(firebaseErrors[error.code] || "Error logging in")
         }
     }
@@ -33,25 +50,50 @@ export const LoginRegister = () => {
         const provider = new FacebookAuthProvider();
         handleSocialLogin(provider, auth);
     }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        try {
+            const user = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+            user.user.displayName !== null
+                ? alert("Wellcome " + user.user.displayName + " !!!")
+                : alert("Wellcome " + user.user.email + " !!!")
+            window.location.href = `${basePath}/templates/calculator.html`
+        } catch (error) {
+            alert(firebaseErrors[error.code] || "Error logging in")
+        }
+    };
+    const handleForgotPassword = async () => {
+        if (!credentials.email) {
+            alert("Please enter your email address to reset your password.");
+            return;
+        }
+        try {
+            await sendPasswordResetEmail(auth, credentials.email);
+            alert("Password reset email sent! Please check your inbox.");
+        } catch (error) {
+            alert(firebaseErrors[error.code] || "Error sending password reset email.");
+        }
+    };
     return (
         <>
-            {/* Formulario de Login */}
             {showLogin && (
                 <div className="mt-2" id="loginFormContainer">
-                    <form className="bg-light p-4 rounded-2" id="loginForm">
+                    <form className="bg-light p-4 rounded-2" id="loginForm" onSubmit={handleSubmit}>
                         <h5 className="text-center text-light rounded-2 p-2 bg-success">Login</h5>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email address:</label>
-                            <input type="email" className="form-control" id="email" name="email" placeholder="email@example.com" />
+                            <input type="email" className="form-control" id="email" name="email" placeholder="email@example.com" onChange={handleInputChange} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password" className="form-label">Password:</label>
-                            <input type="password" className="form-control" id="password" name="password" placeholder="******" />
+                            <input type="password" className="form-control" id="password" name="password" placeholder="******" onChange={handleInputChange} />
                         </div>
                         <div className="d-flex gap-2 justify-content-between align-items-center">
                             <div className="d-flex gap-2">
-                                <a className='fs-6' id="forgotPasswordLink">Forgot Password?</a>
+                                <a className='fs-6'
+                                    id="forgotPasswordLink"
+                                    onClick={handleForgotPassword}>Forgot Password?</a>
                                 <a
                                     className='fs-6'
                                     id="registerLink"
@@ -64,7 +106,7 @@ export const LoginRegister = () => {
                             <button type="submit" className="btn btn-primary">Login</button>
                         </div>
                         <hr />
-                        <button  className="btn btn-info my-1 text-light w-100" type="button" onClick={handleGoogleLogin}>
+                        <button className="btn btn-info my-1 text-light w-100" type="button" onClick={handleGoogleLogin}>
                             <img
                                 src="https://cdn-teams-slug.flaticon.com/google.jpg"
                                 style={{ width: "1.5rem", height: "1.5rem" }}
@@ -72,7 +114,7 @@ export const LoginRegister = () => {
                                 alt="Google"
                             />Sign in with Google
                         </button>
-                        <button  className="btn btn-primary my-1 text-light w-100" type="button" onClick={handleFacebookLogin}>
+                        <button className="btn btn-primary my-1 text-light w-100" type="button" onClick={handleFacebookLogin}>
                             <img
                                 src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg"
                                 style={{ width: "1.5rem", height: "1.5rem" }}
@@ -84,7 +126,6 @@ export const LoginRegister = () => {
                 </div>
             )}
 
-            {/* Formulario de Registro */}
             {!showLogin && (
                 <div className="mt-2" id="registerFormContainer">
                     <form className="bg-light p-4 rounded-2" id="registerForm">

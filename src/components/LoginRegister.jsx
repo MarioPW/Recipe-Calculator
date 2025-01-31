@@ -7,24 +7,11 @@ import {
     sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { basePath } from "../../main.js";
-import { auth } from "../firebaseConfig.js"
+import { auth, firebaseErrors } from "../firebaseConfig.js"
 
 
 export const LoginRegister = () => {
-    const firebaseErrors = {
-        "auth/account-exists-with-different-credential": "Email already in use",
-        "auth/invalid-credential": "Invalid credentials",
-        "auth/invalid-email": "Invalid email",
-        "auth/operation-not-allowed": "Operation not allowed",
-        "auth/user-disabled": "User disabled",
-        "auth/user-not-found": "User not found",
-        "auth/unauthorized-domain": "Unauthorized Domain",
-        "auth/invalid-login-credentials": "Invalid email or password",
-        "auth/missing-password": "Missing password",
-        "auth/missing-email": "Missing email"
-    }
     const [credentials, setCredentials] = useState({})
-    const [error, setError] = useState(null);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
@@ -36,23 +23,13 @@ export const LoginRegister = () => {
             const response = await signInWithPopup(auth, provider);
             const userName = response.user.displayName || response.user.email;
             alert(`Welcome ${userName} !!!`);
-            window.location.href = "/templates/calculator.html";
+            window.location.href = "/menu";
         } catch (error) {
-
             alert(firebaseErrors[error.code] || "Error logging in")
         }
     }
-    const handleGoogleLogin = async () => {
-        const provider = new GoogleAuthProvider();
-        handleSocialLogin(provider, auth);
-    }
-    const handleFacebookLogin = async () => {
-        const provider = new FacebookAuthProvider();
-        handleSocialLogin(provider, auth);
-    }
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const user = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
             user.user.displayName !== null
@@ -106,7 +83,7 @@ export const LoginRegister = () => {
                             <button type="submit" className="btn btn-primary">Login</button>
                         </div>
                         <hr />
-                        <button className="btn btn-info my-1 text-light w-100" type="button" onClick={handleGoogleLogin}>
+                        <button className="btn btn-info my-1 text-light w-100" type="button" onClick={() => handleSocialLogin(new GoogleAuthProvider(), auth)}>
                             <img
                                 src="https://cdn-teams-slug.flaticon.com/google.jpg"
                                 style={{ width: "1.5rem", height: "1.5rem" }}
@@ -114,7 +91,7 @@ export const LoginRegister = () => {
                                 alt="Google"
                             />Sign in with Google
                         </button>
-                        <button className="btn btn-primary my-1 text-light w-100" type="button" onClick={handleFacebookLogin}>
+                        <button className="btn btn-primary my-1 text-light w-100" type="button" onClick={() => handleSocialLogin(new FacebookAuthProvider(), auth)}>
                             <img
                                 src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg"
                                 style={{ width: "1.5rem", height: "1.5rem" }}

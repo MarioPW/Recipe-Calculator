@@ -5,7 +5,7 @@ export class RecipeRepo {
         this.db = db;
         this.auth = auth;
     }
-    async getAllRecipes() {
+    async getAllRecipes() { /* -> type: [{Recipe}] || [] */
         const recipes = [];
         const userId = this.auth.currentUser?.uid;
         if (!userId) {

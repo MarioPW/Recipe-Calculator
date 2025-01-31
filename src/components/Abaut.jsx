@@ -13,7 +13,7 @@ export const Abaut = () => {
             <hr />
             <li>
               <h5 className="text-warning">Recipes:</h5>
-              <p>Once your ingredients are saved, you can create your recipes.</p>
+              <p>Combine your ingredients to craft delicious recipes with precise measurements.</p>
             </li>
             <hr />
             <li>
@@ -23,7 +23,7 @@ export const Abaut = () => {
             <hr />
             <li>
               <h5 className="text-warning">Cost:</h5>
-              <p>Cost your recipes easily.</p>
+              <p>Calculate the cost of your recipes to maintain profitability and control.</p>
             </li>
           </ul>
         </div>

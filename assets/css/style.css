@@ -139,7 +139,7 @@
 	top:1px;
 }
 .myButton-success{
-	background:linear-gradient(to bottom, #009a2e 5%, #73f971 100%);
+	background:linear-gradient(to top, #009a2e 5%, #73f971 100%);
 	background-color:#f9f871;
 	border-radius:42px;
 	display:inline-block;
@@ -152,7 +152,7 @@
 }
 .myButton-success:hover{
 	color: #ffffff;	
-	background:linear-gradient(to bottom, #f9f871 5%, #f9f871 100%);
+	background:linear-gradient(to bottom,  #009a2e 5%, #73f971 100%);
 	background-color:#f9f871;
 }
 .myButton-success:active{

@@ -1,4 +1,4 @@
-export class Ingredient {
+export class IngredientAdapter {
     constructor({
         name,
         unitOfMeasure,
@@ -6,7 +6,8 @@ export class Ingredient {
         supplier = null,
         costPerKg = null,
         expirationDate = null,
-        batch = null
+        batch = null,
+        stock = null
         })
     {
         this.name = name
@@ -16,5 +17,6 @@ export class Ingredient {
         this.brand = brand
         this.expirationDate = expirationDate
         this.batch = batch
+        this.stock = stock
     }
 }

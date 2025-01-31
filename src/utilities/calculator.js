@@ -1,4 +1,3 @@
-import { ingredientRepository } from "../../index.js";
 import { IngredientRecipe } from "../ingredientsRecipePibot/adapters.js";
 
 export class Calculator {
@@ -22,27 +21,24 @@ export class Calculator {
   }
   costRecipe(costParams) {
     const costPerIngredient = costParams.ingredients.map((ing) => {
-        return (ing.costPerKg / 1000 * ing.requiredQuantity).toFixed(2);
+      return (ing.costPerKg / 1000 * ing.requiredQuantity).toFixed(2);
     });
 
     const totalCost = costPerIngredient.reduce((acc, curr) => acc + parseFloat(curr), 0).toFixed(2);
     const costPerUnit = (totalCost / costParams.amount).toFixed(2);
 
     const ingredients = costParams.ingredients.map((ing, index) => {
-        const cost = costPerIngredient[index];
-        const percentage = ((cost / totalCost) * 100).toFixed(2);
+      const cost = costPerIngredient[index];
+      const percentage = ((cost / totalCost) * 100).toFixed(2);
 
-        return {
-            "Ingredient": ing.name,
-            "Cost Per Kg | mL": `$ ${parseFloat(ing.costPerKg).toLocaleString('es-ES')}`,
-            "Required Quantity": `${parseFloat(ing.requiredQuantity).toLocaleString('es-ES')} ${ing.unitOfMeasure}`,
-            "Cost": `$${parseFloat(cost).toLocaleString('es-ES')}`,
-            "Percentage": `${parseFloat(percentage).toLocaleString('es-ES')} %`
-        };
+      return {
+        name: ing.name,
+        costPerKg: ing.costPerKg,
+        requiredQuantity: ing.requiredQuantity,
+        cost,
+        percentage
+      };
     });
-
-    return { "Total Cost": `$ ${parseFloat(totalCost).toLocaleString('es-ES')}`, ingredients, "Cost Per Unit": `$ ${parseFloat(costPerUnit).toLocaleString('es-ES')}`,
-  };
-}
-
+    return { totalCost, ingredients, costPerUnit}
+  }
 }

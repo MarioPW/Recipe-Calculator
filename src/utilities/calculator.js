@@ -1,7 +1,5 @@
-import { IngredientRecipe } from "../ingredientsRecipePibot/adapters.js";
-
 export class Calculator {
-  calculateInProportion(recipeData, ingredients = IngredientRecipe) {
+  calculateInProportion(recipeData, ingredients) {
     const sumatory = ingredients
       .map((ing) => parseFloat(ing.weight))
       .reduce((a, b) => a + b);

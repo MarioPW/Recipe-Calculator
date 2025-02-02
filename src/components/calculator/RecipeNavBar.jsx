@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calculator } from '../../utilities/calculator';
 import { CalculatedRecipeModal } from './modals/CalculatedRecipeModal';
-import { NameModal } from './modals/NameModal';
 import { AmountWeightModal } from './modals/AmountWeightModal';
 import { IngredientRepo } from '../../ingredients/services';
 import { auth, db } from '../../firebaseConfig';
@@ -14,7 +13,6 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
 
     const [recipeIngredients, setRecipeIngredients] = useState([]);
     const [allIngredients, setAllIngredients] = useState([]);
-    const [nameModal, setNameModal] = useState(false);
     const [amountWeightModal, setamountWeightModal] = useState(false);
     const [addIngredientModal, setAddIngredientModal] = useState(false);
     const [amount, setAmount] = useState(0);
@@ -67,9 +65,6 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
     };
     const handleAddIngredientModal = () => {
         setAddIngredientModal(!addIngredientModal);
-    }
-    const handleSaveFeatures = () => {
-        setRecipeFeaturesModal(!recipeFeaturesModal);
     }
     const handleSaveAmountWeight = () => {
         setamountWeightModal(!amountWeightModal);
@@ -130,14 +125,8 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
                         <li>
                             <button
                                 className='myButton-yellow border-0 py-1'
-                                onClick={() => setNameModal(true)}
-                            >Edit Name</button>
-                        </li>
-                        <li>
-                            <button
-                                className='myButton-yellow border-0 py-1'
                                 onClick={() => setRecipeFeaturesModal(true)}
-                            >Recipe Features</button>
+                            >Features</button>
                         </li>
                         <li>
                             <button className='myButton-primary border-0 py-1'
@@ -164,18 +153,11 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
                 )}
 
             </nav>
-            {nameModal && (
-                <NameModal
-                    setNameModal={setNameModal}
-                    recipe={currentRecipe}
-                    setRecipe={setRecipe}
-                    />
-            )}
             {recipeFeaturesModal && (
                 <RecipeFeaturesModal
                 setRecipeFeaturesModal={setRecipeFeaturesModal}
-                handleSaveFeatures={handleSaveFeatures}
                 recipe={currentRecipe}
+                setRecipe={setRecipe}
                 />
             )}
             {convertionsModal && (

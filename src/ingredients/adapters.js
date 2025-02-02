@@ -1,22 +1,14 @@
 export class IngredientAdapter {
-    constructor({
-        name,
-        unitOfMeasure,
-        brand = null,
-        supplier = null,
-        costPerKg = null,
-        expirationDate = null,
-        batch = null,
-        stock = null
-        })
-    {
-        this.name = name
-        this.unitOfMeasure = unitOfMeasure
-        this.costPerKg = costPerKg
-        this.supplier = supplier
-        this.brand = brand
-        this.expirationDate = expirationDate
-        this.batch = batch
-        this.stock = stock
+    static adapt(ingredient) {
+        return {
+            name: ingredient.name,
+            unitOfMeasure: ingredient.unitOfMeasure,
+            brand: ingredient.brand || null,
+            supplier: ingredient.supplier || null,
+            costPerKg: ingredient.costPerKg || null,
+            expirationDate: ingredient.expirationDate || null,
+            batch: ingredient.batch || null,
+            stock: ingredient.stock || null,
+        };
     }
 }

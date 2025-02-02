@@ -51,11 +51,11 @@ export const MyRecipe = () => {
 
   const handleSaveChanges = async () => {
     if (recipeId !== "new"){
-      recipeRepo.update(recipe.ingredients, recipeId, recipe.name)
+      recipeRepo.update(recipe, recipeId)
     } else {
       const response = await recipeRepo.saveRecipe(recipe)
       navigate("/Recipe-Calculator/my-recipe/" + response.id)
-    }
+    } 
   }
 
   const handleDelete = () => {

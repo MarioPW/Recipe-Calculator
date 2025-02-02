@@ -52,11 +52,11 @@ export class RecipeRepo {
             console.error("Error parsing or retrieving data from localStorage:", error);
         }
     }
-    async update(updates, recipeId, name) { /* -> alert || error */
+    async update(updates, recipeId) { /* -> alert || error */
         try {
             const recipeDocRef = doc(this.db, "recipes", recipeId);
-            await setDoc(recipeDocRef, {userId: this.auth.currentUser.uid, ingredients: updates, name: name});
-            alert(`Recipe "${name}" updated successfully`)
+            await setDoc(recipeDocRef, {userId: this.auth.currentUser.uid, ...updates});
+            alert(`Recipe "${updates.name}" updated successfully`)
         } catch (error) {
             alert("Error updating recipe. Make sure you are logged in." + error);
         }

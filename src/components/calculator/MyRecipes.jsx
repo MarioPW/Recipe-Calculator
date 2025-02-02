@@ -31,6 +31,7 @@ export const MyRecipes = () => {
               <th scope="col">#</th>
               <th scope="col">Recipe Name</th>
               <th scope="col">Weight per unit</th>
+              <th scope="col">Is Subrecipe</th>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +39,8 @@ export const MyRecipes = () => {
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <td><Link to={`/Recipe-Calculator/my-recipe/${recipe.id}`}>{recipe.name || `Recipe ${index + 1}`}</Link></td>
-                <td>{recipe.weightPerUnit}</td>
+                <td>{recipe.productWeight}</td>
+                <td>{recipe.isSubRecipe ? 'Yes' : 'No'}</td>
               </tr>
             ))}
           </tbody>

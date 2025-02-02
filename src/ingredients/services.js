@@ -1,9 +1,12 @@
 import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
+import { IngredientAdapter } from "./adapters";
+
 export class IngredientRepo {
     constructor(db, auth) {
         this.db = db;
         this.auth = auth;
+        this.ingredientAdapter = new IngredientAdapter();
     }
     async saveIngredient(ingredient) {
         try {

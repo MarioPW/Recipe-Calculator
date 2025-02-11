@@ -8,7 +8,7 @@ export class RecipeAdapter {
             image: recipe.image || '',
             userId: recipe.userId,
             isSubRecipe: recipe.isSubRecipe || false,
-            prodoctWeight: recipe.prodoctWeight || 0
+            productWeight: recipe.productWeight || 0
         };
     }
 }

@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
-import { onAuthStateChanged, signOut  } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { basePath } from "../../main";
+import { signOut  } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { Link } from "react-router-dom";
-
+import { Menu } from "./calculator/Menu";
+import { useMainContext } from "../context/MainContext";
 
 export const NavBar = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser && currentUser.emailVerified) {
-        setUser({
-          email: currentUser.email,
-          displayName: currentUser.displayName || null,
-        });
-      } else {
-        setUser(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
+  const { user } = useMainContext()
+ const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      window.location.href = "/index.html";
+      navigate("/Recipe-Calculator");
       alert("Logged out successfully");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -36,7 +23,7 @@ export const NavBar = () => {
     <>
     <nav className="navbar navbar-expand-lg navbar-dark" id="navbarMain">
       <div className="container-fluid">
-        <Link className="navbar-brand text-light" to="/Recipe-Calculator">@PW Recipe Calculator</Link>
+        <Link className="navbar-brand text-light" to="/Recipe-Calculator"><img src="favicon.png" alt="@PW" style={{width: "30px"}} /> Recipe Calculator</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -60,23 +47,12 @@ export const NavBar = () => {
                     {user.displayName || user.email}
                   </a>
                 </li>
-                {/* <li className="nav-item list-group-item text-light fs-6">
-                  <a
-                    className="nav-link myButton-success"
-                    href={`${basePath}/templates/calculator.html`}
-                  >
-                    Go to Calculator
-                  </a>
-                </li> */}
-                <li>
-                  <Link to="/Recipe-Calculator/menu" className="btn myButton-success">Menu</Link>
-                </li>
+
                 <li className="nav-item list-group-item text-light fs-6">
                   <button className="btn myButton-success" onClick={handleLogout}>
                     Logout
                   </button>
                 </li>
-                
               </>
             ) : (
               <li className="nav-item list-group-item text-light fs-6">
@@ -87,6 +63,7 @@ export const NavBar = () => {
         </div>
       </div>
     </nav>
+    {user && <Menu />}
     </>
   );
 };

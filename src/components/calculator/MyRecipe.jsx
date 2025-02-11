@@ -12,16 +12,7 @@ import { ConfirmDeleteRecipe } from './Recipes/ConfirmDeleteRecipe';
 export const MyRecipe = () => {
   const { recipeId } = useParams()
   const navigate = useNavigate();
-  const [recipe, setRecipe] = useState({
-    name: 'New Recipe',
-    ingredients: [{
-      name: 'Remove this Field',
-      weight: 0,
-      unitOfMeasure: '',
-      id: ''
-    }],
-    userId: ''
-  })
+  const [recipe, setRecipe] = useState({})
   const [deleteRecipe, setDeleteRecipe] = useState(false)
   const [editIngredient, setEditIngredient] = useState(false)
   const [removeIngredient, setRemoveIngredient] = useState(false)
@@ -37,7 +28,7 @@ export const MyRecipe = () => {
         console.error('Error fetching recipe:', error);
       }
     };
-    recipeId !== "new" && fetchRecipe();
+    recipeId && fetchRecipe();
   }, [recipeId]);
   const handleEdit = (ingredient) => {
     setIngreident(ingredient)
@@ -50,7 +41,7 @@ export const MyRecipe = () => {
   }
 
   const handleSaveChanges = async () => {
-    if (recipeId !== "new"){
+    if (recipeId){
       recipeRepo.update(recipe, recipeId)
     } else {
       const response = await recipeRepo.saveRecipe(recipe)
@@ -66,7 +57,7 @@ export const MyRecipe = () => {
 
   return (
     <div>
-      {recipe.name !== 'New Recipe' ? (
+      {recipe ? (
         <div className="container">
           <RecipeNavBar currentRecipe={recipe} setRecipe={setRecipe} />
           <table className="table table-light table-striped table-bordered table-hover mw-25 mb-0">

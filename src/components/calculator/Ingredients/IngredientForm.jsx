@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import { IngredientRepo } from '../../../ingredients/services';
 import { auth, db } from '../../../firebaseConfig';
-import { IngredientAdapter } from '../../../ingredients/adapters';
 import { EditIngredientForm } from './EditIngredientForm';
 import { Spinner } from '../../../utilities/components/Spinner';
+import { useMainContext } from '../../../context/MainContext';
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
-  const ingredientRepository = new IngredientRepo(db, auth);
+  const { ingredientRepo } = useMainContext();
   const [ingredientData, setIngredientData] = useState({
     name: "",
     unitOfMeasure: "",
@@ -24,25 +24,24 @@ export const IngredientForm = () => {
   useEffect(() => {
     const fetchIngredient = async () => {
       try {
-        const fetchedIngredient = await ingredientRepository.getMyIngredientByid(ingredientId);
+        const fetchedIngredient = await ingredientRepo.getMyIngredientByid(ingredientId);
         setIngredientData(fetchedIngredient)
       } catch (error) {
         console.error('Error fetching Ingredients:', error);
       }
     }
-    ingredientId !== "new" && fetchIngredient();
+    ingredientId && fetchIngredient();
   }, [ingredientId])
   const handleSaveIngredient = (e) => {
     e.preventDefault();
-    const ingredient = new IngredientAdapter({ ...ingredientData })
-    ingredientRepository.saveIngredient(ingredient)
+    ingredientRepo.saveIngredient(ingredientData)
   }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setIngredientData({ ...ingredientData, [name]: value });
   }
   return (
-    <>{ ingredientId === "new" ? (
+    <>{ !ingredientId ? (
       <div className="">
         <header>
           <h4 className="bg-purple text-light p-2" id="ingredientHeader">New Ingredient:</h4>
@@ -109,7 +108,8 @@ export const IngredientForm = () => {
           </ul>
         </form>
       </div>
-    ) :  ingredientData.name !== "" ? <EditIngredientForm ingredientData={ingredientData} ingredientRepository={ingredientRepository}/> : <Spinner  />
+    ) : ingredientData.name !== "" ? <EditIngredientForm ingredientData={ingredientData} ingredientRepository={ingredientRepo}/>
+    : <Spinner />
     }</>
   )
 }

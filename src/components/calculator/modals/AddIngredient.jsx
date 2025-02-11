@@ -9,17 +9,17 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
             alert("You must enter a weight")
             return
         }
-        const add = {
+        const newIngredient = {
             id: ingredient.FSId,
             weight: weight,
             unitOfMeasure: ingredient.unitOfMeasure,
             name: ingredient.name
         }
-        const newRecipe = {
+        const updatedIngredients = (currentRecipe.ingredients || []).concat(newIngredient);
+        setRecipe({
             ...currentRecipe,
-            ingredients: [...currentRecipe.ingredients, add]
-        }
-        setRecipe(newRecipe);
+            ingredients: updatedIngredients,
+        });
         handleAddIngredientModal();
     }
     return (

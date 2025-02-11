@@ -1,5 +1,5 @@
 export class IngredientAdapter {
-    static adapt(ingredient) {
+    adapt(ingredient) {
         return {
             name: ingredient.name,
             unitOfMeasure: ingredient.unitOfMeasure,

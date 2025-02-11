@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
+import { useMainContext } from '../../../context/MainContext';
 
-export const EditIngredientForm = ({ ingredientData, ingredientRepository }) => {
+export const EditIngredientForm = ({ ingredientData }) => {
     const [ingredient, setIngredient] = useState(ingredientData);
     const [deleteModal, setDeleteModal] = useState(false);
     const [edited, setEdited] = useState(false);
+    const { ingredientRepo, ingredients, setIngredients } = useMainContext();
     const handleChange = (e) => {
         const { name, value } = e.target;
         setIngredient({ ...ingredient, [name]: value });
@@ -12,7 +14,8 @@ export const EditIngredientForm = ({ ingredientData, ingredientRepository }) => 
     const handleUpdateIngreident = (e) => {
         e.preventDefault();
         setEdited(true)
-        ingredientRepository.updateMyIngredient(ingredient.FSId, ingredient).then(() => setEdited(false))
+        ingredientRepo.updateMyIngredient(ingredient.FSId, ingredient).then(() => setEdited(false))
+        setIngredients(ingredients.map((item) => item.FSId === ingredient.FSId ? ingredient : item))
     }
     return (
         <>
@@ -62,7 +65,7 @@ export const EditIngredientForm = ({ ingredientData, ingredientRepository }) => 
 
                         <div className="col-md-3">
                             <label htmlFor="expirationDate" className="form-label">Expiration Date</label>
-                            <input type="date" name="expirationDate" className="form-control" id="expirationDate" onChange={(e) => handleChange(e)} />
+                            <input type="date" name="expirationDate" value={ingredient.expirationDate} className="form-control" id="expirationDate" onChange={(e) => handleChange(e)} />
                         </div>
 
                         <div className="col-md-3">
@@ -83,7 +86,7 @@ export const EditIngredientForm = ({ ingredientData, ingredientRepository }) => 
                     </div>
                 </ul>
             </form>
-            {deleteModal && <ConfirmDeleteModal ingredient={ingredient} setDeleteModal={setDeleteModal} ingredientRepository={ingredientRepository}/>}
+            {deleteModal && <ConfirmDeleteModal ingredient={ingredient} setDeleteModal={setDeleteModal} ingredientRepository={ingredientRepo}/>}
             </>)
 }
 

@@ -48,12 +48,14 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
                 const allIngredients = await ingredientRepository.getAllIngredients();
                 const sortedItems = allIngredients.sort((a, b) => a.name.localeCompare(b.name))
                 setAllIngredients(sortedItems);
+                
             } catch (error) {
                 console.error('Error fetching Ingredients:', error);
             }
         };
-        currentRecipe.name !== "New Recipe" ? fetchRecipeIngredients() : setRecipeIngredients([]);
+        currentRecipe && Object.keys(currentRecipe).length > 0 ? fetchRecipeIngredients() :
         fetchAllIngredients();
+        
     }, []);
 
     const handleAmountWeightModal = (operation) => {
@@ -100,6 +102,7 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
                     }
                     const traceabilityIngredients = recipeIngredients.map((ingredient) => {
                         const calculatedProportion = convertions.find(item => item.name === ingredient.name);
+
                         return {
                             name: ingredient.name,
                             unitOfMeasure: ingredient.unitOfMeasure,
@@ -110,6 +113,7 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
                     })
                     const traceabilityParams = { ...traceabilityHeader, ingredients: traceabilityIngredients }
                     console.log(traceabilityParams) // TODO: Show the traceability in a modal
+
                     break
                 } catch (error) {
                     alert(error)

@@ -6,16 +6,15 @@ import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { basePath } from "../../main.js";
 import { auth, firebaseErrors } from "../firebaseConfig.js"
-
+import { useNavigate } from 'react-router-dom';
 
 export const LoginRegister = () => {
     const [credentials, setCredentials] = useState({})
+    const navigate = useNavigate();
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
-        console.log(credentials);
     }
     const [showLogin, setShowLogin] = useState(true);
     const handleSocialLogin = async (provider, auth) => {
@@ -23,7 +22,7 @@ export const LoginRegister = () => {
             const response = await signInWithPopup(auth, provider);
             const userName = response.user.displayName || response.user.email;
             alert(`Welcome ${userName} !!!`);
-            window.location.href = "/menu";
+            navigate("/Recipe-Calculator");
         } catch (error) {
             alert(firebaseErrors[error.code] || "Error logging in")
         }
@@ -33,9 +32,9 @@ export const LoginRegister = () => {
         try {
             const user = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
             user.user.displayName !== null
-                ? alert("Wellcome " + user.user.displayName + " !!!")
+                ? alert("Wellcome " + user.user.displayName  + " !!!" )
                 : alert("Wellcome " + user.user.email + " !!!")
-            window.location.href = `${basePath}/templates/calculator.html`
+            navigate(`/Recipe-Calculator`);
         } catch (error) {
             alert(firebaseErrors[error.code] || "Error logging in")
         }

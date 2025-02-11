@@ -1,9 +1,13 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export const ConfirmDeleteModal = ({ ingredient, setDeleteModal, ingredientRepository }) => {
+    const navigate = useNavigate();
     const handleDeleteIngredient = (e) => {
         e.preventDefault();
         ingredientRepository.deleteMyIngredient(ingredient.FSId);
+        setDeleteModal(false)
+        navigate(`/Recipe-Calculator/my-ingredients`);
     }
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>

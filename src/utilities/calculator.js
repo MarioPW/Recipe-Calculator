@@ -39,4 +39,11 @@ export class Calculator {
     });
     return { totalCost, ingredients, costPerUnit}
   }
+  updateInventoryWithRecipe(recipe, ingredientsInventory) {
+    const updatedInventory = ingredientsInventory.map((ing) => {
+      const newQuantity = ing.stock - recipe.ingredients.find((ingred) => ingred.name === ing.name)?.requiredQuantity || 0;
+      return { ...ing, quantity: newQuantity };
+    });
+    return updatedInventory;
+  }
 }

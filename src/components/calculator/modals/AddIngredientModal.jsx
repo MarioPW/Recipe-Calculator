@@ -7,7 +7,7 @@ export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, s
     const [currentIngredient, setCurrentIngredient] = useState('');
 
     const handleWeightModal = (ingredient) => {
-        if (currentRecipe?.ingredients.some((item) => item.id === ingredient.FSId)) {
+        if (currentRecipe.ingredients?.some((item) => item.id === ingredient.FSId)) {
             alert('You already added this ingredient')
         }
         else {

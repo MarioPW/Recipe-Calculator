@@ -3,29 +3,23 @@ import { RecipeRepo } from '../../recipes/sevices';
 import { auth, db } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
 import { Spinner } from '../../utilities/components/Spinner';
+import { useMainContext } from '../../context/MainContext';
 
 export const MyRecipes = () => {
-  const [recipes, setRecipes] = useState([]);
+  const {recipes, setRecipes} = useMainContext();
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const recipeRepository = new RecipeRepo(db, auth);
-        const fetchedRecipes = await recipeRepository.getAllRecipes();
-        const sortedItems = fetchedRecipes.sort((a, b) => a.name.localeCompare(b.name))
+    const sortRecipes = () => {
+        const sortedItems = recipes.sort((a, b) => a.name.localeCompare(b.name))
         setRecipes(sortedItems);
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-      }
     };
-
-    fetchRecipes();
+    sortRecipes();
   }, []);
 
   return (
     <div className="table-responsive">
       {recipes.length > 0 ? (
-        <table className="table table-light table-bordered table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th scope="col">#</th>

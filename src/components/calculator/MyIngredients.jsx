@@ -1,27 +1,10 @@
 
 import React from 'react'
-import { useState, useEffect } from 'react';
-import { IngredientRepo } from '../../ingredients/services';
-import { auth, db } from '../../firebaseConfig';
 import { Spinner } from '../../utilities/components/Spinner';
 import { Link } from 'react-router-dom';
+import { useMainContext } from '../../context/MainContext';
 export const MyIngredients = () => {
-  const [ingredients, setIngredients] = useState([]);
-
-  useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        const ingredientRepository = new IngredientRepo(db, auth);
-        const fetchedIngredients = await ingredientRepository.getAllIngredients();
-        const sortedItems = fetchedIngredients.sort((a, b) => a.name.localeCompare(b.name))
-        setIngredients(sortedItems);
-      } catch (error) {
-        console.error('Error fetching Ingredients:', error);
-      }
-    };
-
-    fetchIngredients();
-  }, []);
+  const { ingredients } = useMainContext();
 
   return (
     <>

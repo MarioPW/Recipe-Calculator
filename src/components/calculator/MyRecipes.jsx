@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { RecipeRepo } from '../../recipes/sevices';
-import { auth, db } from '../../firebaseConfig';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from '../../utilities/components/Spinner';
 import { useMainContext } from '../../context/MainContext';
 
 export const MyRecipes = () => {
-  const {recipes, setRecipes} = useMainContext();
+  const { recipes, setRecipes } = useMainContext();
 
   useEffect(() => {
     const sortRecipes = () => {
-        const sortedItems = recipes.sort((a, b) => a.name.localeCompare(b.name))
-        setRecipes(sortedItems);
+      const sortedItems = recipes.sort((a, b) => a.name.localeCompare(b.name))
+      setRecipes(sortedItems);
     };
     sortRecipes();
   }, []);
@@ -19,7 +17,7 @@ export const MyRecipes = () => {
   return (
     <div className="table-responsive">
       {recipes.length > 0 ? (
-        <table className="table table-striped table-hover">
+        <table className="table table-light table-hover">
           <thead>
             <tr>
               <th scope="col">#</th>

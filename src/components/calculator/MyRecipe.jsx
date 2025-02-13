@@ -1,35 +1,33 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate , useParams } from 'react-router-dom'
-import { RecipeRepo } from '../../recipes/sevices';
-import { auth, db } from '../../firebaseConfig';
 import { Spinner } from '../../utilities/components/Spinner';
 import { RecipeNavBar } from './RecipeNavBar';
 import { EditRecipeIngredient } from './modals/EditRecipeIngredient';
 import { RemoveIngredientModal } from './modals/RemoveIngredientModal';
 import { ConfirmDeleteRecipe } from './Recipes/ConfirmDeleteRecipe';
+import { useMainContext } from '../../context/MainContext';
 
 export const MyRecipe = () => {
   const { recipeId } = useParams()
   const navigate = useNavigate();
-  const [recipe, setRecipe] = useState({})
   const [deleteRecipe, setDeleteRecipe] = useState(false)
   const [editIngredient, setEditIngredient] = useState(false)
   const [removeIngredient, setRemoveIngredient] = useState(false)
   const [ingredient, setIngreident] = useState({})
-  const recipeRepo = new RecipeRepo(db, auth)
+  const { recipeRepo, recipes, recipe, setRecipe } = useMainContext();
 
   useEffect(() => {
-    const fetchRecipe = async () => {
+    const loadRecipe = () => {
       try {
-        const response = await recipeRepo.getRecipeById(recipeId);
-        setRecipe(response);
+        const currentRecipe = recipes.find((recipe) => recipe.id === recipeId);
+        setRecipe(currentRecipe);
       } catch (error) {
-        console.error('Error fetching recipe:', error);
+        console.error('Error loading recipe:', error);
       }
     };
-    recipeId && fetchRecipe();
-  }, [recipeId]);
+    recipeId && loadRecipe();
+  }, [recipeId, recipes]);
   const handleEdit = (ingredient) => {
     setIngreident(ingredient)
     setEditIngredient(!editIngredient)
@@ -50,7 +48,7 @@ export const MyRecipe = () => {
   }
 
   const handleDelete = () => {
-    recipeId !== "new" ? recipeRepo.delete(recipeId).then(() => setDeleteRecipe(!deleteRecipe)) : alert ("You have not saved this recipe yet")
+    recipeId ? recipeRepo.delete(recipeId).then(() => setDeleteRecipe(!deleteRecipe)) : alert ("You have not saved this recipe yet")
     setDeleteRecipe(!deleteRecipe)
     navigate("/Recipe-Calculator/my-recipes")
   }

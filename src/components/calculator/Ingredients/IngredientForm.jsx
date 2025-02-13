@@ -1,15 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import { IngredientRepo } from '../../../ingredients/services';
-import { auth, db } from '../../../firebaseConfig';
 import { EditIngredientForm } from './EditIngredientForm';
 import { Spinner } from '../../../utilities/components/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
-  const { ingredientRepo } = useMainContext();
+  const { ingredientRepo, ingredients, setIngredients } = useMainContext();
   const [ingredientData, setIngredientData] = useState({
     name: "",
     unitOfMeasure: "",
@@ -34,24 +32,32 @@ export const IngredientForm = () => {
   }, [ingredientId])
   const handleSaveIngredient = (e) => {
     e.preventDefault();
-    ingredientRepo.saveIngredient(ingredientData)
+    if (ingredients.find((item) => item.name === ingredientData.name)) {
+      alert(`Ingredient named ${ingredientData.name} already exists`)
+      return
+    } else {
+       ingredientRepo.saveIngredient(ingredientData)
+       setIngredients([...ingredients, ingredientData])
+       console.log(ingredients)
+    } 
+
   }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setIngredientData({ ...ingredientData, [name]: value });
   }
   return (
-    <>{ !ingredientId ? (
+    <>{!ingredientId ? (
       <div className="">
         <header>
           <h4 className="bg-purple text-light p-2" id="ingredientHeader">New Ingredient:</h4>
         </header>
-        <form className="row form-control m-0" id="userIngredientsForm">
+        <form className="row form-control m-0" id="userIngredientsForm" onSubmit={(e) => handleSaveIngredient(e)}>
           <ul className="p-3 gap-2 rounded-0 mb-0">
             <div className="row">
               <div className="col-md-6">
                 <label htmlFor="name" className="form-label">Ingredient Name</label>
-                <input type="text" name="name" className="form-control" id="name" onChange={(e) => handleChange(e)} />
+                <input type="text" name="name" className="form-control" id="name" onChange={(e) => handleChange(e)} required/>
               </div>
               <div className="col-md-6">
                 <div className="col-md-6">
@@ -103,13 +109,13 @@ export const IngredientForm = () => {
             </div>
 
             <div className="d-flex gap-2 mt-2 justify-content-end">
-              <button className="btn myButton-primary" name="save" onClick={(e) => handleSaveIngredient(e)}>Save</button>
+              <button className="btn myButton-primary" name="save" type='submit'>Save</button>
             </div>
           </ul>
         </form>
       </div>
-    ) : ingredientData.name !== "" ? <EditIngredientForm ingredientData={ingredientData} ingredientRepository={ingredientRepo}/>
-    : <Spinner />
+    ) : ingredientData.name !== "" ? <EditIngredientForm ingredientData={ingredientData} ingredientRepository={ingredientRepo} />
+      : <Spinner />
     }</>
   )
 }

@@ -59,7 +59,8 @@ export class IngredientRepo {
         try {
             const ingredientDocRef = doc(this.db, "ingredients", id);
             await setDoc(ingredientDocRef, {FSUid: id, userId: this.auth.currentUser.uid, ...ingredient});
-            alert(`Ingerdient "${ingredient.name}" updated successfully`)
+            // alert(`Ingerdient "${ingredient.name}" updated successfully`)
+            return true
         } catch (error) {
             alert("Error updating ingredient. Make sure you are logged in.");
         }

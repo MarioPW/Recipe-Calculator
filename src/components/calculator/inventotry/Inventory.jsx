@@ -1,65 +1,69 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
-import { auth, db } from '../../../firebaseConfig';
-import { RecipeRepo } from '../../../recipes/sevices';
+import { useState } from 'react'
 import { Spinner } from '../../../utilities/components/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
 export const Inventory = () => {
-    const { ingredients , setIngredients} = useMainContext();
-    const [ recipes, setRecipes ] = useState([]);
-    const [ fireRecipeModal, setFireRecipeModal ] = useState(false);
+  const { ingredients, ingredientRepo } = useMainContext();
+  const [currentInventory, setCurrentInventory] = useState(ingredients);
+  const [fireRecipeModal, setFireRecipeModal] = useState(false);
 
-    useEffect(() => {
-        const fetchRecipes = async () => {
-            try {
-                const recipeRepository = new RecipeRepo(db, auth);
-                const fetchedRecipes = await recipeRepository.getAllRecipes();
-                const sortedItems = fetchedRecipes.sort((a, b) => a.name.localeCompare(b.name))
-                setRecipes(sortedItems);
-            } catch (error) {
-                console.error('Error fetching recipes:', error);
-            }
-        }
-
-        fetchRecipes();
-    }, [])
-
-
+  const updateIngredientsStock = () => {
+    const changedStockIngredients = currentInventory.filter((ingredient) => {
+      const matchingIngredient = ingredients.find((ing) => ing.name === ingredient.name);
+      return matchingIngredient && Number(ingredient.stock) !== Number(matchingIngredient.stock);
+    });
+    changedStockIngredients.forEach((ingredient) => {
+      ingredientRepo.updateMyIngredient(ingredient.FSId, ingredient);
+    })
+  }
   return (
-    <div>
+    <div className="container">
       {ingredients.length > 0 ? (
-        <div className='container w-75 m-auto max-vh-75'>
-        <table className='table table-light table-striped mb-0'>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Stock</th>
-            </tr>
-          </thead>
-          <tbody className='table-group-divider'>
-            {ingredients.map((ingredient) => (
-              <tr key={ingredient.FSId} className='table-striped'>
-                <td>{ingredient.name}</td>
-                <td>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className='container d-flex justify-content-end bg-light p-2 gap-2'>
-            <button className='myButton-success border-0 py-1 fw-bold' onClick={() => setFireRecipeModal(true)}>Fire Recipe</button>
-            <button className='myButton-purple border-0 py-1 fw-bold'>Update Ingredients Stock</button>
-            <button className='myButton-primary border-0 py-1' >Save Changes</button>
-            <button className='myButton-danger border-0 py-1' >Delete</button>
+        <div className="container w-100 px-2 px-md-3">
+          {/* Tabla responsive */}
+          <div className="table-responsive">
+            <table className="table table-light table-striped mb-0">
+              <thead className="text-center">
+                <tr>
+                  <th>Name</th>
+                  <th>Stock</th>
+                </tr>
+              </thead>
+              <tbody className="table-group-divider text-center">
+                {currentInventory.map((ingredient) => (
+                  <tr key={ingredient.FSId}>
+                    <td>{ingredient.name}</td>
+                    <td>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Contenedor de botones responsive */}
+          <div className="d-flex flex-wrap justify-content-center justify-content-md-end bg-light p-3 gap-2">
+            <button className="btn myButton-success fw-bold" onClick={() => setFireRecipeModal(true)}>
+              Fire Recipe
+            </button>
+            <button className="btn myButton-purple fw-bold" onClick={updateIngredientsStock}>
+              Update Ingredients Stock
+            </button>
+            <button className="btn myButton-primary" disabled>Save Inventory</button>
+            <button className="btn myButton-danger" disabled>Delete</button>
           </div>
         </div>
       ) : (
         <Spinner />
       )}
-      {fireRecipeModal && <FireRecipeModal
-        setFireRecipeModal={setFireRecipeModal}
-        recipes={recipes}
-        ingredients={ingredients} setIngredients={setIngredients} />}
+
+      {fireRecipeModal && (
+        <FireRecipeModal
+          setFireRecipeModal={setFireRecipeModal}
+          currentInventory={currentInventory}
+          setCurrentInventory={setCurrentInventory}
+        />
+      )}
     </div>
   )
 }

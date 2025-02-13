@@ -15,13 +15,14 @@ import { Inventory } from './components/calculator/inventotry/Inventory';
 import { useMainContext } from "./context/MainContext";
 
 function App() {
-  const { setUser, setIngredients, ingredientRepo } = useMainContext();
+  const { setUser, setIngredients, ingredientRepo, recipeRepo, setRecipes } = useMainContext();
 
   useEffect(() => {
     cleanLocalStorage()
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser && currentUser.emailVerified) {
-        ingredientRepo.getAllIngredients().then((res) => setIngredients(res));
+        ingredientRepo.getAllIngredients().then((res) => setIngredients(res.sort((a, b) => a.name.localeCompare(b.name))));
+        recipeRepo.getAllRecipes().then((res) => setRecipes(res.sort((a, b) => a.name.localeCompare(b.name))));
         setUser({
           email: currentUser.email,
           displayName: currentUser.displayName || null,

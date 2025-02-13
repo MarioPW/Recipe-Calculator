@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Calculator } from "../../../utilities/calculator";
 import { useMainContext } from "../../../context/MainContext";
 
-export const FireRecipeModal = ({ setFireRecipeModal, recipes }) => {
-  const { ingredients, setIngredients } = useMainContext();
+export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurrentInventory }) => {
+  const { recipes } = useMainContext();
   const [amount, setAmount] = useState({});
   const calculator = new Calculator();
   const [ validRecipes, setValidRecipes ] = useState([]);
@@ -29,7 +29,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, recipes }) => {
     });
   };
   const handleUpdateInventory = () => {
-    recipes.forEach((recipe) => {
+    validRecipes.forEach((recipe) => {
       if (amount[recipe.name] > 0) {
         const recipeData = {
           amount: amount[recipe.name],
@@ -38,16 +38,18 @@ export const FireRecipeModal = ({ setFireRecipeModal, recipes }) => {
         const recipeIngredients = recipe.ingredients
         const convertions = calculator.calculateInProportion(recipeData, recipeIngredients);
         // const updatedIngreidents = calculator.updateInventoryWithRecipe(convertions, ingredients);
-        const updatedIngredients = ingredients.map((ing) => {
+        const updatedIngredients = currentInventory.map((ing) => {
           const conversion = convertions.find((con) => con.name === ing.name)?.conversion || 0;
         return {
           ...ing,
           stock: parseFloat((ing.stock - conversion).toFixed(1)),
           }
         })
-        setIngredients(updatedIngredients);
+        setCurrentInventory(updatedIngredients);
+        setAmount({})
       }
-    });
+    })
+    setFireRecipeModal(false)
   }
 
   return (

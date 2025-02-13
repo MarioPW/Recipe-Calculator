@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
+import { useMainContext } from '../../../context/MainContext';
 
 export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe }) => {
+    const { recipes } = useMainContext()
     const [currentRecipe, setCurrentRecipe] = useState({
         name: recipe.name || '',
         description: recipe.description || '',
@@ -19,20 +21,23 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
         });
     }
     const handleSaveChanges = () => {
-        const updatedRecipe = {
-            ...recipe,
-            name: currentRecipe.name,
-            description: currentRecipe.description,
-            steps: currentRecipe.steps,
-            imageUrl: currentRecipe.imageUrl,
-            isSubRecipe: currentRecipe.isSubRecipe,
-            productWeight: currentRecipe.productWeight,
-        };
-
-        setRecipe(updatedRecipe);
-        setRecipeFeaturesModal(false);
-    };
-
+        if (recipes.find((r) => r.name === currentRecipe.name)) {
+            alert(`Recipe with name ${currentRecipe.name} already exists.`)
+            return
+        } else {
+            const updatedRecipe = {
+                ...recipe,
+                name: currentRecipe.name,
+                description: currentRecipe.description,
+                steps: currentRecipe.steps,
+                imageUrl: currentRecipe.imageUrl,
+                isSubRecipe: currentRecipe.isSubRecipe,
+                productWeight: currentRecipe.productWeight,
+            }
+            setRecipe(updatedRecipe);
+            setRecipeFeaturesModal(false);
+        }
+    }
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             <div className="modal-dialog modal-lg">
@@ -112,7 +117,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                                 </div>
 
                                 <div className="mb-3 form-check col-md-6">
-                                <label htmlFor="isSubRecipe" className="form-check-label">Is Sub-Recipe?</label>
+                                    <label htmlFor="isSubRecipe" className="form-check-label">Is Sub-Recipe?</label>
                                     <input
                                         id="isSubRecipe"
                                         type="checkbox"

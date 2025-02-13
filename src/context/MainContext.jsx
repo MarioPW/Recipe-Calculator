@@ -8,10 +8,11 @@ export const MainProvider = ({ children }) => {
     const [user, setUser] = useState([]);
     const [recipes, setRecipes] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [recipe, setRecipe] = useState({});
     const ingredientRepo = new IngredientRepo();
     const recipeRepo = new RecipeRepo ();
     return (
-        <MainContext.Provider value={{ user, setUser, recipes, setRecipes, ingredients, setIngredients, ingredientRepo, recipeRepo }}>
+        <MainContext.Provider value={{ user, setUser, recipes, setRecipes, ingredients, setIngredients, recipe, setRecipe, ingredientRepo, recipeRepo }}>
             {children}
         </MainContext.Provider>
     );

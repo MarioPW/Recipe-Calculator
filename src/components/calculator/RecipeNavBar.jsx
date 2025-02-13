@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Calculator } from '../../utilities/calculator';
 import { CalculatedRecipeModal } from './modals/CalculatedRecipeModal';
 import { AmountWeightModal } from './modals/AmountWeightModal';
-import { IngredientRepo } from '../../ingredients/services';
-import { auth, db } from '../../firebaseConfig';
 import { AddIngredientModal } from './modals/AddIngredientModal';
 import { RecipeFeaturesModal } from './modals/RecipeFeaturesModal';
+import { useMainContext } from '../../context/MainContext';
 
-export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
+export const RecipeNavBar = ({ currentRecipe }) => {
     const calculator = new Calculator();
-    const ingredientRepository = new IngredientRepo(db, auth);
+    const { ingredients, recipe, setRecipe } = useMainContext()
 
     const [recipeIngredients, setRecipeIngredients] = useState([]);
-    const [allIngredients, setAllIngredients] = useState([]);
     const [amountWeightModal, setamountWeightModal] = useState(false);
     const [addIngredientModal, setAddIngredientModal] = useState(false);
     const [amount, setAmount] = useState(0);
@@ -27,35 +25,25 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
         weightPerUnit,
         name: currentRecipe?.name
     }
+
     useEffect(() => {
-        const fetchRecipeIngredients = async () => {
+        const loadRecipeIngredients = () => {
             try {
-                const ingredientsPromises = currentRecipe.ingredients.map((ingredient) => {
-                    return ingredientRepository.getMyIngredientByid(ingredient.id)
+                const loadedRecipeIngredients = currentRecipe?.ingredients.map((ingredient) => {
+                    return ingredients.find((ing) => ing.name === ingredient.name) || { ingredient };
                 })
-                const fetchedIngredients = await Promise.all(ingredientsPromises)
                 const missingIngredient = currentRecipe.ingredients.find((ingredient, index) => {
-                    return !fetchedIngredients[index];
-                })
-                missingIngredient && setMissingIngredient(missingIngredient.name)
-                setRecipeIngredients(fetchedIngredients);
+                return !loadedRecipeIngredients[index];
+            })
+            missingIngredient && setMissingIngredient(missingIngredient.name)
+            setRecipeIngredients(loadedRecipeIngredients);
             } catch (error) {
-                console.error('Error fetching Ingredients:', error);
+                console.error('Error loading Ingredients:', error);
             }
+           
         };
-        const fetchAllIngredients = async () => {
-            try {
-                const allIngredients = await ingredientRepository.getAllIngredients();
-                const sortedItems = allIngredients.sort((a, b) => a.name.localeCompare(b.name))
-                setAllIngredients(sortedItems);
-                
-            } catch (error) {
-                console.error('Error fetching Ingredients:', error);
-            }
-        };
-        currentRecipe && Object.keys(currentRecipe).length > 0 ? fetchRecipeIngredients() :
-        fetchAllIngredients();
-        
+        loadRecipeIngredients()
+
     }, []);
 
     const handleAmountWeightModal = (operation) => {
@@ -151,7 +139,7 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
                     </ul></div>
                 {missingIngredient && (
                     <div className="alert alert-danger alert-dismissible fade show w-100 p-2" role="alert">
-                        <section className='fw-bold m-0'>Missing ingredient {missingIngredient}: <p className='fw-light mb-1'>This ingredient has not been added yet or has been deleted from your ingredients table. Please add it or delete it from your recipes or you will not be able to traceability or calculate your recipe correctly.</p></section>
+                        <section className='fw-bold m-0'>Missing ingredient {missingIngredient}: <p className='fw-light mb-1'>This ingredient has not been added yet or has been deleted from your ingredients table. Please add it or delete it from your recipes or you will not be able to traceability or cost your recipe correctly.</p></section>
                         <button type="button" className="btn-close p-3" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 )}
@@ -159,9 +147,9 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
             </nav>
             {recipeFeaturesModal && (
                 <RecipeFeaturesModal
-                setRecipeFeaturesModal={setRecipeFeaturesModal}
-                recipe={currentRecipe}
-                setRecipe={setRecipe}
+                    setRecipeFeaturesModal={setRecipeFeaturesModal}
+                    recipe={currentRecipe}
+                    setRecipe={setRecipe}
                 />
             )}
             {convertionsModal && (
@@ -186,7 +174,7 @@ export const RecipeNavBar = ({ currentRecipe, setRecipe }) => {
             {addIngredientModal && (
                 <AddIngredientModal
                     handleAddIngredientModal={handleAddIngredientModal}
-                    allIngredients={allIngredients}
+                    allIngredients={ingredients}
                     setRecipe={setRecipe}
                     currentRecipe={currentRecipe}
                 />

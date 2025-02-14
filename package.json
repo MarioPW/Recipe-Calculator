@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://marioPW.github.io/Recipe-Calculator",
+  "homepage": "https://mariopw.github.io/Recipe-Calculator",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -30,10 +30,9 @@ export const LoginRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const user = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
-            user.user.displayName !== null
-                ? alert("Wellcome " + user.user.displayName  + " !!!" )
-                : alert("Wellcome " + user.user.email + " !!!")
+            const response = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+            const userName = response.user.displayName || response.user.email;
+            alert(`Welcome ${userName} !!!`);
             navigate(`/Recipe-Calculator`);
         } catch (error) {
             alert(firebaseErrors[error.code] || "Error logging in")

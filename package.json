@@ -1,8 +1,9 @@
 {
   "name": "recipe-calculator",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "homepage": "https://marioPW.github.io/Recipe-Calculator",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

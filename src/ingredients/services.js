@@ -7,14 +7,16 @@ export class IngredientRepo {
     constructor() {
         this.db = db;
         this.auth = auth;
-        // this.ingredientAdapter = new IngredientAdapter();
+        this.ingredientAdapter = new IngredientAdapter();
     }
     async saveIngredient(ingredient) {
         try {
             const userId = this.auth.currentUser.uid;
-            // const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
+            const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
             const ingredientsCollectionRef = collection(this.db, `ingredients`);
-            const newIngredient = await addDoc(ingredientsCollectionRef, { userId: userId, ...ingredient });
+            const newIngredient = await addDoc(ingredientsCollectionRef, { userId: userId, ...adaptedIngredient });
+            console.log(adaptedIngredient)
+            console.log(ingredient)
             alert(`Ingerdient "${ingredient.name}" saved successfully`)
             return newIngredient.id
         } catch (error) {
@@ -57,9 +59,9 @@ export class IngredientRepo {
       }
     async updateMyIngredient(id, ingredient) {
         try {
+            const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
             const ingredientDocRef = doc(this.db, "ingredients", id);
-            await setDoc(ingredientDocRef, {FSUid: id, userId: this.auth.currentUser.uid, ...ingredient});
-            // alert(`Ingerdient "${ingredient.name}" updated successfully`)
+            await setDoc(ingredientDocRef, {FSUid: id, userId: this.auth.currentUser.uid, ...adaptedIngredient});
             return true
         } catch (error) {
             alert("Error updating ingredient. Make sure you are logged in.");

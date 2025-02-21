@@ -49,7 +49,6 @@ export const IngredientForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setIngredientData({ ...ingredientData, [name]: value })
-    console.log(ingredientData)
   }
   return (
     <>{!ingredientId ? (

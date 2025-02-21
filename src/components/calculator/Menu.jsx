@@ -22,7 +22,7 @@ export const Menu = ({signOut, auth}) => {
       <div className="container">
 
 
-        <Link className="navbar-brand text-light fs-6 fst-italic" to="/"><img src="/favicon.png" alt="@PW" style={{ width: "25px" }} /> Recipe Calculator</Link>
+        <Link className="navbar-brand text-light fs-6 fst-italic" to="/"><img src="favicon.png" alt="@PW" style={{ width: "25px" }} /> Recipe Calculator</Link>
 
         <ul className="d-flex flex-row align-items-center mb-0 gap-3">
           {user ? (
@@ -48,7 +48,7 @@ export const Menu = ({signOut, auth}) => {
 
         {/* <a className="navbar-brand" href="#">Offcanvas dark navbar</a> */}
         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-          <span className=""><img src="/pizza.svg" alt="menu" /></span>
+          <span className=""><img src="Pizza.svg" alt="menu" /></span>
         </button>
         <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">

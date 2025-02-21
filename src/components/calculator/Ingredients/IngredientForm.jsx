@@ -8,7 +8,8 @@ import { useMainContext } from '../../../context/MainContext';
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
   const { ingredientRepo, ingredients, setIngredients } = useMainContext();
-  const [ingredientData, setIngredientData] = useState({
+  const [ingredientData, setIngredientData] = useState()
+  const emptyIngredient = {
     name: "",
     unitOfMeasure: "",
     brand: "",
@@ -17,7 +18,7 @@ export const IngredientForm = () => {
     expirationDate: "",
     batch: "",
     stock: ""
-  })
+  }
 
   useEffect(() => {
     const fetchIngredient = async () => {
@@ -28,23 +29,27 @@ export const IngredientForm = () => {
         console.error('Error fetching Ingredients:', error);
       }
     }
-    ingredientId && fetchIngredient();
+    ingredientId ? fetchIngredient() : setIngredientData(emptyIngredient)
   }, [ingredientId])
-  const handleSaveIngredient = (e) => {
+  const handleSaveIngredient = async (e) => {
     e.preventDefault();
-    if (ingredients.find((item) => item.name === ingredientData.name)) {
-      alert(`Ingredient named ${ingredientData.name} already exists`)
-      return
-    } else {
-       ingredientRepo.saveIngredient(ingredientData)
-       setIngredients([...ingredients, ingredientData])
-       console.log(ingredients)
-    } 
 
-  }
+    if (ingredients.find((item) => item.name === ingredientData.name)) {
+        alert(`Ingredient named ${ingredientData.name} already exists`);
+        return;
+    }
+    try {
+        const newIngredientId = await ingredientRepo.saveIngredient(ingredientData)
+        setIngredients([...ingredients, { ...ingredientData, FSId: newIngredientId }])
+        setIngredientData()
+    } catch (error) {
+        console.error("Error saving ingredient:", error);
+    }
+};
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setIngredientData({ ...ingredientData, [name]: value });
+    setIngredientData({ ...ingredientData, [name]: value })
+    console.log(ingredientData)
   }
   return (
     <>{!ingredientId ? (
@@ -114,7 +119,7 @@ export const IngredientForm = () => {
           </ul>
         </form>
       </div>
-    ) : ingredientData.name !== "" ? <EditIngredientForm ingredientData={ingredientData} ingredientRepository={ingredientRepo} />
+    ) : ingredientData ? <EditIngredientForm ingredientData={ingredientData} ingredientRepository={ingredientRepo} />
       : <Spinner />
     }</>
   )

@@ -7,7 +7,7 @@ export const ConfirmDeleteModal = ({ ingredient, setDeleteModal, ingredientRepos
         e.preventDefault();
         ingredientRepository.deleteMyIngredient(ingredient.FSId);
         setDeleteModal(false)
-        navigate(`/Recipe-Calculator/my-ingredients`);
+        navigate(`/my-ingredients`);
     }
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>

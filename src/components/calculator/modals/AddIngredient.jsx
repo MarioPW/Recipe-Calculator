@@ -10,10 +10,11 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
             return
         }
         const newIngredient = {
-            id: ingredient.FSId,
+            id: ingredient.FSId || ingredient.id,
             weight: weight,
-            unitOfMeasure: ingredient.unitOfMeasure,
-            name: ingredient.name
+            unitOfMeasure: ingredient.unitOfMeasure || "g",
+            name: ingredient.name,
+            isSubRecipe: ingredient.isSubRecipe || false
         }
         const updatedIngredients = (currentRecipe.ingredients || []).concat(newIngredient);
         setRecipe({

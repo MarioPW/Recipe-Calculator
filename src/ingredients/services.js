@@ -14,9 +14,9 @@ export class IngredientRepo {
             const userId = this.auth.currentUser.uid;
             // const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
             const ingredientsCollectionRef = collection(this.db, `ingredients`);
-            await addDoc(ingredientsCollectionRef, { userId: userId, ...ingredient });
+            const newIngredient = await addDoc(ingredientsCollectionRef, { userId: userId, ...ingredient });
             alert(`Ingerdient "${ingredient.name}" saved successfully`)
-            return true
+            return newIngredient.id
         } catch (error) {
             alert("Error adding ingredient. Make sure you are logged in.");
             return false

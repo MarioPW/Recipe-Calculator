@@ -30,8 +30,8 @@ export const MyRecipes = () => {
             {recipes.map((recipe, index) => (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
-                <td><Link to={`/Recipe-Calculator/my-recipe/${recipe.id}`}>{recipe.name || `Recipe ${index + 1}`}</Link></td>
-                <td>{recipe.productWeight}</td>
+                <td><Link to={`/my-recipe/${recipe.id}`}>{recipe.name || `Recipe ${index + 1}`}</Link></td>
+                <td>{recipe.id}</td>
                 <td>{recipe.isSubRecipe ? 'Yes' : 'No'}</td>
               </tr>
             ))}

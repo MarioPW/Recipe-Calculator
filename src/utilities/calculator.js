@@ -9,9 +9,8 @@ export class Calculator {
     const calculatedRecipe = ingredients.map((ingredient, i) => {
       const conversion = (totalRequiredDought * percentages[i]);
       return {
-        name: ingredient.name,
+        ...ingredient,
         conversion: conversion.toFixed(1),
-        unitOfMeasure: ingredient.unitOfMeasure
       };
     });
 
@@ -37,13 +36,17 @@ export class Calculator {
         percentage
       };
     });
-    return { totalCost, ingredients, costPerUnit}
+    return { totalCost, ingredients, costPerUnit }
   }
-  updateInventoryWithRecipe(recipe, ingredientsInventory) {
-    const updatedInventory = ingredientsInventory.map((ing) => {
-      const newQuantity = ing.stock - recipe.ingredients.find((ingred) => ingred.name === ing.name)?.requiredQuantity || 0;
-      return { ...ing, quantity: newQuantity };
-    });
+  updateInventoryWithRecipe(currentInventory, conversions) {
+    const updatedInventory = currentInventory.map((ing) => {
+      const conversion = conversions.find((con) => con.name === ing.name)?.conversion || 0;
+      return {
+        ...ing,
+        stock: parseFloat(( parseFloat(ing.stock) - parseFloat(conversion)).toFixed(1)),
+        updated: conversion > 0 ? true : ing.updated
+      }
+    })
     return updatedInventory;
   }
 }

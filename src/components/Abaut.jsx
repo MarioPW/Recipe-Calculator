@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Abaut = () => {
   return (
-    <div className="mt-2" id="info">
+    <div className="mt-5" id="info">
       <div className="d-flex justify-content-center mb-3">
         <div className="card text-bg-dark p-3">
           <ul>

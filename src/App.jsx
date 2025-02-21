@@ -20,33 +20,41 @@ function App() {
   useEffect(() => {
     cleanLocalStorage()
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser && currentUser.emailVerified) {
-        ingredientRepo.getAllIngredients().then((res) => setIngredients(res.sort((a, b) => a.name.localeCompare(b.name))));
-        recipeRepo.getAllRecipes().then((res) => setRecipes(res.sort((a, b) => a.name.localeCompare(b.name))));
-        setUser({
-          email: currentUser.email,
-          displayName: currentUser.displayName || null,
-        });
+      if (currentUser) {
+        try {
+          const ingredients = await ingredientRepo.getAllIngredients();
+          setIngredients(ingredients.sort((a, b) => a.name.localeCompare(b.name)));
+
+          const recipes = await recipeRepo.getAllRecipes();
+          setRecipes(recipes.sort((a, b) => a.name.localeCompare(b.name)));
+          setUser({
+            email: currentUser.email,
+            displayName: currentUser.displayName || null,
+          });
+
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
       } else {
         setUser(null);
       }
     });
 
     return () => unsubscribe();
-  }, [auth]);
+  }, []);
 
   return (
     <>
       <NavBar />
       <Routes>
-        <Route path="/Recipe-Calculator" element={<Abaut />} />
-        <Route path="/Recipe-Calculator/login-register" element={<LoginRegister />} />
-        <Route path="/Recipe-Calculator/my-recipes" element={<MyRecipes />} />
-        <Route path="/Recipe-Calculator/recipe/:recipeId?" element={<RecipeForm />} />
-        <Route path="/Recipe-Calculator/my-recipe/:recipeId?" element={<MyRecipe />} />
-        <Route path="/Recipe-Calculator/my-ingredients" element={<MyIngredients />} />
-        <Route path="/Recipe-Calculator/ingredient/:ingredientId?" element={<IngredientForm />} />
-        <Route path="/Recipe-Calculator/inventory" element={<Inventory />} />
+        <Route path="/" element={<Abaut />} />
+        <Route path="/login-register" element={<LoginRegister />} />
+        <Route path="/my-recipes" element={<MyRecipes />} />
+        <Route path="/recipe/:recipeId?" element={<RecipeForm />} />
+        <Route path="/my-recipe/:recipeId?" element={<MyRecipe />} />
+        <Route path="/my-ingredients" element={<MyIngredients />} />
+        <Route path="/ingredient/:ingredientId?" element={<IngredientForm />} />
+        <Route path="/inventory" element={<Inventory />} />
       </Routes>
     </>
   )

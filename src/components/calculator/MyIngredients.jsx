@@ -25,7 +25,7 @@ export const MyIngredients = () => {
           <tbody className='table-group-divider'>
             {ingredients.map((ingredient) => (
               <tr key={ingredient.FSId} className='table-striped'>
-                <td><Link to={`/Recipe-Calculator/ingredient/${ingredient.FSId}`}>{ingredient.name}</Link> </td>
+                <td><Link to={`/ingredient/${ingredient.FSId}`}>{ingredient.name}</Link> </td>
                 <td>{ingredient.stock}</td>
                 <td>{ingredient.unitOfMeasure}</td>
                 <td>{ingredient.brand}</td>

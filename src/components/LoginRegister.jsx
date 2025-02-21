@@ -8,10 +8,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { auth, firebaseErrors } from "../firebaseConfig.js"
 import { useNavigate } from 'react-router-dom';
+import { useMainContext } from '../context/MainContext';
 
 export const LoginRegister = () => {
     const [credentials, setCredentials] = useState({})
     const navigate = useNavigate();
+    const { setUser } = useMainContext();
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
@@ -22,7 +24,7 @@ export const LoginRegister = () => {
             const response = await signInWithPopup(auth, provider);
             const userName = response.user.displayName || response.user.email;
             alert(`Welcome ${userName} !!!`);
-            navigate("/Recipe-Calculator");
+            navigate("/");
         } catch (error) {
             alert(firebaseErrors[error.code] || "Error logging in")
         }
@@ -32,8 +34,9 @@ export const LoginRegister = () => {
         try {
             const response = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
             const userName = response.user.displayName || response.user.email;
+            // setUser(response.user)
             alert(`Welcome ${userName} !!!`);
-            navigate(`/Recipe-Calculator`);
+            navigate(`/`);
         } catch (error) {
             alert(firebaseErrors[error.code] || "Error logging in")
         }

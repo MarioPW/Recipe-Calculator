@@ -21,7 +21,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
         });
     }
     const handleSaveChanges = () => {
-        if (recipes.find((r) => r.name === currentRecipe.name)) {
+        if (recipes.find((r) => r.name === currentRecipe.name) && currentRecipe.name !== recipe.name) {
             alert(`Recipe with name ${currentRecipe.name} already exists.`)
             return
         } else {

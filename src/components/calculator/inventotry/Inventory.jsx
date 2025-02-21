@@ -18,12 +18,12 @@ export const Inventory = () => {
     })
   }
   return (
-    <div className="container">
+    <>
       {ingredients.length > 0 ? (
-        <div className="container w-100 px-2 px-md-3">
-          {/* Tabla responsive */}
+        <div className="w-100">
+          {/* Table */}
           <div className="table-responsive">
-            <table className="table table-light table-striped mb-0">
+            <table className="table table-light mb-0">
               <thead className="text-center">
                 <tr>
                   <th>Name</th>
@@ -34,7 +34,7 @@ export const Inventory = () => {
                 {currentInventory.map((ingredient) => (
                   <tr key={ingredient.FSId}>
                     <td>{ingredient.name}</td>
-                    <td>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
+                    <td  className={ingredient.updated ? "bg-info" : "" }>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
                   </tr>
                 ))}
               </tbody>
@@ -64,6 +64,6 @@ export const Inventory = () => {
           setCurrentInventory={setCurrentInventory}
         />
       )}
-    </div>
+    </>
   )
 }

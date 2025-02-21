@@ -3,16 +3,18 @@ import { Calculator } from '../../utilities/calculator';
 import { CalculatedRecipeModal } from './modals/CalculatedRecipeModal';
 import { AmountWeightModal } from './modals/AmountWeightModal';
 import { AddIngredientModal } from './modals/AddIngredientModal';
+import { AddSubRecipeModal } from './modals/AddSubRecipeModal';
 import { RecipeFeaturesModal } from './modals/RecipeFeaturesModal';
 import { useMainContext } from '../../context/MainContext';
 
 export const RecipeNavBar = ({ currentRecipe }) => {
     const calculator = new Calculator();
-    const { ingredients, recipe, setRecipe } = useMainContext()
+    const { ingredients, setRecipe, recipes } = useMainContext()
 
     const [recipeIngredients, setRecipeIngredients] = useState([]);
     const [amountWeightModal, setamountWeightModal] = useState(false);
     const [addIngredientModal, setAddIngredientModal] = useState(false);
+    const [addSubRecipeModal, setAddSubRecipeModal] = useState(false);
     const [amount, setAmount] = useState(0);
     const [operation, setOperation] = useState("");
     const [weightPerUnit, setWeightPerUnit] = useState(0);
@@ -29,18 +31,18 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     useEffect(() => {
         const loadRecipeIngredients = () => {
             try {
-                const loadedRecipeIngredients = currentRecipe?.ingredients.map((ingredient) => {
+                const loadedRecipeIngredients = currentRecipe?.ingredients?.map((ingredient) => {
                     return ingredients.find((ing) => ing.name === ingredient.name) || { ingredient };
                 })
-                const missingIngredient = currentRecipe.ingredients.find((ingredient, index) => {
-                return !loadedRecipeIngredients[index];
-            })
-            missingIngredient && setMissingIngredient(missingIngredient.name)
-            setRecipeIngredients(loadedRecipeIngredients);
+                const missingIngredient = currentRecipe.ingredients?.find((ingredient, index) => {
+                    return !loadedRecipeIngredients[index];
+                })
+                missingIngredient && setMissingIngredient(missingIngredient.name)
+                setRecipeIngredients(loadedRecipeIngredients);
             } catch (error) {
                 console.error('Error loading Ingredients:', error);
             }
-           
+
         };
         loadRecipeIngredients()
 
@@ -55,6 +57,9 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     };
     const handleAddIngredientModal = () => {
         setAddIngredientModal(!addIngredientModal);
+    }
+    const handleAddSubRecipeModal = () => {
+        setAddSubRecipeModal(!addSubRecipeModal);
     }
     const handleSaveAmountWeight = () => {
         setamountWeightModal(!amountWeightModal);
@@ -110,40 +115,98 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     }
     return (
         <>
-            <nav className='navbar bg-body-tertiary d-flex justify-content-end p-2 items-center p-3'>
+            <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary p-3">
                 <div className="container-fluid">
-                    {currentRecipe ? <p className='fw-bold mb-0'>{currentRecipe.name}</p> : <p className='fw-bold mb-0'>New Recipe</p>}
-                    <ul className='block d-md-flex gap-2 list-unstyled mb-0'>
-                        <li>
-                            <button
-                                className='myButton-yellow border-0 py-1'
-                                onClick={() => setRecipeFeaturesModal(true)}
-                            >Features</button>
-                        </li>
-                        <li>
-                            <button className='myButton-primary border-0 py-1'
-                                onClick={() => handleAmountWeightModal("Calculate")} >Calculate</button>
-                        </li>
-                        <li>
-                            <button className='myButton-primary border-0 py-1'
-                                onClick={() => handleAmountWeightModal("Cost")}>Cost $</button>
-                        </li>
-                        <li>
-                            <button className='myButton-purple border-0 py-1'
-                                onClick={() => handleAmountWeightModal("Make Traceability")}>Traceability</button>
-                        </li>
-                        <li>
-                            <button className='myButton-purple border-0 py-1'
-                                onClick={handleAddIngredientModal}>Add Ingredient</button>
-                        </li>
-                    </ul></div>
+                    <h3 className="navbar-brand fw-bold">
+                        {currentRecipe.name && currentRecipe.name}
+                    </h3>
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
+                            <li className="nav-item">
+                                <button
+                                    className="btn myButton-yellow"
+                                    onClick={() => setRecipeFeaturesModal(true)}
+                                >
+                                    Features
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button
+                                    className="btn myButton-primary"
+                                    onClick={() => handleAmountWeightModal("Calculate")}
+                                >
+                                    Calculate
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button
+                                    className="btn myButton-primary"
+                                    onClick={() => handleAmountWeightModal("Cost")}
+                                >
+                                    Cost $
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button
+                                    className="btn myButton-purple"
+                                    onClick={() => handleAmountWeightModal("Make Traceability")}
+                                >
+                                    Traceability
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button
+                                    className="btn myButton-purple"
+                                    onClick={handleAddIngredientModal}
+                                >
+                                    Add Ingredient
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button
+                                    className="btn myButton-success fw-bold"
+                                    onClick={handleAddSubRecipeModal}
+                                >
+                                    Add SubRecipe
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
                 {missingIngredient && (
-                    <div className="alert alert-danger alert-dismissible fade show w-100 p-2" role="alert">
-                        <section className='fw-bold m-0'>Missing ingredient {missingIngredient}: <p className='fw-light mb-1'>This ingredient has not been added yet or has been deleted from your ingredients table. Please add it or delete it from your recipes or you will not be able to traceability or cost your recipe correctly.</p></section>
-                        <button type="button" className="btn-close p-3" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div
+                        className="alert alert-danger alert-dismissible fade show w-100 p-2"
+                        role="alert"
+                    >
+                        <section className="fw-bold m-0">
+                            Missing ingredient {missingIngredient}:
+                            <p className="fw-light mb-1">
+                                This ingredient has not been added yet or has been deleted from your
+                                ingredients table. Please add it or delete it from your recipes or you
+                                will not be able to traceability or cost your recipe correctly.
+                            </p>
+                        </section>
+                        <button
+                            type="button"
+                            className="btn-close p-3"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"
+                        ></button>
                     </div>
                 )}
-
             </nav>
             {recipeFeaturesModal && (
                 <RecipeFeaturesModal
@@ -175,6 +238,14 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                 <AddIngredientModal
                     handleAddIngredientModal={handleAddIngredientModal}
                     allIngredients={ingredients}
+                    setRecipe={setRecipe}
+                    currentRecipe={currentRecipe}
+                />
+            )}
+            {addSubRecipeModal && (
+                <AddSubRecipeModal
+                handleAddSubRecipeModal={handleAddSubRecipeModal}
+                recipes={recipes}
                     setRecipe={setRecipe}
                     currentRecipe={currentRecipe}
                 />

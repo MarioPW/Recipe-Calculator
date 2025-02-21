@@ -30,7 +30,7 @@ export class RecipeRepo {
             const querySnapshot = collection(this.db, "recipes");
             const response = await addDoc(querySnapshot, {...recipe, userId: this.auth.currentUser.uid});
             alert(`Recipe "${recipe.name}" saved successfully`)
-            return (response)
+            return response
         } catch (error) {
             console.error("Error parsing or saving data to localStorage:", error);
             return false;

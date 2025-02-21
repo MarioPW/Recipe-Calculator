@@ -6,8 +6,8 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
   const { recipes } = useMainContext();
   const [amount, setAmount] = useState({});
   const calculator = new Calculator();
-  const [ validRecipes, setValidRecipes ] = useState([]);
-  const [ invalidRecipes, setInvalidRecipes ] = useState([]);
+  const [validRecipes, setValidRecipes] = useState([]);
+  const [invalidRecipes, setInvalidRecipes] = useState([]);
 
   useEffect(() => {
     const validRecipes = recipes.filter((recipe) => recipe.productWeight && !recipe.isSubRecipe);
@@ -29,27 +29,40 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
     });
   };
   const handleUpdateInventory = () => {
-    validRecipes.forEach((recipe) => {
-      if (amount[recipe.name] > 0) {
-        const recipeData = {
-          amount: amount[recipe.name],
-          weightPerUnit: recipe.productWeight,
+  let updatedInventory = currentInventory;
+
+  validRecipes.forEach((recipe) => {
+    if (amount[recipe.name] > 0) {
+      const recipeData = {
+        amount: amount[recipe.name],
+        weightPerUnit: recipe.productWeight,
+      };
+
+      const conversions = calculator.calculateInProportion(recipeData, recipe.ingredients);
+      const baseConversions = conversions.filter((r) => !r.isSubRecipe);
+      const subRecipeConversions = conversions.filter((r) => r.isSubRecipe);
+
+      updatedInventory = calculator.updateInventoryWithRecipe(updatedInventory, baseConversions);
+
+      subRecipeConversions.forEach((subRecipe) => {
+        const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
+        if (subRecipeWithIngredients) {
+          const subRecipeData = {
+            amount: 1,
+            weightPerUnit: subRecipe.conversion,
+          };
+
+          const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
+          updatedInventory = calculator.updateInventoryWithRecipe(updatedInventory, subRecipeCalc);
         }
-        const recipeIngredients = recipe.ingredients
-        const convertions = calculator.calculateInProportion(recipeData, recipeIngredients);
-        // const updatedIngreidents = calculator.updateInventoryWithRecipe(convertions, ingredients);
-        const updatedIngredients = currentInventory.map((ing) => {
-          const conversion = convertions.find((con) => con.name === ing.name)?.conversion || 0;
-        return {
-          ...ing,
-          stock: parseFloat((ing.stock - conversion).toFixed(1)),
-          }
-        })
-        setCurrentInventory(updatedIngredients);
-        setAmount({})
-      }
-    })
-    setFireRecipeModal(false)
+      });
+
+      setAmount({});
+    }
+  });
+
+  setCurrentInventory(updatedInventory);
+  setFireRecipeModal(false);
   }
 
   return (
@@ -72,7 +85,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
               onClick={() => setFireRecipeModal(false)}
             ></button>
           </div>
-          <div className="modal-body">
+          <div>
             <div className="container">
               <table className="table table-striped">
                 <thead>
@@ -102,7 +115,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
                         > -
                         </button>
                       </td>
-                    </tr> ))}
+                    </tr>))}
                 </tbody>
               </table>
 

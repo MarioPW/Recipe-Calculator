@@ -38,6 +38,7 @@ export const EditIngredientForm = ({ ingredientData }) => {
                                     <option value="" name="">Choose...</option>
                                     {/* <!-- <option value="Kg" name="Kg">Kg</option> --> */}
                                     <option value="g" name="g">g</option>
+                                    <option value="und" name="und">und</option>
                                     {/* <!-- <option value="lb" name="lb">lb</option> --> */}
                                     {/* <!-- <option value="L" name="L">L</option> --> */}
                                     <option value="mL" name="mL">mL</option>
@@ -86,7 +87,7 @@ export const EditIngredientForm = ({ ingredientData }) => {
                     </div>
                 </ul>
             </form>
-            {deleteModal && <ConfirmDeleteModal ingredient={ingredient} setDeleteModal={setDeleteModal} ingredientRepository={ingredientRepo}/>}
-            </>)
+            {deleteModal && <ConfirmDeleteModal ingredient={ingredient} setDeleteModal={setDeleteModal} ingredientRepository={ingredientRepo} />}
+        </>)
 }
 

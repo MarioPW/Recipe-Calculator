@@ -37,14 +37,14 @@ export const Inventory = () => {
         <div className="w-100">
         
         <div className="d-flex flex-wrap justify-content-center justify-content-md-end bg-light p-3 gap-2">
-          <button className="btn myButton-success fw-bold" onClick={() => setFireRecipeModal(true)}>
+          <button className="myButton-success fw-bold border-0 py-2" onClick={() => setFireRecipeModal(true)}>
             Fire Recipe
           </button>
-          <button className="btn myButton-purple fw-bold" onClick={updateIngredientsStock}>
+          <button className="myButton-purple fw-bold border-0 py-2" onClick={updateIngredientsStock}>
             Update Ingredients Stock
           </button>
-          <button className="btn myButton-primary" disabled>Save Inventory</button>
-          <button className="btn myButton-danger" disabled>Delete</button>
+          {/* <button className="myButton-primary border-0 py-2" disabled>Save Inventory</button>
+          <button className="myButton-danger border-0 py-2" disabled>Delete</button> */}
         </div>
         
           {/* Table */}

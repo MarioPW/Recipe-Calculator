@@ -1,7 +1,7 @@
 import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { db, auth } from "../firebaseConfig";
 
-import { IngredientAdapter } from "./adapters";
+import { IngredientAdapter } from "../adapters/ingredientAdapters";
 
 export class IngredientRepo {
     constructor() {

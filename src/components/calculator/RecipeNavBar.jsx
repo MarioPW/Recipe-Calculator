@@ -118,7 +118,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
             <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary p-3">
                 <div className="container-fluid">
                     <h3 className="navbar-brand fw-bold">
-                        {currentRecipe.name && currentRecipe.name}
+                        {currentRecipe.name && currentRecipe.name + " X " + currentRecipe.productWeight + " g"}
                     </h3>
                     <button
                         className="navbar-toggler"
@@ -135,7 +135,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
                             <li className="nav-item">
                                 <button
-                                    className="btn myButton-yellow"
+                                    className="myButton-yellow border-0 py-1"
                                     onClick={() => setRecipeFeaturesModal(true)}
                                 >
                                     Features
@@ -143,7 +143,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                             </li>
                             <li className="nav-item">
                                 <button
-                                    className="btn myButton-primary"
+                                    className="myButton-primary border-0 py-1"
                                     onClick={() => handleAmountWeightModal("Calculate")}
                                 >
                                     Calculate
@@ -151,7 +151,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                             </li>
                             <li className="nav-item">
                                 <button
-                                    className="btn myButton-primary"
+                                    className="myButton-primary border-0 py-1"
                                     onClick={() => handleAmountWeightModal("Cost")}
                                 >
                                     Cost $
@@ -159,7 +159,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                             </li>
                             <li className="nav-item">
                                 <button
-                                    className="btn myButton-purple"
+                                    className="myButton-purple  border-0 py-1"
                                     onClick={() => handleAmountWeightModal("Make Traceability")}
                                 >
                                     Traceability
@@ -167,7 +167,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                             </li>
                             <li className="nav-item">
                                 <button
-                                    className="btn myButton-purple"
+                                    className="myButton-purple border-0 py-1"
                                     onClick={handleAddIngredientModal}
                                 >
                                     Add Ingredient
@@ -175,7 +175,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                             </li>
                             <li className="nav-item">
                                 <button
-                                    className="btn myButton-success fw-bold"
+                                    className="myButton-success fw-bold border-0 py-1"
                                     onClick={handleAddSubRecipeModal}
                                 >
                                     Add SubRecipe

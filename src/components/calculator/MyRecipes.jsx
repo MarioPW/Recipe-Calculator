@@ -17,6 +17,8 @@ export const MyRecipes = () => {
   return (
     <div className="table-responsive">
       {recipes.length > 0 ? (
+        <>
+        <h5 className='bg-light p-2 mb-0 border-bottom'>My Recipes</h5>
         <table className="table table-light table-hover">
           <thead>
             <tr>
@@ -31,12 +33,13 @@ export const MyRecipes = () => {
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <td><Link to={`/my-recipe/${recipe.id}`}>{recipe.name || `Recipe ${index + 1}`}</Link></td>
-                <td>{recipe.id}</td>
+                <td>{recipe.productWeight}</td>
                 <td>{recipe.isSubRecipe ? 'Yes' : 'No'}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        </>
       ) : (
         <Spinner />
       )}

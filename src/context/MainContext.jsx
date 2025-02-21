@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from "react";
-import { IngredientRepo } from "../ingredients/services";
-import { RecipeRepo } from "../recipes/sevices";
+import { IngredientRepo } from "../services/IngredientServices";
+import { RecipeRepo } from "../services/recipeServices";
 
 export const MainContext = createContext();
 

@@ -22,7 +22,7 @@ export const NavBar = () => {
   return (
     <>
   {  !user?  (<nav className="navbar navbar-dark">
-        <Link className="navbar-brand text-light fs-6 fst-italic" to="/"><img src="favicon.png" alt="@PW" style={{ width: "30px" }} /> Recipe Calculator</Link>
+        <Link className="navbar-brand text-light fs-6 fst-italic" to="/"><img src="favicon.png" alt="@PW" style={{ width: "30px" }} /> Recipe Calculator Navbar</Link>
 
         <ul className="d-flex flex-row mb-2 mb-0 gap-3" id="nav-user-info">
           {user ? (

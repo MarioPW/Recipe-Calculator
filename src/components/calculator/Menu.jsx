@@ -22,7 +22,7 @@ export const Menu = ({signOut, auth}) => {
       <div className="container">
 
 
-        <Link className="navbar-brand text-light fs-6 fst-italic" to="/"><img src="favicon.png" alt="@PW" style={{ width: "25px" }} /> Recipe Calculator</Link>
+        <Link className="navbar-brand text-light fs-6 fst-italic" to="/"><img src="favicon.png" alt="@PW" style={{ width: "25px" }} /> Recipe Calculator Menu</Link>
 
         <ul className="d-flex flex-row align-items-center mb-0 gap-3">
           {user ? (
@@ -34,7 +34,7 @@ export const Menu = ({signOut, auth}) => {
               </li>
 
               <li className="nav-item list-group-item text-light fs-6">
-                <button className="btn myButton-success" onClick={handleLogout}>
+                <button className="myButton-success" onClick={handleLogout}>
                   Logout
                 </button>
               </li>
@@ -48,7 +48,7 @@ export const Menu = ({signOut, auth}) => {
 
         {/* <a className="navbar-brand" href="#">Offcanvas dark navbar</a> */}
         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-          <span className=""><img src="Pizza.svg" alt="menu" /></span>
+          <i className="bi bi-cookie"></i>
         </button>
         <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">

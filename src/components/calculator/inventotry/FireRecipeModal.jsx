@@ -100,7 +100,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
                       <td className="fw-bold"><span className="fw-bold bg-success text-white p-1 rounded me-2">{amount[recipe.name] || 0}</span> {recipe.name} x {recipe.productWeight || '?'}g</td>
                       <td className="">
                         <button
-                          className="btn myButton-primary me-2"
+                          className="myButton-primary border-0 me-2"
                           name={recipe.name}
                           onClick={handleClick}
                           data-action="increment"
@@ -108,7 +108,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
                           +
                         </button>
                         <button
-                          className="btn myButton-danger"
+                          className="myButton-danger border-0"
                           name={recipe.name}
                           onClick={handleClick}
                           data-action="decrement"

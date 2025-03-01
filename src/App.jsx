@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Home } from "./components/Home";
 import { NavBar } from './components/NavBar'
-import { Abaut } from './components/Abaut'
 import { LoginRegister } from './components/LoginRegister'
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { auth } from "./firebaseConfig";
 import { Route, Routes } from 'react-router-dom'
 import { MyRecipes } from './components/calculator/Recipes/MyRecipes';
 import { MyRecipe } from './components/calculator/Recipes/MyRecipe';
-import { MyIngredients } from './components/calculator/MyIngredients';
+import { MyIngredients } from './components/calculator/Ingredients/MyIngredients';
 import { cleanLocalStorage } from './utilities/utils';
 import { IngredientForm } from './components/calculator/Ingredients/IngredientForm';
 import { Inventory } from './components/calculator/inventotry/Inventory';
@@ -46,7 +46,7 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Abaut />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login-register" element={<LoginRegister />} />
         <Route path="/my-recipes" element={<MyRecipes />} />
         <Route path="/my-recipe/:recipeId?" element={<MyRecipe />} />

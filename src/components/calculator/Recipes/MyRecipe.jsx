@@ -1,12 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate , useParams } from 'react-router-dom'
-import { Spinner } from '../../utilities/components/Spinner';
+import { Spinner } from '../../../utilities/components/Spinner';
 import { RecipeNavBar } from './RecipeNavBar';
-import { EditRecipeIngredient } from './modals/EditRecipeIngredient';
-import { RemoveIngredientModal } from './modals/RemoveIngredientModal';
-import { ConfirmDeleteRecipe } from './Recipes/ConfirmDeleteRecipe';
-import { useMainContext } from '../../context/MainContext';
+import { EditRecipeIngredient } from './recipeModals/EditRecipeIngredient';
+import { RemoveIngredientModal } from './recipeModals/RemoveIngredientModal';
+import { ConfirmDeleteRecipe } from './ConfirmDeleteRecipe';
+import { useMainContext } from '../../../context/MainContext';
 
 export const MyRecipe = () => {
   const { recipeId } = useParams()
@@ -15,7 +15,7 @@ export const MyRecipe = () => {
   const [editIngredient, setEditIngredient] = useState(false)
   const [removeIngredient, setRemoveIngredient] = useState(false)
   const [ingredient, setIngreident] = useState({})
-  const { recipeRepo, recipes, setRecipes, recipe, setRecipe } = useMainContext();
+  const { recipeService, recipes, setRecipes, recipe, setRecipe } = useMainContext();
 
   useEffect(() => {
     const loadRecipe = () => {
@@ -40,10 +40,10 @@ export const MyRecipe = () => {
 
   const handleSaveChanges = async () => {
     if (recipeId){
-      recipeRepo.update(recipe, recipeId)
+      recipeService.update(recipe, recipeId)
       setRecipes( recipes.map((r) => (r.id === recipeId ? { ...r, ...recipe } : r)))
     } else {
-      const response = await recipeRepo.saveRecipe(recipe)
+      const response = await recipeService.saveRecipe(recipe)
       setRecipes([...recipes, {...recipe, id: response.id}])
       navigate("/my-recipe/" + response.id)
     } 
@@ -56,8 +56,8 @@ export const MyRecipe = () => {
     }
   
     try {
-      await recipeRepo.delete(recipeId);
-      const updatedRecipes = await recipeRepo.getAllRecipes();
+      await recipeService.delete(recipeId);
+      const updatedRecipes = await recipeService.getAllRecipes();
       setRecipes(updatedRecipes);
       setDeleteRecipe(!deleteRecipe);
       navigate("/my-recipes");

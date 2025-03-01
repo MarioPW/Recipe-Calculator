@@ -3,7 +3,7 @@ import { db, auth } from "../firebaseConfig";
 
 import { IngredientAdapter } from "../adapters/ingredientAdapters";
 
-export class IngredientRepo {
+export class IngredientService {
     constructor() {
         this.db = db;
         this.auth = auth;
@@ -15,8 +15,6 @@ export class IngredientRepo {
             const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
             const ingredientsCollectionRef = collection(this.db, `ingredients`);
             const newIngredient = await addDoc(ingredientsCollectionRef, { userId: userId, ...adaptedIngredient });
-            console.log(adaptedIngredient)
-            console.log(ingredient)
             alert(`Ingerdient "${ingredient.name}" saved successfully`)
             return newIngredient.id
         } catch (error) {

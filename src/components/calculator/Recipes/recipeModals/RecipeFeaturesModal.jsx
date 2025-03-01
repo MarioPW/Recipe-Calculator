@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { useMainContext } from '../../../context/MainContext';
+import { useMainContext } from '../../../../context/MainContext';
 
 export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe }) => {
     const { recipes } = useMainContext()

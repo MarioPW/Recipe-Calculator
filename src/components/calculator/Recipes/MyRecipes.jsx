@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Spinner } from '../../utilities/components/Spinner';
-import { useMainContext } from '../../context/MainContext';
+import { Spinner } from '../../../utilities/components/Spinner';
+import { useMainContext } from '../../../context/MainContext';
 
 export const MyRecipes = () => {
   const { recipes, setRecipes } = useMainContext();

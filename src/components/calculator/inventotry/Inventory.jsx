@@ -1,5 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import { Spinner } from '../../../utilities/components/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
@@ -10,7 +14,7 @@ export const Inventory = () => {
   const [alert, setAlert] = useState(false);
 
 
-  useEffect (() =>  {
+  useEffect(() => {
     setCurrentInventory(ingredients);
   }, [ingredients])
 
@@ -27,31 +31,74 @@ export const Inventory = () => {
         })
       );
     } catch (error) {
-      console.error("Error al actualizar los ingredientes:", error);
+      console.error("Error updating stock:", error);
     }
     setAlert(false);
   }
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.text("Stock Inventory" + " " + new Date().toLocaleDateString(), 10, 15);
+
+    const tableData = currentInventory.map(ingredient => [
+      ingredient.name,
+      `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`
+    ]);
+
+    autoTable(doc, {
+      head: [['Item', 'Stock']],
+      body: tableData,
+      startY: 20,
+      styles: { fontSize: 8 },
+      headStyles: { fontSize: 10 } 
+    });
+
+    doc.save("Inventory" + "_" + new Date().toLocaleDateString() + ".pdf");
+  };
+
+  const generateExcel = () => {
+    const wb = XLSX.utils.book_new();
+  
+    const tableData = currentInventory.map(ingredient => ({
+      Item: ingredient.name,
+      Stock: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+    }));
+  
+    const ws = XLSX.utils.json_to_sheet(tableData);
+  
+    XLSX.utils.book_append_sheet(wb, ws, "Inventory");
+  
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+  
+    saveAs(data, "Inventory" + " " + new Date().toLocaleDateString() + ".xlsx");
+  };
+
   return (
     <>
       {ingredients.length > 0 ? (
         <div className="w-100">
-        
-        <div className="d-flex flex-wrap justify-content-center justify-content-md-end bg-light p-3 gap-2">
-          <button className="myButton-success fw-bold border-0 py-2" onClick={() => setFireRecipeModal(true)}>
-            Fire Recipe
-          </button>
-          <button className="myButton-purple fw-bold border-0 py-2" onClick={updateIngredientsStock}>
-            Update Ingredients Stock
-          </button>
-          {/* <button className="myButton-primary border-0 py-2" disabled>Save Inventory</button>
-          <button className="myButton-danger border-0 py-2" disabled>Delete</button> */}
-        </div>
-        
+
+          <div className="d-flex flex-wrap justify-content-center justify-content-md-end bg-light p-3 gap-2">
+            <button className="myButton-success fw-bold border-0 py-2" onClick={() => setFireRecipeModal(true)}>
+              Fire Recipe
+            </button>
+            <button className="myButton-purple fw-bold border-0 py-2" onClick={updateIngredientsStock}>
+              Update Ingredients Stock
+            </button>
+            <button className="myButton-primary fw-bold border-0 py-2" onClick={generatePDF}>
+              Export to PDF
+            </button>
+            <button className="myButton-yellow fw-bold border-0 py-2" onClick={generateExcel}>
+              Export to Excel
+            </button>
+
+          </div>
+
           {/* Table */}
           <div className="table-responsive">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">Updatting... </p>}
             <table className="table table-light mb-0">
-              
+
               <thead className="text-center">
 
                 <tr>
@@ -63,14 +110,14 @@ export const Inventory = () => {
                 {currentInventory.map((ingredient) => (
                   <tr key={ingredient.FSId}>
                     <td>{ingredient.name}</td>
-                    <td  className={ingredient.updated ? "bg-info" : "" }>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
+                    <td className={ingredient.updated ? "bg-info" : ""}>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-         
+
         </div>
       ) : (
         <Spinner />

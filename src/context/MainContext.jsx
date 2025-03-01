@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from "react";
-import { IngredientRepo } from "../services/IngredientServices";
-import { RecipeRepo } from "../services/recipeServices";
+import { IngredientService } from "../services/IngredientServices";
+import { RecipeService } from "../services/recipeServices";
 
 export const MainContext = createContext();
 
@@ -9,10 +9,10 @@ export const MainProvider = ({ children }) => {
     const [recipes, setRecipes] = useState([]);
     const [ingredients, setIngredients] = useState([]);
     const [recipe, setRecipe] = useState({});
-    const ingredientRepo = new IngredientRepo();
-    const recipeRepo = new RecipeRepo ();
+    const ingredientService = new IngredientService();
+    const recipeService = new RecipeService ();
     return (
-        <MainContext.Provider value={{ user, setUser, recipes, setRecipes, ingredients, setIngredients, recipe, setRecipe, ingredientRepo, recipeRepo }}>
+        <MainContext.Provider value={{ user, setUser, recipes, setRecipes, ingredients, setIngredients, recipe, setRecipe, ingredientService, recipeService }}>
             {children}
         </MainContext.Provider>
     );

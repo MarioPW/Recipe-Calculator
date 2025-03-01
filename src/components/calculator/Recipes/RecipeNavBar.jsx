@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator } from '../../utilities/calculator';
-import { CalculatedRecipeModal } from './modals/CalculatedRecipeModal';
-import { AmountWeightModal } from './modals/AmountWeightModal';
-import { AddIngredientModal } from './modals/AddIngredientModal';
-import { AddSubRecipeModal } from './modals/AddSubRecipeModal';
-import { RecipeFeaturesModal } from './modals/RecipeFeaturesModal';
-import { useMainContext } from '../../context/MainContext';
+import { Calculator } from '../../../utilities/calculator';
+import { CalculatedRecipeModal } from './recipeModals/CalculatedRecipeModal';
+import { AmountWeightModal } from './recipeModals/AmountWeightModal';
+import { AddIngredientModal } from '../Ingredients/ingredientModals/AddIngredientModal';
+import { AddSubRecipeModal } from './recipeModals/AddSubRecipeModal';
+import { RecipeFeaturesModal } from './recipeModals/RecipeFeaturesModal';
+import { useMainContext } from '../../../context/MainContext';
 
 export const RecipeNavBar = ({ currentRecipe }) => {
     const calculator = new Calculator();

@@ -1,11 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-export const ConfirmDeleteModal = ({ ingredient, setDeleteModal, ingredientRepository }) => {
+export const ConfirmDeleteModal = ({ ingredient, setDeleteModal, ingredientService }) => {
     const navigate = useNavigate();
     const handleDeleteIngredient = (e) => {
         e.preventDefault();
-        ingredientRepository.deleteMyIngredient(ingredient.FSId);
+        ingredientService.deleteMyIngredient(ingredient.FSId);
         setDeleteModal(false)
         navigate(`/my-ingredients`);
     }

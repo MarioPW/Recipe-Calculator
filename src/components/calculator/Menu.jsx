@@ -46,7 +46,6 @@ export const Menu = ({signOut, auth}) => {
           )}
         </ul>
 
-        {/* <a className="navbar-brand" href="#">Offcanvas dark navbar</a> */}
         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
           <i className="bi bi-cookie"></i>
         </button>

@@ -1,7 +1,7 @@
 import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { db, auth } from "../firebaseConfig";
 
-export class RecipeRepo {
+export class RecipeService {
     constructor() {
         this.db = db;
         this.auth = auth;

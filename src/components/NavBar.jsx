@@ -41,7 +41,7 @@ export const NavBar = () => {
             </>
           ) : (
             <li className="nav-item list-group-item text-light fs-6">
-              <Link to="/login-register" className="btn myButton-success">Log In / Register </Link>
+              <Link to="/login-register" className="myButton-success">Log In / Register </Link>
             </li>
           )}
         </ul>

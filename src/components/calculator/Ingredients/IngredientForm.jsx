@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Spinner } from '../../../utilities/components/Spinner';
+import { Spinner } from '../../utilities/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 
 export const IngredientForm = () => {

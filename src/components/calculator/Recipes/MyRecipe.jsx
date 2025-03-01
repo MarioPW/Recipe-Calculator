@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate , useParams } from 'react-router-dom'
-import { Spinner } from '../../../utilities/components/Spinner';
+import { Spinner } from '../../utilities/Spinner';
 import { RecipeNavBar } from './RecipeNavBar';
 import { EditRecipeIngredient } from './recipeModals/EditRecipeIngredient';
 import { RemoveIngredientModal } from './recipeModals/RemoveIngredientModal';

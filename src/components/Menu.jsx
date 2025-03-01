@@ -61,7 +61,7 @@ export const Menu = ({ signOut, auth }) => {
                 Ingredients
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link
                 onClick={() => navigate("/ingredient")}
                 className="btn custom-btn text-light w-100 text-start"
@@ -71,8 +71,8 @@ export const Menu = ({ signOut, auth }) => {
                 <i className="bi bi-plus-circle me-2"></i>
                 New Ingredient
               </Link>
-            </li>
-            <li className="nav-item">
+            </li> */}
+            {/* <li className="nav-item">
               <Link
                 onClick={() => {
                   setRecipe({});
@@ -85,7 +85,7 @@ export const Menu = ({ signOut, auth }) => {
                 <i className="bi bi-file-earmark-plus me-2"></i>
                 New Recipe
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link
                 onClick={() => navigate("/my-recipes")}

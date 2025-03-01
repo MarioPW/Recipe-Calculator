@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { Spinner } from '../../../utilities/components/Spinner';
+import { Spinner } from '../../utilities/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
 export const Inventory = () => {
@@ -49,7 +49,7 @@ export const Inventory = () => {
       body: tableData,
       startY: 20,
       styles: { fontSize: 8 },
-      headStyles: { fontSize: 10 } 
+      headStyles: { fontSize: 10 }
     });
 
     doc.save("Inventory" + "_" + new Date().toLocaleDateString() + ".pdf");
@@ -57,19 +57,19 @@ export const Inventory = () => {
 
   const generateExcel = () => {
     const wb = XLSX.utils.book_new();
-  
+
     const tableData = currentInventory.map(ingredient => ({
       Item: ingredient.name,
       Stock: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
     }));
-  
+
     const ws = XLSX.utils.json_to_sheet(tableData);
-  
+
     XLSX.utils.book_append_sheet(wb, ws, "Inventory");
-  
+
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
-  
+
     saveAs(data, "Inventory" + " " + new Date().toLocaleDateString() + ".xlsx");
   };
 
@@ -77,22 +77,33 @@ export const Inventory = () => {
     <>
       {ingredients.length > 0 ? (
         <div className="w-100">
-
-          <div className="d-flex flex-wrap justify-content-center justify-content-md-end bg-light p-3 gap-2">
-            <button className="myButton-success fw-bold border-0 py-2" onClick={() => setFireRecipeModal(true)}>
-              Fire Recipe
-            </button>
-            <button className="myButton-purple fw-bold border-0 py-2" onClick={updateIngredientsStock}>
-              Update Ingredients Stock
-            </button>
-            <button className="myButton-primary fw-bold border-0 py-2" onClick={generatePDF}>
-              Export to PDF
-            </button>
-            <button className="myButton-yellow fw-bold border-0 py-2" onClick={generateExcel}>
-              Export to Excel
-            </button>
-
-          </div>
+          <nav className='navbar bg-light border-bottom p-2 my-1 d-flex justify-content-between'>
+            <h5>
+              <strong>Stock Inventory</strong>
+            </h5>
+            <ul className='d-flex flex-row mb-0 gap-3'>
+              <li className='nav-item list-group-item'>
+                <button className="myButton-success fw-bold border-0 py-2" onClick={() => setFireRecipeModal(true)}>
+                  Fire Recipe
+                </button>
+              </li>
+              <li className='nav-item list-group-item'>
+                <button className="myButton-purple fw-bold border-0 py-2" onClick={updateIngredientsStock}>
+                  Update Ingredients Stock
+                </button>
+              </li>
+              <li className='nav-item list-group-item'>
+                <button className="myButton-primary fw-bold border-0 py-2" onClick={generatePDF}>
+                  Export to PDF
+                </button>
+              </li>
+              <li className='nav-item list-group-item'>
+                <button className="myButton-yellow fw-bold border-0 py-2" onClick={generateExcel}>
+                  Export to Excel
+                </button>
+              </li>
+            </ul>
+          </nav>
 
           {/* Table */}
           <div className="table-responsive">

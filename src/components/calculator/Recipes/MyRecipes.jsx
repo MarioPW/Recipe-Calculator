@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Spinner } from '../../../utilities/components/Spinner';
+import { Spinner } from '../../utilities/Spinner';
 import { useMainContext } from '../../../context/MainContext';
-
+import { SearchInput } from '../../utilities/SearchInput';
 export const MyRecipes = () => {
   const { recipes, setRecipes } = useMainContext();
 
@@ -18,7 +18,17 @@ export const MyRecipes = () => {
     <div className="table-responsive">
       {recipes.length > 0 ? (
         <>
-        <h5 className='bg-light p-2 mb-0 border-bottom'>My Recipes</h5>
+         <nav className='navbar bg-light border-bottom p-2 my-1 d-flex justify-content-between'>
+        <h5 className='mb-0'>My Recipes</h5>
+        <ul className='d-flex flex-row mb-0 gap-3'>
+          <li className='nav-item list-group-item'>
+            <Link className='myButton-success fw-bold' to={'/my-recipe'}>
+              <strong className='fw-bold me-2'>+</strong>Add New
+            </Link>
+          </li>
+          <SearchInput items={recipes} url={'/my-recipe'} />
+        </ul>
+        </nav>
         <table className="table table-light table-hover">
           <thead>
             <tr>

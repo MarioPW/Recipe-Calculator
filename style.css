@@ -16,6 +16,9 @@
 .bg-pink{
 	background: linear-gradient(90deg, rgba(255,93,168,1) 29%, rgb(255, 69, 69) 100%);
 }
+.bg-color-main{
+	background-color: #000011;
+}
 .bg-orange{
     background-color: #FF8B75;
 }

@@ -1,8 +1,13 @@
 
-.navbar-bg-transparent{
-    background-color: transparent;
-    position: absolute;
-    z-index: 3;
+#main-navbar{
+    width: 75%;
+	height: 50px;
+}
+@media screen and (max-width: 1092px) {
+	#main-navbar{
+		width: 100%;
+	}
+	
 }
 .start-font-size{
     font-size: 27px;

@@ -22,7 +22,8 @@ function App() {
       if (currentUser) {
         try {
           const ingredients = await ingredientService.getAllIngredients();
-          setIngredients(ingredients.sort((a, b) => a.name.localeCompare(b.name)));
+          // setIngredients(ingredients.sort((a, b) => a.name.localeCompare(b.name)));
+          setIngredients(ingredients)
 
           const recipes = await recipeService.getAllRecipes();
           setRecipes(recipes.sort((a, b) => a.name.localeCompare(b.name)));
@@ -45,15 +46,17 @@ function App() {
   return (
     <>
       <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login-register" element={<LoginRegister />} />
-        <Route path="/my-recipes" element={<MyRecipes />} />
-        <Route path="/my-recipe/:recipeId?" element={<MyRecipe />} />
-        <Route path="/my-ingredients" element={<MyIngredients />} />
-        <Route path="/ingredient/:ingredientId?" element={<IngredientForm />} />
-        <Route path="/inventory" element={<Inventory />} />
-      </Routes>
+      <div className="pt-5">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login-register" element={<LoginRegister />} />
+          <Route path="/my-recipes" element={<MyRecipes />} />
+          <Route path="/my-recipe/:recipeId?" element={<MyRecipe />} />
+          <Route path="/my-ingredients" element={<MyIngredients />} />
+          <Route path="/ingredient/:ingredientId?" element={<IngredientForm />} />
+          <Route path="/inventory" element={<Inventory />} />
+        </Routes>
+      </div>
     </>
   )
 }

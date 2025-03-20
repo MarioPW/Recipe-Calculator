@@ -1,12 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { jsPDF } from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 import { Spinner } from '../../utilities/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
+import { generateTablePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
 export const Inventory = () => {
   const { ingredients, ingredientRepo } = useMainContext();
   const [currentInventory, setCurrentInventory] = useState(ingredients);
@@ -35,101 +32,101 @@ export const Inventory = () => {
     }
     setAlert(false);
   }
-  const generatePDF = () => {
-    const doc = new jsPDF();
-    doc.text("Stock Inventory" + " " + new Date().toLocaleDateString(), 10, 15);
 
-    const tableData = currentInventory.map(ingredient => [
-      ingredient.name,
-      `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`
-    ]);
+  const handleGeneratePDF = () => {
+    const pdfData = {
+      title: "Stock Inventory",
+      headers: ["Ref", "Item", "Stock"],
+      data: currentInventory.map(ingredient => [
+        ingredient.reference,
+        ingredient.name,
+        `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`
+      ]),
+      fileName: "Inventory"
+    }
+    generateTablePDF(pdfData)
+  }
 
-    autoTable(doc, {
-      head: [['Item', 'Stock']],
-      body: tableData,
-      startY: 20,
-      styles: { fontSize: 8 },
-      headStyles: { fontSize: 10 }
-    });
-
-    doc.save("Inventory" + "_" + new Date().toLocaleDateString() + ".pdf");
-  };
-
-  const generateExcel = () => {
-    const wb = XLSX.utils.book_new();
-
+  const handleGenerateExcel = () => {
     const tableData = currentInventory.map(ingredient => ({
+      Ref: ingredient.reference,
       Item: ingredient.name,
       Stock: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
     }));
-
-    const ws = XLSX.utils.json_to_sheet(tableData);
-
-    XLSX.utils.book_append_sheet(wb, ws, "Inventory");
-
-    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
-
-    saveAs(data, "Inventory" + " " + new Date().toLocaleDateString() + ".xlsx");
+    generateXlsxTable("Inventory", tableData)
   };
 
   return (
     <>
       {ingredients.length > 0 ? (
-        <div className="w-100">
-          <nav className='navbar bg-light border-bottom p-2 my-1 d-flex justify-content-between'>
-            <h5>
-              <strong>Stock Inventory</strong>
-            </h5>
-            <ul className='d-flex flex-row mb-0 gap-3'>
-              <li className='nav-item list-group-item'>
-                <button className="myButton-success fw-bold border-0 py-2" onClick={() => setFireRecipeModal(true)}>
-                  Fire Recipe
-                </button>
-              </li>
-              <li className='nav-item list-group-item'>
-                <button className="myButton-purple fw-bold border-0 py-2" onClick={updateIngredientsStock}>
-                  Update Ingredients Stock
-                </button>
-              </li>
-              <li className='nav-item list-group-item'>
-                <button className="myButton-primary fw-bold border-0 py-2" onClick={generatePDF}>
-                  Export to PDF
-                </button>
-              </li>
-              <li className='nav-item list-group-item'>
-                <button className="myButton-yellow fw-bold border-0 py-2" onClick={generateExcel}>
-                  Export to Excel
-                </button>
-              </li>
-            </ul>
-          </nav>
+        <>
+            <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
+              <a className="navbar-brand text-light ps-2" href="#">
+                Stock Inventory
+              </a>
+
+              <button
+                className="btn btn-outline-light me-2 d-lg-none"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#actionsCollapse1"
+                aria-expanded="false"
+                aria-controls="actionsCollapse1"
+              >
+                <i className="bi bi-list"></i> Actions
+              </button>
+
+              <div className="collapse navbar-collapse position-relative d-lg-block" id="actionsCollapse1">
+                <ul className="navbar-nav position-absolute bg-color-main gap-2 w-100 p-2 m-0">
+                  <li className="nav-item mx-2">
+                    <button className="btn btn-sm btn-outline-light d-sm-block" onClick={() => setFireRecipeModal(true)}>
+                      Fire Recipes
+                    </button>
+                  </li>
+                  <li className="nav-item mx-2">
+                    <button className="btn btn-sm btn-outline-light" onClick={updateIngredientsStock}>
+                      Update Stock
+                    </button>
+                  </li>
+                  <li className="nav-item mx-2">
+                    <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGeneratePDF}>
+                      <i className="bi bi-download me-1"></i>Download as .pdf
+                    </button>
+                  </li>
+                  <li className="nav-item mx-2">
+                    <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGenerateExcel}>
+                      <i className="bi bi-download me-1"></i>Download as .xlsx
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </nav>
 
           {/* Table */}
-          <div className="table-responsive">
-            {alert && <p className="alert alert-warning position-fixed top-50 start-50">Updatting... </p>}
-            <table className="table table-light mb-0">
-
-              <thead className="text-center">
-
+          <div className="table-responsive overflow-x-auto">
+            {alert && <p className="alert alert-warning position-fixed top-50 start-50">Updating... </p>}
+            <table className="table table-light mb-0 text-nowrap">
+              <thead className="">
                 <tr>
+                  <th>Ref</th>
                   <th>Name</th>
                   <th>Stock</th>
                 </tr>
               </thead>
-              <tbody className="table-group-divider text-center">
+              <tbody className="table-group-divider">
                 {currentInventory.map((ingredient) => (
                   <tr key={ingredient.FSId}>
+                    <td>{ingredient.reference}</td>
                     <td>{ingredient.name}</td>
-                    <td className={ingredient.updated ? "bg-info" : ""}>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
+                    <td className={ingredient.updated ? "bg-info" : ""}>
+                      {ingredient.stock || 0} {ingredient.unitOfMeasure}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
-
-        </div>
+        </>
       ) : (
         <Spinner />
       )}
@@ -142,5 +139,5 @@ export const Inventory = () => {
         />
       )}
     </>
-  )
-}
+  );
+};  

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { AddIngredient } from '../../Ingredients/ingredientModals/AddIngredient';
+import { AddIngredient } from './AddIngredient';
 
 
 export const AddSubRecipeModal = ({ handleAddSubRecipeModal, recipes, setRecipe, currentRecipe }) => {

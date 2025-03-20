@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Spinner } from '../../utilities/Spinner';
 import { useMainContext } from '../../../context/MainContext';
+import { ConfirmDeleteModal } from './ingredientModals/ConfirmDeleteModal';
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
@@ -20,6 +21,7 @@ export const IngredientForm = () => {
     expirationDate: '',
     batch: '',
     stock: '',
+    reference: '',
   };
 
   useEffect(() => {
@@ -45,10 +47,15 @@ export const IngredientForm = () => {
     const nameExists = ingredients.some(
       (item) => item.name === ingredientData.name && item.FSId !== ingredientData.FSId
     );
-  
+
     if (nameExists) {
       alert(`Ingredient named ${ingredientData.name} already exists`);
       return;
+    }
+    const checkHasName = ingredientData.name !== ""  ? true : false
+    if (!checkHasName) {
+      alert("Ingredient name is required.");
+      return false
     }
     try {
       setLoading(true);
@@ -96,24 +103,39 @@ export const IngredientForm = () => {
                 className="form-control"
                 id="name"
                 onChange={handleChange}
+                required
               />
             </div>
-            <div className="col-md-6">
-              <label htmlFor="unitOfMeasure" className="form-label">Unit Of Measure</label>
-              <select
-                id="unitOfMeasure"
-                className="form-select"
-                name="unitOfMeasure"
-                value={ingredientData.unitOfMeasure}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Choose...</option>
-                <option value="g">g</option>
-                <option value="und">und</option>
-                <option value="mL">mL</option>
-              </select>
+            <div className="col-md-6 d-flex gap-3">
+              <div className="col">
+                <label htmlFor="unitOfMeasure" className="form-label">Unit Of Measure</label>
+                <select
+                  id="unitOfMeasure"
+                  className="form-select"
+                  name="unitOfMeasure"
+                  value={ingredientData.unitOfMeasure}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Choose...</option>
+                  <option value="g">g</option>
+                  <option value="und">und</option>
+                  <option value="mL">mL</option>
+                </select>
+              </div>
+              <div className="col">
+                <label htmlFor="reference" className="form-label">Reference</label>
+                <input
+                  type="text"
+                  name="reference"
+                  value={ingredientData.reference}
+                  className="form-control"
+                  id="reference"
+                  onChange={handleChange}
+                />
+              </div>
             </div>
+
           </div>
 
           <div className="row">

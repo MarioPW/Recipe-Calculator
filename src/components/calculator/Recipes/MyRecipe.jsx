@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Link, useNavigate , useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Spinner } from '../../utilities/Spinner';
 import { RecipeNavBar } from './RecipeNavBar';
 import { EditRecipeIngredient } from './recipeModals/EditRecipeIngredient';
@@ -16,6 +16,7 @@ export const MyRecipe = () => {
   const [removeIngredient, setRemoveIngredient] = useState(false)
   const [ingredient, setIngreident] = useState({})
   const { recipeService, recipes, setRecipes, recipe, setRecipe } = useMainContext();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadRecipe = () => {
@@ -39,14 +40,18 @@ export const MyRecipe = () => {
   }
 
   const handleSaveChanges = async () => {
-    if (recipeId){
-      recipeService.update(recipe, recipeId)
-      setRecipes( recipes.map((r) => (r.id === recipeId ? { ...r, ...recipe } : r)))
+
+    if (recipeId) {
+      setLoading(true)
+      recipeService.update(recipe, recipeId).then(() => setLoading(false))
+      setRecipes(recipes.map((r) => (r.id === recipeId ? { ...r, ...recipe } : r)))
+
     } else {
-      const response = await recipeService.saveRecipe(recipe)
-      setRecipes([...recipes, {...recipe, id: response.id}])
+      setLoading(true)
+      const response = await recipeService.saveRecipe(recipe).then(() => setLoading(false))
+      setRecipes([...recipes, { ...recipe, id: response.id }])
       navigate("/my-recipe/" + response.id)
-    } 
+    }
   }
 
   const handleDelete = async () => {
@@ -54,7 +59,7 @@ export const MyRecipe = () => {
       alert("You have not saved this recipe yet");
       return;
     }
-  
+
     try {
       await recipeService.delete(recipeId);
       const updatedRecipes = await recipeService.getAllRecipes();
@@ -72,6 +77,7 @@ export const MyRecipe = () => {
       {recipe ? (
         <>
           <RecipeNavBar currentRecipe={recipe} setRecipe={setRecipe} />
+          {loading && <p className="alert alert-warning m-0">Updating...</p>}
           <table className="table table-light table-striped table-bordered table-hover mw-25 mb-0">
             <thead>
               <tr>
@@ -95,9 +101,10 @@ export const MyRecipe = () => {
             </tbody>
           </table>
           <div className='container d-flex justify-content-end bg-light p-2 gap-2'>
-            <Link to="/my-recipes" className='myButton-success fw-bold py-1'>Go Back</Link>
+            {/* <Link to="/my-recipes" className='myButton-success fw-bold py-1'>Go Back</Link> */}
+            <button onClick={() => { navigate("/my-recipes"); setRecipe({}) }} className='myButton-success fw-bold py-1 border-0'>Go Back</button>
             <button className='myButton-primary border-0 py-1' onClick={handleSaveChanges}>Save Changes</button>
-            <button className='myButton-danger border-0 py-1' onClick={() => setDeleteRecipe (true)}>Delete</button>
+            <button className='myButton-danger border-0 py-1' onClick={() => setDeleteRecipe(true)}>Delete</button>
           </div>
         </>
       ) : (
@@ -117,9 +124,9 @@ export const MyRecipe = () => {
         setRemoveIngredient={setRemoveIngredient}
       />}
       {deleteRecipe && <ConfirmDeleteRecipe
-      recipe={recipe}
-      setDeleteRecipe={setDeleteRecipe}
-      handleDelete={handleDelete}/>}
+        recipe={recipe}
+        setDeleteRecipe={setDeleteRecipe}
+        handleDelete={handleDelete} />}
     </>
   )
 }

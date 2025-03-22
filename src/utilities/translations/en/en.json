@@ -1,0 +1,111 @@
+{
+    "recipeMaster": {
+      "title": "Recipe Master",
+      "description": "Create and manage your culinary creations with ease."
+    },
+    "rMingredients": {
+      "title": "Ingredients",
+      "description": "Save your ingredients to create and manage your recipes."
+    },
+    "rMrecipes": {
+      "title": "Recipes",
+      "description": "Combine your ingredients to craft delicious recipes with precise measurements."
+    },
+    "rMtraceability": {
+      "title": "Traceability",
+      "description": "Make traceability of your recipes easily."
+    },
+    "rMcost": {
+      "title": "Cost",
+      "description": "Calculate the cost of your recipes to maintain profitability and control."
+    },
+    "rMinventory": {
+      "title": "Inventory",
+      "description": "Manage your ingredients stock and inventory."
+    },
+    "navbar": {
+    "title": "Recipe Master",
+    "ingredients": "Ingredients",
+    "recipes": "Recipes",
+    "inventory": "Inventory",
+    "logout": "Logout",
+    "login_register": "Log In / Register",
+    "logout_confirm": "Are you sure you want to log out?",
+    "logout_success": "Logged out successfully"
+  },
+  "language": {
+    "select": "Lang",
+    "en": "English",
+    "es": "Spanish"
+  },
+  "myRecipe": {
+    "ingredient": "Ingredient",
+    "weight": "Weight",
+    "edit": "Edit",
+    "remove": "Remove",
+    "updating": "Updating...",
+    "goBack": "Go Back",
+    "saveChanges": "Save Changes",
+    "delete": "Delete",
+    "notSaved": "You have not saved this recipe yet",
+    "deleteError": "An error occurred while deleting the recipe."
+  },
+  "recipeNavbar": { "notSaved": "You have not saved this recipe yet",
+  "deleteError": "An error occurred while deleting the recipe.",
+  "features": "Features",
+  "calculate": "Calculate",
+  "cost": "Cost $",
+  "traceability": "Traceability",
+  "addIngredient": "Add Ingredient",
+  "addSubRecipe": "Add SubRecipe",
+  "missingIngredient": "Missing ingredient",
+  "missingIngredientDescription": "This ingredient has not been added yet or has been deleted from your ingredients table. Please add it or delete it from your recipes or you will not be able to traceability or cost your recipe correctly."
+  },
+  "inventory": {
+    "stockInventory": "Stock Inventory",
+    "actions": "Actions",
+    "fireRecipes": "Fire Recipes",
+    "updateStock": "Update Stock",
+    "downloadPDF": "Download as .pdf",
+    "downloadExcel": "Download as .xlsx",
+    "updating": "Updating",
+    "updateError": "Error updating stock:",
+    "ref": "Ref",
+    "item": "Item",
+    "stock": "Stock"
+  },
+  "myRecipes": {
+    "title": "My Recipes",
+    "addNew": "Add New",
+    "recipeName": "Name",
+    "weightPerUnit": "Weight per unit",
+    "isSubRecipe": "Is Subrecipe",
+    "defaultRecipe": "Recipe",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "addIngredient": {
+      "alertEnterWeight": "You must enter a weight",
+      "enterWeight": "Enter Weight of",
+      "enterWeightPlaceholder": "Enter Weight",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "myIngredients": {
+    "title": "My Ingredients",
+  "actions": "Actions",
+  "sortByName": "Sort by Name",
+  "sortByRef": "Sort by Reference",
+  "addNew": "Add New",
+  "table": {
+    "ref": "Ref",
+    "name": "Name",
+    "stock": "Stock",
+    "unit": "Unit of Measure",
+    "brand": "Brand",
+    "supplier": "Supplier",
+    "batch": "Batch",
+    "expiration": "Expiration Date",
+    "cost": "Cost per Kg"
+  }}
+}

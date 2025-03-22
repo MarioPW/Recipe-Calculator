@@ -22,7 +22,6 @@ function App() {
       if (currentUser) {
         try {
           const ingredients = await ingredientService.getAllIngredients();
-          // setIngredients(ingredients.sort((a, b) => a.name.localeCompare(b.name)));
           setIngredients(ingredients)
 
           const recipes = await recipeService.getAllRecipes();

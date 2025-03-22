@@ -7,6 +7,7 @@ import { AddSubRecipeModal } from './recipeModals/AddSubRecipeModal';
 import { RecipeFeaturesModal } from './recipeModals/RecipeFeaturesModal';
 import { TraceabilityModal } from './recipeModals/TraceabilityModal';
 import { useMainContext } from '../../../context/MainContext';
+import { useTranslation } from "react-i18next";
 
 const OPERATIONS = {
   CALCULATE: "Calculate",
@@ -15,6 +16,7 @@ const OPERATIONS = {
 };
 
 export const RecipeNavBar = ({ currentRecipe }) => {
+  const { t } = useTranslation();
   const calculator = new Calculator();
   const { ingredients, setRecipe, recipes } = useMainContext();
 
@@ -120,70 +122,52 @@ export const RecipeNavBar = ({ currentRecipe }) => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary p-3">
+ <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
         <div className="container-fluid">
-          <h3 className="navbar-brand fw-bold">
+          <h3 className="navbar-brand fw-bold text-light">
             {currentRecipe.name && `${currentRecipe.name} X ${currentRecipe.productWeight} g`}
           </h3>
           <button
-            className="navbar-toggler"
+            className="btn btn-outline-light me-2 d-lg-none"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
+            data-bs-target="#recipeNavbar"
+            aria-controls="recipeNavbar"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="collapse navbar-collapse" id="recipeNavbar">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
               <li className="nav-item">
-                <button
-                  className="myButton-yellow border-0 py-1"
-                  onClick={toggleModal(setRecipeFeaturesModal)}
-                >
-                  Features
+                <button className="myButton-yellow border-0 py-1" onClick={toggleModal(setRecipeFeaturesModal)}>
+                  {t("recipeNavbar.features")}
                 </button>
               </li>
               <li className="nav-item">
-                <button
-                  className="myButton-primary border-0 py-1"
-                  onClick={() => handleAmountWeightModal(OPERATIONS.CALCULATE)}
-                >
-                  Calculate
+                <button className="myButton-primary border-0 py-1" onClick={() => handleAmountWeightModal(OPERATIONS.CALCULATE)}>
+                  {t("recipeNavbar.calculate")}
                 </button>
               </li>
               <li className="nav-item">
-                <button
-                  className="myButton-primary border-0 py-1"
-                  onClick={() => handleAmountWeightModal(OPERATIONS.COST)}
-                >
-                  Cost $
+                <button className="myButton-primary border-0 py-1" onClick={() => handleAmountWeightModal(OPERATIONS.COST)}>
+                  {t("recipeNavbar.cost")}
                 </button>
               </li>
               <li className="nav-item">
-                <button
-                  className="myButton-purple border-0 py-1"
-                  onClick={() => handleAmountWeightModal(OPERATIONS.TRACEABILITY)}
-                >
-                  Traceability
+                <button className="myButton-purple border-0 py-1" onClick={() => handleAmountWeightModal(OPERATIONS.TRACEABILITY)}>
+                  {t("recipeNavbar.traceability")}
                 </button>
               </li>
               <li className="nav-item">
-                <button
-                  className="myButton-purple border-0 py-1"
-                  onClick={toggleModal(setAddIngredientModal)}
-                >
-                  Add Ingredient
+                <button className="myButton-purple border-0 py-1" onClick={toggleModal(setAddIngredientModal)}>
+                  {t("recipeNavbar.addIngredient")}
                 </button>
               </li>
               <li className="nav-item">
-                <button
-                  className="myButton-success fw-bold border-0 py-1"
-                  onClick={toggleModal(setAddSubRecipeModal)}
-                >
-                  Add SubRecipe
+                <button className="myButton-success fw-bold border-0 py-1" onClick={toggleModal(setAddSubRecipeModal)}>
+                  {t("recipeNavbar.addSubRecipe")}
                 </button>
               </li>
             </ul>
@@ -193,19 +177,10 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         {missingIngredient && (
           <div className="alert alert-danger alert-dismissible fade show w-100 p-2" role="alert">
             <section className="fw-bold m-0">
-              Missing ingredient {missingIngredient}:
-              <p className="fw-light mb-1">
-                This ingredient has not been added yet or has been deleted from your
-                ingredients table. Please add it or delete it from your recipes or you
-                will not be able to traceability or cost your recipe correctly.
-              </p>
+              {t("recipeNavbar.missingIngredient")} {missingIngredient}:
+              <p className="fw-light mb-1">{t("recipeNavbar.missingIngredientDescription")}</p>
             </section>
-            <button
-              type="button"
-              className="btn-close p-3"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-            ></button>
+            <button type="button" className="btn-close p-3" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         )}
       </nav>

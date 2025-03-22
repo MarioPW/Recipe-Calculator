@@ -1,5 +1,3 @@
-import { reference } from "@popperjs/core";
-
 export class IngredientAdapter {
     adapt(ingredient) {
         return {
@@ -11,7 +9,8 @@ export class IngredientAdapter {
             expirationDate: ingredient.expirationDate || null, // optional
             batch: ingredient.batch || null, // optional
             stock: ingredient.stock || null,   // optional
-            reference: ingredient.reference || null // optional
+            reference: ingredient.reference || null, // optional
+            setInInventory: true
         };
     }
 }

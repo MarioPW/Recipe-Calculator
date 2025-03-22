@@ -1,13 +1,14 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handleAddIngredientModal, setRecipe }) => {
+    const { t } = useTranslation();
     const [weight, setWeight] = useState(0);
 
     const handleAddIngredient = () => {
-        if (weight <= 0){
-            alert("You must enter a weight")
-            return
+        if (weight <= 0) {
+            alert(t('addIngredient.alertEnterWeight'));
+            return;
         }
         const newIngredient = {
             id: ingredient.FSId || ingredient.id,
@@ -15,20 +16,21 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
             unitOfMeasure: ingredient.unitOfMeasure || "g",
             name: ingredient.name,
             isSubRecipe: ingredient.isSubRecipe || false
-        }
+        };
         const updatedIngredients = (currentRecipe.ingredients || []).concat(newIngredient);
         setRecipe({
             ...currentRecipe,
             ingredients: updatedIngredients,
         });
         handleAddIngredientModal();
-    }
+    };
+
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header bg-warning">
-                        <h5 className="modal-title">Enter Weight of {ingredient.name}:</h5>
+                        <h5 className="modal-title">{t('addIngredient.enterWeight')} {ingredient.name}:</h5>
                         <button
                             type="button"
                             className="btn-close"
@@ -41,7 +43,7 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
                             min="0"
                             className='form-control'
                             onChange={(e) => setWeight(e.target.value)}
-                            placeholder='Enter Weight'
+                            placeholder={t('addIngredient.enterWeightPlaceholder')}
                             required
                         />
                     </div>
@@ -51,18 +53,18 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
                             className="btn btn-secondary"
                             onClick={() => setWeightModal(false)}
                         >
-                            Cancel
+                            {t('addIngredient.cancel')}
                         </button>
                         <button
                             type="button"
                             className="btn btn-primary"
                             onClick={handleAddIngredient}
                         >
-                            Save
+                            {t('addIngredient.save')}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

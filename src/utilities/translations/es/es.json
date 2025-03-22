@@ -1,0 +1,112 @@
+{
+    "recipeMaster": {
+      "title": "Maestro de Recetas",
+      "description": "Crea y gestiona tus creaciones culinarias con facilidad."
+    },
+    "rMingredients": {
+      "title": "Ingredientes",
+      "description": "Guarda tus ingredientes para crear y gestionar tus recetas."
+    },
+    "rMrecipes": {
+      "title": "Recetas",
+      "description": "Combina tus ingredientes para elaborar deliciosas recetas con medidas precisas."
+    },
+    "rMtraceability": {
+      "title": "Trazabilidad",
+      "description": "Realiza la trazabilidad de tus recetas fácilmente."
+    },
+    "rMcost": {
+      "title": "Costea",
+      "description": "Calcula el costo de tus recetas para mantener la rentabilidad y el control."
+    },
+    "rMinventory": {
+      "title": "Inventario",
+      "description": "Gestiona el stock y el inventario de tus ingredientes."
+    },
+    "navbar": {
+      "title": "Maestro de Recetas",
+      "ingredients": "Ingredientes",
+      "recipes": "Recetas",
+      "inventory": "Inventario",
+      "logout": "Cerrar sesión",
+      "login_register": "Iniciar sesión / Registrarse",
+      "logout_confirm": "¿Estás seguro de que quieres cerrar sesión?",
+      "logout_success": "Sesión cerrada con éxito"
+    },
+    "language": {
+      "select": "Lang",
+      "en": "Inglés",
+      "es": "Español"
+    },
+      "myRecipe": {
+        "ingredient": "Ingrediente",
+        "weight": "Peso",
+        "edit": "Editar",
+        "remove": "Eliminar",
+        "updating": "Actualizando...",
+        "goBack": "Regresar",
+        "saveChanges": "Guardar cambios",
+        "delete": "Eliminar",
+        "notSaved": "Aún no has guardado esta receta",
+        "deleteError": "Ocurrió un error al eliminar la receta."
+      },
+      "recipeNavbar": {
+        "notSaved": "Aún no has guardado esta receta",
+        "deleteError": "Ocurrió un error al eliminar la receta.",
+        "features": "Características",
+        "calculate": "Calcular",
+        "cost": "Costear $",
+        "traceability": "Trazabilidad",
+        "addIngredient": "Agregar Ingrediente",
+        "addSubRecipe": "Agregar SubReceta",
+        "missingIngredient": "Ingrediente faltante",
+        "missingIngredientDescription": "Este ingrediente no ha sido agregado aún o ha sido eliminado de tu tabla de ingredientes. Por favor agrégalo o elimínalo de tus recetas o no podrás calcular la trazabilidad ni el costo de tu receta correctamente."
+      },
+      "inventory": {
+        "stockInventory": "Inventario",
+        "actions": "Acciones",
+        "fireRecipes": "Marchar Recetas",
+        "updateStock": "Actualizar Stock",
+        "downloadPDF": "Descargar como .pdf",
+        "downloadExcel": "Descargar como .xlsx",
+        "updating": "Actualizando",
+        "updateError": "Error al actualizar el stock:",
+        "ref": "Ref",
+        "item": "Ítem",
+        "stock": "Stock"
+  },
+  "myRecipes": {
+    "title": "Mis Recetas",
+    "addNew": "Agregar Nueva",
+    "recipeName": "Receta",
+    "weightPerUnit": "Peso por unidad",
+    "isSubRecipe": "Es Subreceta",
+    "defaultRecipe": "Receta",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "addIngredient": {
+    "alertEnterWeight": "Debes ingresar un peso",
+    "enterWeight": "Ingresar peso de",
+    "enterWeightPlaceholder": "Ingrese el peso",
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "myIngredients": {
+    "title": "Mis Ingredientes",
+  "actions": "Opciones",
+  "sortByName": "Ordenar por Nombre",
+  "sortByRef": "Ordenar por Referencia",
+  "addNew": "Agregar Nuevo",
+  "table": {
+    "ref": "Ref",
+    "name": "Nombre",
+    "stock": "Stock",
+    "unit": "Unidad de Medida",
+    "brand": "Marca",
+    "supplier": "Proveedor",
+    "batch": "Lote",
+    "expiration": "Fecha de Expiración",
+    "cost": "Costo por Kg"
+  }}
+}

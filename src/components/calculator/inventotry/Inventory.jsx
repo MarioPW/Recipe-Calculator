@@ -1,19 +1,21 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../utilities/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
 import { generateTablePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
+
 export const Inventory = () => {
+  const { t } = useTranslation();
   const { ingredients, ingredientRepo } = useMainContext();
   const [currentInventory, setCurrentInventory] = useState(ingredients);
   const [fireRecipeModal, setFireRecipeModal] = useState(false);
   const [alert, setAlert] = useState(false);
 
-
   useEffect(() => {
-    setCurrentInventory(ingredients);
-  }, [ingredients])
+    const inventory = ingredients.filter((ingredient) => ingredient.setInInventory);
+    setCurrentInventory(inventory);
+  }, [ingredients]);
 
   const updateIngredientsStock = async () => {
     setAlert(true);
@@ -28,89 +30,89 @@ export const Inventory = () => {
         })
       );
     } catch (error) {
-      console.error("Error updating stock:", error);
+      console.error(t('inventory.updateError'), error);
     }
     setAlert(false);
-  }
+  };
 
   const handleGeneratePDF = () => {
     const pdfData = {
-      title: "Stock Inventory",
-      headers: ["Ref", "Item", "Stock"],
+      title: t('inventory.stockInventory'),
+      headers: [t('inventory.ref'), t('inventory.item'), t('inventory.stock')],
       data: currentInventory.map(ingredient => [
         ingredient.reference,
         ingredient.name,
         `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`
       ]),
       fileName: "Inventory"
-    }
-    generateTablePDF(pdfData)
-  }
+    };
+    generateTablePDF(pdfData);
+  };
 
   const handleGenerateExcel = () => {
     const tableData = currentInventory.map(ingredient => ({
-      Ref: ingredient.reference,
-      Item: ingredient.name,
-      Stock: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+      [t('inventory.ref')]: ingredient.reference,
+      [t('inventory.item')]: ingredient.name,
+      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
     }));
-    generateXlsxTable("Inventory", tableData)
+    generateXlsxTable("Inventory", tableData);
   };
 
   return (
     <>
       {ingredients.length > 0 ? (
         <>
-            <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
-              <a className="navbar-brand text-light ps-2" href="#">
-                Stock Inventory
-              </a>
+          <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
+            <a className="navbar-brand text-light ps-2" href="#">
+              {t('inventory.stockInventory')}
+            </a>
 
-              <button
-                className="btn btn-outline-light me-2 d-lg-none"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#actionsCollapse1"
-                aria-expanded="false"
-                aria-controls="actionsCollapse1"
-              >
-                <i className="bi bi-list"></i> Actions
-              </button>
+            <button
+              className="btn btn-outline-light me-2 d-lg-none"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#actionsCollapse1"
+              aria-expanded="false"
+              aria-controls="actionsCollapse1"
+            >
+              <i className="bi bi-list"></i> {t('inventory.actions')}
+            </button>
 
-              <div className="collapse navbar-collapse position-relative d-lg-block" id="actionsCollapse1">
-                <ul className="navbar-nav position-absolute bg-color-main gap-2 w-100 p-2 m-0">
-                  <li className="nav-item mx-2">
-                    <button className="btn btn-sm btn-outline-light d-sm-block" onClick={() => setFireRecipeModal(true)}>
-                      Fire Recipes
-                    </button>
-                  </li>
-                  <li className="nav-item mx-2">
-                    <button className="btn btn-sm btn-outline-light" onClick={updateIngredientsStock}>
-                      Update Stock
-                    </button>
-                  </li>
-                  <li className="nav-item mx-2">
-                    <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGeneratePDF}>
-                      <i className="bi bi-download me-1"></i>Download as .pdf
-                    </button>
-                  </li>
-                  <li className="nav-item mx-2">
-                    <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGenerateExcel}>
-                      <i className="bi bi-download me-1"></i>Download as .xlsx
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </nav>
+            <div className="collapse navbar-collapse position-relative d-lg-block" id="actionsCollapse1">
+              <ul className="navbar-nav position-absolute bg-color-main gap-2 w-100 p-2 m-0">
+                <li className="nav-item mx-2">
+                  <button className="btn btn-sm btn-outline-light d-sm-block" onClick={() => setFireRecipeModal(true)}>
+                    {t('inventory.fireRecipes')}
+                  </button>
+                </li>
+                <li className="nav-item mx-2">
+                  <button className="btn btn-sm btn-outline-light" onClick={updateIngredientsStock}>
+                    {t('inventory.updateStock')}
+                  </button>
+                </li>
+                <li className="nav-item mx-2">
+                  <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGeneratePDF}>
+                    <i className="bi bi-download me-1"></i>{t('inventory.downloadPDF')}
+                  </button>
+                </li>
+                <li className="nav-item mx-2">
+                  <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGenerateExcel}>
+                    <i className="bi bi-download me-1"></i>{t('inventory.downloadExcel')}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </nav>
 
           {/* Table */}
           <div className="table-responsive overflow-x-auto">
-            {alert && <p className="alert alert-warning position-fixed top-50 start-50">Updating... </p>}
+            {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}
             <table className="table table-light mb-0 text-nowrap">
-              <thead className="">
+              <thead>
                 <tr>
-                  <th>Ref</th>
-                  <th>Name</th>
-                  <th>Stock</th>
+                  <th>{t('inventory.ref')}</th>
+                  <th>{t('inventory.item')}</th>
+                  <th>{t('inventory.stock')}</th>
                 </tr>
               </thead>
               <tbody className="table-group-divider">
@@ -140,4 +142,4 @@ export const Inventory = () => {
       )}
     </>
   );
-};  
+};

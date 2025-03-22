@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Spinner } from '../../utilities/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { ConfirmDeleteModal } from './ingredientModals/ConfirmDeleteModal';
+import { t } from 'i18next';
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
@@ -22,6 +23,7 @@ export const IngredientForm = () => {
     batch: '',
     stock: '',
     reference: '',
+    setInInventory: ""
   };
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export const IngredientForm = () => {
       alert(`Ingredient named ${ingredientData.name} already exists`);
       return;
     }
-    const checkHasName = ingredientData.name !== ""  ? true : false
+    const checkHasName = ingredientData.name !== "" ? true : false
     if (!checkHasName) {
       alert("Ingredient name is required.");
       return false
@@ -77,8 +79,9 @@ export const IngredientForm = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setIngredientData((prevData) => ({ ...prevData, [name]: value }));
+    const { name, value, type, checked } = e.target;
+        const newValue = type === "checkbox" ? checked : value;
+    setIngredientData((prevData) => ({ ...prevData, [name]: newValue }));
   };
 
   if (!ingredientData) return <Spinner />;
@@ -139,16 +142,33 @@ export const IngredientForm = () => {
           </div>
 
           <div className="row">
-            <div className="col-md-6">
-              <label htmlFor="brand" className="form-label">Brand</label>
-              <input
-                type="text"
-                name="brand"
-                value={ingredientData.brand}
-                className="form-control"
-                id="brand"
-                onChange={handleChange}
-              />
+            <div className="col-md-6 d-flex gap-3">
+              <div className="col-md-6">
+                <label htmlFor="brand" className="form-label">Brand</label>
+                <input
+                  type="text"
+                  name="brand"
+                  value={ingredientData.brand}
+                  className="form-control"
+                  id="brand"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-check col-md-6 d-flex align-items-center">
+                <div>
+                  <label htmlFor="setInInventory" className="form-check-label">Set in Inventory</label>
+                <input
+                  id="setInInventory"
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={ingredientData.setInInventory}
+                  name='setInInventory'
+                  onChange={handleChange}
+                />
+                </div>
+                
+              </div>
+
             </div>
             <div className="col-md-6">
               <label htmlFor="supplier" className="form-label">Supplier</label>

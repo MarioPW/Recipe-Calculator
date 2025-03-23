@@ -6,11 +6,11 @@ import { HashRouter } from 'react-router-dom'
 import { MainProvider } from './context/MainContext.jsx'
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import es from './utilities/translations/es/es.json'
-import en from './utilities/translations/en/en.json'
+import es from './utilities/translations/es.json'
+import en from './utilities/translations/en.json'
 
 i18next.use(initReactI18next).init({
-  lng: 'en',
+  lng: localStorage.getItem('lang') || 'en',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false

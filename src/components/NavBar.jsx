@@ -11,14 +11,15 @@ export const NavBar = () => {
   const { user } = useMainContext();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const [lang, setLang] = useState("https://flagcdn.com/w40/us.png");
   const langs = {
     es: "https://flagcdn.com/w40/mx.png",
     en: "https://flagcdn.com/w40/us.png"
   }
+  const [lang, setLang] = useState(langs[localStorage.getItem("lang") || "en"]);
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
     setLang(langs[lang]);
   };
 
@@ -77,36 +78,36 @@ export const NavBar = () => {
                   </li>
                 </ul>
                 <div className="d-flex align-items-center gap-2 mb-3 mb-lg-0">
-                <div className="dropdown">
+                  <div className="dropdown">
                     <button
                       className="btn btn-sm text-light dropdown-toggle"
                       type="button"
                       id="dropdownLanguage"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
+                      aria-label="Select language"
                     >
-                      <img src={lang} alt="" width="20" />
+                      <img src={lang} alt="Selected language" width="20" />
                     </button>
                     <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownLanguage">
-                      <li>
-                        <button className="dropdown-item" onClick={() => changeLanguage("en")}>
-                          <img src="https://flagcdn.com/w40/us.png" alt="English" width="20" /> {t("language.en")}
-                        </button>
-                      </li>
-                      <li>
-                        <button className="dropdown-item" onClick={() => changeLanguage("es")}>
-                          <img src="https://flagcdn.com/w40/mx.png" alt="Español" width="20" /> {t("language.es")}
-                        </button>
-                      </li>
+                      {langs &&
+                        Object.keys(langs).map((key) => (
+                            <li key={key}>
+                              <button className="dropdown-item" onClick={() => changeLanguage(key)}>
+                                <img src={langs[key]} alt={`${key} flag`} width="20" /> {t(`language.${key}`)}
+                              </button>
+                            </li>
+                          )
+                        )}
                     </ul>
                   </div>
                   <h6 className="text-light m-0">{user.displayName || user.email}</h6>
-                  
+
                   <button className="myButton-purple fw-light border-0 py-1 fs-6" onClick={handleLogout}>
                     {t("navbar.logout")}
                   </button>
                 </div>
-                
+
               </>
             ) : (
               <li className="nav-item list-group-item text-light fs-6">

@@ -24,14 +24,13 @@ export const Inventory = () => {
       const matchingIngredient = ingredients.find((ing) => ing.name === ingredient.name);
       return matchingIngredient && Number(ingredient.stock) !== Number(matchingIngredient.stock);
     })
-    
     try {
       await Promise.all(
         changedStockIngredients.map(async (ingredient) => {
-          if (!ingredient.isSubRecipe) {
+          
             await ingredientService.updateMyIngredient(ingredient.FSId, ingredient);
             // console.log(ingredient);
-          }
+          
         })
       )
     } catch (error) {

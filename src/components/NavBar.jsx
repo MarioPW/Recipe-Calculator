@@ -13,7 +13,9 @@ export const NavBar = () => {
   const { t, i18n } = useTranslation();
   const langs = {
     es: "https://flagcdn.com/w40/mx.png",
-    en: "https://flagcdn.com/w40/us.png"
+    en: "https://flagcdn.com/w40/us.png",
+    fr: "https://flagcdn.com/w40/fr.png",
+    it: "https://flagcdn.com/w40/it.png"
   }
   const [lang, setLang] = useState(langs[localStorage.getItem("lang") || "en"]);
 

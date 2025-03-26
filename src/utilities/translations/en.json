@@ -36,7 +36,9 @@
   "language": {
     "select": "Lang",
     "en": "English",
-    "es": "Spanish"
+    "es": "Spanish",
+    "fr": "French",
+    "it": "Italian"
   },
   "myRecipe": {
     "ingredient": "Ingredient",
@@ -58,6 +60,8 @@
   "traceability": "Traceability",
   "addIngredient": "Add Ingredient",
   "addSubRecipe": "Add SubRecipe",
+  "ingredients":"Ingredients",
+  "weight":"Weight",
   "missingIngredient": "Missing ingredient",
   "missingIngredientDescription": "This ingredient has not been added yet or has been deleted from your ingredients table. Please add it or delete it from your recipes or you will not be able to traceability or cost your recipe correctly."
   },
@@ -107,5 +111,30 @@
     "batch": "Batch",
     "expiration": "Expiration Date",
     "cost": "Cost per Kg"
-  }}
+  }},
+  "traceabilityModal": {
+    "title": "Traceability Details",
+    "name": "Name",
+    "weightPerUnit": "Weight per Unit",
+    "amount": "Amount",
+    "ingredients": "Ingredients",
+    "ref": "Ref",
+    "batch": "Batch",
+    "expirationDate": "Expiration Date",
+    "calculatedProportion": "Calculated Proportion",
+    "downloadPDF": "Download PDF",
+    "downloadExcel": "Download Excel",
+    "close": "Close"
+},
+"calculatedRecipeModal": {
+  "title": "Calculated Recipe",
+  "downloadPDF": "Generate PDF",
+  "recipe": "Recipe",
+  "numberOfUnits": "Number of Units",
+  "weightPerUnit": "Weight per Unit",
+  "ingredient": "Ingredient",
+  "weight": "Weight",
+  "unitOfMeasure": "Unit of Measure",
+  "close": "Close"
+}
 }

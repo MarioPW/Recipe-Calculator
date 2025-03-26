@@ -7,6 +7,7 @@ import { EditRecipeIngredient } from './recipeModals/EditRecipeIngredient';
 import { RemoveIngredientModal } from './recipeModals/RemoveIngredientModal';
 import { ConfirmDeleteRecipe } from './ConfirmDeleteRecipe';
 import { useMainContext } from '../../../context/MainContext';
+import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
 
 export const MyRecipe = () => {
   const { t } = useTranslation();
@@ -22,8 +23,9 @@ export const MyRecipe = () => {
   useEffect(() => {
     const loadRecipe = () => {
       try {
-        const currentRecipe = recipes.find((recipe) => recipe.id === recipeId);
-        setRecipe(currentRecipe);
+        const recipeFromContext = recipes.find((recipe) => recipe.id === recipeId);
+        setRecipe(recipeFromContext);
+        
       } catch (error) {
         console.error('Error loading recipe:', error);
       }
@@ -45,19 +47,19 @@ export const MyRecipe = () => {
     setLoading(true);
 
     if (recipeId) {
-        await recipeService.update(recipe, recipeId);
-        setRecipes(recipes.map((r) => (r.id === recipeId ? { ...r, ...recipe } : r)));
+      await recipeService.update(recipe, recipeId);
+      setRecipes(recipes.map((r) => (r.id === recipeId ? { ...r, ...recipe } : r)));
     } else {
-        const response = await recipeService.saveRecipe(recipe);
+      const response = await recipeService.saveRecipe(recipe);
 
-        if (response) {
-            setRecipes([...recipes, { ...recipe, id: response }]);
-            navigate("/my-recipe/" + response);
-        }
+      if (response) {
+        setRecipes([...recipes, { ...recipe, id: response }]);
+        navigate("/my-recipe/" + response);
+      }
     }
 
     setLoading(false);
-};
+  };
 
   const handleDelete = async () => {
     if (!recipeId) {
@@ -82,6 +84,7 @@ export const MyRecipe = () => {
       {recipe ? (
         <>
           <RecipeNavBar currentRecipe={recipe} setRecipe={setRecipe} />
+         
           {loading && <p className="alert alert-warning m-0">{t("myRecipe.updating")}</p>}
           <table className="table table-light table-striped table-bordered table-hover mw-25 mb-0">
             <thead>
@@ -96,9 +99,13 @@ export const MyRecipe = () => {
               {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
                 <tr key={index}>
                   <td>{ingredient.name}</td>
-                  <td>{ingredient.weight}</td>
-                  <td><button className='myButton-yellow border-0' onClick={() => handleEdit(ingredient)}><i className="bi bi-pen"></i></button></td>
-                  <td><button className='myButton-danger border-0' onClick={() => handleRemove(ingredient)}><i className="bi bi-trash"></i></button></td>
+                  <td>{ingredient.weight} {ingredient.unitOfMeasure}</td>
+                  <td>
+                    <button className='myButton-yellow border-0' onClick={() => handleEdit(ingredient)}><i className="bi bi-pen"></i></button>
+                  </td>
+                  <td>
+                    <button className='myButton-danger border-0' onClick={() => handleRemove(ingredient)}><i className="bi bi-trash"></i></button>
+                  </td>
                 </tr>
               ))}
             </tbody>

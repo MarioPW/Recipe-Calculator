@@ -36,7 +36,9 @@
     "language": {
       "select": "Lang",
       "en": "Inglés",
-      "es": "Español"
+      "es": "Español",
+      "fr": "Frances",
+      "it": "Italiano"
     },
       "myRecipe": {
         "ingredient": "Ingrediente",
@@ -57,6 +59,8 @@
         "calculate": "Calcular",
         "cost": "Costear $",
         "traceability": "Trazabilidad",
+        "ingredients": "Ingredientes",
+        "weight": "Peso",
         "addIngredient": "Agregar Ingrediente",
         "addSubRecipe": "Agregar SubReceta",
         "missingIngredient": "Ingrediente faltante",
@@ -108,5 +112,30 @@
     "batch": "Lote",
     "expiration": "Fecha de Expiración",
     "cost": "Costo por Kg"
-  }}
+  }},
+  "traceabilityModal": {
+    "title": "Detalles de Trazabilidad",
+    "name": "Nombre",
+    "weightPerUnit": "Peso por Unidad",
+    "amount": "Cantidad",
+    "ingredients": "Ingredientes",
+    "ref": "Ref",
+    "batch": "Lote",
+    "expirationDate": "Fecha de Vencimiento",
+    "calculatedProportion": "Proporción Calculada",
+    "downloadPDF": "Descargar PDF",
+    "downloadExcel": "Descargar Excel",
+    "close": "Cerrar"
+},
+"calculatedRecipeModal": {
+  "title": "Receta Calculada",
+  "downloadPDF": "Generar PDF",
+  "recipe": "Receta",
+  "numberOfUnits": "Número de Unidades",
+  "weightPerUnit": "Peso por Unidad",
+  "ingredient": "Ingrediente",
+  "weight": "Peso",
+  "unitOfMeasure": "Unidad de Medida",
+  "close": "Cerrar"
+}
 }

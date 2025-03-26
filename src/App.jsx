@@ -5,12 +5,12 @@ import { LoginRegister } from './components/LoginRegister'
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { auth } from "./firebaseConfig";
 import { Route, Routes } from 'react-router-dom'
-import { MyRecipes } from './components/calculator/Recipes/MyRecipes';
-import { MyRecipe } from './components/calculator/Recipes/MyRecipe';
-import { MyIngredients } from './components/calculator/Ingredients/MyIngredients';
+import { MyRecipes } from './components/screens/Recipes/MyRecipes';
+import { MyRecipe } from './components/screens/Recipes/MyRecipe';
+import { MyIngredients } from './components/screens/Ingredients/MyIngredients';
 import { cleanLocalStorage } from './utilities/utils';
-import { IngredientForm } from './components/calculator/Ingredients/IngredientForm';
-import { Inventory } from './components/calculator/inventotry/Inventory';
+import { IngredientForm } from './components/screens/Ingredients/IngredientForm';
+import { Inventory } from './components/screens/inventotry/Inventory';
 import { useMainContext } from "./context/MainContext";
 
 function App() {

@@ -8,6 +8,8 @@ import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import es from './utilities/translations/es.json'
 import en from './utilities/translations/en.json'
+import fr from './utilities/translations/fr.json'
+import it from './utilities/translations/it.json'
 
 i18next.use(initReactI18next).init({
   lng: localStorage.getItem('lang') || 'en',
@@ -21,6 +23,12 @@ i18next.use(initReactI18next).init({
     },
     es: {
       translation: es
+    },
+    fr: {
+      translation: fr
+    },
+    it: {
+      translation: it
     }
   }
 })

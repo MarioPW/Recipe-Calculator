@@ -8,6 +8,8 @@ import { RecipeFeaturesModal } from './recipeModals/RecipeFeaturesModal';
 import { TraceabilityModal } from './recipeModals/TraceabilityModal';
 import { useMainContext } from '../../../context/MainContext';
 import { useTranslation } from "react-i18next";
+import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
+import { set } from 'zod';
 
 const OPERATIONS = {
   CALCULATE: "Calculate",
@@ -33,7 +35,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
   const [missingIngredient, setMissingIngredient] = useState(null);
   const [traceabilityModal, setTraceabilityModal] = useState(false);
   const [recipeFeaturesModal, setRecipeFeaturesModal] = useState(false);
-
+  const [pdfButton, setPdfButton] = useState(false);
   const recipeData = {
     amount,
     weightPerUnit,
@@ -51,6 +53,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         );
         missing && setMissingIngredient(missing.name);
         setRecipeIngredients(loadedRecipeIngredients);
+        setPdfButton(true);
       } catch (error) {
         console.error('Error loading Ingredients:', error);
       }
@@ -122,7 +125,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
 
   return (
     <>
- <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
+      <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
         <div className="container-fluid">
           <h3 className="navbar-brand fw-bold text-light">
             {currentRecipe.name && `${currentRecipe.name} X ${currentRecipe.productWeight} g`}
@@ -140,6 +143,15 @@ export const RecipeNavBar = ({ currentRecipe }) => {
           </button>
           <div className="collapse navbar-collapse" id="recipeNavbar">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
+              <li className="nav-item">
+                {pdfButton && <GeneratePdfButton
+                  label="PDF"
+                  title={currentRecipe.name}
+                  tableData={currentRecipe.ingredients.map((item) => ({
+                    [t('recipeNavbar.ingredients')]: item.name,
+                    [t('recipeNavbar.weight')]: `${item.weight || 0} ${item.unitOfMeasure}`
+                  }))} /> }
+              </li>
               <li className="nav-item">
                 <button className="myButton-yellow border-0 py-1" onClick={toggleModal(setRecipeFeaturesModal)}>
                   {t("recipeNavbar.features")}

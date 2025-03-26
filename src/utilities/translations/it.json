@@ -1,0 +1,143 @@
+{
+    "recipeMaster": {
+      "title": "Ricettario",
+      "description": "Crea e gestisci le tue creazioni culinarie con facilità."
+    },
+    "rMingredients": {
+      "title": "Ingredienti",
+      "description": "Salva i tuoi ingredienti per creare e gestire le tue ricette."
+    },
+    "rMrecipes": {
+      "title": "Ricette",
+      "description": "Combina i tuoi ingredienti per creare deliziose ricette con misurazioni precise."
+    },
+    "rMtraceability": {
+      "title": "Tracciabilità",
+      "description": "Gestisci facilmente la tracciabilità delle tue ricette."
+    },
+    "rMcost": {
+      "title": "Costo",
+      "description": "Calcola il costo delle tue ricette per mantenere la redditività e il controllo."
+    },
+    "rMinventory": {
+      "title": "Inventario",
+      "description": "Gestisci le scorte dei tuoi ingredienti e l'inventario."
+    },
+    "navbar": {
+      "title": "Ricettario",
+      "ingredients": "Ingredienti",
+      "recipes": "Ricette",
+      "inventory": "Inventario",
+      "logout": "Esci",
+      "login_register": "Accedi / Registrati",
+      "logout_confirm": "Sei sicuro di voler uscire?",
+      "logout_success": "Disconnessione avvenuta con successo"
+    },
+    "language": {
+      "select": "Lingua",
+      "en": "Inglese",
+      "es": "Spagnolo",
+      "fr": "Francese",
+      "it": "Italiano"
+    },
+    "myRecipe": {
+      "ingredient": "Ingrediente",
+      "weight": "Peso",
+      "edit": "Modifica",
+      "remove": "Rimuovi",
+      "updating": "Aggiornamento...",
+      "goBack": "Torna indietro",
+      "saveChanges": "Salva modifiche",
+      "delete": "Elimina",
+      "notSaved": "Non hai ancora salvato questa ricetta",
+      "deleteError": "Si è verificato un errore durante l'eliminazione della ricetta."
+    },
+   "recipeNavbar": {
+    "notSaved": "Non hai ancora salvato questa ricetta",
+    "deleteError": "Si è verificato un errore durante l'eliminazione della ricetta.",
+    "features": "Funzionalità",
+    "calculate": "Calcola",
+    "cost": "Costo €",
+    "traceability": "Tracciabilità",
+    "addIngredient": "Aggiungi Ingrediente",
+    "addSubRecipe": "Aggiungi Sotto-ricetta",
+    "ingredients": "Ingredienti",
+    "weight": "Peso",
+    "missingIngredient": "Ingrediente mancante",
+    "missingIngredientDescription": "Questo ingrediente non è stato ancora aggiunto o è stato eliminato dalla tua tabella degli ingredienti. Aggiungilo o rimuovilo dalle tue ricette, altrimenti non potrai calcolare correttamente la tracciabilità o il costo della tua ricetta."
+
+    },
+    "inventory": {
+      "stockInventory": "Inventario di Magazzino",
+      "actions": "Azioni",
+      "fireRecipes": "Produci Ricette",
+      "updateStock": "Aggiorna Scorte",
+      "downloadPDF": "Scarica come .pdf",
+      "downloadExcel": "Scarica come .xlsx",
+      "updating": "Aggiornamento",
+      "updateError": "Errore nell'aggiornamento delle scorte:",
+      "ref": "Rif",
+      "item": "Articolo",
+      "stock": "Scorte"
+    },
+    "myRecipes": {
+      "title": "Le Mie Ricette",
+      "addNew": "Aggiungi Nuova",
+      "recipeName": "Nome",
+      "weightPerUnit": "Peso per unità",
+      "isSubRecipe": "È una sotto-ricetta",
+      "defaultRecipe": "Ricetta",
+      "yes": "Sì",
+      "no": "No"
+    },
+    "addIngredient": {
+      "alertEnterWeight": "Devi inserire un peso",
+      "enterWeight": "Inserisci il peso di",
+      "enterWeightPlaceholder": "Inserisci Peso",
+      "cancel": "Annulla",
+      "save": "Salva"
+    },
+    "myIngredients": {
+      "title": "I Miei Ingredienti",
+      "actions": "Azioni",
+      "sortByName": "Ordina per Nome",
+      "sortByRef": "Ordina per Riferimento",
+      "addNew": "Aggiungi Nuovo",
+      "table": {
+        "ref": "Rif",
+        "name": "Nome",
+        "stock": "Scorte",
+        "unit": "Unità di Misura",
+        "brand": "Marca",
+        "supplier": "Fornitore",
+        "batch": "Lotto",
+        "expiration": "Data di Scadenza",
+        "cost": "Costo per Kg"
+      }
+    },
+    "traceabilityModal": {
+      "title": "Dettagli Tracciabilità",
+      "name": "Nome",
+      "weightPerUnit": "Peso per Unità",
+      "amount": "Quantità",
+      "ingredients": "Ingredienti",
+      "ref": "Rif",
+      "batch": "Lotto",
+      "expirationDate": "Data di Scadenza",
+      "calculatedProportion": "Proporzione Calcolata",
+      "downloadPDF": "Scarica PDF",
+      "downloadExcel": "Scarica Excel",
+      "close": "Chiudi"
+    },
+    "calculatedRecipeModal": {
+      "title": "Ricetta Calcolata",
+      "downloadPDF": "Genera PDF",
+      "recipe": "Ricetta",
+      "numberOfUnits": "Numero di Unità",
+      "weightPerUnit": "Peso per Unità",
+      "ingredient": "Ingrediente",
+      "weight": "Peso",
+      "unitOfMeasure": "Unità di Misura",
+      "close": "Chiudi"
+    }
+}

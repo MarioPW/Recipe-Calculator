@@ -4,6 +4,7 @@ import { Spinner } from '../../utilities/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
 import { generateTablePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
+import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
 
 export const Inventory = () => {
   const { t } = useTranslation();
@@ -22,7 +23,8 @@ export const Inventory = () => {
     const changedStockIngredients = currentInventory.filter((ingredient) => {
       const matchingIngredient = ingredients.find((ing) => ing.name === ingredient.name);
       return matchingIngredient && Number(ingredient.stock) !== Number(matchingIngredient.stock);
-    });
+    })
+    console.log(changedStockIngredients);
     try {
       await Promise.all(
         changedStockIngredients.map(async (ingredient) => {
@@ -34,28 +36,13 @@ export const Inventory = () => {
     }
     setAlert(false);
   };
-
-  const handleGeneratePDF = () => {
-    const pdfData = {
-      title: t('inventory.stockInventory'),
-      headers: [t('inventory.ref'), t('inventory.item'), t('inventory.stock')],
-      data: currentInventory.map(ingredient => [
-        ingredient.reference,
-        ingredient.name,
-        `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`
-      ]),
-      fileName: "Inventory"
-    };
-    generateTablePDF(pdfData);
-  };
-
   const handleGenerateExcel = () => {
     const tableData = currentInventory.map(ingredient => ({
       [t('inventory.ref')]: ingredient.reference,
       [t('inventory.item')]: ingredient.name,
       [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
     }));
-    generateXlsxTable("Inventory", tableData);
+    generateXlsxTable(t('inventory.stockInventory'), tableData);
   };
 
   return (
@@ -90,10 +77,16 @@ export const Inventory = () => {
                     {t('inventory.updateStock')}
                   </button>
                 </li>
-                <li className="nav-item mx-2">
-                  <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGeneratePDF}>
-                    <i className="bi bi-download me-1"></i>{t('inventory.downloadPDF')}
-                  </button>
+                <li>
+                  <GeneratePdfButton
+                    label={t('inventory.downloadPDF')}
+                    title={t('inventory.stockInventory')}
+                    tableData={currentInventory.map((item) => ({
+                      [t('inventory.ref')]: item.reference,
+                      [t('inventory.item')]: item.name,
+                      [t('inventory.stock')]: `${item.stock || 0} ${item.unitOfMeasure}`
+                    }))}
+                  />
                 </li>
                 <li className="nav-item mx-2">
                   <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGenerateExcel}>

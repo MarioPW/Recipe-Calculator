@@ -23,7 +23,7 @@ export const IngredientForm = () => {
     batch: '',
     stock: '',
     reference: '',
-    setInInventory: ""
+    setInInventory: ''
   };
 
   useEffect(() => {

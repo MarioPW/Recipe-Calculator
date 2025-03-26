@@ -8,7 +8,7 @@ import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
 
 export const Inventory = () => {
   const { t } = useTranslation();
-  const { ingredients, ingredientRepo } = useMainContext();
+  const { ingredients, ingredientService } = useMainContext();
   const [currentInventory, setCurrentInventory] = useState(ingredients);
   const [fireRecipeModal, setFireRecipeModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -24,13 +24,16 @@ export const Inventory = () => {
       const matchingIngredient = ingredients.find((ing) => ing.name === ingredient.name);
       return matchingIngredient && Number(ingredient.stock) !== Number(matchingIngredient.stock);
     })
-    console.log(changedStockIngredients);
+    
     try {
       await Promise.all(
         changedStockIngredients.map(async (ingredient) => {
-          await ingredientRepo.updateMyIngredient(ingredient.FSId, ingredient);
+          if (!ingredient.isSubRecipe) {
+            await ingredientService.updateMyIngredient(ingredient.FSId, ingredient);
+            // console.log(ingredient);
+          }
         })
-      );
+      )
     } catch (error) {
       console.error(t('inventory.updateError'), error);
     }

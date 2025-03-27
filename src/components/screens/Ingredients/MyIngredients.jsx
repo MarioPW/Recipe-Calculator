@@ -4,61 +4,40 @@ import { Spinner } from '../../utilities/Spinner';
 import { Link } from 'react-router-dom';
 import { useMainContext } from '../../../context/MainContext';
 import { SearchInput } from '../../utilities/SearchInput';
+import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
 
 export const MyIngredients = () => {
   const { t } = useTranslation();
   const { ingredients, setIngredients } = useMainContext();
 
+  const sortByName = () => {
+    setIngredients([...ingredients].sort((a, b) => a.name.localeCompare(b.name)));
+  };
+
+  const sortByReference = () => {
+    setIngredients([...ingredients].sort((a, b) => {
+      const refA = a.reference ? parseInt(a.reference, 10) : Infinity;
+      const refB = b.reference ? parseInt(b.reference, 10) : Infinity;
+      return refA - refB;
+    }));
+  };
+
   return (
     <>
       {ingredients.length > 0 ? (
         <div className="container p-0">
-          <nav className="navbar navbar-expand-lg border mt-1 bg-color-main pe-2">
-            <a className="navbar-brand text-light ps-2" href="#">{t('myIngredients.title')}</a>
-
-            <button
-              className="btn btn-outline-light me-2 d-lg-none"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#actionsCollapse2"
-              aria-expanded="false"
-              aria-controls="actionsCollapse2"
-            >
-              <i className="bi bi-list"></i> {t('myIngredients.actions')}
-            </button>
-            <SearchInput items={ingredients} url="/ingredient" />
-            <div className="collapse navbar-collapse position-relative d-lg-block" id="actionsCollapse2">
-              <ul className="navbar-nav position-absolute bg-color-main gap-2 w-100 p-2 m-0 d-flex justify-content-end">
-                <li className="nav-item list-group-item">
-                  <button 
-                    className="btn btn-sm btn-outline-light d-sm-block" 
-                    onClick={() => setIngredients([...ingredients].sort((a, b) => a.name.localeCompare(b.name)))}
-                  >
-                    {t('myIngredients.sortByName')}
-                  </button>
-                </li>
-                <li className="nav-item list-group-item">
-                  <button 
-                    className="btn btn-sm btn-outline-light d-sm-block" 
-                    onClick={() =>
-                      setIngredients([...ingredients].sort((a, b) => {
-                        const refA = a.reference ? parseInt(a.reference, 10) : Infinity;
-                        const refB = b.reference ? parseInt(b.reference, 10) : Infinity;
-                        return refA - refB;
-                      }))
-                    }
-                  >
-                    {t('myIngredients.sortByRef')}
-                  </button>
-                </li>
-                <li className="nav-item list-group-item">
-                  <Link className="myButton-success fw-bold d-inline-block text-center" to="/ingredient">
-                    <strong className="fw-bold me-2">+</strong>{t('myIngredients.addNew')}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
+           <SecondaryNavbar
+            title={t('myIngredients.title')}
+            collapseButtonText={t('myIngredients.actions')}
+            searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
+            buttonsActions={[
+              { label: t('myIngredients.sortByName'), action: sortByName },
+              { label: t('myIngredients.sortByRef'), action: sortByReference },
+            ]}
+            links={[
+              { label: t('myIngredients.addNew'), url: "/ingredient" }
+            ]}
+          />
 
           <div className="table-responsive">
             <table className="table table-light table-striped text-nowrap">

@@ -31,7 +31,6 @@ export const IngredientForm = () => {
       try {
         const fetchedIngredient = await ingredientService.getMyIngredientByid(ingredientId);
         setIngredientData(fetchedIngredient);
-        console.log(fetchedIngredient);
       } catch (error) {
         console.error('Error fetching Ingredients:', error);
       }

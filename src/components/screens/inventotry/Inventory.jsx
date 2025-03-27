@@ -27,10 +27,7 @@ export const Inventory = () => {
     try {
       await Promise.all(
         changedStockIngredients.map(async (ingredient) => {
-          
             await ingredientService.updateMyIngredient(ingredient.FSId, ingredient);
-            // console.log(ingredient);
-          
         })
       )
     } catch (error) {

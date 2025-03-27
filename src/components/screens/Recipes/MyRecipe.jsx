@@ -16,9 +16,21 @@ export const MyRecipe = () => {
   const [deleteRecipe, setDeleteRecipe] = useState(false);
   const [editIngredient, setEditIngredient] = useState(false);
   const [removeIngredient, setRemoveIngredient] = useState(false);
-  const [ingredient, setIngredient] = useState({});
+  const [ingredient, setIngredient] = useState();
   const { recipeService, recipes, setRecipes, recipe, setRecipe } = useMainContext();
   const [loading, setLoading] = useState(false);
+
+  const newRecipe = {
+    name: "",
+    description: "",
+    ingredients: [],
+    productWeight: "",
+    isSubRecipe: false,
+    steps: [],
+    imageUrl: "",
+    productWeight: ""
+  };
+  
 
   useEffect(() => {
     const loadRecipe = () => {
@@ -30,7 +42,7 @@ export const MyRecipe = () => {
         console.error('Error loading recipe:', error);
       }
     };
-    recipeId && loadRecipe();
+    recipeId ? loadRecipe(): setRecipe(newRecipe);
   }, [recipeId, recipes]);
 
   const handleEdit = (ingredient) => {

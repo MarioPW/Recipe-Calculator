@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../utilities/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { SearchInput } from '../../utilities/SearchInput';
+import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
 
 export const MyRecipes = () => {
   const { t } = useTranslation();
@@ -21,17 +22,14 @@ export const MyRecipes = () => {
     <div>
       {recipes.length > 0 ? (
         <>
-          <nav className='navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between'>
-            <a className="navbar-brand text-light ps-2" href="#">{t('myRecipes.title')}</a>
-            <ul className='d-flex flex-row mb-0 gap-3 align-items-center pe-2'>
-              <SearchInput items={recipes} url={'/my-recipe'} />
-              <li className='nav-item list-group-item'>
-                <Link className='myButton-success fw-bold' to={'/my-recipe'}>
-                  <strong className='fw-bold me-2'>+</strong>{t('myRecipes.addNew')}
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          <SecondaryNavbar 
+            title={t('myRecipes.title')}
+            collapseButtonText={t('myRecipes.actions')}
+            searchInput={{ items: recipes, url: "/my-recipe", setItemsList: setRecipes }}
+            links={[
+              { label: t('myRecipes.addNew'), url: "/my-recipe" }
+            ]}
+          />
 
           <table className="table table-light table-hover">
             <thead>

@@ -78,21 +78,35 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         setConvertionsModal(true);
         break;
       case OPERATIONS.COST:
-        try {
-          const costParams = {
-            ...recipeData,
-            ingredients: recipeIngredients.map((ing, index) => ({
-              name: ing.name,
-              requiredQuantity: convertions[index].conversion,
-              costPerKg: ing.costPerKg,
-              unitOfMeasure: ing.unitOfMeasure,
-            })),
-          };
-          const calculations = calculator.costRecipe(costParams);
-          console.log(calculations); //TODO: Show the cost of the recipe in a modal
-        } catch (error) {
-          alert(error);
-        }
+        // const baseConversions = conversions.filter((r) => !r.isSubRecipe);
+        // const subRecipeConversions = conversions.filter((r) => r.isSubRecipe);
+        // subRecipeConversions.forEach((subRecipe) => {
+        //   const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
+        //   if (subRecipeWithIngredients) {
+        //     const subRecipeData = {
+        //       amount: 1,
+        //       weightPerUnit: subRecipe.conversion,
+        //     };
+  
+        //     const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
+        //     console.log(subRecipeCalc);
+        // try {
+        //   const costParams = {
+        //     ...recipeData,
+        //     ingredients: recipeIngredients.map((ing, index) => ({
+        //       name: ing.name,
+        //       requiredQuantity: convertions[index].conversion,
+        //       costPerKg: ing.costPerKg,
+        //       unitOfMeasure: ing.unitOfMeasure,
+        //     })),
+        //   };
+        //   const calculations = calculator.costRecipe(costParams);
+        //   console.log(calculations); //TODO: Show the cost of the recipe in a modal
+        // } catch (error) {
+        //   alert(error);
+        // }
+          alert("Not implemented yet");
+
         break;
       case OPERATIONS.TRACEABILITY:
         try {

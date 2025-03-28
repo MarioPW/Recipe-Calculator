@@ -48,6 +48,7 @@
     "updating": "Updating...",
     "goBack": "Go Back",
     "saveChanges": "Save Changes",
+    "nameExists": "Recipe named {{name}} already exists.",
     "delete": "Delete",
     "notSaved": "You have not saved this recipe yet",
     "deleteError": "An error occurred while deleting the recipe."
@@ -136,5 +137,27 @@
   "weight": "Weight",
   "unitOfMeasure": "Unit of Measure",
   "close": "Close"
-}
+},
+"ingredientForm": {
+    "updateStock": "Update Stock",
+    "enterAmount": "Enter amount",
+    "add": "Add",
+    "subtract": "Subtract",
+    "updating": "Updating...",
+    "name": "Ingredient Name",
+    "reference": "Reference",
+    "unitOfMeasure": "Unit Of Measure",
+    "choose": "Choose",
+    "stock": "Stock",
+    "setInInventory": "Set in Inventory",
+    "supplier": "Supplier",
+    "costPerKg": "Cost per Kg or L",
+    "expirationDate": "Expiration Date",
+    "batch": "Batch",
+    "brand": "Brand",
+    "delete": "Delete",
+    "saveChanges": "Save Changes",
+    "nameExists": "Ingredient named {{name}} already exists",
+    "nameRequired": "Ingredient name is required."
+  }
 }

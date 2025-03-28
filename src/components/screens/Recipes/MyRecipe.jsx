@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from '../../utilities/Spinner';
 import { RecipeNavBar } from './RecipeNavBar';
 import { EditRecipeIngredient } from './recipeModals/EditRecipeIngredient';
 import { RemoveIngredientModal } from './recipeModals/RemoveIngredientModal';
 import { ConfirmDeleteRecipe } from './ConfirmDeleteRecipe';
 import { useMainContext } from '../../../context/MainContext';
-import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
 
 export const MyRecipe = () => {
   const { t } = useTranslation();
@@ -27,22 +26,21 @@ export const MyRecipe = () => {
     productWeight: "",
     isSubRecipe: false,
     steps: [],
-    imageUrl: "",
-    productWeight: ""
+    imageUrl: ""
   };
-  
+
 
   useEffect(() => {
     const loadRecipe = () => {
       try {
         const recipeFromContext = recipes.find((recipe) => recipe.id === recipeId);
         setRecipe(recipeFromContext);
-        
+
       } catch (error) {
         console.error('Error loading recipe:', error);
       }
     };
-    recipeId ? loadRecipe(): setRecipe(newRecipe);
+    recipeId ? loadRecipe() : setRecipe(newRecipe);
   }, [recipeId, recipes]);
 
   const handleEdit = (ingredient) => {
@@ -62,6 +60,14 @@ export const MyRecipe = () => {
       await recipeService.update(recipe, recipeId);
       setRecipes(recipes.map((r) => (r.id === recipeId ? { ...r, ...recipe } : r)));
     } else {
+      const nameExists = recipes.some(
+        (item) => item.name === recipe.name && item.id !== recipe.id
+      );
+
+      if (nameExists) {
+        alert(t("myRecipe.nameExists", { name: recipe.name }));
+        return;
+      }
       const response = await recipeService.saveRecipe(recipe);
 
       if (response) {
@@ -69,7 +75,6 @@ export const MyRecipe = () => {
         navigate("/my-recipe/" + response);
       }
     }
-
     setLoading(false);
   };
 
@@ -96,7 +101,7 @@ export const MyRecipe = () => {
       {recipe ? (
         <>
           <RecipeNavBar currentRecipe={recipe} setRecipe={setRecipe} />
-         
+
           {loading && <p className="alert alert-warning m-0">{t("myRecipe.updating")}</p>}
           <table className="table table-light table-striped table-bordered table-hover mw-25 mb-0">
             <thead>

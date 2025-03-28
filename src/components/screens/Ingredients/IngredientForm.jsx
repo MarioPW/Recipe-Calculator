@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Spinner } from '../../utilities/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { ConfirmDeleteModal } from './ingredientModals/ConfirmDeleteModal';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
@@ -12,6 +13,8 @@ export const IngredientForm = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [stockInput, setStockInput] = useState('');
+  const { t } = useTranslation();
 
   const emptyIngredient = {
     name: '',
@@ -32,7 +35,7 @@ export const IngredientForm = () => {
         const fetchedIngredient = await ingredientService.getMyIngredientByid(ingredientId);
         setIngredientData(fetchedIngredient);
       } catch (error) {
-        console.error('Error fetching Ingredients:', error);
+        console.error(t("errors.fetch"), error);
       }
     };
 
@@ -42,7 +45,7 @@ export const IngredientForm = () => {
     } else {
       setIngredientData(emptyIngredient);
     }
-  }, [ingredientId, ingredientService]);
+  }, [ingredientId, ingredientService, t]);
 
   const handleSaveIngredient = async (e) => {
     e.preventDefault();
@@ -51,14 +54,14 @@ export const IngredientForm = () => {
     );
 
     if (nameExists) {
-      alert(`Ingredient named ${ingredientData.name} already exists`);
+      alert(t("alerts.nameExists", { name: ingredientData.name }));
       return;
     }
-    const checkHasName = ingredientData.name !== "" ? true : false
-    if (!checkHasName) {
-      alert("Ingredient name is required.");
-      return false
+    if (!ingredientData.name) {
+      alert(t("alerts.nameRequired"));
+      return;
     }
+
     try {
       setLoading(true);
       if (isEditing) {
@@ -72,7 +75,7 @@ export const IngredientForm = () => {
         setIngredientData(emptyIngredient);
       }
     } catch (error) {
-      console.error('Error saving ingredient:', error);
+      console.error(t("errors.save"), error);
     } finally {
       setLoading(false);
     }
@@ -80,25 +83,58 @@ export const IngredientForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-        const newValue = type === "checkbox" ? checked : value;
+    const newValue = type === "checkbox" ? checked : value;
     setIngredientData((prevData) => ({ ...prevData, [name]: newValue }));
+  };
+
+  const handleUpdateStock = (operation) => {
+    const amount = parseFloat(stockInput);
+    if (!isNaN(amount) && amount > 0) {
+      setIngredientData((prevData) => ({
+        ...prevData,
+        stock:
+          operation === "add"
+            ? parseFloat(prevData.stock) + amount
+            : Math.max(0, parseFloat(prevData.stock) - amount),
+      }));
+      setStockInput("");
+    }
   };
 
   if (!ingredientData) return <Spinner />;
 
   return (
     <>
-      <header>
-        <h4 className="bg-purple text-light p-2" id="ingredientHeader">
-          {ingredientData.name}:
-        </h4>
-      </header>
-      {loading && <p className="alert alert-warning">Updating...</p>}
+       <SecondaryNavbar title={ingredientData.name}>
+        <div className="dropdown">
+          <button className="btn btn-sm dropdown-toggle btn-outline-light d-sm-block" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {t('ingredientForm.updateStock')}
+          </button>
+          <div className="dropdown-menu dropdown-menu-end p-2">
+            <input
+              type="number"
+              className="form-control mb-2"
+              placeholder={t('ingredientForm.enterAmount')}
+              value={stockInput}
+              onChange={(e) => setStockInput(e.target.value)}
+            />
+            <div className="d-flex gap-2 justify-content-end">
+              <button className="myButton-success border-0 text-center" onClick={() => handleUpdateStock("add")}>
+                {t('ingredientForm.add')}
+              </button>
+              <button className="myButton-purple border-0 fw-light text-center" onClick={() => handleUpdateStock("subtract")}>
+                {t('ingredientForm.subtract')}
+              </button>
+            </div>
+          </div>
+        </div>
+      </SecondaryNavbar>
+      {loading && <p className="alert alert-warning">{t("alerts.updating")}</p>}
       <form className="row form-control m-0" id="userIngredientsForm">
         <ul className="p-3 gap-2 rounded-0 mb-0">
           <div className="row">
             <div className="col-md-6">
-              <label htmlFor="name" className="form-label">Ingredient Name</label>
+              <label htmlFor="name" className="form-label">{t('ingredientForm.name')}</label>
               <input
                 type="text"
                 name="name"
@@ -110,24 +146,7 @@ export const IngredientForm = () => {
               />
             </div>
             <div className="col-md-6 d-flex gap-3">
-              <div className="col">
-                <label htmlFor="unitOfMeasure" className="form-label">Unit Of Measure</label>
-                <select
-                  id="unitOfMeasure"
-                  className="form-select"
-                  name="unitOfMeasure"
-                  value={ingredientData.unitOfMeasure}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Choose...</option>
-                  <option value="g">g</option>
-                  <option value="und">und</option>
-                  <option value="mL">mL</option>
-                </select>
-              </div>
-              <div className="col">
-                <label htmlFor="reference" className="form-label">Reference</label>
+              <div className="col"> <label htmlFor="reference" className="form-label">{t('ingredientForm.reference')}</label>
                 <input
                   type="text"
                   name="reference"
@@ -136,6 +155,23 @@ export const IngredientForm = () => {
                   id="reference"
                   onChange={handleChange}
                 />
+                
+              </div>
+              <div className="col">
+               <label htmlFor="unitOfMeasure" className="form-label">{t('ingredientForm.unitOfMeasure')} </label>
+                <select
+                  id="unitOfMeasure"
+                  className="form-select"
+                  name="unitOfMeasure"
+                  value={ingredientData.unitOfMeasure}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">{t('ingredientForm.choose')}</option>
+                  <option value="g">g</option>
+                  <option value="und">und</option>
+                  <option value="mL">mL</option>
+                </select>
               </div>
             </div>
 
@@ -144,34 +180,35 @@ export const IngredientForm = () => {
           <div className="row">
             <div className="col-md-6 d-flex gap-3">
               <div className="col-md-6">
-                <label htmlFor="brand" className="form-label">Brand</label>
-                <input
-                  type="text"
-                  name="brand"
-                  value={ingredientData.brand}
-                  className="form-control"
-                  id="brand"
-                  onChange={handleChange}
-                />
+               <label htmlFor="stock" className="form-label">Stock</label>
+              <input
+                type="number"
+                name="stock"
+                value={ingredientData.stock}
+                className="form-control"
+                id="stock"
+                onChange={handleChange}
+                disabled
+              />
               </div>
               <div className="form-check col-md-6 d-flex align-items-center">
                 <div>
-                  <label htmlFor="setInInventory" className="form-check-label">Set in Inventory</label>
-                <input
-                  id="setInInventory"
-                  type="checkbox"
-                  className="form-check-input"
-                  checked={ingredientData.setInInventory}
-                  name='setInInventory'
-                  onChange={handleChange}
-                />
+                  <label htmlFor="setInInventory" className="form-check-label">{t('ingredientForm.setInInventory')}</label>
+                  <input
+                    id="setInInventory"
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={ingredientData.setInInventory}
+                    name='setInInventory'
+                    onChange={handleChange}
+                  />
                 </div>
-                
+
               </div>
 
             </div>
             <div className="col-md-6">
-              <label htmlFor="supplier" className="form-label">Supplier</label>
+              <label htmlFor="supplier" className="form-label">{t('ingredientForm.supplier')}</label>
               <input
                 type="text"
                 name="supplier"
@@ -185,7 +222,7 @@ export const IngredientForm = () => {
 
           <div className="row">
             <div className="col-md-3">
-              <label htmlFor="costPerKg" className="form-label">Cost per Kg or L</label>
+              <label htmlFor="costPerKg" className="form-label">{t('ingredientForm.costPerKg')}</label>
               <input
                 type="number"
                 name="costPerKg"
@@ -196,7 +233,7 @@ export const IngredientForm = () => {
               />
             </div>
             <div className="col-md-3">
-              <label htmlFor="expirationDate" className="form-label">Expiration Date</label>
+              <label htmlFor="expirationDate" className="form-label">{t('ingredientForm.expirationDate')}</label>
               <input
                 type="date"
                 name="expirationDate"
@@ -207,7 +244,7 @@ export const IngredientForm = () => {
               />
             </div>
             <div className="col-md-3">
-              <label htmlFor="batch" className="form-label">Batch</label>
+              <label htmlFor="batch" className="form-label">{t('ingredientForm.batch')}</label>
               <input
                 type="text"
                 name="batch"
@@ -218,15 +255,16 @@ export const IngredientForm = () => {
               />
             </div>
             <div className="col-md-3">
-              <label htmlFor="stock" className="form-label">Stock</label>
-              <input
-                type="number"
-                name="stock"
-                value={ingredientData.stock}
-                className="form-control"
-                id="stock"
-                onChange={handleChange}
-              />
+            <label htmlFor="brand" className="form-label">{t('ingredientForm.brand')}</label>
+                <input
+                  type="text"
+                  name="brand"
+                  value={ingredientData.brand}
+                  className="form-control"
+                  id="brand"
+                  onChange={handleChange}
+                />
+              
             </div>
           </div>
 
@@ -237,14 +275,14 @@ export const IngredientForm = () => {
               id="deleteIngredientButton"
               onClick={() => setDeleteModal(true)}
             >
-              Delete
+              {t('ingredientForm.delete')}
             </button>
             <button
               className="myButton-primary border-0 py-2"
               name="save"
               onClick={handleSaveIngredient}
             >
-              Save Changes
+             {t('ingredientForm.saveChanges')}
             </button>
           </div>
         </ul>

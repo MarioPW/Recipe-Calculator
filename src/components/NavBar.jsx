@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 export const NavBar = () => {
   const { user } = useMainContext();
   const navigate = useNavigate();
+  const navbarCollapseRef = useRef(null);
   const { t, i18n } = useTranslation();
   const langs = {
     es: "https://flagcdn.com/w40/mx.png",
@@ -37,6 +38,14 @@ export const NavBar = () => {
       }
     }
   };
+  const closeNavbar = () => {
+    if (navbarCollapseRef.current) {
+      const bsCollapse = window.bootstrap.Collapse.getInstance(navbarCollapseRef.current);
+      if (bsCollapse) {
+        bsCollapse.hide();
+      }
+    }
+  };
 
   return (
     <>
@@ -56,24 +65,24 @@ export const NavBar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse z-3 bg-color-main pb-3 pb-sm-0" id="navbarSupportedContent" style={{ height: "50px" }}>
+          <div className="collapse navbar-collapse z-3 bg-color-main pb-3 pb-sm-0" id="navbarSupportedContent"  ref={navbarCollapseRef}  style={{ height: "50px" }}>
             {user ? (
               <>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <Link to="/my-ingredients" className="btn custom-btn text-light w-100 text-start">
+                    <Link to="/my-ingredients" className="btn custom-btn text-light w-100 text-start" onClick={closeNavbar}>
                       <i className="bi bi-basket me-2"></i>
                       {t("navbar.ingredients")}
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/my-recipes" className="btn custom-btn text-light w-100 text-start">
+                    <Link to="/my-recipes" className="btn custom-btn text-light w-100 text-start" onClick={closeNavbar}>
                       <i className="bi bi-card-list me-2"></i>
                       {t("navbar.recipes")}
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/inventory" className="btn custom-btn text-light w-100 text-start">
+                    <Link to="/inventory" className="btn custom-btn text-light w-100 text-start" onClick={closeNavbar}>
                       <i className="bi bi-box-seam me-2"></i>
                       {t("navbar.inventory")}
                     </Link>
@@ -89,13 +98,13 @@ export const NavBar = () => {
                       aria-expanded="false"
                       aria-label="Select language"
                     >
-                      <img src={lang} alt="Selected language" width="20" />
+                      <img src={lang} alt="Selected language" width="25" />
                     </button>
                     <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownLanguage">
                       {langs &&
                         Object.keys(langs).map((key) => (
                             <li key={key}>
-                              <button className="dropdown-item" onClick={() => changeLanguage(key)}>
+                              <button className="dropdown-item" onClick={() => { changeLanguage(key); closeNavbar(); }}>
                                 <img src={langs[key]} alt={`${key} flag`} width="20" /> {t(`language.${key}`)}
                               </button>
                             </li>
@@ -105,7 +114,7 @@ export const NavBar = () => {
                   </div>
                   <h6 className="text-light m-0">{user.displayName || user.email}</h6>
 
-                  <button className="myButton-purple fw-light border-0 py-1 fs-6" onClick={handleLogout}>
+                  <button className="myButton-purple fw-light border-0 py-1 fs-6" onClick={() => {handleLogout(); closeNavbar();}}>
                     {t("navbar.logout")}
                   </button>
                 </div>
@@ -113,7 +122,7 @@ export const NavBar = () => {
               </>
             ) : (
               <li className="nav-item list-group-item text-light fs-6">
-                <Link to="/login-register" className="myButton-success">
+                <Link to="/login-register" className="myButton-success" onClick={closeNavbar}>
                   {t("navbar.login_register")}
                 </Link>
               </li>

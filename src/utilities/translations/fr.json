@@ -1,145 +1,165 @@
 {
-    "recipeMaster": {
-      "title": "Maître des Recettes",
-      "description": "Créez et gérez vos créations culinaires en toute simplicité."
-    },
-    "rMingredients": {
-      "title": "Ingrédients",
-      "description": "Enregistrez vos ingrédients pour créer et gérer vos recettes."
-    },
-    "rMrecipes": {
-      "title": "Recettes",
-      "description": "Combinez vos ingrédients pour réaliser de délicieuses recettes avec des mesures précises."
-    },
-    "rMtraceability": {
-      "title": "Traçabilité",
-      "description": "Assurez facilement la traçabilité de vos recettes."
-    },
-    "rMcost": {
-      "title": "Coût",
-      "description": "Calculez le coût de vos recettes pour maintenir la rentabilité et le contrôle."
-    },
-    "rMinventory": {
-      "title": "Inventaire",
-      "description": "Gérez votre stock d'ingrédients et votre inventaire."
-    },
-    "navbar": {
-      "title": "Maître des Recettes",
-      "ingredients": "Ingrédients",
-      "recipes": "Recettes",
-      "inventory": "Inventaire",
-      "logout": "Déconnexion",
-      "login_register": "Se Connecter / S'inscrire",
-      "logout_confirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
-      "logout_success": "Déconnexion réussie"
-    },
-    "language": {
-      "select": "Langue",
-      "en": "Anglais",
-      "es": "Espagnol",
-      "fr": "Français",
-      "it": "Italien"
-    },
-    "myRecipe": {
-      "ingredient": "Ingrédient",
-      "weight": "Poids",
-      "edit": "Modifier",
-      "remove": "Supprimer",
-      "updating": "Mise à jour...",
-      "goBack": "Retourner",
-      "saveChanges": "Enregistrer les modifications",
-      "delete": "Supprimer",
-      "notSaved": "Vous n'avez pas encore enregistré cette recette",
-      "deleteError": "Une erreur s'est produite lors de la suppression de la recette."
-    },
-    "recipeNavbar": {
-      "recipeNavbar": {
+  "recipeMaster": {
+    "title": "Maître des Recettes",
+    "description": "Créez et gérez vos créations culinaires avec facilité."
+  },
+  "rMingredients": {
+    "title": "Ingrédients",
+    "description": "Enregistrez vos ingrédients pour créer et gérer vos recettes."
+  },
+  "rMrecipes": {
+    "title": "Recettes",
+    "description": "Combinez vos ingrédients pour créer de délicieuses recettes avec des mesures précises."
+  },
+  "rMtraceability": {
+    "title": "Traçabilité",
+    "description": "Facilitez la traçabilité de vos recettes."
+  },
+  "rMcost": {
+    "title": "Coût",
+    "description": "Calculez le coût de vos recettes pour maintenir la rentabilité et le contrôle."
+  },
+  "rMinventory": {
+    "title": "Inventaire",
+    "description": "Gérez les stocks et l'inventaire de vos ingrédients."
+  },
+  "navbar": {
+    "title": "Maître des Recettes",
+    "ingredients": "Ingrédients",
+    "recipes": "Recettes",
+    "inventory": "Inventaire",
+    "logout": "Déconnexion",
+    "login_register": "Connexion / Inscription",
+    "logout_confirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "logout_success": "Déconnexion réussie"
+  },
+  "language": {
+    "select": "Langue",
+    "en": "Anglais",
+    "es": "Espagnol",
+    "fr": "Français",
+    "it": "Italien"
+  },
+  "myRecipe": {
+    "ingredient": "Ingrédient",
+    "weight": "Poids",
+    "edit": "Modifier",
+    "remove": "Supprimer",
+    "updating": "Mise à jour...",
+    "goBack": "Retourner",
+    "saveChanges": "Enregistrer les modifications",
+    "nameExists": "La recette nommée {{name}} existe déjà.",
+    "delete": "Supprimer",
     "notSaved": "Vous n'avez pas encore enregistré cette recette",
-    "deleteError": "Une erreur s'est produite lors de la suppression de la recette.",
-    "features": "Caractéristiques",
+    "deleteError": "Une erreur est survenue lors de la suppression de la recette."
+  },
+  "recipeNavbar": {
+    "notSaved": "Vous n'avez pas encore enregistré cette recette",
+    "deleteError": "Une erreur est survenue lors de la suppression de la recette.",
+    "features": "Fonctionnalités",
     "calculate": "Calculer",
     "cost": "Coût $",
     "traceability": "Traçabilité",
-    "addIngredient": "Ajouter un ingrédient",
-    "addSubRecipe": "Ajouter une sous-recette",
+    "addIngredient": "Ajouter un Ingrédient",
+    "addSubRecipe": "Ajouter une Sous-recette",
     "ingredients": "Ingrédients",
     "weight": "Poids",
     "missingIngredient": "Ingrédient manquant",
-    "missingIngredientDescription": "Cet ingrédient n'a pas encore été ajouté ou a été supprimé de votre tableau d'ingrédients. Veuillez l'ajouter ou le supprimer de vos recettes, sinon vous ne pourrez pas calculer correctement la traçabilité ou le coût de votre recette."
-  }
-    },
-    "inventory": {
-      "stockInventory": "Inventaire du Stock",
-      "actions": "Actions",
-      "fireRecipes": "Lancer les Recettes",
-      "updateStock": "Mettre à jour le Stock",
-      "downloadPDF": "Télécharger en .pdf",
-      "downloadExcel": "Télécharger en .xlsx",
-      "updating": "Mise à jour",
-      "updateError": "Erreur lors de la mise à jour du stock :",
-      "ref": "Réf",
-      "item": "Article",
-      "stock": "Stock"
-    },
-    "myRecipes": {
-      "title": "Mes Recettes",
-      "addNew": "Ajouter Nouveau",
-      "recipeName": "Nom",
-      "weightPerUnit": "Poids par unité",
-      "isSubRecipe": "Est une Sous-recette",
-      "defaultRecipe": "Recette",
-      "yes": "Oui",
-      "no": "Non"
-    },
-    "addIngredient": {
-      "alertEnterWeight": "Vous devez entrer un poids",
-      "enterWeight": "Entrez le poids de",
-      "enterWeightPlaceholder": "Entrez le poids",
-      "cancel": "Annuler",
-      "save": "Enregistrer"
-    },
-    "myIngredients": {
-      "title": "Mes Ingrédients",
-      "actions": "Actions",
-      "sortByName": "Trier par Nom",
-      "sortByRef": "Trier par Référence",
-      "addNew": "Ajouter Nouveau",
-      "table": {
-        "ref": "Réf",
-        "name": "Nom",
-        "stock": "Stock",
-        "unit": "Unité de Mesure",
-        "brand": "Marque",
-        "supplier": "Fournisseur",
-        "batch": "Lot",
-        "expiration": "Date d'Expiration",
-        "cost": "Coût par Kg"
-      }
-    },
-    "traceabilityModal": {
-      "title": "Détails de Traçabilité",
+    "missingIngredientDescription": "Cet ingrédient n'a pas encore été ajouté ou a été supprimé de votre tableau des ingrédients. Ajoutez-le ou supprimez-le de vos recettes, sinon vous ne pourrez pas calculer correctement la traçabilité ou le coût de la recette."
+  },
+  "inventory": {
+    "stockInventory": "Inventaire des Stocks",
+    "actions": "Actions",
+    "fireRecipes": "Déduire les Recettes",
+    "updateStock": "Mettre à jour les Stocks",
+    "downloadPDF": "Télécharger en .pdf",
+    "downloadExcel": "Télécharger en .xlsx",
+    "updating": "Mise à jour",
+    "updateError": "Erreur lors de la mise à jour des stocks :",
+    "ref": "Référence",
+    "item": "Article",
+    "stock": "Stock"
+  },
+  "myRecipes": {
+    "title": "Mes Recettes",
+    "addNew": "Ajouter Nouvelle",
+    "recipeName": "Nom",
+    "weightPerUnit": "Poids par unité",
+    "isSubRecipe": "Est une Sous-recette",
+    "defaultRecipe": "Recette",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "addIngredient": {
+    "alertEnterWeight": "Vous devez entrer un poids",
+    "enterWeight": "Entrez le poids de",
+    "enterWeightPlaceholder": "Saisir le poids",
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+  "myIngredients": {
+    "title": "Mes Ingrédients",
+    "actions": "Actions",
+    "sortByName": "Trier par Nom",
+    "sortByRef": "Trier par Référence",
+    "addNew": "Ajouter Nouveau",
+    "table": {
+      "ref": "Référence",
       "name": "Nom",
-      "weightPerUnit": "Poids par Unité",
-      "amount": "Quantité",
-      "ingredients": "Ingrédients",
-      "ref": "Réf",
+      "stock": "Stock",
+      "unit": "Unité de Mesure",
+      "brand": "Marque",
+      "supplier": "Fournisseur",
       "batch": "Lot",
-      "expirationDate": "Date d'Expiration",
-      "calculatedProportion": "Proportion Calculée",
-      "downloadPDF": "Télécharger le PDF",
-      "downloadExcel": "Télécharger Excel",
-      "close": "Fermer"
-    },
-    "calculatedRecipeModal": {
-      "title": "Recette Calculée",
-      "downloadPDF": "Générer le PDF",
-      "recipe": "Recette",
-      "numberOfUnits": "Nombre d'Unités",
-      "weightPerUnit": "Poids par Unité",
-      "ingredient": "Ingrédient",
-      "weight": "Poids",
-      "unitOfMeasure": "Unité de Mesure",
-      "close": "Fermer"
+      "expiration": "Date d'Expiration",
+      "cost": "Coût par Kg"
     }
+  },
+  "traceabilityModal": {
+    "title": "Détails de la Traçabilité",
+    "name": "Nom",
+    "weightPerUnit": "Poids par unité",
+    "amount": "Quantité",
+    "ingredients": "Ingrédients",
+    "ref": "Référence",
+    "batch": "Lot",
+    "expirationDate": "Date d'Expiration",
+    "calculatedProportion": "Proportion Calculée",
+    "downloadPDF": "Télécharger en PDF",
+    "downloadExcel": "Télécharger en Excel",
+    "close": "Fermer"
+  },
+  "calculatedRecipeModal": {
+    "title": "Recette Calculée",
+    "downloadPDF": "Générer PDF",
+    "recipe": "Recette",
+    "numberOfUnits": "Nombre d'Unités",
+    "weightPerUnit": "Poids par unité",
+    "ingredient": "Ingrédient",
+    "weight": "Poids",
+    "unitOfMeasure": "Unité de Mesure",
+    "close": "Fermer"
+  },
+  "ingredientForm": {
+    "updateStock": "Mettre à jour les Stocks",
+    "enterAmount": "Entrer la quantité",
+    "add": "Ajouter",
+    "subtract": "Soustraire",
+    "updating": "Mise à jour...",
+    "name": "Nom de l'Ingrédient",
+    "reference": "Référence",
+    "unitOfMeasure": "Unité de Mesure",
+    "choose": "Choisir",
+    "stock": "Stock",
+    "setInInventory": "Définir dans l'Inventaire",
+    "supplier": "Fournisseur",
+    "costPerKg": "Coût par Kg ou L",
+    "expirationDate": "Date d'Expiration",
+    "batch": "Lot",
+    "brand": "Marque",
+    "delete": "Supprimer",
+    "saveChanges": "Enregistrer les Modifications",
+    "nameExists": "L'ingrédient nommé {{name}} existe déjà",
+    "nameRequired": "Le nom de l'ingrédient est requis."
   }
-  
+}

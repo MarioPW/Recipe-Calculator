@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../utilities/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
-import { generateTablePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
-import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
+import { generatePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
+import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
 
 export const Inventory = () => {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ export const Inventory = () => {
     try {
       await Promise.all(
         changedStockIngredients.map(async (ingredient) => {
-            await ingredientService.updateMyIngredient(ingredient.FSId, ingredient);
+          await ingredientService.updateMyIngredient(ingredient.FSId, ingredient);
         })
       )
     } catch (error) {
@@ -43,59 +43,43 @@ export const Inventory = () => {
     }));
     generateXlsxTable(t('inventory.stockInventory'), tableData);
   };
+  const handleGeneratePDF = () => {
+    const title = t('inventory.stockInventory');
+    const tableData = currentInventory.map(ingredient => ({
+      [t('inventory.ref')]: ingredient.reference,
+      [t('inventory.item')]: ingredient.name,
+      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+    }));
+    generatePDF(title, tableData);
+  }
 
+  const navBarData = {
+    title: t('inventory.stockInventory'),
+    collapseButtonText: t('inventory.actions'),
+    buttons: [
+      {
+        label: t('inventory.fireRecipes'),
+        action: () => setFireRecipeModal(true),
+      },
+      {
+        label: t('inventory.updateStock'),
+        action: updateIngredientsStock,
+      },
+      {
+        label: t('inventory.downloadPDF'),
+        action: handleGeneratePDF,
+      },
+      {
+        label: t('inventory.downloadExcel'),
+        action: handleGenerateExcel,
+      }
+    ]
+  };
   return (
     <>
       {ingredients.length > 0 ? (
         <>
-          <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
-            <a className="navbar-brand text-light ps-2" href="#">
-              {t('inventory.stockInventory')}
-            </a>
-
-            <button
-              className="btn btn-outline-light me-2 d-lg-none"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#actionsCollapse1"
-              aria-expanded="false"
-              aria-controls="actionsCollapse1"
-            >
-              <i className="bi bi-list"></i> {t('inventory.actions')}
-            </button>
-
-            <div className="collapse navbar-collapse position-relative d-lg-block" id="actionsCollapse1">
-              <ul className="navbar-nav position-absolute bg-color-main gap-2 w-100 p-2 m-0">
-                <li className="nav-item mx-2">
-                  <button className="btn btn-sm btn-outline-light d-sm-block" onClick={() => setFireRecipeModal(true)}>
-                    {t('inventory.fireRecipes')}
-                  </button>
-                </li>
-                <li className="nav-item mx-2">
-                  <button className="btn btn-sm btn-outline-light" onClick={updateIngredientsStock}>
-                    {t('inventory.updateStock')}
-                  </button>
-                </li>
-                <li>
-                  <GeneratePdfButton
-                    label={t('inventory.downloadPDF')}
-                    title={t('inventory.stockInventory')}
-                    tableData={currentInventory.map((item) => ({
-                      [t('inventory.ref')]: item.reference,
-                      [t('inventory.item')]: item.name,
-                      [t('inventory.stock')]: `${item.stock || 0} ${item.unitOfMeasure}`
-                    }))}
-                  />
-                </li>
-                <li className="nav-item mx-2">
-                  <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGenerateExcel}>
-                    <i className="bi bi-download me-1"></i>{t('inventory.downloadExcel')}
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </nav>
-
+          <SecondaryNavbar {...navBarData} />
           {/* Table */}
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}

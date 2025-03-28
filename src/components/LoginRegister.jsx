@@ -56,7 +56,7 @@ export const LoginRegister = () => {
     return (
         <>
             {showLogin && (
-                <div className="mt-2" id="loginFormContainer">
+                <div className="mt-2 w-100 d-flex justify-content-center" id="loginFormContainer">
                     <form className="bg-light p-4 rounded-2" id="loginForm" onSubmit={handleSubmit}>
                         <h5 className="text-center text-light rounded-2 p-2 bg-success">Login</h5>
                         <div className="mb-3">
@@ -105,8 +105,8 @@ export const LoginRegister = () => {
             )}
 
             {!showLogin && (
-                <div className="mt-2" id="registerFormContainer">
-                    <form className="bg-light p-4 rounded-2" id="registerForm">
+                <div className="mt-2 w-100 d-flex justify-content-center" id="registerFormContainer">
+                    <form className="bg-light p-4 rounded-2" style={{ minWidth: "370px" }} id="registerForm">
                         <h5 className="text-center text-light rounded-2 p-2 bg-success">Register</h5>
                         <div className="mb-3">
                             <label htmlFor="emailRegister" className="form-label">Email address:</label>

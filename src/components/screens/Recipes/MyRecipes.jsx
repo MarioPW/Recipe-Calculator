@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../utilities/Spinner';
 import { useMainContext } from '../../../context/MainContext';
-import { SearchInput } from '../../utilities/SearchInput';
 import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
 
 export const MyRecipes = () => {
@@ -25,7 +24,10 @@ export const MyRecipes = () => {
           <SecondaryNavbar 
             title={t('myRecipes.title')}
             collapseButtonText={t('myRecipes.actions')}
-            searchInput={{ items: recipes, url: "/my-recipe", setItemsList: setRecipes }}
+            searchInput={
+              { items: recipes,
+                url: "/my-recipe",
+                setItemsList: setRecipes }}
             links={[
               { label: t('myRecipes.addNew'), url: "/my-recipe" }
             ]}

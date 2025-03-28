@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../utilities/Spinner';
 import { Link } from 'react-router-dom';
 import { useMainContext } from '../../../context/MainContext';
-import { SearchInput } from '../../utilities/SearchInput';
 import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
 
 export const MyIngredients = () => {
@@ -21,24 +20,21 @@ export const MyIngredients = () => {
       return refA - refB;
     }));
   };
-
   return (
     <>
       {ingredients.length > 0 ? (
         <div className="container p-0">
-           <SecondaryNavbar
+          <SecondaryNavbar
             title={t('myIngredients.title')}
-            collapseButtonText={t('myIngredients.actions')}
-            searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
-            buttonsActions={[
+            buttons={[
               { label: t('myIngredients.sortByName'), action: sortByName },
-              { label: t('myIngredients.sortByRef'), action: sortByReference },
+              { label: t('myIngredients.sortByRef'), action: sortByReference }
             ]}
             links={[
               { label: t('myIngredients.addNew'), url: "/ingredient" }
             ]}
-          />
-
+            searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
+            collapseButtonText={t('myIngredients.actions')} />
           <div className="table-responsive">
             <table className="table table-light table-striped text-nowrap">
               <thead>

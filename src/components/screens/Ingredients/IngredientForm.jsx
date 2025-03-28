@@ -24,7 +24,7 @@ export const IngredientForm = () => {
     costPerKg: '',
     expirationDate: '',
     batch: '',
-    stock: '',
+    stock: 0,
     reference: '',
     setInInventory: true
   };
@@ -54,11 +54,11 @@ export const IngredientForm = () => {
     );
 
     if (nameExists) {
-      alert(t("alerts.nameExists", { name: ingredientData.name }));
+      alert(t("ingredientForm.nameExists", { name: ingredientData.name }));
       return;
     }
     if (!ingredientData.name) {
-      alert(t("alerts.nameRequired"));
+      alert(t("ingredientForm.nameRequired"));
       return;
     }
 
@@ -105,12 +105,15 @@ export const IngredientForm = () => {
 
   return (
     <>
-       <SecondaryNavbar title={ingredientData.name}>
+      <nav className='navbar navbar-expand-lg border mt-1 bg-color-main pe-2'>
+        <div className='container-fluid'>
+          <h2 className='navbar-brand text-light ps-2'>{ingredientData.name}</h2>
+        </div>
         <div className="dropdown">
-          <button className="btn btn-sm dropdown-toggle btn-outline-light d-sm-block" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button className="btn btn-sm dropdown-toggle btn-outline-light d-sm-block me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             {t('ingredientForm.updateStock')}
           </button>
-          <div className="dropdown-menu dropdown-menu-end p-2">
+          <div className="dropdown-menu dropdown-menu-lg-end p-2 me-2">
             <input
               type="number"
               className="form-control mb-2"
@@ -128,7 +131,7 @@ export const IngredientForm = () => {
             </div>
           </div>
         </div>
-      </SecondaryNavbar>
+      </nav>
       {loading && <p className="alert alert-warning">{t("alerts.updating")}</p>}
       <form className="row form-control m-0" id="userIngredientsForm">
         <ul className="p-3 gap-2 rounded-0 mb-0">
@@ -155,10 +158,10 @@ export const IngredientForm = () => {
                   id="reference"
                   onChange={handleChange}
                 />
-                
+
               </div>
               <div className="col">
-               <label htmlFor="unitOfMeasure" className="form-label">{t('ingredientForm.unitOfMeasure')} </label>
+                <label htmlFor="unitOfMeasure" className="form-label">{t('ingredientForm.unitOfMeasure')} </label>
                 <select
                   id="unitOfMeasure"
                   className="form-select"
@@ -180,16 +183,16 @@ export const IngredientForm = () => {
           <div className="row">
             <div className="col-md-6 d-flex gap-3">
               <div className="col-md-6">
-               <label htmlFor="stock" className="form-label">Stock</label>
-              <input
-                type="number"
-                name="stock"
-                value={ingredientData.stock}
-                className="form-control"
-                id="stock"
-                onChange={handleChange}
-                disabled
-              />
+                <label htmlFor="stock" className="form-label">Stock</label>
+                <input
+                  type="number"
+                  name="stock"
+                  value={ingredientData.stock}
+                  className="form-control"
+                  id="stock"
+                  onChange={handleChange}
+                  disabled
+                />
               </div>
               <div className="form-check col-md-6 d-flex align-items-center">
                 <div>
@@ -255,16 +258,16 @@ export const IngredientForm = () => {
               />
             </div>
             <div className="col-md-3">
-            <label htmlFor="brand" className="form-label">{t('ingredientForm.brand')}</label>
-                <input
-                  type="text"
-                  name="brand"
-                  value={ingredientData.brand}
-                  className="form-control"
-                  id="brand"
-                  onChange={handleChange}
-                />
-              
+              <label htmlFor="brand" className="form-label">{t('ingredientForm.brand')}</label>
+              <input
+                type="text"
+                name="brand"
+                value={ingredientData.brand}
+                className="form-control"
+                id="brand"
+                onChange={handleChange}
+              />
+
             </div>
           </div>
 
@@ -282,7 +285,7 @@ export const IngredientForm = () => {
               name="save"
               onClick={handleSaveIngredient}
             >
-             {t('ingredientForm.saveChanges')}
+              {t('ingredientForm.saveChanges')}
             </button>
           </div>
         </ul>

@@ -161,5 +161,23 @@
     "saveChanges": "Guardar Cambios",
     "nameExists": "El ingrediente llamado {{name}} ya existe",
     "nameRequired": "El nombre del ingrediente es obligatorio."
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "not_registered": "¿No tienes cuenta? ¡Regístrate aquí!",
+    "sign_in_google": "Iniciar sesión con Google",
+    "sign_in_facebook": "Iniciar sesión con Facebook",
+    "welcome": "Bienvenido",
+    "login_error": "Error al iniciar sesión",
+    "enter_email_reset": "Por favor, ingrese su correo para restablecer la contraseña.",
+    "password_reset_sent": "Se ha enviado un correo para restablecer la contraseña.",
+    "password_reset_error": "Error al enviar el correo de restablecimiento.",
+    "repeat_password": "Repetir contraseña",
+    "password_requirement": "Al menos 6 caracteres.",
+    "back_to_login": "Volver al inicio de sesión"
   }
 }

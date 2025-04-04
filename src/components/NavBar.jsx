@@ -65,7 +65,7 @@ export const NavBar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse z-3 bg-color-main pb-3 pb-sm-0" id="navbarSupportedContent"  ref={navbarCollapseRef}  style={{ height: "50px" }}>
+          <div className="collapse navbar-collapse z-3 bg-color-main pb-3 pb-sm-0" id="navbarSupportedContent" ref={navbarCollapseRef} style={{ height: "50px" }}>
             {user ? (
               <>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -103,29 +103,59 @@ export const NavBar = () => {
                     <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownLanguage">
                       {langs &&
                         Object.keys(langs).map((key) => (
-                            <li key={key}>
-                              <button className="dropdown-item" onClick={() => { changeLanguage(key); closeNavbar(); }}>
-                                <img src={langs[key]} alt={`${key} flag`} width="20" /> {t(`language.${key}`)}
-                              </button>
-                            </li>
-                          )
+                          <li key={key}>
+                            <button className="dropdown-item" onClick={() => { changeLanguage(key); closeNavbar(); }}>
+                              <img src={langs[key]} alt={`${key} flag`} width="20" /> {t(`language.${key}`)}
+                            </button>
+                          </li>
+                        )
                         )}
                     </ul>
                   </div>
                   <h6 className="text-light m-0">{user.displayName || user.email}</h6>
 
-                  <button className="myButton-purple fw-light border-0 py-1 fs-6" onClick={() => {handleLogout(); closeNavbar();}}>
+                  <button className="myButton-purple fw-light border-0 py-1 fs-6" onClick={() => { handleLogout(); closeNavbar(); }}>
                     {t("navbar.logout")}
                   </button>
                 </div>
 
               </>
             ) : (
-              <li className="nav-item list-group-item text-light fs-6">
+              <>
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item list-group-item text-light fs-6">
+                 
+                </li>
+                </ul>
+                <div className="d-flex align-items-center gap-2 mb-3 mb-lg-0">
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-sm text-light dropdown-toggle"
+                      type="button"
+                      id="dropdownLanguage"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      aria-label="Select language"
+                    >
+                      <img src={lang} alt="Selected language" width="25" />
+                    </button>
+                    <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownLanguage">
+                      {langs &&
+                        Object.keys(langs).map((key) => (
+                          <li key={key}>
+                            <button className="dropdown-item" onClick={() => { changeLanguage(key); closeNavbar(); }}>
+                              <img src={langs[key]} alt={`${key} flag`} width="20" /> {t(`language.${key}`)}
+                            </button>
+                          </li>
+                        )
+                        )}
+                    </ul>
+                  </div>
+                </div>
                 <Link to="/login-register" className="myButton-success" onClick={closeNavbar}>
-                  {t("navbar.login_register")}
-                </Link>
-              </li>
+                    {t("navbar.login_register")}
+                  </Link>
+                </>
             )}
           </div>
         </div>

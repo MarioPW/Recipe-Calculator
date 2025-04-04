@@ -50,7 +50,7 @@ export const IngredientForm = () => {
   const handleSaveIngredient = async (e) => {
     e.preventDefault();
     const nameExists = ingredients.some(
-      (item) => item.name === ingredientData.name && item.FSId !== ingredientData.FSId
+      (item) => item.name === ingredientData.name && item.FSId !== ingredientData.FSId && item.reference !== ingredientData.reference
     );
 
     if (nameExists) {
@@ -132,7 +132,7 @@ export const IngredientForm = () => {
           </div>
         </div>
       </nav>
-      {loading && <p className="alert alert-warning">{t("alerts.updating")}</p>}
+      {loading && <p className="alert alert-warning">{t('ingredientForm.updating')}</p>}
       <form className="row form-control m-0" id="userIngredientsForm">
         <ul className="p-3 gap-2 rounded-0 mb-0">
           <div className="row">

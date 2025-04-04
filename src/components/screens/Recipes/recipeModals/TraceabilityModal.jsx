@@ -76,21 +76,21 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                             <table className="table table-bordered table-hover">
                                 <thead className="bg-color-main text-white">
                                     <tr>
-                                        <th>{t("traceabilityModal.ref")}</th>
-                                        <th>{t("traceabilityModal.name")}</th>
-                                        <th>{t("traceabilityModal.batch")}</th>
-                                        <th>{t("traceabilityModal.expirationDate")}</th>
-                                        <th>{t("traceabilityModal.calculatedProportion")}</th>
+                                        <th className="text-nowrap">{t("traceabilityModal.ref")}</th>
+                                        <th className="text-nowrap">{t("traceabilityModal.name")}</th>
+                                        <th className="text-nowrap">{t("traceabilityModal.batch")}</th>
+                                        <th className="text-nowrap">{t("traceabilityModal.expirationDate")}</th>
+                                        <th className="text-nowrap">{t("traceabilityModal.calculatedProportion")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {traceability.ingredients.map((ingredient, index) => (
                                         <tr key={index}>
-                                            <td>{ingredient.reference}</td>
-                                            <td>{ingredient.name}</td>
-                                            <td>{ingredient.batch || "?"}</td>
-                                            <td>{ingredient.expirationDate || "N/A"}</td>
-                                            <td>{ingredient.calculatedProportion ? ingredient.calculatedProportion + " " + (ingredient.unitOfMeasure || "") : "N/A"}</td>
+                                            <td className="text-nowrap">{ingredient.reference}</td>
+                                            <td className="text-nowrap">{ingredient.name}</td>
+                                            <td className="text-nowrap">{ingredient.batch || "?"}</td>
+                                            <td className="text-nowrap">{ingredient.expirationDate || "N/A"}</td>
+                                            <td className="text-nowrap">{ingredient.calculatedProportion ? ingredient.calculatedProportion + " " + (ingredient.unitOfMeasure || "") : "N/A"}</td>
                                         </tr>
                                     ))}
                                 </tbody>

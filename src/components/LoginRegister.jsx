@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
     GoogleAuthProvider,
     FacebookAuthProvider,
@@ -6,131 +6,117 @@ import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { auth, firebaseErrors } from "../firebaseConfig.js"
+import { auth, firebaseErrors } from "../firebaseConfig.js";
 import { useNavigate } from 'react-router-dom';
 import { useMainContext } from '../context/MainContext';
+import { useTranslation } from 'react-i18next';
 
 export const LoginRegister = () => {
-    const [credentials, setCredentials] = useState({})
+    const { t } = useTranslation();
+    const [credentials, setCredentials] = useState({});
     const navigate = useNavigate();
     const { setUser } = useMainContext();
+    const [showLogin, setShowLogin] = useState(true);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
-    }
-    const [showLogin, setShowLogin] = useState(true);
+    };
+
     const handleSocialLogin = async (provider, auth) => {
         try {
             const response = await signInWithPopup(auth, provider);
             const userName = response.user.displayName || response.user.email;
-            alert(`Welcome ${userName} !!!`);
+            alert(`${t("auth.welcome")}, ${userName} !!!`);
             navigate("/");
         } catch (error) {
-            alert(firebaseErrors[error.code] || "Error logging in")
+            alert(firebaseErrors[error.code] || t("auth.login_error"));
         }
-    }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+            const response = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
             const userName = response.user.displayName || response.user.email;
-            // setUser(response.user)
-            alert(`Welcome ${userName} !!!`);
+            alert(`${t("auth.welcome")}, ${userName} !!!`);
             navigate(`/`);
         } catch (error) {
-            alert(firebaseErrors[error.code] || "Error logging in")
+            alert(firebaseErrors[error.code] || t("auth.login_error"));
         }
     };
+
     const handleForgotPassword = async () => {
         if (!credentials.email) {
-            alert("Please enter your email address to reset your password.");
+            alert(t("auth.enter_email_reset"));
             return;
         }
         try {
             await sendPasswordResetEmail(auth, credentials.email);
-            alert("Password reset email sent! Please check your inbox.");
+            alert(t("auth.password_reset_sent"));
         } catch (error) {
-            alert(firebaseErrors[error.code] || "Error sending password reset email.");
+            alert(firebaseErrors[error.code] || t("auth.password_reset_error"));
         }
     };
+
     return (
         <>
-            {showLogin && (
+            {showLogin ? (
                 <div className="mt-2 w-100 d-flex justify-content-center" id="loginFormContainer">
                     <form className="bg-light p-4 rounded-2" id="loginForm" onSubmit={handleSubmit}>
-                        <h5 className="text-center text-light rounded-2 p-2 bg-success">Login</h5>
+                        <h5 className="text-center text-light rounded-2 p-2 bg-success">{t("auth.login")}</h5>
                         <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email address:</label>
+                            <label htmlFor="email" className="form-label">{t("auth.email")}:</label>
                             <input type="email" className="form-control" id="email" name="email" placeholder="email@example.com" onChange={handleInputChange} />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password:</label>
+                            <label htmlFor="password" className="form-label">{t("auth.password")}:</label>
                             <input type="password" className="form-control" id="password" name="password" placeholder="******" onChange={handleInputChange} />
                         </div>
                         <div className="d-flex gap-2 justify-content-between align-items-center">
                             <div className="d-flex gap-2">
-                                <a className='fs-6'
-                                    id="forgotPasswordLink"
-                                    onClick={handleForgotPassword}>Forgot Password?</a>
-                                <a
-                                    className='fs-6'
-                                    id="registerLink"
-                                    onClick={() => setShowLogin(false)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    Not registered? Click here!
+                                <a className='fs-6' id="forgotPasswordLink" onClick={handleForgotPassword}>
+                                    {t("auth.forgot_password")}
+                                </a>
+                                <a className='fs-6' id="registerLink" onClick={() => setShowLogin(false)} style={{ cursor: 'pointer' }}>
+                                    {t("auth.not_registered")}
                                 </a>
                             </div>
-                            <button type="submit" className="btn btn-primary">Login</button>
+                            <button type="submit" className="btn btn-primary">{t("auth.login")}</button>
                         </div>
                         <hr />
                         <button className="btn btn-info my-1 text-light w-100" type="button" onClick={() => handleSocialLogin(new GoogleAuthProvider(), auth)}>
-                            <img
-                                src="https://cdn-teams-slug.flaticon.com/google.jpg"
-                                style={{ width: "1.5rem", height: "1.5rem" }}
-                                className="me-2 rounded-1"
-                                alt="Google"
-                            />Sign in with Google
+                            <img src="https://cdn-teams-slug.flaticon.com/google.jpg" style={{ width: "1.5rem", height: "1.5rem" }} className="me-2 rounded-1" alt="Google" />
+                            {t("auth.sign_in_google")}
                         </button>
                         <button className="btn btn-primary my-1 text-light w-100" type="button" onClick={() => handleSocialLogin(new FacebookAuthProvider(), auth)}>
-                            <img
-                                src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg"
-                                style={{ width: "1.5rem", height: "1.5rem" }}
-                                className="me-2 rounded-1"
-                                alt="Facebook"
-                            />Sign in with Facebook
+                            <img src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg" style={{ width: "1.5rem", height: "1.5rem" }} className="me-2 rounded-1" alt="Facebook" />
+                            {t("auth.sign_in_facebook")}
                         </button>
                     </form>
                 </div>
-            )}
-
-            {!showLogin && (
+            ) : (
                 <div className="mt-2 w-100 d-flex justify-content-center" id="registerFormContainer">
                     <form className="bg-light p-4 rounded-2" style={{ minWidth: "370px" }} id="registerForm">
-                        <h5 className="text-center text-light rounded-2 p-2 bg-success">Register</h5>
+                        <h5 className="text-center text-light rounded-2 p-2 bg-success">{t("auth.register")}</h5>
                         <div className="mb-3">
-                            <label htmlFor="emailRegister" className="form-label">Email address:</label>
+                            <label htmlFor="emailRegister" className="form-label">{t("auth.email")}:</label>
                             <input type="email" className="form-control" id="emailRegister" name="email" />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="passwordRegister" className="form-label">Password:</label>
+                            <label htmlFor="passwordRegister" className="form-label">{t("auth.password")}:</label>
                             <input type="password" className="form-control" id="passwordRegister" name="password" />
-                            <div id="emailHelp" className="form-text">At least 6 characters.</div>
+                            <div id="emailHelp" className="form-text">{t("auth.password_requirement")}</div>
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password2Register" className="form-label">Repeat Password</label>
+                            <label htmlFor="password2Register" className="form-label">{t("auth.repeat_password")}</label>
                             <input type="password" className="form-control" id="password2Register" name="password2" />
                         </div>
                         <div className="d-flex gap-2 justify-content-between align-items-center">
-                            <a
-                                className='fs-6'
-                                id="loginLink"
-                                onClick={() => setShowLogin(true)}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                Back to Login
+                            <a className='fs-6' id="loginLink" onClick={() => setShowLogin(true)} style={{ cursor: 'pointer' }}>
+                                {t("auth.back_to_login")}
                             </a>
-                            <button type="submit" className="btn btn-primary">Register</button>
+                            <button type="submit" className="btn btn-primary">{t("auth.register")}</button>
                         </div>
                     </form>
                 </div>

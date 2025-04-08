@@ -17,9 +17,17 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
       >
         <i className="bi bi-list"></i> {collapseButtonText}
       </button>
-      
-      {searchInput && <SearchInput items={searchInput?.items || []} url={searchInput.url} setItemsList={searchInput.setItemsList}/>}
-      
+
+      {searchInput && (
+        <div className="position-relative mx-3" style={{ minWidth: '250px' }}>
+          <SearchInput
+            items={searchInput.items || []}
+            url={searchInput.url}
+            action={searchInput.action}
+          />
+        </div>
+      )}
+
       <div className="collapse navbar-collapse position-relative d-lg-block" id="actionsCollapse2">
         <ul className="navbar-nav position-absolute bg-color-main gap-2 w-100 p-2 m-0 d-flex justify-content-end">
           {buttons && buttons.map(({ label, action }, index) => (
@@ -34,7 +42,7 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
               <Link className="myButton-success fw-bold d-inline-block text-center" to={url}>{label}</Link>
             </li>
           ))}
-           {children && <li className="nav-item list-group-item">{children}</li>}
+          {children && <li className="nav-item list-group-item">{children}</li>}
         </ul>
       </div>
     </nav>

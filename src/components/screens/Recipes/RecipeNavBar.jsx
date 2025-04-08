@@ -9,8 +9,6 @@ import { TraceabilityModal } from './recipeModals/TraceabilityModal';
 import { useMainContext } from '../../../context/MainContext';
 import { useTranslation } from "react-i18next";
 import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
-import { set } from 'zod';
-import { reference } from '@popperjs/core';
 
 const OPERATIONS = {
   CALCULATE: "Calculate",

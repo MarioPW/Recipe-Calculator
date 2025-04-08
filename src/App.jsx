@@ -14,7 +14,7 @@ import { Inventory } from './components/screens/inventotry/Inventory';
 import { useMainContext } from "./context/MainContext";
 
 function App() {
-  const { setUser, setIngredients, ingredientService, recipeService, setRecipes } = useMainContext();
+  const { setUser, ingredients, setIngredients, ingredientService, recipeService, setRecipes } = useMainContext();
 
   useEffect(() => {
     cleanLocalStorage()

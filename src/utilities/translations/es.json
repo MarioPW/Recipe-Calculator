@@ -78,7 +78,13 @@
     "updateError": "Error al actualizar el stock:",
     "ref": "Referencia",
     "item": "Artículo",
-    "stock": "Stock"
+    "stock": "Stock",
+  "adjust": "Ajustar",
+  "adjustStock": "Ajustar Stock",
+  "adjustFor": "Ajustar cantidad para",
+  "enterAmount": "Ingresa una cantidad (puede ser negativa)",
+  "positiveToAdd": "Usa número positivo para sumar, negativo para restar"
+
   },
   "myRecipes": {
     "title": "Mis Recetas",

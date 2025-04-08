@@ -77,7 +77,12 @@
     "updateError": "Error updating stock:",
     "ref": "Ref",
     "item": "Item",
-    "stock": "Stock"
+    "stock": "Stock",
+    "adjust": "Adjust",
+    "adjustStock": "Adjust Stock",
+    "adjustFor": "Adjust quantity for",
+    "enterAmount": "Enter an amount (can be negative)",
+    "positiveToAdd": "Use positive number to add, negative to subtract"
   },
   "myRecipes": {
     "title": "My Recipes",

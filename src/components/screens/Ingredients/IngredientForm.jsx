@@ -28,6 +28,10 @@ export const IngredientForm = () => {
     reference: '',
     setInInventory: true
   };
+  const OPERATIONS = {
+    ADD: 'add',
+    SUBSTRACT: 'substract'
+  }
 
   useEffect(() => {
     const fetchIngredient = async () => {
@@ -122,17 +126,17 @@ export const IngredientForm = () => {
               onChange={(e) => setStockInput(e.target.value)}
             />
             <div className="d-flex gap-2 justify-content-end">
-              <button className="myButton-success border-0 text-center" onClick={() => handleUpdateStock("add")}>
+              <button className="myButton-success border-0 text-center" onClick={() => handleUpdateStock(OPERATIONS.ADD)}>
                 {t('ingredientForm.add')}
               </button>
-              <button className="myButton-purple border-0 fw-light text-center" onClick={() => handleUpdateStock("subtract")}>
+              <button className="myButton-purple border-0 fw-light text-center" onClick={() => handleUpdateStock(OPERATIONS.SUBSTRACT)}>
                 {t('ingredientForm.subtract')}
               </button>
             </div>
           </div>
         </div>
       </nav>
-      {loading && <p className="alert alert-warning">{t('ingredientForm.updating')}</p>}
+      {loading && <p className="alert alert-warning m-0">{t('ingredientForm.updating')}</p>}
       <form className="row form-control m-0" id="userIngredientsForm">
         <ul className="p-3 gap-2 rounded-0 mb-0">
           <div className="row">
@@ -191,7 +195,6 @@ export const IngredientForm = () => {
                   className="form-control"
                   id="stock"
                   onChange={handleChange}
-                  disabled
                 />
               </div>
               <div className="form-check col-md-6 d-flex align-items-center">

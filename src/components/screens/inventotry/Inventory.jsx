@@ -5,10 +5,11 @@ import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
 import { generatePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
 import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
+import { AddSubstractModal } from './AddSubstractModal';
 
 export const Inventory = () => {
   const { t } = useTranslation();
-  const { ingredients, setIngredients, ingredientService } = useMainContext();
+  const { ingredients, ingredientService } = useMainContext();
   const [currentInventory, setCurrentInventory] = useState(ingredients);
   const [fireRecipeModal, setFireRecipeModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -23,10 +24,12 @@ export const Inventory = () => {
   }, [ingredients]);
 
   const updateIngredientsStock = async () => {
+    if (confirm("Seguro deseas actualizar el stock principal de los Ingredientes?")){
     setAlert(true);
     const changedStockIngredients = currentInventory.filter((ingredient) => {
       if (ingredient.adjustedAmount !== undefined) {
-        ingredient.stock = ingredient.adjustedAmount;
+        ingredient.stock = ingredient.adjustedAmount
+        ingredient.updated = false
         return true;
       }
       return false;
@@ -41,7 +44,7 @@ export const Inventory = () => {
       console.error(t('inventory.updateError'), error);
     }
     setAlert(false);
-  };
+  }}
 
   const handleGenerateExcel = () => {
     const tableData = currentInventory.map((ingredient) => ({
@@ -70,7 +73,6 @@ export const Inventory = () => {
 
   const handleUpdateStock = (operation) => {
     if (!selectedIngredient || !stockAdjustment) return;
-
     setCurrentInventory(prev => {
       const index = prev.findIndex(item => item.FSId === selectedIngredient.FSId);
       if (index === -1) return prev;
@@ -92,7 +94,7 @@ export const Inventory = () => {
     });
 
     setShowStockModal(false);
-  };
+  }
 
 
   const navBarData = {
@@ -100,7 +102,7 @@ export const Inventory = () => {
     collapseButtonText: t('inventory.actions'),
     buttons: [
       {
-        label: 'New',
+        label: t('inventory.new'),
         action: () => setNewStock(!newStock)
       },
       {
@@ -126,7 +128,7 @@ export const Inventory = () => {
     <>
       {ingredients.length > 0 ? (
         <>
-          <SecondaryNavbar {...navBarData} searchInput={{ items: currentInventory, action: handleOpenStockModal}} />
+          <SecondaryNavbar {...navBarData} searchInput={{ items: currentInventory, action: handleOpenStockModal }} />
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}
             <table className="table table-light mb-0 text-nowrap">
@@ -143,18 +145,24 @@ export const Inventory = () => {
                   <tr key={ingredient.FSId}>
                     <td>{ingredient.reference}</td>
                     <td>{ingredient.name}</td>
-                    <td className={ingredient.updated ? "bg-info text-white fw-bold" : ""}>
-                      {ingredient.stock || 0} {ingredient.unitOfMeasure}
-                    </td>
+                    <td>{ingredient.stock || 0} {ingredient.unitOfMeasure} </td>
                     {newStock && (
                       <td className="text-center">
-                        <button
-                          id="AddNewValue"
-                          className="btn btn-outline-success btn-sm mb-1"
-                          onClick={() => handleOpenStockModal(ingredient)}
-                        >
-                          {!ingredient.adjustedAmount ? <i className="bi bi-plus-circle"></i> : ingredient.adjustedAmount}
-                        </button>
+                        {!ingredient.adjustedAmount
+                          ? <button
+                            id="AddNewValue"
+                            className="btn btn-outline-success btn-sm mb-1"
+                            onClick={() => handleOpenStockModal(ingredient)}
+                          >
+                            <i className="bi bi-pen"/>
+                          </button>
+                          : <button
+                            className="btn btn-sm btn-outline-dark"
+                            onClick={() => handleOpenStockModal(ingredient)}
+                          >
+                            {ingredient.adjustedAmount} {ingredient.unitOfMeasure}
+                          </button>
+                        }
                       </td>
                     )}
                   </tr>
@@ -168,32 +176,14 @@ export const Inventory = () => {
       )}
 
       {/* Modal */}
+ 
       {showStockModal && (
-        <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content border">
-              <div className="modal-header bg-color-main gap-2 w-100 p-2 m-0 text-light">
-                <h5 className="modal-title">Actualizar stock de: {selectedIngredient?.name}</h5>
-                <button type="button" className="bg-light btn-close me-1" onClick={() => setShowStockModal(false)}></button>
-              </div>
-              <div className="modal-body">
-                <label>Valor a ajustar:</label>
-                <input
-                  type="number"
-                  className="form-control mt-2"
-                  value={stockAdjustment}
-                  onChange={(e) => setStockAdjustment(e.target.value)}
-                />
-              </div>
-              <div className="modal-footer">
-                <button className="myButton-success border-0 text-center py-2" onClick={() => handleUpdateStock('add')}>Add</button>
-                <button className="myButton-purple border-0 text-center py-2" onClick={() => handleUpdateStock('substract')}>Substract</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <AddSubstractModal setStockAdjustment={setStockAdjustment}
+        handleUpdateStock={handleUpdateStock}
+        stockAdjustment={stockAdjustment}
+        setShowStockModal={setShowStockModal}
+        selectedIngredient={selectedIngredient} />
       )}
-
       {fireRecipeModal && (
         <FireRecipeModal
           setFireRecipeModal={setFireRecipeModal}

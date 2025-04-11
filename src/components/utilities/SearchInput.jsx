@@ -74,7 +74,7 @@ export const SearchInput = ({ items = [], url = null, action = null, setItemsLis
                 </Link>
               )}
               {action && (
-                <button className="text-decoration-none text-dark" onClick={() => action(item)}>
+                <button className="btn btn-outline-light text-dark" onClick={() => action(item)}>
                   {item.name}
                 </button>
               )}

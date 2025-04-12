@@ -76,15 +76,18 @@
     "downloadExcel": "Descargar como .xlsx",
     "updating": "Actualizando",
     "updateError": "Error al actualizar el stock:",
-    "ref": "Referencia",
-    "item": "Artículo",
+    "new": "Nuevo",
+    "ref": "Ref",
+    "item": "Producto",
     "stock": "Stock",
-  "adjust": "Ajustar",
-  "adjustStock": "Ajustar Stock",
-  "adjustFor": "Ajustar cantidad para",
-  "enterAmount": "Ingresa una cantidad (puede ser negativa)",
-  "positiveToAdd": "Usa número positivo para sumar, negativo para restar"
-
+    "adjust": "Ajustar",
+    "adjustStock": "Ajustar Stock",
+    "adjustFor": "Ajustar cantidad para",
+    "enterAmount": "Ingresa una cantidad (puede ser negativa)",
+    "positiveToAdd": "Usa un número positivo para sumar, negativo para restar",
+    "newStock": "Nuevo Stock",
+    "updateStockAlert": "Debes actualizar el stock principal antes de descontar recetas.",
+    "updateMainStockConfirmation": "¿Seguro deseas actualizar el stock principal de los ingredientes?"
   },
   "myRecipes": {
     "title": "Mis Recetas",

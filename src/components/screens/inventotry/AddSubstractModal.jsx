@@ -6,7 +6,7 @@ export const AddSubstractModal = ({setStockAdjustment, handleUpdateStock, stockA
     <div className="modal-dialog" role="document">
       <div className="modal-content border">
         <div className="modal-header bg-color-main gap-2 w-100 p-2 m-0 text-light">
-          <h5 className="modal-title fw-bold">{selectedIngredient?.name}:</h5>
+          <h5 className="modal-title fw-bold">{selectedIngredient?.name} X {selectedIngredient.stock} {selectedIngredient.unitOfMeasure}:</h5>
           <button type="button" className="bg-light btn-close me-1" onClick={() => setShowStockModal(false)}></button>
         </div>
         <div className="modal-body">

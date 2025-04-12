@@ -83,7 +83,10 @@
     "adjustStock": "Adjust Stock",
     "adjustFor": "Adjust quantity for",
     "enterAmount": "Enter an amount (can be negative)",
-    "positiveToAdd": "Use positive number to add, negative to subtract"
+    "positiveToAdd": "Use positive number to add, negative to subtract",
+    "newStock": "New",
+    "updateStockAlert": "You must update the main stock before deducting recipes.",
+    "updateMainStockConfirmation": "Are you sure you want to update the main stock of the ingredients?"
   },
   "myRecipes": {
     "title": "My Recipes",

@@ -91,21 +91,22 @@ export const RecipeNavBar = ({ currentRecipe }) => {
             const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
             console.log(subRecipeCalc);
           }
-   console.log(subRecipeConversions);
+          console.log(subRecipeConversions);
           if (verifyCost.length > 0) {
             console.log(verifyCost);
-          }})
+          }
+        })
 
         // subRecipeConversions.forEach((subRecipe) => {
-          // const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
-          // if (subRecipeWithIngredients) {
-          //   const subRecipeData = {
-          //     amount: 1,
-          //     weightPerUnit: subRecipe.conversion,
-          //   };
-  
-          //   const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
-          //   console.log(subRecipeCalc);
+        // const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
+        // if (subRecipeWithIngredients) {
+        //   const subRecipeData = {
+        //     amount: 1,
+        //     weightPerUnit: subRecipe.conversion,
+        //   };
+
+        //   const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
+        //   console.log(subRecipeCalc);
         try {
           const costParams = {
             ...recipeData,
@@ -179,7 +180,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                   tableData={currentRecipe.ingredients.map((item) => ({
                     [t('recipeNavbar.ingredients')]: item.name,
                     [t('recipeNavbar.weight')]: `${item.weight || 0} ${item.unitOfMeasure}`
-                  }))} /> }
+                  }))} />}
               </li>
               <li className="nav-item">
                 <button className="myButton-yellow border-0 py-1" onClick={toggleModal(setRecipeFeaturesModal)}>

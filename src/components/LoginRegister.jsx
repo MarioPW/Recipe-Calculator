@@ -4,7 +4,8 @@ import {
     FacebookAuthProvider,
     signInWithPopup,
     signInWithEmailAndPassword,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { auth, firebaseErrors } from "../firebaseConfig.js";
 import { useNavigate } from 'react-router-dom';
@@ -17,10 +18,33 @@ export const LoginRegister = () => {
     const navigate = useNavigate();
     const { setUser } = useMainContext();
     const [showLogin, setShowLogin] = useState(true);
+    const [registerData, setRegisterData] = useState({});
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
+    };
+    const handleRegisterChange = (e) => {
+        const { name, value } = e.target;
+        setRegisterData({ ...registerData, [name]: value });
+        console.log(registerData)
+    };
+    const handleRegisterSubmit = async (e) => {
+        e.preventDefault();
+        const { email, password, password2 } = registerData;
+        console.log(registerData)
+        if (password !== password2) {
+            alert(t("auth.passwords_not_match"));
+            return;
+        }
+        try {
+            const response = await createUserWithEmailAndPassword(auth, email, password);
+            const userName = response.user.email;
+            alert(`${t("auth.welcome")}, ${userName} !!!`);
+            navigate("/");
+        } catch (error) {
+            alert(firebaseErrors[error.code] || t("auth.register_error"));
+        }
     };
 
     const handleSocialLogin = async (provider, auth) => {
@@ -97,20 +121,20 @@ export const LoginRegister = () => {
                 </div>
             ) : (
                 <div className="mt-2 w-100 d-flex justify-content-center" id="registerFormContainer">
-                    <form className="bg-light p-4 rounded-2" style={{ minWidth: "370px" }} id="registerForm">
+                    <form className="bg-light p-4 rounded-2" style={{ minWidth: "370px" }} id="registerForm" onSubmit={handleRegisterSubmit}>
                         <h5 className="text-center text-light rounded-2 p-2 bg-success">{t("auth.register")}</h5>
                         <div className="mb-3">
                             <label htmlFor="emailRegister" className="form-label">{t("auth.email")}:</label>
-                            <input type="email" className="form-control" id="emailRegister" name="email" />
+                            <input type="email" className="form-control" id="emailRegister" name="email" onChange={(e) => handleRegisterChange(e)}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="passwordRegister" className="form-label">{t("auth.password")}:</label>
-                            <input type="password" className="form-control" id="passwordRegister" name="password" />
+                            <input type="password" className="form-control" id="passwordRegister" name="password" onChange={(e) => handleRegisterChange(e)}/>
                             <div id="emailHelp" className="form-text">{t("auth.password_requirement")}</div>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password2Register" className="form-label">{t("auth.repeat_password")}</label>
-                            <input type="password" className="form-control" id="password2Register" name="password2" />
+                            <input type="password" className="form-control" id="password2Register" name="password2" onChange={(e) => handleRegisterChange(e)}/>
                         </div>
                         <div className="d-flex gap-2 justify-content-between align-items-center">
                             <a className='fs-6' id="loginLink" onClick={() => setShowLogin(true)} style={{ cursor: 'pointer' }}>

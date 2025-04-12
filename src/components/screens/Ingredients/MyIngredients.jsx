@@ -22,19 +22,20 @@ export const MyIngredients = () => {
   };
   return (
     <>
+      <SecondaryNavbar
+        title={t('myIngredients.title')}
+        buttons={[
+          { label: t('myIngredients.sortByName'), action: sortByName },
+          { label: t('myIngredients.sortByRef'), action: sortByReference }
+        ]}
+        links={[
+          { label: t('myIngredients.addNew'), url: "/ingredient" }
+        ]}
+        searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
+        collapseButtonText={t('myIngredients.actions')} />
       {ingredients.length > 0 ? (
         <div className="container p-0">
-          <SecondaryNavbar
-            title={t('myIngredients.title')}
-            buttons={[
-              { label: t('myIngredients.sortByName'), action: sortByName },
-              { label: t('myIngredients.sortByRef'), action: sortByReference }
-            ]}
-            links={[
-              { label: t('myIngredients.addNew'), url: "/ingredient" }
-            ]}
-            searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
-            collapseButtonText={t('myIngredients.actions')} />
+
           <div className="table-responsive">
             <table className="table table-light table-striped text-nowrap">
               <thead>

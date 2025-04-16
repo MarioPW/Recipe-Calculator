@@ -160,6 +160,7 @@
     "stock": "Stock",
     "setInInventory": "Set in Inventory",
     "supplier": "Supplier",
+    "minStock": "Min Stock",
     "costPerKg": "Cost per Kg or L",
     "expirationDate": "Expiration Date",
     "batch": "Batch",

@@ -213,16 +213,29 @@ export const IngredientForm = () => {
               </div>
 
             </div>
-            <div className="col-md-6">
-              <label htmlFor="supplier" className="form-label">{t('ingredientForm.supplier')}</label>
-              <input
-                type="text"
-                name="supplier"
-                value={ingredientData.supplier}
-                className="form-control"
-                id="supplier"
-                onChange={handleChange}
-              />
+              <div className="col-md-6 d-flex gap-3">
+                <div className="col-md-6">
+                  <label htmlFor="minStock" className="form-label">{t('ingredientForm.minStock')}</label>
+                  <input
+                    type="number"
+                    name="minStock"
+                    value={ingredientData.minStock}
+                    className="form-control"
+                    id="minStock"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="supplier" className="form-label">{t('ingredientForm.supplier')}</label>
+                  <input
+                    type="text"
+                    name="supplier"
+                    value={ingredientData.supplier}
+                    className="form-control"
+                    id="supplier"
+                    onChange={handleChange}
+                  />
+                </div>
             </div>
           </div>
 

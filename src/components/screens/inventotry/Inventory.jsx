@@ -138,7 +138,7 @@ export const Inventory = () => {
     <>
       {ingredients.length > 0 ? (
         <>
-          <SecondaryNavbar {...navBarData}/>
+          <SecondaryNavbar {...navBarData} />
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}
             {stockAlert && <div className="alert alert-warning alert-dismissible fade show m-0" role="alert">
@@ -159,8 +159,9 @@ export const Inventory = () => {
                   <tr key={ingredient.FSId}>
                     <td>{ingredient.reference}</td>
                     <td>{ingredient.name}</td>
-                    <td className='text-secondary' >{ingredient.stock || 0} {ingredient.unitOfMeasure} </td>
-                    {newStockColumn && (
+                    <td className={ingredient.minStock && ingredient.stock < ingredient.minStock ? 'bg-danger' : 'text-secondary'}>
+                      {ingredient.stock || 0} {ingredient.unitOfMeasure}
+                    </td>                    {newStockColumn && (
                       <td className="text-center">
                         {!ingredient.adjustedAmount
                           ? <button

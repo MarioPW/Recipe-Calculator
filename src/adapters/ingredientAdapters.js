@@ -9,6 +9,7 @@ export class IngredientAdapter {
             expirationDate: ingredient.expirationDate || "", // optional
             batch: ingredient.batch || "", // optional
             stock: ingredient.stock || "",   // optional
+            minStock: ingredient.minStock || "", // optional
             reference: ingredient.reference || "", // optional
             setInInventory:  ingredient.setInInventory || false // optional 
         };

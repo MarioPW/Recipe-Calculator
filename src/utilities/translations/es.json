@@ -162,6 +162,7 @@
     "stock": "Stock",
     "setInInventory": "Agregar al Inventario",
     "supplier": "Proveedor",
+    "minStock": "Stock Mínimo",
     "costPerKg": "Costo por Kg o L",
     "expirationDate": "Fecha de Vencimiento",
     "batch": "Lote",

@@ -14,7 +14,7 @@ export const Inventory = () => {
   const [fireRecipeModal, setFireRecipeModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [stockAlert, setStockAlert] = useState(false)
-  const [newStock, setNewStock] = useState(false);
+  const [newStockColumn, setNewStockColumn] = useState(false);
   const [showStockModal, setShowStockModal] = useState(false);
   const [stockAdjustment, setStockAdjustment] = useState('');
   const [selectedIngredient, setSelectedIngredient] = useState(null);
@@ -24,10 +24,10 @@ export const Inventory = () => {
     setCurrentInventory(inventory);
   }, [ingredients]);
   useEffect(() => {
-    if (fireRecipeModal && newStock) {
+    if (fireRecipeModal && newStockColumn) {
       setStockAlert(true);
     }
-  }, [fireRecipeModal, newStock]);
+  }, [fireRecipeModal, newStockColumn]);
 
   const updateIngredientsStock = async () => {
     if (confirm(t('inventory.updateMainStockConfirmation'))) {
@@ -50,7 +50,7 @@ export const Inventory = () => {
       } catch (error) {
         console.error(t('inventory.updateError'), error);
       }
-      setNewStock(!newStock)
+      setNewStockColumn(!newStockColumn)
       setAlert(false);
     }
   }
@@ -60,7 +60,7 @@ export const Inventory = () => {
       const index = prev.findIndex(item => item.FSId === selectedIngredient.FSId);
       if (index === -1) return prev;
       const prevItem = prev[index];
-      const currentAdjusted = Number(prevItem.adjustedAmount ?? prevItem.stock ?? 0);
+      const currentAdjusted = Number(prevItem.adjustedAmount ?? 0);
       const adjustment = Number(stockAdjustment);
 
       const updatedItem = {
@@ -113,7 +113,7 @@ export const Inventory = () => {
     buttons: [
       {
         label: t('inventory.new'),
-        action: () => setNewStock(!newStock)
+        action: () => setNewStockColumn(!newStockColumn)
       },
       {
         label: t('inventory.fireRecipes'),
@@ -151,7 +151,7 @@ export const Inventory = () => {
                   <th>{t('inventory.ref')}</th>
                   <th>{t('inventory.item')}</th>
                   <th>{t('inventory.stock')}</th>
-                  {newStock && <th>{t('inventory.newStock')}</th>}
+                  {newStockColumn && <th>{t('inventory.newStockColumn')}</th>}
                 </tr>
               </thead>
               <tbody className="table-group-divider">
@@ -159,8 +159,8 @@ export const Inventory = () => {
                   <tr key={ingredient.FSId}>
                     <td>{ingredient.reference}</td>
                     <td>{ingredient.name}</td>
-                    <td>{ingredient.stock || 0} {ingredient.unitOfMeasure} </td>
-                    {newStock && (
+                    <td className='text-secondary' >{ingredient.stock || 0} {ingredient.unitOfMeasure} </td>
+                    {newStockColumn && (
                       <td className="text-center">
                         {!ingredient.adjustedAmount
                           ? <button
@@ -195,7 +195,7 @@ export const Inventory = () => {
           setShowStockModal={setShowStockModal}
           selectedIngredient={selectedIngredient} />
       )}
-      {fireRecipeModal && !newStock && (
+      {fireRecipeModal && !newStockColumn && (
         <FireRecipeModal
           setFireRecipeModal={setFireRecipeModal}
           currentInventory={currentInventory}

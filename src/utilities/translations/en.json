@@ -78,15 +78,15 @@
     "new": "New",
     "ref": "Ref",
     "item": "Item",
-    "stock": "Stock",
+    "stock": "Last Stock",
     "adjust": "Adjust",
     "adjustStock": "Adjust Stock",
     "adjustFor": "Adjust quantity for",
     "enterAmount": "Enter an amount (can be negative)",
-    "positiveToAdd": "Use positive number to add, negative to subtract",
-    "newStock": "New",
+    "newStockColumn": "New",
     "updateStockAlert": "You must update the main stock before deducting recipes.",
-    "updateMainStockConfirmation": "Are you sure you want to update the main stock of the ingredients?"
+    "updateMainStockConfirmation": "Are you sure you want to update the main stock of the ingredients?",
+    "insertValue": "Insert a value:"
   },
   "myRecipes": {
     "title": "My Recipes",

@@ -17,6 +17,7 @@ export class Calculator {
     return calculatedRecipe;
   }
   costRecipe(costParams) {
+    const name = costParams.name
     const costPerIngredient = costParams.ingredients.map((ing) => {
       return (ing.costPerKg / 1000 * ing.requiredQuantity).toFixed(2);
     });
@@ -36,7 +37,7 @@ export class Calculator {
         percentage
       };
     });
-    return { totalCost, ingredients, costPerUnit }
+    return { totalCost, ingredients, costPerUnit, name}
   }
   updateInventoryWithRecipe(currentInventory, conversions) {
     const updatedInventory = currentInventory.map((ing) => {

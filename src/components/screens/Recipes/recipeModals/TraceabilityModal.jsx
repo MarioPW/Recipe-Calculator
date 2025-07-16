@@ -58,7 +58,7 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                                     [t("traceabilityModal.amount")]: traceability.amount
                                 }}
                             />
-                            <button type="button" className="myButton-success border-0 py-2 px-3 fw-bold" onClick={generateExcel}>
+                            <button type="button" className="btn btn-sm btn-outline-light" onClick={generateExcel}>
                                 <i className="bi bi-download me-1"></i> {t("traceabilityModal.downloadExcel")}
                             </button>
                         </div>

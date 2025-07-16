@@ -1,12 +1,14 @@
 import React from 'react'
+import { useTranslation } from "react-i18next";
 
 export const AmountWeightModal = ( {handleAmountWeightModal, amount, setAmount, weightPerUnit, setWeightPerUnit, handleSaveAmountWeight, operation} ) => {
+    const { t } = useTranslation();
   return (
     <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
     <div className="modal-dialog">
         <div className="modal-content">
             <div className="modal-header">
-                <h5 className="modal-title">Enter Amount and Weight</h5>
+                <h5 className="modal-title">{t('amountWeightModal.title')}:</h5>
                 <button
                     type="button"
                     className="btn-close"
@@ -14,7 +16,7 @@ export const AmountWeightModal = ( {handleAmountWeightModal, amount, setAmount, 
                 ></button>
             </div>
             <div className="modal-body">
-                <label htmlFor="amount">Amount:</label>
+                <label htmlFor="amount">{t('amountWeightModal.amount')}:</label>
                 <input
                 id='amount'
                     className='form-control'
@@ -24,7 +26,7 @@ export const AmountWeightModal = ( {handleAmountWeightModal, amount, setAmount, 
                 />
             </div>
             <div className="modal-body">
-                <label htmlFor="amount">Weight per Unit:</label>
+                <label htmlFor="amount">{t('amountWeightModal.weightPerUnit')}:</label>
                 <input
                     className='form-control'
                     value={weightPerUnit}
@@ -39,7 +41,7 @@ export const AmountWeightModal = ( {handleAmountWeightModal, amount, setAmount, 
                     className="btn btn-secondary"
                     onClick={handleAmountWeightModal}
                 >
-                    Cancel
+                   {t('common.close')}
                 </button>
                 <button
                     type="button"

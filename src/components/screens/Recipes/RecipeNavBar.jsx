@@ -9,6 +9,7 @@ import { TraceabilityModal } from './recipeModals/TraceabilityModal';
 import { useMainContext } from '../../../context/MainContext';
 import { useTranslation } from "react-i18next";
 import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
+import { CostModal } from './recipeModals/CostModal';
 
 const OPERATIONS = {
   CALCULATE: "Calculate",
@@ -28,13 +29,20 @@ export const RecipeNavBar = ({ currentRecipe }) => {
   const [amount, setAmount] = useState(0);
   const [operation, setOperation] = useState("");
   const [weightPerUnit, setWeightPerUnit] = useState(0);
-  const [convertionsModal, setConvertionsModal] = useState(false);
   const [convertions, setConvertions] = useState([]);
+  const [recipeCosts, setRecipeCosts] = useState({});
   const [traceability, setTraceability] = useState(null);
   const [missingIngredient, setMissingIngredient] = useState(null);
-  const [traceabilityModal, setTraceabilityModal] = useState(false);
+
+  // Navbar Buttons
   const [recipeFeaturesModal, setRecipeFeaturesModal] = useState(false);
+  const [convertionsModal, setConvertionsModal] = useState(false);
+  const [costModal, setCostModal] = useState(false);
+  const [traceabilityModal, setTraceabilityModal] = useState(false);
+
+  // PDF, XML Buttons
   const [pdfButton, setPdfButton] = useState(false);
+
   const recipeData = {
     amount,
     weightPerUnit,
@@ -77,51 +85,72 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         setConvertionsModal(true);
         break;
       case OPERATIONS.COST:
-        // const baseConversions = convertions.filter((r) => !r.isSubRecipe);
-        const subRecipeConversions = convertions.filter((r) => r.isSubRecipe);
-        const verifyCost = recipeIngredients.filter((r) => !r.costPerKg);
-        const subrecipeCosts = subRecipeConversions.map((subRecipe) => {
-          const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
-          if (subRecipeWithIngredients) {
-            const subRecipeData = {
+        const verifyIngredientsCost = recipeIngredients.filter((ing) => !ing.costPerKg && !ing.isSubRecipe);
+        const verifySubRecipes = recipeIngredients.filter((ing) => ing.isSubRecipe);
+        const subIngredientNames = new Set();
+        let subRecipesCostPerKg = [];
+        if (verifyIngredientsCost.length > 0) {
+          alert(`Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: ${verifyIngredientsCost.map((r) => r.name).join(', ')}`);
+          break
+        }
+        if (verifySubRecipes.length > 0) {
+          const subRecipes = recipes.filter((r) => verifySubRecipes.some((subRecipe) => subRecipe.id === r.id));
+
+          // Check sub-recipe missing cost ingredients => ingredient names without costPerKg
+          subRecipes.forEach((subRecipe) => {
+            subRecipe.ingredients.forEach((ingredient) => {
+              subIngredientNames.add(ingredient.name);
+            });
+          });
+          const missingCostIngredients = Array.from(subIngredientNames).filter((name) => {
+            const ingredient = ingredients.find((i) => i.name === name);
+            return !ingredient || ingredient.costPerKg == undefined || ingredient.costPerKg === '';
+          });
+          if (missingCostIngredients.length > 0) {
+            alert(`Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: ${missingCostIngredients.join(', ')}`);
+            break;
+          };
+
+          // Calculate cost per Kilogram for sub-recipes
+          subRecipesCostPerKg = subRecipes.map((subRecipe) => {
+            let subRecipeData = {
               amount: 1,
-              weightPerUnit: subRecipe.conversion,
+              weightPerUnit: 1000,
+              name: subRecipe.name,
+            }
+            const subRecipeConvertions = calculator.calculateInProportion(
+              subRecipeData,
+              subRecipe.ingredients
+            );
+            const subRecipeCostParams = {
+              ...subRecipeData,
+              ingredients: subRecipe.ingredients.map((ing, index) => ({
+                name: ing.name,
+                requiredQuantity: subRecipeConvertions[index].conversion,
+                costPerKg: ingredients.find((i) => i.FSId === ing.id).costPerKg,
+                unitOfMeasure: ing.unitOfMeasure,
+              }))
             };
-
-            const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
-            console.log(subRecipeCalc);
+            return calculator.costRecipe(subRecipeCostParams);
           }
-          console.log(subRecipeConversions);
-          if (verifyCost.length > 0) {
-            console.log(verifyCost);
-          }
-        })
-
-        // subRecipeConversions.forEach((subRecipe) => {
-        // const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
-        // if (subRecipeWithIngredients) {
-        //   const subRecipeData = {
-        //     amount: 1,
-        //     weightPerUnit: subRecipe.conversion,
-        //   };
-
-        //   const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
-        //   console.log(subRecipeCalc);
-        try {
-          const costParams = {
-            ...recipeData,
-            ingredients: recipeIngredients.map((ing, index) => ({
+          )
+        }
+        const costParams = {
+          ...recipeData,
+          ingredients: recipeIngredients.map((ing, index) => (
+            {
               name: ing.name,
               requiredQuantity: convertions[index].conversion,
-              costPerKg: ing.costPerKg,
+              costPerKg: ing.costPerKg || subRecipesCostPerKg.find((sub) => sub.name === ing.name)?.totalCost,
               unitOfMeasure: ing.unitOfMeasure,
             })),
-          };
-          const calculations = calculator.costRecipe(costParams);
-          // console.log(calculations); //TODO: Show the cost of the recipe in a modal
-        } catch (error) {
-          alert(error);
-        }
+        };
+
+        const costCalculations = calculator.costRecipe(costParams);
+        setRecipeCosts({...recipeData, ...costCalculations});
+        setCostModal(true);
+        console.log({...recipeData, ...costCalculations});
+
         break;
       case OPERATIONS.TRACEABILITY:
         try {
@@ -227,6 +256,17 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         )}
       </nav>
 
+      {amountWeightModal && (
+        <AmountWeightModal
+          handleAmountWeightModal={toggleModal(setAmountWeightModal)}
+          amount={amount}
+          setAmount={setAmount}
+          weightPerUnit={weightPerUnit}
+          setWeightPerUnit={setWeightPerUnit}
+          handleSaveAmountWeight={handleSaveAmountWeight}
+          operation={operation}
+        />
+      )}
       {recipeFeaturesModal && (
         <RecipeFeaturesModal
           setRecipeFeaturesModal={setRecipeFeaturesModal}
@@ -242,15 +282,16 @@ export const RecipeNavBar = ({ currentRecipe }) => {
           handleConvertionsModal={toggleModal(setConvertionsModal)}
         />
       )}
-      {amountWeightModal && (
-        <AmountWeightModal
-          handleAmountWeightModal={toggleModal(setAmountWeightModal)}
-          amount={amount}
-          setAmount={setAmount}
-          weightPerUnit={weightPerUnit}
-          setWeightPerUnit={setWeightPerUnit}
-          handleSaveAmountWeight={handleSaveAmountWeight}
-          operation={operation}
+      {costModal && (
+        <CostModal
+          handleCostModal={toggleModal(setCostModal)}
+          recipeCosts={recipeCosts}
+        />
+      )}
+      {traceabilityModal && (
+        <TraceabilityModal
+          traceability={traceability}
+          handleTraceabilityModal={toggleModal(setTraceabilityModal)}
         />
       )}
       {addIngredientModal && (
@@ -267,12 +308,6 @@ export const RecipeNavBar = ({ currentRecipe }) => {
           recipes={recipes}
           setRecipe={setRecipe}
           currentRecipe={currentRecipe}
-        />
-      )}
-      {traceabilityModal && (
-        <TraceabilityModal
-          traceability={traceability}
-          handleTraceabilityModal={toggleModal(setTraceabilityModal)}
         />
       )}
     </>

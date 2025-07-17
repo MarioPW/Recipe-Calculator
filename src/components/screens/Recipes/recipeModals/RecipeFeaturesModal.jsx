@@ -1,8 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
 import { useMainContext } from '../../../../context/MainContext';
+import { useTranslation } from 'react-i18next';
 
 export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe }) => {
+    const { t } = useTranslation();
     const { recipes } = useMainContext()
     const [currentRecipe, setCurrentRecipe] = useState({
         name: recipe.name || '',
@@ -43,7 +45,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Edit Recipe Features</h5>
+                        <h5 className="modal-title">{t('recipeFeaturesModal.title')}</h5>
                         <button
                             type="button"
                             className="btn-close"
@@ -53,7 +55,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                     <form onSubmit={(e) => { e.preventDefault(); handleSaveChanges(); }}>
                         <div className="modal-body">
                             <div className="mb-3">
-                                <label htmlFor="recipeName" className="form-label">Recipe Name</label>
+                                <label htmlFor="recipeName" className="form-label">{t('common.name')}</label>
                                 <input
                                     id="recipeName"
                                     className="form-control"
@@ -66,7 +68,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="recipeDescription" className="form-label">Description</label>
+                                <label htmlFor="recipeDescription" className="form-label">{t('recipeFeaturesModal.description')}</label>
                                 <textarea
                                     id="recipeDescription"
                                     className="form-control"
@@ -79,7 +81,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="recipeSteps" className="form-label">Steps</label>
+                                <label htmlFor="recipeSteps" className="form-label">{t('recipeFeaturesModal.steps')}</label>
                                 <textarea
                                     id="recipeSteps"
                                     className="form-control"
@@ -92,7 +94,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="recipeImage" className="form-label">Image URL</label>
+                                <label htmlFor="recipeImage" className="form-label">{t('recipeFeaturesModal.imageUrl')}</label>
                                 <input
                                     id="recipeImage"
                                     className="form-control"
@@ -104,7 +106,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                             </div>
                             <div className='row' >
                                 <div className="mb-3 col-md-6">
-                                    <label htmlFor="productWeight" className="form-label">Product Weight (grams)</label>
+                                    <label htmlFor="productWeight" className="form-label">{t('recipeFeaturesModal.productWeight')} (g)</label>
                                     <input
                                         id="productWeight"
                                         type="number"
@@ -117,7 +119,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                                 </div>
 
                                 <div className="mb-3 form-check col-md-6">
-                                    <label htmlFor="isSubRecipe" className="form-check-label">Is Sub-Recipe?</label>
+                                    <label htmlFor="isSubRecipe" className="form-check-label">{t('recipeFeaturesModal.isSubRecipe')}</label>
                                     <input
                                         id="isSubRecipe"
                                         type="checkbox"
@@ -135,14 +137,14 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                                 className="btn btn-secondary"
                                 onClick={() => setRecipeFeaturesModal(false)}
                             >
-                                Cancel
+                                {t('common.cancel')}
                             </button>
                             <button
                                 type="submit"
                                 className="btn btn-primary"
                             // onClick={handleSaveChanges}
                             >
-                                Save Changes
+                                {t('common.saveChanges')}
                             </button>
                         </div>
                     </form>

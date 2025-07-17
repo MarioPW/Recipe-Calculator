@@ -53,7 +53,9 @@
     "confirm": "Confirm",
     "search": "Search",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "saveChanges": "Save Changes",
+    "name": "Name"
   },
   "myRecipe": {
     "ingredient": "Ingredient",
@@ -143,6 +145,16 @@
     "title": "Enter Amount and Weight",
     "amount": "Amount",
     "weightPerUnit": "Weight per Unit"
+  },
+  "recipeFeaturesModal": {
+    "title": "Recipe Features",
+    "weightPerUnit": "Weight per Unit",
+    "defaultRecipe": "Default Recipe",
+    "description": "Description",
+    "steps": "Steps",
+    "imageUrl": "Image URL",
+    "productWeight": "Product Weight",
+    "isSubRecipe": "Is Sub-Recipe?"
   },
   "costModal": {
     "title": "Cost Calculation",

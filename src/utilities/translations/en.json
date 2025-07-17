@@ -219,5 +219,23 @@
     "saveChanges": "Save Changes",
     "nameExists": "Ingredient named {{name}} already exists",
     "nameRequired": "Ingredient name is required."
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot your password?",
+    "not_registered": "Don't have an account? Register here!",
+    "sign_in_google": "Sign in with Google",
+    "sign_in_facebook": "Sign in with Facebook",
+    "welcome": "Welcome",
+    "login_error": "Login error",
+    "enter_email_reset": "Please enter your email to reset your password.",
+    "password_reset_sent": "A password reset email has been sent.",
+    "password_reset_error": "Error sending password reset email.",
+    "repeat_password": "Repeat password",
+    "password_requirement": "At least 6 characters.",
+    "back_to_login": "Back to login"
   }
 }

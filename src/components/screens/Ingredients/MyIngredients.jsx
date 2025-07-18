@@ -11,6 +11,7 @@ export const MyIngredients = () => {
 
   const sortByName = () => {
     setIngredients([...ingredients].sort((a, b) => a.name.localeCompare(b.name)));
+    localStorage.setItem('ingredientsSort', 'name');
   };
 
   const sortByReference = () => {
@@ -19,6 +20,7 @@ export const MyIngredients = () => {
       const refB = b.reference ? parseInt(b.reference, 10) : Infinity;
       return refA - refB;
     }));
+    localStorage.setItem('ingredientsSort', 'reference');
   };
   return (
     <>

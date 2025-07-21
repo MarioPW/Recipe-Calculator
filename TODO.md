@@ -3,6 +3,12 @@
 [✔] CHange New Stock buttons styles.
 [✔] Add Confirmation to UpdateStock button in Inventory.
 [✔] Complete "cost recipe" functionality.
+[✔] Add PDF and Eexel buttons to cost recipe navbar.
+[✔] Add unit of meassure and % symbols to ingredients in <GeneretaPDF /> hook.
 [✔] Complete tranlations in recipe modals.
 [✔] Add min and max stock to IngredientForm and ingredients adpter model.
 [ ] Change buttons position into two culomns in Actions menu in small view in Inventory Navbar.
+[ ] Implement color changes in inventory items based on recent updates or when stock is below minimum.
+[ ] Add Excel and PDF export functionality across the project.
+[ ] Add Pagination to list of ingredients.
+[ ] Add Pagination to list of recipes.

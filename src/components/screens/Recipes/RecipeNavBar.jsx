@@ -8,8 +8,9 @@ import { RecipeFeaturesModal } from './recipeModals/RecipeFeaturesModal';
 import { TraceabilityModal } from './recipeModals/TraceabilityModal';
 import { useMainContext } from '../../../context/MainContext';
 import { useTranslation } from "react-i18next";
-import { GeneratePdfButton } from '../../utilities/GeneratePdfButton';
+import { GeneratePdfButton } from '../../common/GeneratePdfButton';
 import { CostModal } from './recipeModals/CostModal';
+import { GenerateExelButton } from '../../common/GenerateExelButton';
 
 const OPERATIONS = {
   CALCULATE: "Calculate",
@@ -41,7 +42,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
   const [traceabilityModal, setTraceabilityModal] = useState(false);
 
   // PDF, XML Buttons
-  const [pdfButton, setPdfButton] = useState(false);
+  const [fileGeneratorButton, setFileGeneratorButton] = useState(false);
 
   const recipeData = {
     amount,
@@ -60,13 +61,24 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         );
         missing && setMissingIngredient(missing.name);
         setRecipeIngredients(loadedRecipeIngredients);
-        setPdfButton(true);
+        setFileGeneratorButton(true);
       } catch (error) {
         console.error('Error loading Ingredients:', error);
       }
     };
     loadRecipeIngredients();
   }, [currentRecipe, ingredients]);
+
+  const fileGeneratorData = {
+    title: currentRecipe.name,
+    summary: {
+      [t("common.name")]: recipeData.name
+    },
+    tableData: currentRecipe.ingredients.map((item) => ({
+      [t('recipeNavbar.ingredients')]: item.name,
+      [t('recipeNavbar.weight')]: `${item.weight || 0} ${item.unitOfMeasure}`
+    }))
+  };
 
   const toggleModal = useCallback((setter) => () => setter((prev) => !prev), []);
 
@@ -145,12 +157,9 @@ export const RecipeNavBar = ({ currentRecipe }) => {
               unitOfMeasure: ing.unitOfMeasure,
             })),
         };
-
         const costCalculations = calculator.costRecipe(costParams);
-        setRecipeCosts({...recipeData, ...costCalculations});
+        setRecipeCosts({ ...recipeData, ...costCalculations });
         setCostModal(true);
-        console.log({...recipeData, ...costCalculations});
-
         break;
       case OPERATIONS.TRACEABILITY:
         try {
@@ -203,13 +212,8 @@ export const RecipeNavBar = ({ currentRecipe }) => {
           <div className="collapse navbar-collapse" id="recipeNavbar">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
               <li className="nav-item">
-                {pdfButton && <GeneratePdfButton
-                  label="PDF"
-                  title={currentRecipe.name}
-                  tableData={currentRecipe.ingredients.map((item) => ({
-                    [t('recipeNavbar.ingredients')]: item.name,
-                    [t('recipeNavbar.weight')]: `${item.weight || 0} ${item.unitOfMeasure}`
-                  }))} />}
+                {fileGeneratorButton && <GeneratePdfButton {...fileGeneratorData}/>}
+                {fileGeneratorButton && <GenerateExelButton {...fileGeneratorData} />}
               </li>
               <li className="nav-item">
                 <button className="myButton-yellow border-0 py-1" onClick={toggleModal(setRecipeFeaturesModal)}>

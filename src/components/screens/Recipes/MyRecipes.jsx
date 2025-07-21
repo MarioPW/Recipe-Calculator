@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '../../utilities/Spinner';
+import { Spinner } from '../../common/Spinner';
 import { useMainContext } from '../../../context/MainContext';
-import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
+import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 
 export const MyRecipes = () => {
   const { t } = useTranslation();

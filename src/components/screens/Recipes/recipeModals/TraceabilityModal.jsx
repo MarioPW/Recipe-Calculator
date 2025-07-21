@@ -1,36 +1,30 @@
 import React from "react";
-import * as XLSX from "xlsx";
 import { useTranslation } from "react-i18next";
-import { GeneratePdfButton } from "../../../utilities/GeneratePdfButton";
+import { GeneratePdfButton } from "../../../common/GeneratePdfButton";
+import { GenerateExelButton } from "../../../common/GenerateExelButton";
 
 export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => {
     const { t } = useTranslation();
 
     if (!traceability) return null;
 
-    const generateExcel = () => {
-        const wsData = [
-            [t("traceabilityModal.name"), traceability.name],
-            [t("traceabilityModal.weightPerUnit"), traceability.weightPerUnit],
-            [t("traceabilityModal.amount"), traceability.amount],
-            [],
-            [t("traceabilityModal.ingredients")],
-            [t("traceabilityModal.name"), t("traceabilityModal.batch"), t("traceabilityModal.expirationDate"), t("traceabilityModal.calculatedProportion")]
-        ];
-        traceability.ingredients.forEach(ingredient => {
-            wsData.push([
-                ingredient.name,
-                ingredient.batch || "?",
-                ingredient.expirationDate || "N/A",
-                ingredient.calculatedProportion ? ingredient.calculatedProportion + " " + (ingredient.unitOfMeasure || "") : "N/A"
-            ]);
-        });
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.aoa_to_sheet(wsData);
-        XLSX.utils.book_append_sheet(wb, ws, "Traceability");
-
-        XLSX.writeFile(wb, `Traceability_${new Date().toLocaleDateString()}.xlsx`);
-    };
+    const fileGeneratorData = {
+        title: t("traceabilityModal.title"),
+        tableData: traceability.ingredients.map((item) => ({
+          [t("traceabilityModal.ref")]: item.reference,
+          [t("traceabilityModal.name")]: item.name,
+          [t("traceabilityModal.batch")]: item.batch,
+          [t("traceabilityModal.expirationDate")]: item.expirationDate,
+          [t("traceabilityModal.calculatedProportion")]: `${item.calculatedProportion || 0} ${item.unitOfMeasure || ""}`,
+        })),
+        summary: {
+          [t("traceabilityModal.name")]: traceability.name,
+          [t("traceabilityModal.weightPerUnit")]: `${traceability.weightPerUnit} g`,
+          [t("traceabilityModal.amount")]: traceability.amount
+        }
+      };
+      console.log(traceability);
+      
 
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)", transition: "opacity 0.3s ease" }}>
@@ -42,25 +36,8 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                         </div>
 
                         <div className="d-flex flex-row gap-2 ms-auto">
-                            <GeneratePdfButton
-                                label={t("traceabilityModal.downloadPDF")}
-                                title={t("traceabilityModal.title")}
-                                tableData={traceability.ingredients.map((item) => ({
-                                    [t("traceabilityModal.ref")]: item.reference,
-                                    [t("traceabilityModal.name")]: item.name,
-                                    [t("traceabilityModal.batch")]: item.batch,
-                                    [t("traceabilityModal.expirationDate")]: item.expirationDate,
-                                    [t("traceabilityModal.calculatedProportion")]: item.calculatedProportion
-                                }))}
-                                summary={{
-                                    [t("traceabilityModal.name")]: traceability.name,
-                                    [t("traceabilityModal.weightPerUnit")]: traceability.weightPerUnit,
-                                    [t("traceabilityModal.amount")]: traceability.amount
-                                }}
-                            />
-                            <button type="button" className="btn btn-sm btn-outline-light" onClick={generateExcel}>
-                                <i className="bi bi-download me-1"></i> {t("traceabilityModal.downloadExcel")}
-                            </button>
+                            <GeneratePdfButton {...fileGeneratorData} />
+                            <GenerateExelButton {...fileGeneratorData} />
                         </div>
 
                         <button type="button" className="btn-close ms-2 bg-white" onClick={handleTraceabilityModal}></button>

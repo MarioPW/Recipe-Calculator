@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Spinner } from '../../utilities/Spinner';
+import { Spinner } from '../../common/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { ConfirmDeleteModal } from './ingredientModals/ConfirmDeleteModal';
 import { useTranslation } from 'react-i18next';
-import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
+import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();

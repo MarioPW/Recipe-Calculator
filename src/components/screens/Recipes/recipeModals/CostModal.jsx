@@ -1,10 +1,30 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { GeneratePdfButton } from '../../../common/GeneratePdfButton';
+import { GenerateExelButton } from '../../../common/GenerateExelButton';
+
 
 export const CostModal = ({ handleCostModal, recipeCosts }) => {
   const { t } = useTranslation();
 
   if (!recipeCosts) return null;
+
+  const fileGeneratorData = {
+    title: t("costModal.title"),
+    tableData: recipeCosts.ingredients.map((item) => ({
+      [t("costModal.name")]: item.name,
+      [t("costModal.requiredQuantity")]: item.requiredQuantity,
+      [t("costModal.percentage")]: `${item.percentage || "N/A"} %`,
+      [t("costModal.cost")]: `$ ${item.cost}`,
+    })),
+    summary: {
+      [t("costModal.name")]: recipeCosts.name,
+      [t("costModal.costPerUnit")]: `${'$ ' + recipeCosts.costPerUnit}`,
+      [t("costModal.totalCost")]: `${'$ ' + recipeCosts.totalCost}`,
+      [t("traceabilityModal.amount")]: recipeCosts.amount,
+      [t("costModal.weightPerUnit")]: `${recipeCosts.weightPerUnit + ' g'}`,
+    }
+  };
 
   return (
     <div
@@ -18,11 +38,16 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
             <div className="d-flex align-items-center">
               <h5 className="modal-title m-0">{t("costModal.title")}</h5>
             </div>
-            <button
-              type="button"
-              className="btn-close ms-2 bg-white"
-              onClick={handleCostModal}
-            ></button>
+            <div className='d-flex justify-content-end align-items-center gap-2'>
+              <GeneratePdfButton {...fileGeneratorData} />
+              <GenerateExelButton {...fileGeneratorData} />
+              <button
+                type="button"
+                className="btn-close ms-2 bg-white text-light"
+                onClick={handleCostModal}
+              ></button>
+            </div>
+
           </div>
 
           <div className="modal-body">

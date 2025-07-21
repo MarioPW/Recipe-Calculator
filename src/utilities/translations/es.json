@@ -159,6 +159,7 @@
   },
   "costModal": {
     "title": "Tabla de Costos",
+    "cost":"Costo",
     "name": "Nombre de la Receta",
     "numberOfUnits": "Número de Unidades",
     "costPerUnit": "Costo por Unidad",

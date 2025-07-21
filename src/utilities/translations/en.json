@@ -158,6 +158,7 @@
   },
   "costModal": {
     "title": "Cost Calculation",
+    "cost":"Cost",
     "name": "Recipe Name",
     "numberOfUnits": "Number of Units",
     "costPerUnit": "Cost per Unit",

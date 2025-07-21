@@ -7,7 +7,7 @@ export const GeneratePdfButton = ({ label, title, tableData, summary = null}) =>
 
       return (
         <button type="button" className="btn btn-sm btn-outline-light" onClick={handleGeneratePDF}>
-          <i className="bi bi-download me-1"></i> {label}
+          <i className="bi bi-download me-1"></i> PDF
         </button>
       )
     }

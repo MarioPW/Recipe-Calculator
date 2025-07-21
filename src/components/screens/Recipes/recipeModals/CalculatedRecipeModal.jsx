@@ -1,9 +1,23 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { GeneratePdfButton } from '../../../utilities/GeneratePdfButton';
+import { GeneratePdfButton } from '../../../common/GeneratePdfButton';
+import { GenerateExelButton } from '../../../common/GenerateExelButton';
 
 export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertionsModal }) => {
     const { t } = useTranslation();
+
+    const fileGeneratorData = {
+        title: recipeData.name,
+        tableData: convertions.map((ingredient) => ({
+            [t("calculatedRecipeModal.ingredient")]: ingredient.name,
+            [t("calculatedRecipeModal.weight")]: ingredient.conversion + ' ' + ingredient.unitOfMeasure,
+        })),
+        summary: {
+            [t("calculatedRecipeModal.recipe")]: recipeData.name,
+            [t("calculatedRecipeModal.numberOfUnits")]: recipeData.amount,
+            [t("calculatedRecipeModal.weightPerUnit")]: `${recipeData.weightPerUnit} g`,
+        },
+    };
 
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -12,20 +26,8 @@ export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertio
                     <div className="modal-header bg-color-main text-white">
                         <h5 className="modal-title">{t("calculatedRecipeModal.title")}</h5>
                         <div className='d-flex justify-content-end align-items-center gap-2'>
-                            <GeneratePdfButton
-                                label={t("calculatedRecipeModal.downloadPDF")}
-                                title={recipeData.name}
-                                tableData={convertions.map((ingredient) => ({
-                                    [t("calculatedRecipeModal.ingredient")]: ingredient.name,
-                                    [t("calculatedRecipeModal.weight")]: ingredient.conversion,
-                                    [t("calculatedRecipeModal.unitOfMeasure")]: ingredient.unitOfMeasure
-                                }))}
-                                summary={{
-                                    [t("calculatedRecipeModal.recipe")]: recipeData.name,
-                                    [t("calculatedRecipeModal.numberOfUnits")]: recipeData.amount,
-                                    [t("calculatedRecipeModal.weightPerUnit")]: `${recipeData.weightPerUnit}g`
-                                }}
-                            />
+                            <GeneratePdfButton {...fileGeneratorData} />
+                            <GenerateExelButton {...fileGeneratorData} />
                             <button
                                 type="button"
                                 className="btn-close bg-white"

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { AddIngredient } from './AddIngredient';
-import { SearchInput } from '../../../utilities/SearchInput';
+import { SearchInput } from '../../../common/SearchInput';
 
 export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, setRecipe, currentRecipe }) => {
     const [weightModal, setWeightModal] = useState(false);

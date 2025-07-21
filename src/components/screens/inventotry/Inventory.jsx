@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '../../utilities/Spinner';
+import { Spinner } from '../../common/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
-import { generatePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
-import { SecondaryNavbar } from '../../utilities/SecondaryNavbar';
+import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { AddSubstractModal } from './AddSubstractModal';
+import { GeneratePdfButton } from '../../common/GeneratePdfButton';
+import { GenerateExelButton } from '../../common/GenerateExelButton';
 
 export const Inventory = () => {
   const { t } = useTranslation();
@@ -78,24 +79,14 @@ export const Inventory = () => {
     setShowStockModal(false);
   }
 
-  const handleGenerateExcel = () => {
-    const tableData = currentInventory.map((ingredient) => ({
-      [t('inventory.ref')]: ingredient.reference,
-      [t('inventory.item')]: ingredient.name,
-      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
-    }));
-    generateXlsxTable(t('inventory.stockInventory'), tableData);
-  };
-
-  const handleGeneratePDF = () => {
-    const title = t('inventory.stockInventory');
-    const tableData = currentInventory.map((ingredient) => ({
-      [t('inventory.ref')]: ingredient.reference,
-      [t('inventory.item')]: ingredient.name,
-      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
-    }));
-    generatePDF(title, tableData);
-  };
+  // const handleGenerateExcel = () => {
+  //   const tableData = currentInventory.map((ingredient) => ({
+  //     [t('inventory.ref')]: ingredient.reference,
+  //     [t('inventory.item')]: ingredient.name,
+  //     [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+  //   }));
+  //   generateXlsxTable(t('inventory.stockInventory'), tableData);
+  // };
 
   const handleOpenStockModal = (ingredient) => {
     setSelectedIngredient(ingredient);
@@ -123,14 +114,10 @@ export const Inventory = () => {
         label: t('inventory.updateStock'),
         action: updateIngredientsStock,
       },
-      {
-        label: t('inventory.downloadPDF'),
-        action: handleGeneratePDF,
-      },
-      {
-        label: t('inventory.downloadExcel'),
-        action: handleGenerateExcel,
-      }
+      // {
+      //   label: t('inventory.downloadExcel'),
+      //   action: handleGenerateExcel,
+      // }
     ]
   }
 
@@ -138,7 +125,26 @@ export const Inventory = () => {
     <>
       {ingredients.length > 0 ? (
         <>
-          <SecondaryNavbar {...navBarData} />
+          <SecondaryNavbar {...navBarData} >
+            <GeneratePdfButton
+              label={t('inventory.downloadPDF')}
+              title={t('inventory.stockInventory')}
+              tableData={currentInventory.map((ingredient) => ({
+                [t('inventory.ref')]: ingredient.reference,
+                [t('inventory.item')]: ingredient.name,
+                [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+              }))}
+            />
+            <GenerateExelButton
+              label={t('inventory.downloadExcel')}
+              title={t('inventory.stockInventory')}
+              xlsxData={currentInventory.map((ingredient) => ({
+                [t('inventory.ref')]: ingredient.reference,
+                [t('inventory.item')]: ingredient.name,
+                [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+              }))}
+            />
+          </SecondaryNavbar>
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}
             {stockAlert && <div className="alert alert-warning alert-dismissible fade show m-0" role="alert">
@@ -159,7 +165,11 @@ export const Inventory = () => {
                   <tr key={ingredient.FSId}>
                     <td>{ingredient.reference}</td>
                     <td>{ingredient.name}</td>
-                    <td className={ingredient.minStock && ingredient.stock < ingredient.minStock ? 'bg-danger' : 'text-secondary'}>
+                    <td className={
+                      Number(ingredient.stock || 0) < Number(ingredient.minStock || 0)
+                        ? 'bg-danger'
+                        : 'text-secondary'
+                    }>
                       {ingredient.stock || 0} {ingredient.unitOfMeasure}
                     </td>                    {newStockColumn && (
                       <td className="text-center">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Spinner } from '../../utilities/Spinner';
+import { Spinner } from '../../common/Spinner';
 import { RecipeNavBar } from './RecipeNavBar';
 import { EditRecipeIngredient } from './recipeModals/EditRecipeIngredient';
 import { RemoveIngredientModal } from './recipeModals/RemoveIngredientModal';

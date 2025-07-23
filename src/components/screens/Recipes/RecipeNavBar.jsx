@@ -70,14 +70,14 @@ export const RecipeNavBar = ({ currentRecipe }) => {
   }, [currentRecipe, ingredients]);
 
   const fileGeneratorData = {
-    title: currentRecipe.name,
+    title: currentRecipe?.name || '',
     summary: {
-      [t("common.name")]: recipeData.name
+      [t("common.name")]: recipeData.name || ''
     },
-    tableData: currentRecipe.ingredients.map((item) => ({
+    tableData: currentRecipe?.ingredients?.map((item) => ({
       [t('recipeNavbar.ingredients')]: item.name,
       [t('recipeNavbar.weight')]: `${item.weight || 0} ${item.unitOfMeasure}`
-    }))
+    })) || []
   };
 
   const toggleModal = useCallback((setter) => () => setter((prev) => !prev), []);
@@ -212,7 +212,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
           <div className="collapse navbar-collapse" id="recipeNavbar">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
               <li className="nav-item">
-                {fileGeneratorButton && <GeneratePdfButton {...fileGeneratorData}/>}
+                {fileGeneratorButton && <GeneratePdfButton {...fileGeneratorData} />}
                 {fileGeneratorButton && <GenerateExelButton {...fileGeneratorData} />}
               </li>
               <li className="nav-item">

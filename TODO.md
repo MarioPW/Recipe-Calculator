@@ -9,6 +9,11 @@
 [✔] Add min and max stock to IngredientForm and ingredients adpter model.
 [ ] Change buttons position into two culomns in Actions menu in small view in Inventory Navbar.
 [ ] Implement color changes in inventory items based on recent updates or when stock is below minimum.
-[ ] Add Excel and PDF export functionality across the project.
+[✔] Add Excel and PDF export functionality across the project.
+[✔] Adjust font size throughout the project on small screens.
+
+-----------------------------------------------------------
+
+[ ] Create new Doc in data base for Inventory.
 [ ] Add Pagination to list of ingredients.
 [ ] Add Pagination to list of recipes.

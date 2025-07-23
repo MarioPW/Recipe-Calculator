@@ -79,14 +79,15 @@ export const Inventory = () => {
     setShowStockModal(false);
   }
 
-  // const handleGenerateExcel = () => {
-  //   const tableData = currentInventory.map((ingredient) => ({
-  //     [t('inventory.ref')]: ingredient.reference,
-  //     [t('inventory.item')]: ingredient.name,
-  //     [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
-  //   }));
-  //   generateXlsxTable(t('inventory.stockInventory'), tableData);
-  // };
+  const fileGeneratorData = {
+    title: t('inventory.stockInventory'),
+    summary: {'Stock': currentInventory.length},
+    tableData: currentInventory.map((ingredient) => ({
+      [t('inventory.ref')]: ingredient.reference,
+      [t('inventory.item')]: ingredient.name,
+      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+    }))
+  };
 
   const handleOpenStockModal = (ingredient) => {
     setSelectedIngredient(ingredient);
@@ -113,11 +114,7 @@ export const Inventory = () => {
       {
         label: t('inventory.updateStock'),
         action: updateIngredientsStock,
-      },
-      // {
-      //   label: t('inventory.downloadExcel'),
-      //   action: handleGenerateExcel,
-      // }
+      }
     ]
   }
 
@@ -126,24 +123,8 @@ export const Inventory = () => {
       {ingredients.length > 0 ? (
         <>
           <SecondaryNavbar {...navBarData} >
-            <GeneratePdfButton
-              label={t('inventory.downloadPDF')}
-              title={t('inventory.stockInventory')}
-              tableData={currentInventory.map((ingredient) => ({
-                [t('inventory.ref')]: ingredient.reference,
-                [t('inventory.item')]: ingredient.name,
-                [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
-              }))}
-            />
-            <GenerateExelButton
-              label={t('inventory.downloadExcel')}
-              title={t('inventory.stockInventory')}
-              xlsxData={currentInventory.map((ingredient) => ({
-                [t('inventory.ref')]: ingredient.reference,
-                [t('inventory.item')]: ingredient.name,
-                [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
-              }))}
-            />
+            <GeneratePdfButton {...fileGeneratorData} />
+            <GenerateExelButton {...fileGeneratorData} />
           </SecondaryNavbar>
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}

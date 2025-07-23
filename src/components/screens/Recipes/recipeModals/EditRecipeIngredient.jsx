@@ -1,10 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
+import { useTranslation } from "react-i18next";
+
+
 export const EditRecipeIngredient = ({ ingredient, recipe, setRecipe, setEditIngredient }) => {
     const [weight, setWeight] = useState(0);
+    const { t } = useTranslation();
     const handleAddIngredient = () => {
         if (weight <= 0) {
-            alert("You must enter a weight");
+            alert(t("editRecipeIngredient.weightAlert"));
             return
           }
         const edit = {
@@ -25,8 +29,8 @@ export const EditRecipeIngredient = ({ ingredient, recipe, setRecipe, setEditIng
             <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                 <div className="modal-dialog">
                     <div className="modal-content">
-                        <div className="modal-header bg-warning">
-                            <h5 className="modal-title">Enter Weight of {ingredient.name}:</h5>
+                        <div className="modal-header">
+                            <h5 className="modal-title">{t("editRecipeIngredient.title", { ingredient: ingredient.name })}</h5>
                             <button
                                 type="button"
                                 className="btn-close"
@@ -38,7 +42,7 @@ export const EditRecipeIngredient = ({ ingredient, recipe, setRecipe, setEditIng
                                 type='number'
                                 className='form-control'
                                 onChange={(e) => setWeight(e.target.value)}
-                                placeholder={`${ingredient.weight}`}
+                                placeholder={`${t("editRecipeIngredient.cuurentWeight")}: ${ingredient.weight}`}
                                 required
                             />
                         </div>
@@ -48,14 +52,14 @@ export const EditRecipeIngredient = ({ ingredient, recipe, setRecipe, setEditIng
                                 className="btn btn-secondary"
                                 onClick={() => setEditIngredient(false)}
                             >
-                                Cancel
+                                {t("common.close")}
                             </button>
                             <button
                                 type="button"
                                 className="btn btn-primary"
                                 onClick={handleAddIngredient}
                             >
-                                Save
+                                {t("common.save")}
                             </button>
                         </div>
                     </div>

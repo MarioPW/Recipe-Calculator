@@ -13,7 +13,7 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
     title: t("costModal.title"),
     tableData: recipeCosts.ingredients.map((item) => ({
       [t("costModal.name")]: item.name,
-      [t("costModal.requiredQuantity")]: item.requiredQuantity,
+      [t("costModal.requiredQuantity")]: item.requiredQuantity + " " + item.unitOfMeasure,
       [t("costModal.percentage")]: `${item.percentage || "N/A"} %`,
       [t("costModal.cost")]: `$ ${item.cost}`,
     })),
@@ -91,7 +91,7 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
                   {recipeCosts.ingredients?.map((ingredient, index) => (
                     <tr key={index}>
                       <td className="text-nowrap">{ingredient.name}</td>
-                      <td className="text-nowrap">{ingredient.requiredQuantity}</td>
+                      <td className="text-nowrap">{ingredient.requiredQuantity + " " + ingredient.unitOfMeasure }</td>
                       <td className="text-nowrap">{ingredient.percentage || "N/A"} % </td>
                       <td className="text-nowrap">$ {ingredient.cost}</td>
                     </tr>

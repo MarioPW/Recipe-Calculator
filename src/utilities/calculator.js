@@ -34,7 +34,8 @@ export class Calculator {
         costPerKg: ing.costPerKg,
         requiredQuantity: ing.requiredQuantity,
         cost,
-        percentage
+        percentage,
+        unitOfMeasure: ing.unitOfMeasure
       };
     });
     return { totalCost, ingredients, costPerUnit, name}

@@ -11,9 +11,11 @@
 [ ] Implement color changes in inventory items based on recent updates or when stock is below minimum.
 [✔] Add Excel and PDF export functionality across the project.
 [✔] Adjust font size throughout the project on small screens.
+[ ] Add functionality to.
+[ ] Add mutilanguage to OPERATIONS.cost in RecipeNavbar alerts.
 
 -----------------------------------------------------------
 
-[ ] Create new Doc in data base for Inventory.
+[ ] Create new DB in data base for Inventory.
 [ ] Add Pagination to list of ingredients.
 [ ] Add Pagination to list of recipes.

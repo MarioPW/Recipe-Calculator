@@ -1,6 +1,8 @@
 import React from 'react'
+import { useTranslation } from "react-i18next";
 
 export const RemoveIngredientModal = ({ingredient, setRecipe, recipe, setRemoveIngredient}) => {
+    const { t } = useTranslation();
     const prevRecipe = recipe;
     const handleRemove = () => {
         const modifiedRecipe = prevRecipe.ingredients.filter((item) => item.id !== ingredient.id);
@@ -13,7 +15,7 @@ export const RemoveIngredientModal = ({ingredient, setRecipe, recipe, setRemoveI
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header bg-danger">
-                            <h5 className="modal-title text-white">Sure you want to remove {ingredient.name} from the recipe?</h5>
+                            <h5 className="modal-title text-white">{t("removeIngredientModal.title", { ingredient: ingredient.name })}</h5>
                             <button
                                 type="button"
                                 className="btn-close"
@@ -27,14 +29,14 @@ export const RemoveIngredientModal = ({ingredient, setRecipe, recipe, setRemoveI
                                 className="btn btn-danger"
                                 onClick={handleRemove}
                             >
-                                Remove
+                                {t("common.remove")}
                             </button>
                             <button
                                 type="button"
                                 className="btn btn-primary"
                                 onClick={() => {setRemoveIngredient(false)}}
                             >
-                                Cancel
+                                {t("common.cancel")}
                             </button>
                         </div>
                     </div>

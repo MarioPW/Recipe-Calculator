@@ -47,6 +47,7 @@
     "cancel": "Cancelar",
     "save": "Guardar",
     "delete": "Eliminar",
+    "remove": "Eliminar",
     "edit": "Editar",
     "update": "Actualizar",
     "close": "Cerrar",
@@ -56,7 +57,6 @@
     "no": "No",
     "saveChanges": "Guardar Cambios",
     "name": "Nombre"
-
   },
   "myRecipe": {
     "ingredient": "Ingrediente",
@@ -149,17 +149,21 @@
   },
   "recipeFeaturesModal": {
     "title": "Características de la Receta",
-    "weightPerUnit": "Peso por Unidad",
-    "defaultRecipe": "Receta Predeterminada",
+    "namePlaceholder": "Ingresa el nombre de la receta",
+    "weightPerUnit": "Peso por unidad",
+    "defaultRecipe": "Receta predeterminada",
     "description": "Descripción",
+    "descriptionPlaceholder": "Ingresa una descripción para la receta",
     "steps": "Pasos",
-    "imageUrl": "URL de la Imagen",
-    "productWeight": "Peso del Producto",
-    "isSubRecipe": "Es Sub-Receta?"
+    "stepsPlaceholder": "Ingresa los pasos para preparar la receta",
+    "imageUrl": "URL de la imagen",
+    "imageUrlPlaceholder": "Ingresa una URL de imagen para la receta",
+    "productWeight": "Peso del producto",
+    "isSubRecipe": "¿Es una sub-receta?"
   },
   "costModal": {
     "title": "Tabla de Costos",
-    "cost":"Costo",
+    "cost": "Costo",
     "name": "Nombre de la Receta",
     "numberOfUnits": "Número de Unidades",
     "costPerUnit": "Costo por Unidad",
@@ -199,6 +203,22 @@
     "unitOfMeasure": "Unidad de Medida",
     "close": "Cerrar"
   },
+  "addIngredientModal": {
+    "title": "Ingredientes",
+    "alreadyAddedAlert": "Ya has agregado este ingrediente"
+  },
+  "addSubRecipeModal": {
+    "title": "Agregar sub-receta",
+    "alreadyAddedAlert": "Ya has agregado esta sub-receta"
+  },
+  "editRecipeIngredient": {
+    "title": "Ingresa el peso de {{ingredient}}:",
+    "weightAlert": "Debes ingresar un peso",
+    "cuurentWeight": "Peso actual"
+  },
+  "removeIngredientModal": {
+  "title": "¿Estás seguro de que deseas eliminar {{ingredient}} de la receta?"
+},
   "ingredientForm": {
     "updateStock": "Actualizar Stock",
     "enterAmount": "Ingresar cantidad",

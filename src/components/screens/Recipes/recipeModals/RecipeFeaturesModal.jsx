@@ -62,7 +62,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                                     value={currentRecipe.name}
                                     name='name'
                                     onChange={(e) => handleChange(e)}
-                                    placeholder="Enter recipe name"
+                                    placeholder={t('recipeFeaturesModal.namePlaceholder')}
                                     required
                                 />
                             </div>
@@ -75,7 +75,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                                     value={currentRecipe.description}
                                     name='description'
                                     onChange={(e) => handleChange(e)}
-                                    placeholder="Enter recipe description"
+                                    placeholder={t('recipeFeaturesModal.descriptionPlaceholder')}
                                     rows="3"
                                 />
                             </div>
@@ -92,8 +92,7 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                                     rows="5"
                                 />
                             </div>
-
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                                 <label htmlFor="recipeImage" className="form-label">{t('recipeFeaturesModal.imageUrl')}</label>
                                 <input
                                     id="recipeImage"
@@ -101,9 +100,9 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                                     value={currentRecipe.image}
                                     name='image'
                                     onChange={(e) => handleChange(e)}
-                                    placeholder="Enter image URL"
+                                    placeholder={t('recipeFeaturesModal.imageUrlPlaceholder')}
                                 />
-                            </div>
+                            </div> */}
                             <div className='row' >
                                 <div className="mb-3 col-md-6">
                                     <label htmlFor="productWeight" className="form-label">{t('recipeFeaturesModal.productWeight')} (g)</label>

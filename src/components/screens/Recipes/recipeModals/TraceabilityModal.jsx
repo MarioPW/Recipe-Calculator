@@ -23,8 +23,6 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
           [t("traceabilityModal.amount")]: traceability.amount
         }
       };
-      console.log(traceability);
-      
 
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)", transition: "opacity 0.3s ease" }}>

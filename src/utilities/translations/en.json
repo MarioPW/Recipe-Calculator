@@ -47,6 +47,7 @@
     "cancel": "Cancel",
     "save": "Save",
     "delete": "Delete",
+    "remove": "Remove",
     "edit": "Edit",
     "update": "Update",
     "close": "Close",
@@ -148,17 +149,21 @@
   },
   "recipeFeaturesModal": {
     "title": "Recipe Features",
+    "namePlaceholder": "Enter Recipe Name",
     "weightPerUnit": "Weight per Unit",
     "defaultRecipe": "Default Recipe",
     "description": "Description",
+    "descriptionPlaceholder": "Enter a description for the recipe",
     "steps": "Steps",
+    "stepsPlaceholder": "Enter the steps to prepare the recipe",
     "imageUrl": "Image URL",
+    "imageUrlPlaceholder": "Enter an image URL for the recipe",
     "productWeight": "Product Weight",
     "isSubRecipe": "Is Sub-Recipe?"
   },
   "costModal": {
     "title": "Cost Calculation",
-    "cost":"Cost",
+    "cost": "Cost",
     "name": "Recipe Name",
     "numberOfUnits": "Number of Units",
     "costPerUnit": "Cost per Unit",
@@ -197,6 +202,22 @@
     "weight": "Weight",
     "unitOfMeasure": "Unit of Measure",
     "close": "Close"
+  },
+  "addIngredientModal": {
+    "title": "Ingredients",
+    "alreadyAddedAlert": "You already added this ingredient"
+  },
+  "addSubRecipeModal": {
+    "title": "Add Sub-Recipe",
+    "alreadyAddedAlert": "You already added this sub-recipe"
+  },
+  "editRecipeIngredient": {
+    "title": "Enter Weight of {{ingredient}}:",
+    "weightAlert": "You must enter a weight",
+    "cuurentWeight": "Current Weight"
+  },
+  "removeIngredientModal": {
+    "title": "Are you sure you want to remove {{ingredient}} from the recipe?"
   },
   "ingredientForm": {
     "updateStock": "Update Stock",

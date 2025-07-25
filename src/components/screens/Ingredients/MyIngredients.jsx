@@ -34,7 +34,9 @@ export const MyIngredients = () => {
           { label: t('myIngredients.addNew'), url: "/ingredient" }
         ]}
         searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
-        collapseButtonText={t('myIngredients.actions')} />
+        collapseButtonText={t('myIngredients.actions')}
+      />
+      
       {ingredients.length > 0 ? (
         <div className="container p-0">
 

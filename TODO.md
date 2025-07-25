@@ -11,10 +11,13 @@
 [ ] Implement color changes in inventory items based on recent updates or when stock is below minimum.
 [✔] Add Excel and PDF export functionality across the project.
 [✔] Adjust font size throughout the project on small screens.
-[ ] Add functionality to.
-[ ] Add mutilanguage to OPERATIONS.cost in RecipeNavbar alerts.
+[✔] Add mutilanguage to OPERATIONS.cost in RecipeNavbar alerts.
 [ ] Remove .FSId and .FSUid from Ingredients.
 [ ] Implement Reset Password.
+[✔] Fix bug in AddingredientModal in Search input.
+[ ] Implement SearchInput in AddSubRecipeModal.jsx.
+[ ] Improve styles in the PDF and Excel generator.
+
 
 -----------------------------------------------------------
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput = null, collapseButtonText = null, children = null }) => {
   return (
     <nav className="navbar navbar-expand-lg border mt-1 bg-color-main pe-2">
-      <a className="navbar-brand text-light ps-2" href="#">{title}</a>
+      <h2 className="navbar-brand text-light ps-2">{title}</h2>
 
       <button
         className="btn btn-outline-light me-2 d-lg-none"

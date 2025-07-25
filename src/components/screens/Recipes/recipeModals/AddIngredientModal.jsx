@@ -26,7 +26,7 @@ export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, s
                 <div className="modal-content">
                     <div className="modal-header gap-3">
                         <h5 className="modal-title">{t("addIngredientModal.title") }</h5>
-                        <SearchInput items={allIngredients} setItemsList={setIngredients} />
+                        <SearchInput items={allIngredients} setItemsList={setIngredients} withDropdown={false} />
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleAddIngredientModal}></button>
                     </div>
                     <div className="modal-body">

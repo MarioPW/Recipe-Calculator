@@ -7,11 +7,11 @@ export const AmountWeightModal = ( {handleAmountWeightModal, amount, setAmount, 
     <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
     <div className="modal-dialog">
         <div className="modal-content">
-            <div className="modal-header">
-                <h5 className="modal-title">{t('amountWeightModal.title')}:</h5>
+            <div className="modal-header bg-color-main text-white">
+                <h5 className="modal-title ">{t('amountWeightModal.title')}:</h5>
                 <button
                     type="button"
-                    className="btn-close"
+                    className="btn-close ms-2 bg-white text-light"
                     onClick={handleAmountWeightModal}
                 ></button>
             </div>
@@ -38,14 +38,14 @@ export const AmountWeightModal = ( {handleAmountWeightModal, amount, setAmount, 
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn btn-sm btn-outline-secondary"
                     onClick={handleAmountWeightModal}
                 >
                    {t('common.close')}
                 </button>
                 <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-sm btn-outline-primary"
                     onClick={handleSaveAmountWeight}
                 >
                     {operation}

@@ -86,7 +86,8 @@
     "ingredients": "Ingredientes",
     "weight": "Peso",
     "missingIngredient": "Ingrediente faltante",
-    "missingIngredientDescription": "Este ingrediente aún no ha sido agregado o fue eliminado de tu tabla de ingredientes. Agrégalo o elimínalo de tus recetas para poder calcular correctamente la trazabilidad o el costo."
+    "missingIngredientDescription": "Este ingrediente aún no ha sido agregado o fue eliminado de tu tabla de ingredientes. Agrégalo o elimínalo de tus recetas para poder calcular correctamente la trazabilidad o el costo.",
+    "missingCostIngredients": "Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: {{items}}"
   },
   "inventory": {
     "stockInventory": "Inventario de Stock",
@@ -190,7 +191,6 @@
     "ref": "Ref",
     "batch": "Lote",
     "expirationDate": "Fecha de vencimiento",
-    "calculatedProportion": "Proporción Calculada",
     "downloadPDF": "Descargar PDF",
     "downloadExcel": "Descargar Excel",
     "close": "Cerrar"

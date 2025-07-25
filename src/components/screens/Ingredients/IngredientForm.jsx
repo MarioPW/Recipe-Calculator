@@ -57,10 +57,6 @@ export const IngredientForm = () => {
       alert(t("ingredientForm.nameExists", { name: ingredientData.name }));
       return;
     }
-    // if (!ingredientData.name) {
-    //   alert(t("ingredientForm.nameRequired"));
-    //   return;
-    // }
 
     try {
       ingredientSchema.parse(ingredientData);

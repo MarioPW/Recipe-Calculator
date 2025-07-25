@@ -81,7 +81,7 @@ export const Inventory = () => {
 
   const fileGeneratorData = {
     title: t('inventory.stockInventory'),
-    summary: {'Stock': currentInventory.length},
+    summary: { 'Stock': currentInventory.length },
     tableData: currentInventory.map((ingredient) => ({
       [t('inventory.ref')]: ingredient.reference,
       [t('inventory.item')]: ingredient.name,
@@ -150,9 +150,8 @@ export const Inventory = () => {
                       Number(ingredient.stock || 0) < Number(ingredient.minStock || 0)
                         ? 'bg-danger'
                         : 'text-secondary'
-                    }>
-                      {ingredient.stock || 0} {ingredient.unitOfMeasure}
-                    </td>                    {newStockColumn && (
+                    }>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
+                    {newStockColumn && (
                       <td className="text-center">
                         {!ingredient.adjustedAmount
                           ? <button

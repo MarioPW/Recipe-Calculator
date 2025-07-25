@@ -103,8 +103,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         const subIngredientNames = new Set();
         let subRecipesCostPerKg = [];
         if (verifyIngredientsCost.length > 0) {
-          alert(`Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: ${verifyIngredientsCost.map((r) => r.name).join(', ')}`);
-
+          alert(t("recipeNavbar.missingCostIngredients", { items: verifyIngredientsCost.map((r) => r.name).join(', ') }));
           break
         }
         if (verifySubRecipes.length > 0) {
@@ -121,7 +120,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
             return !ingredient || ingredient.costPerKg == undefined || ingredient.costPerKg === '';
           });
           if (missingCostIngredients.length > 0) {
-            alert(`Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: ${missingCostIngredients.join(', ')}`);
+            alert(t("recipeNavbar.missingCostIngredients", {  items: verifyIngredientsCost.map((r) => r.name).join(', ')  }));
             break;
           };
 
@@ -218,32 +217,32 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                 {fileGeneratorButton && <GenerateExelButton {...fileGeneratorData} />}
               </li>
               <li className="nav-item">
-                <button className="myButton-yellow border-0 py-1" onClick={toggleModal(setRecipeFeaturesModal)}>
+                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={toggleModal(setRecipeFeaturesModal)}>
                   {t("recipeNavbar.features")}
                 </button>
               </li>
               <li className="nav-item">
-                <button className="myButton-primary border-0 py-1" onClick={() => handleAmountWeightModal(OPERATIONS.CALCULATE)}>
+                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={() => handleAmountWeightModal(OPERATIONS.CALCULATE)}>
                   {t("recipeNavbar.calculate")}
                 </button>
               </li>
               <li className="nav-item">
-                <button className="myButton-primary border-0 py-1" onClick={() => handleAmountWeightModal(OPERATIONS.COST)}>
+                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={() => handleAmountWeightModal(OPERATIONS.COST)}>
                   {t("recipeNavbar.cost")}
                 </button>
               </li>
               <li className="nav-item">
-                <button className="myButton-primary border-0 py-1" onClick={() => handleAmountWeightModal(OPERATIONS.TRACEABILITY)}>
+                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={() => handleAmountWeightModal(OPERATIONS.TRACEABILITY)}>
                   {t("recipeNavbar.traceability")}
                 </button>
               </li>
               <li className="nav-item">
-                <button className="myButton-success fw-bold border-0 py-1" onClick={toggleModal(setAddIngredientModal)}>
+                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={toggleModal(setAddIngredientModal)}>
                   {t("recipeNavbar.addIngredient")}
                 </button>
               </li>
               <li className="nav-item">
-                <button className="myButton-success fw-bold border-0 py-1" onClick={toggleModal(setAddSubRecipeModal)}>
+                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={toggleModal(setAddSubRecipeModal)}>
                   {t("recipeNavbar.addSubRecipe")}
                 </button>
               </li>

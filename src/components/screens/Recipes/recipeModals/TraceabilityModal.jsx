@@ -55,7 +55,7 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                                         <th className="text-nowrap">{t("traceabilityModal.name")}</th>
                                         <th className="text-nowrap">{t("traceabilityModal.batch")}</th>
                                         <th className="text-nowrap">{t("traceabilityModal.expirationDate")}</th>
-                                        <th className="text-nowrap">{t("traceabilityModal.calculatedProportion")}</th>
+                                        <th className="text-nowrap">{t("costModal.requiredQuantity")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

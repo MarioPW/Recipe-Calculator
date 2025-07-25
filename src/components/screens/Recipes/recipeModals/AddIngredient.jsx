@@ -29,11 +29,11 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             <div className="modal-dialog">
                 <div className="modal-content">
-                    <div className="modal-header bg-warning">
+                    <div className="modal-header bg-color-main text-white">
                         <h5 className="modal-title">{t('addIngredient.enterWeight')} {ingredient.name}:</h5>
                         <button
                             type="button"
-                            className="btn-close"
+                            className="btn-close ms-2 bg-white text-light"
                             onClick={() => setWeightModal(false)}
                         ></button>
                     </div>
@@ -50,14 +50,14 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
                     <div className="modal-footer">
                         <button
                             type="button"
-                            className="btn btn-secondary"
+                            className="btn btn-sm btn-outline-light bg-secondary"
                             onClick={() => setWeightModal(false)}
                         >
                             {t('addIngredient.cancel')}
                         </button>
                         <button
                             type="button"
-                            className="btn btn-primary"
+                            className="btn btn-sm btn-outline-light bg-primary"
                             onClick={handleAddIngredient}
                         >
                             {t('addIngredient.save')}

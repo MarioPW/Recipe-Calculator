@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export const SearchInput = ({ items = [], url = null, action = null, setItemsList = null }) => {
+export const SearchInput = ({ items = [], url = null, action = null, setItemsList = null, withDropdown = true }) => {
   const [search, setSearch] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
 
@@ -57,7 +57,7 @@ export const SearchInput = ({ items = [], url = null, action = null, setItemsLis
         onChange={handleSearch}
         style={{ paddingLeft: '2rem' }}
       />
-      {filteredItems.length > 0 && (
+      {filteredItems.length > 0 && withDropdown &&(
         <ul
           className="list-group position-absolute w-100 mt-1 shadow-sm bg-white border rounded z-10"
           style={{ zIndex: 1000, top: '100%' }}

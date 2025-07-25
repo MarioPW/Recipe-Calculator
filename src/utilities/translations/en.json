@@ -86,7 +86,8 @@
     "ingredients": "Ingredients",
     "weight": "Weight",
     "missingIngredient": "Missing ingredient",
-    "missingIngredientDescription": "This ingredient has not been added yet or has been deleted from your ingredients table. Please add it or delete it from your recipes or you will not be able to traceability or cost your recipe correctly."
+    "missingIngredientDescription": "This ingredient has not been added yet or has been deleted from your ingredients table. Please add it or delete it from your recipes or you will not be able to traceability or cost your recipe correctly.",
+    "missingCostIngredients": "You must enter the cost per Kg, L, or unit of the ingredients: {{items}}"
   },
   "inventory": {
     "stockInventory": "Stock Inventory",
@@ -188,7 +189,6 @@
     "ref": "Ref",
     "batch": "Batch",
     "expirationDate": "Expiration Date",
-    "calculatedProportion": "Calculated Proportion",
     "downloadPDF": "Download PDF",
     "downloadExcel": "Download Excel",
     "close": "Close"

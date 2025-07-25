@@ -13,9 +13,12 @@
 [✔] Adjust font size throughout the project on small screens.
 [ ] Add functionality to.
 [ ] Add mutilanguage to OPERATIONS.cost in RecipeNavbar alerts.
+[ ] Remove .FSId and .FSUid from Ingredients.
+[ ] Implement Reset Password.
 
 -----------------------------------------------------------
 
+[ ] Migrate to Relational DB.
 [ ] Create new DB in data base for Inventory.
 [ ] Add Pagination to list of ingredients.
 [ ] Add Pagination to list of recipes.

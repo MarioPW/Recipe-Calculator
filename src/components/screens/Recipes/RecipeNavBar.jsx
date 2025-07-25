@@ -54,7 +54,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     const loadRecipeIngredients = () => {
       try {
         const loadedRecipeIngredients = currentRecipe?.ingredients?.map((ingredient) =>
-          ingredients.find((ing) => ing.name === ingredient.name) || ingredient
+          ingredients.find((ing) => ing.FSId === ingredient.id) || recipes.find((rec) => rec.id === ingredient.id)
         );
         const missing = currentRecipe.ingredients?.find(
           (ingredient, index) => !loadedRecipeIngredients[index]
@@ -98,11 +98,13 @@ export const RecipeNavBar = ({ currentRecipe }) => {
         break;
       case OPERATIONS.COST:
         const verifyIngredientsCost = recipeIngredients.filter((ing) => !ing.costPerKg && !ing.isSubRecipe);
+
         const verifySubRecipes = recipeIngredients.filter((ing) => ing.isSubRecipe);
         const subIngredientNames = new Set();
         let subRecipesCostPerKg = [];
         if (verifyIngredientsCost.length > 0) {
           alert(`Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: ${verifyIngredientsCost.map((r) => r.name).join(', ')}`);
+
           break
         }
         if (verifySubRecipes.length > 0) {

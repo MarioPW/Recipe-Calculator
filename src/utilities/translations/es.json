@@ -56,7 +56,10 @@
     "yes": "Sí",
     "no": "No",
     "saveChanges": "Guardar Cambios",
-    "name": "Nombre"
+    "name": "Nombre",
+    "substract": "Restar",
+    "add": "Agregar",
+    "actions": "Acciones"
   },
   "myRecipe": {
     "ingredient": "Ingrediente",
@@ -217,8 +220,8 @@
     "cuurentWeight": "Peso actual"
   },
   "removeIngredientModal": {
-  "title": "¿Estás seguro de que deseas eliminar {{ingredient}} de la receta?"
-},
+    "title": "¿Estás seguro de que deseas eliminar {{ingredient}} de la receta?"
+  },
   "ingredientForm": {
     "updateStock": "Actualizar Stock",
     "enterAmount": "Ingresar cantidad",
@@ -260,4 +263,5 @@
     "password_requirement": "Al menos 6 caracteres.",
     "back_to_login": "Volver al inicio de sesión"
   }
+
 }

@@ -56,7 +56,10 @@
     "yes": "Yes",
     "no": "No",
     "saveChanges": "Save Changes",
-    "name": "Name"
+    "name": "Name",
+    "substract": "Substract",
+    "add": "Add", 
+    "actions": "Actions"
   },
   "myRecipe": {
     "ingredient": "Ingredient",
@@ -113,9 +116,7 @@
     "recipeName": "Name",
     "weightPerUnit": "Weight per unit",
     "isSubRecipe": "Is Subrecipe",
-    "defaultRecipe": "Recipe",
-    "yes": "Yes",
-    "no": "No"
+    "defaultRecipe": "Recipe"
   },
   "addIngredient": {
     "alertEnterWeight": "You must enter a weight",

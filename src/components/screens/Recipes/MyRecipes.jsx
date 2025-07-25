@@ -21,7 +21,7 @@ export const MyRecipes = () => {
     <>
       <SecondaryNavbar
         title={t('myRecipes.title')}
-        collapseButtonText={t('myRecipes.actions')}
+        collapseButtonText={t('common.actions')}
         searchInput={
           {
             items: recipes,
@@ -48,7 +48,7 @@ export const MyRecipes = () => {
                 <th scope="row">{index + 1}</th>
                 <td><Link to={`/my-recipe/${recipe.id}`}>{recipe.name || `${t('myRecipes.defaultRecipe')} ${index + 1}`}</Link></td>
                 <td>{recipe.productWeight}</td>
-                <td>{recipe.isSubRecipe ? t('myRecipes.yes') : t('myRecipes.no')}</td>
+                <td>{recipe.isSubRecipe ? t('common.yes') : t('common.no')}</td>
               </tr>
             ))}
           </tbody>

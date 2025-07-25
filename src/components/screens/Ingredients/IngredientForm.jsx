@@ -4,7 +4,8 @@ import { Spinner } from '../../common/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { ConfirmDeleteModal } from './ingredientModals/ConfirmDeleteModal';
 import { useTranslation } from 'react-i18next';
-import { SecondaryNavbar } from '../../common/SecondaryNavbar';
+import { ingredientSchema } from '../../../validations/ingredientValidation';
+import { z } from "zod";
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
@@ -13,7 +14,6 @@ export const IngredientForm = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [stockInput, setStockInput] = useState('');
   const { t } = useTranslation();
 
   const emptyIngredient = {
@@ -21,17 +21,13 @@ export const IngredientForm = () => {
     unitOfMeasure: '',
     brand: '',
     supplier: '',
-    costPerKg: '',
+    costPerKg: 0,
     expirationDate: '',
     batch: '',
     stock: 0,
     reference: '',
     setInInventory: true
   };
-  const OPERATIONS = {
-    ADD: 'add',
-    SUBSTRACT: 'substract'
-  }
 
   useEffect(() => {
     const fetchIngredient = async () => {
@@ -61,12 +57,13 @@ export const IngredientForm = () => {
       alert(t("ingredientForm.nameExists", { name: ingredientData.name }));
       return;
     }
-    if (!ingredientData.name) {
-      alert(t("ingredientForm.nameRequired"));
-      return;
-    }
+    // if (!ingredientData.name) {
+    //   alert(t("ingredientForm.nameRequired"));
+    //   return;
+    // }
 
     try {
+      ingredientSchema.parse(ingredientData);
       setLoading(true);
       if (isEditing) {
         await ingredientService.updateMyIngredient(ingredientData.FSId, ingredientData);
@@ -79,7 +76,12 @@ export const IngredientForm = () => {
         setIngredientData(emptyIngredient);
       }
     } catch (error) {
-      console.error(t("errors.save"), error);
+      const message =
+      error instanceof z.ZodError
+          ? error.errors.map((e) => e.message).join("\n")
+          : "Ha ocurrido un error de validación.";
+      alert(message);
+      return;
     } finally {
       setLoading(false);
     }
@@ -91,49 +93,13 @@ export const IngredientForm = () => {
     setIngredientData((prevData) => ({ ...prevData, [name]: newValue }));
   };
 
-  const handleUpdateStock = (operation) => {
-    const amount = parseFloat(stockInput);
-    if (!isNaN(amount) && amount > 0) {
-      setIngredientData((prevData) => ({
-        ...prevData,
-        stock:
-          operation === "add"
-            ? parseFloat(prevData.stock) + amount
-            : Math.max(0, parseFloat(prevData.stock) - amount),
-      }));
-      setStockInput("");
-    }
-  };
-
   if (!ingredientData) return <Spinner />;
 
   return (
     <>
       <nav className='navbar navbar-expand-lg border mt-1 bg-color-main pe-2'>
         <div className='container-fluid'>
-          <h2 className='navbar-brand text-light ps-2'>{ingredientData.name}</h2>
-        </div>
-        <div className="dropdown">
-          <button className="btn btn-sm dropdown-toggle btn-outline-light d-sm-block me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {t('ingredientForm.updateStock')}
-          </button>
-          <div className="dropdown-menu dropdown-menu-lg-end p-2 me-2">
-            <input
-              type="number"
-              className="form-control mb-2"
-              placeholder={t('ingredientForm.enterAmount')}
-              value={stockInput}
-              onChange={(e) => setStockInput(e.target.value)}
-            />
-            <div className="d-flex gap-2 justify-content-end">
-              <button className="myButton-success border-0 text-center" onClick={() => handleUpdateStock(OPERATIONS.ADD)}>
-                {t('ingredientForm.add')}
-              </button>
-              <button className="myButton-purple border-0 fw-light text-center" onClick={() => handleUpdateStock(OPERATIONS.SUBSTRACT)}>
-                {t('ingredientForm.subtract')}
-              </button>
-            </div>
-          </div>
+          <h2 className='navbar-brand text-light ps-2 m-0'>{ingredientData.name}</h2>
         </div>
       </nav>
       {loading && <p className="alert alert-warning m-0">{t('ingredientForm.updating')}</p>}
@@ -213,29 +179,29 @@ export const IngredientForm = () => {
               </div>
 
             </div>
-              <div className="col-md-6 d-flex gap-3">
-                <div className="col-md-6">
-                  <label htmlFor="minStock" className="form-label">{t('ingredientForm.minStock')}</label>
-                  <input
-                    type="number"
-                    name="minStock"
-                    value={ingredientData.minStock}
-                    className="form-control"
-                    id="minStock"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="supplier" className="form-label">{t('ingredientForm.supplier')}</label>
-                  <input
-                    type="text"
-                    name="supplier"
-                    value={ingredientData.supplier}
-                    className="form-control"
-                    id="supplier"
-                    onChange={handleChange}
-                  />
-                </div>
+            <div className="col-md-6 d-flex gap-3">
+              <div className="col-md-6">
+                <label htmlFor="minStock" className="form-label">{t('ingredientForm.minStock')}</label>
+                <input
+                  type="number"
+                  name="minStock"
+                  value={ingredientData.minStock}
+                  className="form-control"
+                  id="minStock"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="supplier" className="form-label">{t('ingredientForm.supplier')}</label>
+                <input
+                  type="text"
+                  name="supplier"
+                  value={ingredientData.supplier}
+                  className="form-control"
+                  id="supplier"
+                  onChange={handleChange}
+                />
+              </div>
             </div>
           </div>
 

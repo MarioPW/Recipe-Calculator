@@ -82,18 +82,18 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
                 <thead className="bg-color-main text-white">
                   <tr>
                     <th className="text-nowrap">{t("costModal.ingredients")}</th>
-                    <th className="text-nowrap">{t("costModal.requiredQuantity")}</th>
-                    <th className="text-nowrap">{t("costModal.percentage")}</th>
                     <th className="text-nowrap">{t("costModal.cost")}</th>
+                    <th className="text-nowrap">{t("costModal.percentage")}</th>
+                    <th className="text-nowrap">{t("costModal.requiredQuantity")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {recipeCosts.ingredients?.map((ingredient, index) => (
                     <tr key={index}>
                       <td className="text-nowrap">{ingredient.name}</td>
-                      <td className="text-nowrap">{ingredient.requiredQuantity + " " + ingredient.unitOfMeasure }</td>
-                      <td className="text-nowrap">{ingredient.percentage || "N/A"} % </td>
                       <td className="text-nowrap">$ {ingredient.cost}</td>
+                      <td className="text-nowrap">{ingredient.percentage} % </td>
+                      <td className="text-nowrap">{ingredient.requiredQuantity + " " + (ingredient.unitOfMeasure || " g") }</td>
                     </tr>
                   ))}
                 </tbody>

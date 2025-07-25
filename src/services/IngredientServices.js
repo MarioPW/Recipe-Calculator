@@ -28,7 +28,8 @@ export class IngredientService {
             const docSnapshot = await getDoc(ingredientDocRef);
     
             if (docSnapshot.exists()) {
-                return  { FSId: docSnapshot.id, ...docSnapshot.data() }
+                const adaptedIngredient = this.ingredientAdapter.adapt(docSnapshot.data());
+                return  { FSId: docSnapshot.id, ...adaptedIngredient }
             } else {
                 console.error(`Ingredient with ID ${ingredientId} not found.`);
                 return null;

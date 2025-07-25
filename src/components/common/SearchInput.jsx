@@ -46,7 +46,7 @@ export const SearchInput = ({ items = [], url = null, action = null, setItemsLis
   }, [search, items]);
 
   return (
-    <div className="position-relative d-flex align-items-center">
+    <div className="position-relative d-flex align-items-center input-group-sm p-2">
       <i className="bi bi-search position-absolute ms-2 text-muted"></i>
       <input
         className="form-control"

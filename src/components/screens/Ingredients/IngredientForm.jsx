@@ -252,14 +252,14 @@ export const IngredientForm = () => {
           <div className="d-flex gap-2 mt-2 justify-content-end">
             <button
               type="button"
-              className="myButton-danger border-0 py-2"
+              className="btn btn-sm btn-outline-light bg-danger"
               id="deleteIngredientButton"
               onClick={() => setDeleteModal(true)}
             >
               {t('ingredientForm.delete')}
             </button>
             <button
-              className="myButton-primary border-0 py-2"
+              className="btn btn-sm btn-outline-light bg-primary"
               name="save"
               onClick={handleSaveIngredient}
             >

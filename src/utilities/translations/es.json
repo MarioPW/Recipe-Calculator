@@ -121,6 +121,10 @@
     "yes": "Sí",
     "no": "No"
   },
+  "confirmDeleteRecipe": {
+    "title": "Confirmar eliminación:",
+    "message": "¿Estás seguro de que deseas eliminar la receta {{recipe}}?"
+  },
   "addIngredient": {
     "alertEnterWeight": "Debes ingresar un peso",
     "enterWeight": "Ingresar peso de",
@@ -263,5 +267,4 @@
     "password_requirement": "Al menos 6 caracteres.",
     "back_to_login": "Volver al inicio de sesión"
   }
-
 }

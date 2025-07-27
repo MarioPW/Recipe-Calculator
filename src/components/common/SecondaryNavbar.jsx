@@ -39,7 +39,7 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
           ))}
           {links.map(({ label, url }, index) => (
             <li key={index} className="nav-item list-group-item">
-              <Link className="myButton-success fw-bold d-inline-block text-center" to={url}>{label}</Link>
+              <Link className="btn btn-sm btn-success" to={url}>{label}</Link>
             </li>
           ))}
           {children && <li className="nav-item list-group-item">{children}</li>}

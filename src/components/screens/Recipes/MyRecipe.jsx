@@ -118,19 +118,19 @@ export const MyRecipe = () => {
                   <td>{ingredient.name}</td>
                   <td>{ingredient.weight} {ingredient.unitOfMeasure}</td>
                   <td>
-                    <button className='btn btn-sm btn-outline-light bg-warning' onClick={() => handleEdit(ingredient)}><i className="bi bi-pen"></i></button>
+                    <button className='btn btn-sm btn-outline-primary text-primary' onClick={() => handleEdit(ingredient)}><i className="bi bi-pen"></i></button>
                   </td>
                   <td>
-                    <button className='btn btn-sm btn-outline-light bg-danger' onClick={() => handleRemove(ingredient)}><i className="bi bi-trash"></i></button>
+                    <button className='btn btn-sm btn-outline-danger text-danger' onClick={() => handleRemove(ingredient)}><i className="bi bi-trash"></i></button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className='container d-flex justify-content-end bg-light p-2 gap-2'>
-            <button onClick={() => { navigate("/my-recipes"); setRecipe({}) }} className='btn btn-sm btn-outline-light bg-info'>{t("myRecipe.goBack")}</button>
-            <button className='btn btn-sm btn-outline-light bg-primary' onClick={handleSaveChanges}>{t("myRecipe.saveChanges")}</button>
-            <button className='btn btn-sm btn-outline-light bg-danger' onClick={() => setDeleteRecipe(true)}>{t("myRecipe.delete")}</button>
+            <button onClick={() => { navigate("/my-recipes"); setRecipe({}) }} className='btn btn-sm btn-outline-info'>{t("myRecipe.goBack")}</button>
+            <button className='btn btn-sm btn-outline-primary' onClick={handleSaveChanges}>{t("myRecipe.saveChanges")}</button>
+            <button className='btn btn-sm btn-outline-danger' onClick={() => setDeleteRecipe(true)}>{t("myRecipe.delete")}</button>
           </div>
         </>
       ) : (

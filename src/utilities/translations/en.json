@@ -119,6 +119,10 @@
     "isSubRecipe": "Is Subrecipe",
     "defaultRecipe": "Recipe"
   },
+  "confirmDeleteRecipe": {
+    "title": "Confirm Deletion:",
+    "message": "Are you sure you want to delete the recipe {{recipe}}?"
+  },
   "addIngredient": {
     "alertEnterWeight": "You must enter a weight",
     "enterWeight": "Enter Weight of",

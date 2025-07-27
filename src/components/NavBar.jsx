@@ -114,7 +114,7 @@ export const NavBar = () => {
                   </div>
                   <h6 className="text-light m-0">{user.displayName || user.email}</h6>
 
-                  <button className="myButton-purple fw-light border-0 py-1 fs-6" onClick={() => { handleLogout(); closeNavbar(); }}>
+                  <button className="btn btn-sm btn-outline-warning text-warning" onClick={() => { handleLogout(); closeNavbar(); }}>
                     {t("navbar.logout")}
                   </button>
                 </div>

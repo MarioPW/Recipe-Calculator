@@ -237,12 +237,12 @@ export const RecipeNavBar = ({ currentRecipe }) => {
                 </button>
               </li>
               <li className="nav-item">
-                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={toggleModal(setAddIngredientModal)}>
+                <button className="btn btn-sm btn-success w-100 w-md-auto" onClick={toggleModal(setAddIngredientModal)}>
                   {t("recipeNavbar.addIngredient")}
                 </button>
               </li>
               <li className="nav-item">
-                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={toggleModal(setAddSubRecipeModal)}>
+                <button className="btn btn-sm btn-success w-100 w-md-auto" onClick={toggleModal(setAddSubRecipeModal)}>
                   {t("recipeNavbar.addSubRecipe")}
                 </button>
               </li>

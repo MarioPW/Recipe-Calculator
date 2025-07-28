@@ -15,12 +15,15 @@
 [ ] Remove .FSId and .FSUid from Ingredients.
 [ ] Implement Reset Password.
 [✔] Fix bug in AddingredientModal in Search input.
-[ ] Implement SearchInput in AddSubRecipeModal.jsx.
+[✔] Implement SearchInput in AddSubRecipeModal.jsx.
 [ ] Improve styles in the PDF and Excel generator.
 [ ] Add PDF and Excel buttons in My Ingredients and MyRecipes.
 
+-------------------- BUGS ------------------------------
 
------------------------------------------------------------
+[ ] Fix OPERATIONS.TRACEABILITY for sub-recipes.
+
+--------------------------------------------------------
 
 [ ] Migrate to Relational DB.
 [ ] Create new DB in data base for Inventory.

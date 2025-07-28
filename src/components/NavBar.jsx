@@ -152,7 +152,7 @@ export const NavBar = () => {
                     </ul>
                   </div>
                 </div>
-                <Link to="/login-register" className="myButton-success" onClick={closeNavbar}>
+                <Link to="/login-register" className="btn btn-sm btn-success" onClick={closeNavbar}>
                     {t("navbar.login_register")}
                   </Link>
                 </>

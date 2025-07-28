@@ -196,11 +196,11 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     <>
       <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
         <div className="container-fluid">
-          <h3 className="navbar-brand fw-bold text-light">
+          <h3 className="navbar-brand fw-bold text-light content-center">
             {currentRecipe.name && `${currentRecipe.name} X ${currentRecipe.productWeight} g`}
           </h3>
           <button
-            className="btn btn-outline-light me-2 d-lg-none"
+            className="btn btn-outline-light d-lg-none bg-light m-2"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#recipeNavbar"
@@ -212,7 +212,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
           </button>
           <div className="collapse navbar-collapse" id="recipeNavbar">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
-              <li className="nav-item">
+              <li className="nav-item d-flex flex-column flex-md-row gap-2">
                 {fileGeneratorButton && <GeneratePdfButton {...fileGeneratorData} />}
                 {fileGeneratorButton && <GenerateExelButton {...fileGeneratorData} />}
               </li>

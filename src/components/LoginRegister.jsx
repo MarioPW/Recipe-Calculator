@@ -106,7 +106,7 @@ export const LoginRegister = () => {
                                     {t("auth.not_registered")}
                                 </a>
                             </div>
-                            <button type="submit" className="btn btn-primary">{t("auth.login")}</button>
+                            <button type="submit" className="btn btn-sm btn-primary">{t("auth.login")}</button>
                         </div>
                         <hr />
                         <button className="btn btn-info my-1 text-light w-100" type="button" onClick={() => handleSocialLogin(new GoogleAuthProvider(), auth)}>

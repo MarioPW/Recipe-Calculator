@@ -23,8 +23,8 @@ export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stock
             />
           </div>
           <div className="modal-footer">
-            <button className="myButton-success border-0 text-center py-2" onClick={() => handleUpdateStock('add')}> {t('common.add')} </button>
-            <button className="myButton-purple border-0 text-center py-2" onClick={() => handleUpdateStock('substract')}>{t('common.substract')}</button>
+            <button className="btn btn-sm btn-outline-danger text-danger" onClick={() => handleUpdateStock('substract')}>{t('common.substract')}</button>
+            <button className="btn btn-sm btn-outline-success text-success" onClick={() => handleUpdateStock('add')}> {t('common.add')} </button>
           </div>
         </div>
       </div>

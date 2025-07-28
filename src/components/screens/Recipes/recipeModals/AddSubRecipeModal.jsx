@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { AddIngredient } from './AddIngredient';
 import { useTranslation } from "react-i18next";
+import { SearchInput } from '../../../common/SearchInput';
 
 
 export const AddSubRecipeModal = ({ handleAddSubRecipeModal, recipes, setRecipe, currentRecipe }) => {
@@ -25,6 +26,10 @@ export const AddSubRecipeModal = ({ handleAddSubRecipeModal, recipes, setRecipe,
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">{t("addSubRecipeModal.title")}</h5>
+                        <SearchInput
+                            items={recipes.filter((recipe) => recipe.isSubRecipe)}
+                            action={handleAddSubRecipeModal}
+                        />
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleAddSubRecipeModal}></button>
                     </div>
                     <div className="modal-body">

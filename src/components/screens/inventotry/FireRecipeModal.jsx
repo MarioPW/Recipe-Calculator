@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Calculator } from "../../../utilities/calculator";
 import { useMainContext } from "../../../context/MainContext";
+import { useTranslation } from "react-i18next";
 
 export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurrentInventory }) => {
   const { recipes } = useMainContext();
@@ -8,6 +9,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
   const calculator = new Calculator();
   const [validRecipes, setValidRecipes] = useState([]);
   const [invalidRecipes, setInvalidRecipes] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const validRecipes = recipes.filter((recipe) => recipe.productWeight && !recipe.isSubRecipe);
@@ -90,8 +92,8 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Recipe</th>
-                    <th scope="col">Amount</th>
+                    <th scope="col">{t('common.name')}</th>
+                    <th scope="col">{t('common.amount')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -100,7 +102,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
                       <td className="fw-bold"><span className="fw-bold bg-success text-white p-1 rounded me-2">{amount[recipe.name] || 0}</span> {recipe.name} x {recipe.productWeight || '?'}g</td>
                       <td className="">
                         <button
-                          className="myButton-primary border-0 me-2"
+                          className="btn btn-sm btn-outline-success text-success me-2"
                           name={recipe.name}
                           onClick={handleClick}
                           data-action="increment"
@@ -108,7 +110,7 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
                           +
                         </button>
                         <button
-                          className="myButton-danger border-0"
+                          className="btn btn-sm btn-outline-danger text-danger"
                           name={recipe.name}
                           onClick={handleClick}
                           data-action="decrement"
@@ -124,14 +126,14 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-sm btn-outline-secondary text-secondary"
               data-bs-dismiss="modal"
               onClick={() => setFireRecipeModal(false)}
             >
-              Close
+              {t('common.close')}
             </button>
-            <button type="button" className="btn btn-primary" onClick={handleUpdateInventory}>
-              Update Inventory
+            <button type="button" className="btn btn-sm btn-outline-primary text-primary" onClick={handleUpdateInventory}>
+              {t('common.update')}
             </button>
           </div>
         </div>

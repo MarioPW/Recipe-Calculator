@@ -59,7 +59,9 @@
     "name": "Nombre",
     "substract": "Restar",
     "add": "Agregar",
-    "actions": "Acciones"
+    "actions": "Acciones",
+    "amount": "Cantidad",
+    "weight": "Peso"
   },
   "myRecipe": {
     "ingredient": "Ingrediente",

@@ -16,7 +16,7 @@
 [ ] Implement Reset Password.
 [✔] Fix bug in AddingredientModal in Search input.
 [✔] Implement SearchInput in AddSubRecipeModal.jsx.
-[ ] Improve styles in the PDF and Excel generator.
+[✔] Improve styles in the PDF and Excel generator.
 [ ] Add PDF and Excel buttons in My Ingredients and MyRecipes.
 
 -------------------- BUGS ------------------------------

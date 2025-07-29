@@ -59,7 +59,9 @@
     "name": "Name",
     "substract": "Substract",
     "add": "Add", 
-    "actions": "Actions"
+    "actions": "Actions",
+    "amount": "Amount",
+    "weight": "Weight"
   },
   "myRecipe": {
     "ingredient": "Ingredient",

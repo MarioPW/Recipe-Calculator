@@ -12,12 +12,12 @@
 	font-weight: lighter;
 	background-color: #000011;
 	margin: 0;
-	font-size: medium;
+	font-size: 14px;
 }
 
 @media (max-width: 576px) {
 	.custom-body {
-		font-size: smaller;
+		font-size: 12px;
 	}
 }
 

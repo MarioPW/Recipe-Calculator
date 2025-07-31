@@ -115,7 +115,8 @@ export const Inventory = () => {
         label: t('inventory.updateStock'),
         action: updateIngredientsStock,
       }
-    ]
+    ],
+    collapseButtonId: 'inventoryNavbarCollapse'
   }
 
   return (

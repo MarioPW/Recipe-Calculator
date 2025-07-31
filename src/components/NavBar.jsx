@@ -1,29 +1,29 @@
-import React, { useRef } from "react";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
-import { Link } from "react-router-dom";
 import { useMainContext } from "../context/MainContext";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { useTranslation } from "react-i18next";
+import { SecondaryNavbar } from "./common/SecondaryNavbar";
+import { UserMenu } from "./UserMenu";
 
 export const NavBar = () => {
   const { user } = useMainContext();
   const navigate = useNavigate();
   const navbarCollapseRef = useRef(null);
   const { t, i18n } = useTranslation();
+
   const langs = {
     es: "https://flagcdn.com/w40/mx.png",
     en: "https://flagcdn.com/w40/us.png",
-    // fr: "https://flagcdn.com/w40/fr.png",
-    // it: "https://flagcdn.com/w40/it.png"
-  }
+  };
+
   const [lang, setLang] = useState(langs[localStorage.getItem("lang") || "en"]);
 
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem("lang", lang);
-    setLang(langs[lang]);
+  const changeLanguage = (langKey) => {
+    i18n.changeLanguage(langKey);
+    localStorage.setItem("lang", langKey);
+    setLang(langs[langKey]);
   };
 
   const handleLogout = async () => {
@@ -38,128 +38,64 @@ export const NavBar = () => {
       }
     }
   };
+
   const closeNavbar = () => {
     if (navbarCollapseRef.current) {
       const bsCollapse = window.bootstrap.Collapse.getInstance(navbarCollapseRef.current);
-      if (bsCollapse) {
-        bsCollapse.hide();
-      }
+      if (bsCollapse) bsCollapse.hide();
     }
   };
 
-  return (
+  const title = (
     <>
-      <nav className="navbar navbar-expand-lg mx-auto fixed-top bg-color-main px-2" style={{ height: "50px" }}>
-        <div className="container-fluid">
-          <a className="navbar-brand text-light" href="#">
-            <img src="favicon.png" alt="@PW" style={{ width: "30px" }} /> {t("navbar.title")}
-          </a>
-          <button
-            className="navbar-toggler bg-light"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse z-3 bg-color-main pb-3 pb-sm-0" id="navbarSupportedContent" ref={navbarCollapseRef} style={{ height: "50px" }}>
-            {user ? (
-              <>
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">
-                    <Link to="/my-ingredients" className="btn custom-btn text-light w-100 text-start" onClick={closeNavbar}>
-                      <i className="bi bi-basket me-2"></i>
-                      {t("navbar.ingredients")}
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/my-recipes" className="btn custom-btn text-light w-100 text-start" onClick={closeNavbar}>
-                      <i className="bi bi-card-list me-2"></i>
-                      {t("navbar.recipes")}
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/inventory" className="btn custom-btn text-light w-100 text-start" onClick={closeNavbar}>
-                      <i className="bi bi-box-seam me-2"></i>
-                      {t("navbar.inventory")}
-                    </Link>
-                  </li>
-                </ul>
-                <div className="d-flex align-items-center gap-2 mb-3 mb-lg-0">
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-sm text-light dropdown-toggle"
-                      type="button"
-                      id="dropdownLanguage"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      aria-label="Select language"
-                    >
-                      <img src={lang} alt="Selected language" width="25" />
-                    </button>
-                    <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownLanguage">
-                      {langs &&
-                        Object.keys(langs).map((key) => (
-                          <li key={key}>
-                            <button className="dropdown-item" onClick={() => { changeLanguage(key); closeNavbar(); }}>
-                              <img src={langs[key]} alt={`${key} flag`} width="20" /> {t(`language.${key}`)}
-                            </button>
-                          </li>
-                        )
-                        )}
-                    </ul>
-                  </div>
-                  <h6 className="text-light m-0">{user.displayName || user.email}</h6>
-
-                  <button className="btn btn-sm btn-outline-warning text-warning" onClick={() => { handleLogout(); closeNavbar(); }}>
-                    {t("navbar.logout")}
-                  </button>
-                </div>
-
-              </>
-            ) : (
-              <>
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item list-group-item text-light fs-6">
-                 
-                </li>
-                </ul>
-                <div className="d-flex align-items-center gap-2 mb-3 mb-lg-0">
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-sm text-light dropdown-toggle"
-                      type="button"
-                      id="dropdownLanguage"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      aria-label="Select language"
-                    >
-                      <img src={lang} alt="Selected language" width="25" />
-                    </button>
-                    <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownLanguage">
-                      {langs &&
-                        Object.keys(langs).map((key) => (
-                          <li key={key}>
-                            <button className="dropdown-item" onClick={() => { changeLanguage(key); closeNavbar(); }}>
-                              <img src={langs[key]} alt={`${key} flag`} width="20" /> {t(`language.${key}`)}
-                            </button>
-                          </li>
-                        )
-                        )}
-                    </ul>
-                  </div>
-                </div>
-                <Link to="/login-register" className="btn btn-sm btn-success" onClick={closeNavbar}>
-                    {t("navbar.login_register")}
-                  </Link>
-                </>
-            )}
-          </div>
-        </div>
-      </nav>
+      <a className="navbar-brand text-light" href="#">
+        <img src="favicon.png" alt="@PW" style={{ width: "30px" }} /> {t("navbar.title")}
+      </a>
     </>
   );
+
+  const links = user
+    ? [
+      { label: t("navbar.ingredients"), url: "/my-ingredients" },
+      { label: t("navbar.recipes"), url: "/my-recipes" },
+      { label: t("navbar.inventory"), url: "/inventory" },
+    ]
+    : [];
+
+  const buttons = !user
+    ? [
+      {
+        label: t("navbar.login_register"),
+        action: () => {
+          closeNavbar();
+          navigate("/login-register");
+        },
+      },
+    ]
+    : [];
+
+  const children = [
+    <UserMenu
+      key="user-menu"
+      user={user}
+      langs={langs}
+      lang={lang}
+      handleLogout={handleLogout}
+      changeLanguage={changeLanguage}
+      closeNavbar={closeNavbar}
+    />,
+  ];
+
+  return (
+    <SecondaryNavbar
+      title={title}
+      buttons={buttons}
+      links={links}
+      children={children}
+      collapseButtonId="navbarCollapse"
+      border={false}
+    />
+  );
 };
+
+

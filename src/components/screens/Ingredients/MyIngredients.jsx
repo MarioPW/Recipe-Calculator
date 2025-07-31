@@ -35,6 +35,7 @@ export const MyIngredients = () => {
         ]}
         searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
         collapseButtonText={t('myIngredients.actions')}
+        collapseButtonId="myIngredientsNavbarCollapse"
       />
       
       {ingredients.length > 0 ? (

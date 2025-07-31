@@ -31,6 +31,7 @@ export const MyRecipes = () => {
         links={[
           { label: t('myRecipes.addNew'), url: "/my-recipe" }
         ]}
+        collapseButtonId="myRecipesNavbarCollapse"
       />
       {recipes.length > 0 ? (
         <table className="table table-light table-hover">

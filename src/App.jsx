@@ -61,7 +61,7 @@ function App() {
       <div className="fixed-top">
         <NavBar />
       </div>
-      <div style={{ paddingTop: '63px' }}>
+      <div style={{ paddingTop: '64px' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login-register" element={<LoginRegister />} />

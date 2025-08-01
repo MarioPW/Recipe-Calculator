@@ -44,11 +44,11 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
-                    <div className="modal-header">
+                    <div className="modal-header bg-color-main text-white">
                         <h5 className="modal-title">{t('recipeFeaturesModal.title')}</h5>
                         <button
                             type="button"
-                            className="btn-close"
+                            className="btn-close ms-2 bg-white text-light"
                             onClick={() => setRecipeFeaturesModal(false)}
                         ></button>
                     </div>
@@ -133,15 +133,14 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                         <div className="modal-footer">
                             <button
                                 type="button"
-                                className="btn btn-secondary"
+                                className="btn btn-sm btn-outline-secondary"
                                 onClick={() => setRecipeFeaturesModal(false)}
                             >
                                 {t('common.cancel')}
                             </button>
                             <button
                                 type="submit"
-                                className="btn btn-primary"
-                            // onClick={handleSaveChanges}
+                                className="btn btn-sm btn-outline-primary"
                             >
                                 {t('common.saveChanges')}
                             </button>

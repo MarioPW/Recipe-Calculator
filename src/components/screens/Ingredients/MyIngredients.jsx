@@ -4,6 +4,8 @@ import { Spinner } from '../../common/Spinner';
 import { Link } from 'react-router-dom';
 import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
+import { GenerateExelButton } from '../../common/GenerateExelButton';
+import { GeneratePdfButton } from '../../common/GeneratePdfButton';
 
 export const MyIngredients = () => {
   const { t } = useTranslation();
@@ -22,6 +24,21 @@ export const MyIngredients = () => {
     }));
     localStorage.setItem('ingredientsSort', 'reference');
   };
+
+  const ingredientData = {
+    title: t('myIngredients.title'),
+    tableData: ingredients.map((item) => ({
+      [t('myIngredients.table.ref')]: item.reference,
+      [t('myIngredients.table.name')]: item.name,
+      [t('myIngredients.table.stock')]: item.stock,
+      [t('myIngredients.table.unit')]: item.unitOfMeasure,
+      [t('myIngredients.table.brand')]: item.brand,
+      [t('myIngredients.table.supplier')]: item.supplier,
+      [t('myIngredients.table.batch')]: item.batch,
+      [t('myIngredients.table.expiration')]: item.expirationDate,
+      [t('myIngredients.table.cost')]: item.costPerKg,
+    })),
+  }
   return (
     <>
       <SecondaryNavbar
@@ -36,7 +53,10 @@ export const MyIngredients = () => {
         searchInput={{ items: ingredients, url: "/ingredient", setItemsList: setIngredients }}
         collapseButtonText={t('myIngredients.actions')}
         collapseButtonId="myIngredientsNavbarCollapse"
-      />
+      >
+        <GenerateExelButton {...ingredientData} />
+        <GeneratePdfButton {...ingredientData} />
+      </SecondaryNavbar>
       
       {ingredients.length > 0 ? (
         <div className="container p-0">

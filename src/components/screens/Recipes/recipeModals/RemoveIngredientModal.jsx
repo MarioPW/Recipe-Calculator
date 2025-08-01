@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from "react-i18next";
+import { SecondaryNavbar } from '../../../common/SecondaryNavbar';
 
 export const RemoveIngredientModal = ({ingredient, setRecipe, recipe, setRemoveIngredient}) => {
     const { t } = useTranslation();
@@ -10,37 +11,43 @@ export const RemoveIngredientModal = ({ingredient, setRecipe, recipe, setRemoveI
         setRecipe(prevRecipe);
         setRemoveIngredient(false)
     }
+    const navbarData = {
+        title: t("removeIngredientModal.title", { ingredient: ingredient.name }),
+        collapseButtonId: "removeIngredientNavbar",
+        buttons: [
+            { label: 'X', action: () => setRemoveIngredient(false) },
+        ],
+        border: false, // puedes activarlo si deseas mostrar borde
+      };
   return (
-    <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header bg-danger">
-                            <h5 className="modal-title text-white">{t("removeIngredientModal.title", { ingredient: ingredient.name })}</h5>
-                            <button
-                                type="button"
-                                className="btn-close"
-                                onClick={() => {setRemoveIngredient(false)}}
-                            ></button>
-                        </div>
-                       
-                        <div className="modal-footer d-flex justify-content-evenly">
-                            <button
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={handleRemove}
-                            >
-                                {t("common.remove")}
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={() => {setRemoveIngredient(false)}}
-                            >
-                                {t("common.cancel")}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+    <div
+    className="modal fade show d-block"
+    tabIndex="-1"
+    style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+  >
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <SecondaryNavbar {...navbarData} />
+
+        <div className="modal-footer d-flex justify-content-evenly">
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            onClick={handleRemove}
+          >
+            {t("common.remove")}
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => setRemoveIngredient(false)}
+          >
+            {t("common.cancel")}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   )
 }

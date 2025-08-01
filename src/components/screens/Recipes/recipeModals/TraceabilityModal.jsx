@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { GeneratePdfButton } from "../../../common/GeneratePdfButton";
 import { GenerateExelButton } from "../../../common/GenerateExelButton";
+import { SecondaryNavbar } from "../../../common/SecondaryNavbar";
 
 export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => {
     const { t } = useTranslation();
@@ -11,35 +12,29 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
     const fileGeneratorData = {
         title: t("traceabilityModal.title"),
         tableData: traceability.ingredients.map((item) => ({
-          [t("traceabilityModal.ref")]: item.reference,
-          [t("traceabilityModal.name")]: item.name,
-          [t("traceabilityModal.batch")]: item.batch,
-          [t("traceabilityModal.expirationDate")]: item.expirationDate,
-          [t("traceabilityModal.calculatedProportion")]: `${item.calculatedProportion || 0} ${item.unitOfMeasure || ""}`,
+            [t("traceabilityModal.ref")]: item.reference,
+            [t("traceabilityModal.name")]: item.name,
+            [t("traceabilityModal.batch")]: item.batch,
+            [t("traceabilityModal.expirationDate")]: item.expirationDate,
+            [t("traceabilityModal.calculatedProportion")]: `${item.calculatedProportion || 0} ${item.unitOfMeasure || ""}`,
         })),
         summary: {
-          [t("traceabilityModal.name")]: traceability.name,
-          [t("traceabilityModal.weightPerUnit")]: `${traceability.weightPerUnit} g`,
-          [t("traceabilityModal.amount")]: traceability.amount
+            [t("traceabilityModal.name")]: traceability.name,
+            [t("traceabilityModal.weightPerUnit")]: `${traceability.weightPerUnit} g`,
+            [t("traceabilityModal.amount")]: traceability.amount
         }
-      };
+    };
 
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)", transition: "opacity 0.3s ease" }}>
             <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
-                    <div className="modal-header d-flex justify-content-between align-items-center bg-color-main text-white">
-                        <div className="d-flex align-items-center">
-                            <h5 className="modal-title m-0">{t("traceabilityModal.title")}</h5>
-                        </div>
 
-                        <div className="d-flex flex-row gap-2 ms-auto">
-                            <GeneratePdfButton {...fileGeneratorData} />
-                            <GenerateExelButton {...fileGeneratorData} />
-                        </div>
+                    <SecondaryNavbar title={t("traceabilityModal.title")} collapseButtonId={'traceabilityModalNavbar'} >
+                        <GeneratePdfButton {...fileGeneratorData} />
+                        <GenerateExelButton {...fileGeneratorData} />
+                    </SecondaryNavbar>
 
-                        <button type="button" className="btn-close ms-2 bg-white" onClick={handleTraceabilityModal}></button>
-                    </div>
                     <div className="modal-body">
                         <div>
                             <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.name")}: </strong>{traceability.name}</p>
@@ -73,7 +68,7 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="myButton-primary border-0 py-2" onClick={handleTraceabilityModal}>
+                        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={handleTraceabilityModal}>
                             {t("traceabilityModal.close")}
                         </button>
                     </div>

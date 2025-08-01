@@ -8,7 +8,7 @@ export const AmountWeightModal = ( {handleAmountWeightModal, amount, setAmount, 
     <div className="modal-dialog">
         <div className="modal-content">
             <div className="modal-header bg-color-main text-white">
-                <h5 className="modal-title ">{t('amountWeightModal.title')}:</h5>
+                <h5 className="modal-title">{t('amountWeightModal.title')}:</h5>
                 <button
                     type="button"
                     className="btn-close ms-2 bg-white text-light"

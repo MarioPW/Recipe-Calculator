@@ -11,12 +11,9 @@ import { useTranslation } from "react-i18next";
 import { GeneratePdfButton } from '../../common/GeneratePdfButton';
 import { CostModal } from './recipeModals/CostModal';
 import { GenerateExelButton } from '../../common/GenerateExelButton';
+import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 
-const OPERATIONS = {
-  CALCULATE: "Calculate",
-  COST: "Cost",
-  TRACEABILITY: "Make Traceability",
-};
+
 
 export const RecipeNavBar = ({ currentRecipe }) => {
   const { t } = useTranslation();
@@ -48,6 +45,12 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     amount,
     weightPerUnit,
     name: currentRecipe?.name,
+  };
+
+  const OPERATIONS = {
+    CALCULATE: t("recipeNavbar.calculate"),
+    COST: t("recipeNavbar.cost"),
+    TRACEABILITY: t("recipeNavbar.traceability")
   };
 
   useEffect(() => {
@@ -120,7 +123,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
             return !ingredient || ingredient.costPerKg == undefined || ingredient.costPerKg === '';
           });
           if (missingCostIngredients.length > 0) {
-            alert(t("recipeNavbar.missingCostIngredients", {  items: verifyIngredientsCost.map((r) => r.name).join(', ')  }));
+            alert(t("recipeNavbar.missingCostIngredients", { items: verifyIngredientsCost.map((r) => r.name).join(', ') }));
             break;
           };
 
@@ -192,75 +195,39 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     }
   }, [operation, recipeData, currentRecipe, recipeIngredients, calculator]);
 
+  const navbarData = {
+    title: currentRecipe.name && `${currentRecipe.name} X ${currentRecipe.productWeight} g`,
+    collapseButtonId: "recipeNavbar",
+    buttons: [
+      { label: t("recipeNavbar.features"), action: toggleModal(setRecipeFeaturesModal) },
+      { label: t("recipeNavbar.calculate"), action: () => handleAmountWeightModal(OPERATIONS.CALCULATE) },
+      { label: t("recipeNavbar.cost"), action: () => handleAmountWeightModal(OPERATIONS.COST) },
+      { label: t("recipeNavbar.traceability"), action: () => handleAmountWeightModal(OPERATIONS.TRACEABILITY) },
+      { label: t("recipeNavbar.addIngredient"), action: toggleModal(setAddIngredientModal) },
+      { label: t("recipeNavbar.addSubRecipe"), action: toggleModal(setAddSubRecipeModal) },
+    ],
+    border: true,
+  };
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg border mt-1 bg-color-main d-flex flex-wrap justify-content-between">
-        <div className="container-fluid">
-          <h3 className="navbar-brand fw-bold text-light content-center">
-            {currentRecipe.name && `${currentRecipe.name} X ${currentRecipe.productWeight} g`}
-          </h3>
-          <button
-            className="btn btn-outline-light d-lg-none bg-light m-2"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#recipeNavbar"
-            aria-controls="recipeNavbar"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="recipeNavbar">
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
-              <li className="nav-item d-flex flex-column flex-md-row gap-2">
-                {fileGeneratorButton && <GeneratePdfButton {...fileGeneratorData} />}
-                {fileGeneratorButton && <GenerateExelButton {...fileGeneratorData} />}
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={toggleModal(setRecipeFeaturesModal)}>
-                  {t("recipeNavbar.features")}
-                </button>
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={() => handleAmountWeightModal(OPERATIONS.CALCULATE)}>
-                  {t("recipeNavbar.calculate")}
-                </button>
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={() => handleAmountWeightModal(OPERATIONS.COST)}>
-                  {t("recipeNavbar.cost")}
-                </button>
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-sm btn-outline-light w-100 w-md-auto" onClick={() => handleAmountWeightModal(OPERATIONS.TRACEABILITY)}>
-                  {t("recipeNavbar.traceability")}
-                </button>
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-sm btn-success w-100 w-md-auto" onClick={toggleModal(setAddIngredientModal)}>
-                  {t("recipeNavbar.addIngredient")}
-                </button>
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-sm btn-success w-100 w-md-auto" onClick={toggleModal(setAddSubRecipeModal)}>
-                  {t("recipeNavbar.addSubRecipe")}
-                </button>
-              </li>
-            </ul>
-          </div>
+      <SecondaryNavbar {...navbarData}>
+        {fileGeneratorButton &&
+          [
+            <GeneratePdfButton key="pdf" {...fileGeneratorData} />,
+            <GenerateExelButton key="excel" {...fileGeneratorData} />
+          ]}
+      </SecondaryNavbar>
+
+      {missingIngredient && (
+        <div className="alert alert-danger alert-dismissible fade show w-100 p-2" role="alert">
+          <section className="fw-bold m-0">
+            {t("recipeNavbar.missingIngredient")} {missingIngredient}:
+            <p className="fw-light">{t("recipeNavbar.missingIngredientDescription")}</p>
+          </section>
+          <button type="button" className="btn-close p-3" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
-        {missingIngredient && (
-          <div className="alert alert-danger alert-dismissible fade show w-100 p-2" role="alert">
-            <section className="fw-bold m-0">
-              {t("recipeNavbar.missingIngredient")} {missingIngredient}:
-              <p className="fw-light mb-1">{t("recipeNavbar.missingIngredientDescription")}</p>
-            </section>
-            <button type="button" className="btn-close p-3" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        )}
-      </nav>
-
+      )}
       {amountWeightModal && (
         <AmountWeightModal
           handleAmountWeightModal={toggleModal(setAmountWeightModal)}

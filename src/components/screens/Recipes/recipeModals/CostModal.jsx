@@ -13,9 +13,9 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
     title: t("costModal.title"),
     tableData: recipeCosts.ingredients.map((item) => ({
       [t("costModal.name")]: item.name,
-      [t("costModal.requiredQuantity")]: item.requiredQuantity + " " + item.unitOfMeasure,
-      [t("costModal.percentage")]: `${item.percentage || "N/A"} %`,
       [t("costModal.cost")]: `$ ${item.cost}`,
+      [t("costModal.percentage")]: `${item.percentage || "N/A"} %`,
+      [t("costModal.requiredQuantity")]: `${item.requiredQuantity} ${item.unitOfMeasure || "g"}`,
     })),
     summary: {
       [t("costModal.name")]: recipeCosts.name,
@@ -104,7 +104,7 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
           <div className="modal-footer">
             <button
               type="button"
-              className="myButton-primary border-0 py-2"
+              className="btn btn-sm btn-outline-primary"  
               onClick={handleCostModal}
             >
               {t("common.close")}

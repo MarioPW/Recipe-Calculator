@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../common/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
+import { GenerateExelButton } from '../../common/GenerateExelButton';
+import { GeneratePdfButton } from '../../common/GeneratePdfButton';
 
 export const MyRecipes = () => {
   const { t } = useTranslation();
@@ -16,6 +18,15 @@ export const MyRecipes = () => {
     };
     sortRecipes();
   }, []);
+
+  const recipeData = {
+    title: t('myRecipes.title'),
+    tableData: recipes.map((item) => ({
+      [t('myRecipes.name')]: item.name,
+      [t('myRecipes.weightPerUnit')]: item.productWeight,
+      [t('myRecipes.isSubRecipe')]: item.isSubRecipe ? t('common.yes') : t('common.no'),
+    })),
+  };
 
   return (
     <>
@@ -32,7 +43,10 @@ export const MyRecipes = () => {
           { label: t('myRecipes.addNew'), url: "/my-recipe" }
         ]}
         collapseButtonId="myRecipesNavbarCollapse"
-      />
+      >
+        <GenerateExelButton {...recipeData} />
+        <GeneratePdfButton {...recipeData} /> 
+      </SecondaryNavbar>
       {recipes.length > 0 ? (
         <table className="table table-light table-hover">
           <thead>

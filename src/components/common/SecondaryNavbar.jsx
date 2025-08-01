@@ -6,7 +6,9 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
   return (
     <nav className={`navbar navbar-expand-lg ${border ? 'border' : ''} bg-color-main w-100`}>
       <div className="container-fluid d-flex flex-wrap align-items-center">
-        <h2 className="navbar-brand text-light ps-2">{title}</h2>
+        <h2 className="navbar-brand text-light ps-2 text-break"
+         style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}
+         >{title}</h2>
 
         <button
           className="btn btn-outline-light d-lg-none"
@@ -42,7 +44,7 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
             ))}
             {links.map(({ label, url }, index) => (
               <li key={index} className="nav-item list-group-item">
-                <Link className="btn btn-sm btn-success" to={url}>{label}</Link>
+                <Link className="btn btn-sm btn-outline-success text-light" to={url}>{label}</Link>
               </li>
             ))}
             {children && children.map(

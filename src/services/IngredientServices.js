@@ -22,14 +22,14 @@ export class IngredientService {
             return false
         }
     }
-    async getMyIngredientByid(ingredientId) {
+    async getIngredientByid(ingredientId) {
         try {
             const ingredientDocRef = doc(this.db, "ingredients", ingredientId);
             const docSnapshot = await getDoc(ingredientDocRef);
     
             if (docSnapshot.exists()) {
                 const adaptedIngredient = this.ingredientAdapter.adapt(docSnapshot.data());
-                return  { FSId: docSnapshot.id, ...adaptedIngredient }
+                return  { id: docSnapshot.id, ...adaptedIngredient }
             } else {
                 console.error(`Ingredient with ID ${ingredientId} not found.`);
                 return null;
@@ -45,7 +45,7 @@ export class IngredientService {
       
         try {
           const querySnapshot = await getDocs(query(ingredientsCollectionRef, where("userId", "==", userId)));
-          const ingredients = querySnapshot.docs.map(doc => ({ FSId: doc.id, ...doc.data() }));
+          const ingredients = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           return ingredients;
         } catch (error) {
           if (error.code === "unauthenticated") {
@@ -60,7 +60,7 @@ export class IngredientService {
         try {
             const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
             const ingredientDocRef = doc(this.db, "ingredients", id);
-            await setDoc(ingredientDocRef, {FSUid: id, userId: this.auth.currentUser.uid, ...adaptedIngredient});
+            await setDoc(ingredientDocRef, { id, userId: this.auth.currentUser.uid, ...adaptedIngredient});
             return true
         } catch (error) {
             alert("Error updating ingredient. Make sure you are logged in.");

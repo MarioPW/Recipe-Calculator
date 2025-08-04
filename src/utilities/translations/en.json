@@ -249,6 +249,11 @@
     "nameExists": "Ingredient named {{name}} already exists",
     "nameRequired": "Ingredient name is required."
   },
+  "deleteIngredientModal": {
+    "title": "Confirm Deletion",
+    "confirm": "Are you sure you want to delete the ingredient {{ingredient}}?",
+    "message": "Deletting this ingredient will remove it from ALL your recipes."
+  },
   "auth": {
     "login": "Log In",
     "register": "Register",

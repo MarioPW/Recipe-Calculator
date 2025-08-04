@@ -26,13 +26,14 @@ export const IngredientForm = () => {
     batch: '',
     stock: 0,
     reference: '',
-    setInInventory: true
+    setInInventory: true,
+    minStock: 0
   };
 
   useEffect(() => {
     const fetchIngredient = async () => {
       try {
-        const fetchedIngredient = await ingredientService.getMyIngredientByid(ingredientId);
+        const fetchedIngredient = await ingredientService.getIngredientByid(ingredientId);
         setIngredientData(fetchedIngredient);
       } catch (error) {
         console.error(t("errors.fetch"), error);
@@ -50,7 +51,7 @@ export const IngredientForm = () => {
   const handleSaveIngredient = async (e) => {
     e.preventDefault();
     const nameExists = ingredients.some(
-      (item) => item.name === ingredientData.name && item.FSId !== ingredientData.FSId && item.reference !== ingredientData.reference
+      (item) => item.name === ingredientData.name && item.id !== ingredientData.id && item.reference !== ingredientData.reference
     );
 
     if (nameExists) {
@@ -62,13 +63,13 @@ export const IngredientForm = () => {
       ingredientSchema.parse(ingredientData);
       setLoading(true);
       if (isEditing) {
-        await ingredientService.updateMyIngredient(ingredientData.FSId, ingredientData);
+        await ingredientService.updateMyIngredient(ingredientData.id, ingredientData);
         setIngredients(
-          ingredients.map((item) => (item.FSId === ingredientData.FSId ? ingredientData : item))
+          ingredients.map((item) => (item.id === ingredientData.id ? ingredientData : item))
         );
       } else {
         const newIngredientId = await ingredientService.saveIngredient(ingredientData);
-        setIngredients([...ingredients, { ...ingredientData, FSId: newIngredientId }]);
+        setIngredients([...ingredients, { ...ingredientData, id: newIngredientId }]);
         setIngredientData(emptyIngredient);
       }
     } catch (error) {

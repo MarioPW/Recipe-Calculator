@@ -11,7 +11,7 @@ export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, s
     const { t } = useTranslation();
 
     const handleWeightModal = (ingredient) => {
-        if (currentRecipe.ingredients?.some((item) => item.id === ingredient.FSId)) {
+        if (currentRecipe.ingredients?.some((item) => item.id === ingredient.id)) {
             alert(t("addIngredientModal.alreadyAddedAlert"));
         }
         else {
@@ -33,7 +33,7 @@ export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, s
                         <ul className='list-unstyled'>
                             {ingredients.map((ingredient) => {
                                 return (
-                                    <li key={ingredient.FSId} value={ingredient.name} className='btn btn-light d-block text-start' onClick={() => { handleWeightModal(ingredient) }}>
+                                    <li key={ingredient.id} value={ingredient.name} className='btn btn-light d-block text-start' onClick={() => { handleWeightModal(ingredient) }}>
                                         {ingredient.name}
                                     </li>
                                 )

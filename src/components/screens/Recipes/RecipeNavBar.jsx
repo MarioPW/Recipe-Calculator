@@ -57,7 +57,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     const loadRecipeIngredients = () => {
       try {
         const loadedRecipeIngredients = currentRecipe?.ingredients?.map((ingredient) =>
-          ingredients.find((ing) => ing.FSId === ingredient.id) || recipes.find((rec) => rec.id === ingredient.id)
+          ingredients.find((ing) => ing.id === ingredient.id) || recipes.find((rec) => rec.id === ingredient.id)
         );
         const missing = currentRecipe.ingredients?.find(
           (ingredient, index) => !loadedRecipeIngredients[index]
@@ -143,7 +143,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
               ingredients: subRecipe.ingredients.map((ing, index) => ({
                 name: ing.name,
                 requiredQuantity: subRecipeConvertions[index].conversion,
-                costPerKg: ingredients.find((i) => i.FSId === ing.id).costPerKg,
+                costPerKg: ingredients.find((i) => i.id === ing.id).costPerKg,
                 unitOfMeasure: ing.unitOfMeasure,
               }))
             };

@@ -45,7 +45,7 @@ export const Inventory = () => {
       try {
         await Promise.all(
           changedStockIngredients.map(async (ingredient) => {
-            await ingredientService.updateMyIngredient(ingredient.FSId, ingredient);
+            await ingredientService.updateMyIngredient(ingredient.id, ingredient);
           })
         );
       } catch (error) {
@@ -58,7 +58,7 @@ export const Inventory = () => {
   const handleUpdateStock = (operation) => {
     if (!selectedIngredient || !stockAdjustment) return;
     setCurrentInventory(prev => {
-      const index = prev.findIndex(item => item.FSId === selectedIngredient.FSId);
+      const index = prev.findIndex(item => item.id === selectedIngredient.id);
       if (index === -1) return prev;
       const prevItem = prev[index];
       const currentAdjusted = Number(prevItem.adjustedAmount ?? 0);
@@ -144,7 +144,7 @@ export const Inventory = () => {
               </thead>
               <tbody className="table-group-divider">
                 {currentInventory.map((ingredient) => (
-                  <tr key={ingredient.FSId}>
+                  <tr key={ingredient.id}>
                     <td>{ingredient.reference}</td>
                     <td>{ingredient.name}</td>
                     <td className={

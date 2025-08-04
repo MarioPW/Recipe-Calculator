@@ -11,7 +11,7 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
             return;
         }
         const newIngredient = {
-            id: ingredient.FSId || ingredient.id,
+            id: ingredient.id || ingredient.id,
             weight: weight,
             unitOfMeasure: ingredient.unitOfMeasure || "g",
             name: ingredient.name,

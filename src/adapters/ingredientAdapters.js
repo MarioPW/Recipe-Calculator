@@ -16,7 +16,6 @@ export class IngredientAdapter {
     }
   
     parseNumber(value) {
-      // Si es null, undefined o string vacío, devuelve null
       if (value === null || value === undefined || value === "") return null;
   
       const parsed = Number(value);

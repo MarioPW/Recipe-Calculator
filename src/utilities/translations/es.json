@@ -251,6 +251,11 @@
     "nameExists": "Ya existe un ingrediente llamado {{name}}",
     "nameRequired": "El nombre del ingrediente es obligatorio."
   },
+  "deleteIngredientModal": {
+  "title": "Confirmar eliminación",
+  "confirm": "¿Estás seguro de que deseas eliminar el ingrediente {{ingredient}}?",
+  "message": "Eliminar este ingrediente lo quitará de TODAS tus recetas."
+},
   "auth": {
     "login": "Iniciar sesión",
     "register": "Registrarse",

@@ -78,9 +78,9 @@ export const MyIngredients = () => {
               </thead>
               <tbody className="table-group-divider">
                 {ingredients.map((ingredient) => (
-                  <tr key={ingredient.FSId} className="table-striped">
+                  <tr key={ingredient.id} className="table-striped">
                     <td>{ingredient.reference}</td>
-                    <td><Link to={`/ingredient/${ingredient.FSId}`}>{ingredient.name}</Link></td>
+                    <td><Link to={`/ingredient/${ingredient.id}`}>{ingredient.name}</Link></td>
                     <td>{ingredient.stock}</td>
                     <td>{ingredient.unitOfMeasure}</td>
                     <td>{ingredient.brand}</td>

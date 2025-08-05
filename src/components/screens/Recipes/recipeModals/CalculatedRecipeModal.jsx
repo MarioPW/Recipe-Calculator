@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { GeneratePdfButton } from '../../../common/GeneratePdfButton';
 import { GenerateExelButton } from '../../../common/GenerateExelButton';
+import { CustomButton } from '../../../common/CustomButton';
 
 export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertionsModal }) => {
     const { t } = useTranslation();
@@ -63,13 +64,12 @@ export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertio
                         </table>
                     </div>
                     <div className="modal-footer">
-                        <button
+                        <CustomButton
                             type="button"
-                            className="btn btn-secondary"
+                            className="secondary"
                             onClick={handleConvertionsModal}
-                        >
-                            {t("calculatedRecipeModal.close")}
-                        </button>
+                            label={t("calculatedRecipeModal.close")}
+                        />
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { ConfirmDeleteModal } from './ingredientModals/ConfirmDeleteModal';
 import { useTranslation } from 'react-i18next';
 import { ingredientSchema } from '../../../validations/ingredientValidation';
 import { z } from "zod";
+import { CustomButton } from '../../common/CustomButton';
 
 export const IngredientForm = () => {
   const { ingredientId } = useParams();
@@ -74,7 +75,7 @@ export const IngredientForm = () => {
       }
     } catch (error) {
       const message =
-      error instanceof z.ZodError
+        error instanceof z.ZodError
           ? error.errors.map((e) => e.message).join("\n")
           : "Ha ocurrido un error de validación.";
       alert(message);
@@ -251,21 +252,18 @@ export const IngredientForm = () => {
           </div>
 
           <div className="d-flex gap-2 mt-2 justify-content-end">
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-light bg-danger"
-              id="deleteIngredientButton"
+            <CustomButton
+              label={t('ingredientForm.delete')}
               onClick={() => setDeleteModal(true)}
-            >
-              {t('ingredientForm.delete')}
-            </button>
-            <button
-              className="btn btn-sm btn-outline-light bg-primary"
-              name="save"
+              id="deleteIngredientButton"
+              className="danger"
+            />
+            <CustomButton
+              label={t('ingredientForm.saveChanges')}
               onClick={handleSaveIngredient}
-            >
-              {t('ingredientForm.saveChanges')}
-            </button>
+              name="save"
+              className="primary"
+            />
           </div>
         </ul>
       </form>

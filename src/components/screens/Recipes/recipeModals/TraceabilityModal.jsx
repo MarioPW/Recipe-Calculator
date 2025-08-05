@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { GeneratePdfButton } from "../../../common/GeneratePdfButton";
 import { GenerateExelButton } from "../../../common/GenerateExelButton";
 import { SecondaryNavbar } from "../../../common/SecondaryNavbar";
+import { CustomButton } from "../../../common/CustomButton";
 
 export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => {
     const { t } = useTranslation();
@@ -68,9 +69,12 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={handleTraceabilityModal}>
-                            {t("traceabilityModal.close")}
-                        </button>
+                        <CustomButton
+                            type="button"
+                            className="secondary"
+                            onClick={handleTraceabilityModal}
+                            label={t("traceabilityModal.close")}
+                        />
                     </div>
                 </div>
             </div>

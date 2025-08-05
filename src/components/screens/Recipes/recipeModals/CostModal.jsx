@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { GeneratePdfButton } from '../../../common/GeneratePdfButton';
 import { GenerateExelButton } from '../../../common/GenerateExelButton';
+import { CustomButton } from "../../../common/CustomButton";
 
 
 export const CostModal = ({ handleCostModal, recipeCosts }) => {
@@ -93,7 +94,7 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
                       <td className="text-nowrap">{ingredient.name}</td>
                       <td className="text-nowrap">$ {ingredient.cost}</td>
                       <td className="text-nowrap">{ingredient.percentage} % </td>
-                      <td className="text-nowrap">{ingredient.requiredQuantity + " " + (ingredient.unitOfMeasure || " g") }</td>
+                      <td className="text-nowrap">{ingredient.requiredQuantity + " " + (ingredient.unitOfMeasure || " g")}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -102,13 +103,12 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
           </div>
 
           <div className="modal-footer">
-            <button
+            <CustomButton
               type="button"
-              className="btn btn-sm btn-outline-primary"  
+              className="secondary"
               onClick={handleCostModal}
-            >
-              {t("common.close")}
-            </button>
+              label={t("common.close")}
+            />
           </div>
         </div>
       </div>

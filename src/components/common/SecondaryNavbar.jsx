@@ -1,14 +1,15 @@
 import React from 'react';
 import { SearchInput } from './SearchInput';
 import { Link } from 'react-router-dom';
+import { CustomButton } from './CustomButton';
 
 export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput = null, collapseButtonId = null, children = null, border = true }) => {
   return (
     <nav className={`navbar navbar-expand-lg ${border ? 'border' : ''} bg-color-main w-100`}>
       <div className="container-fluid d-flex flex-wrap align-items-center">
         <h2 className="navbar-brand text-light ps-2 text-break"
-         style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}
-         >{title}</h2>
+          style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}
+        >{title}</h2>
 
         <button
           className="btn btn-outline-light d-lg-none"
@@ -20,7 +21,6 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
         >
           <i className="bi bi-list"></i>
         </button>
-
         {searchInput && (
           <div className="flex-grow-1 my-2 my-lg-0 mx-lg-3" style={{ maxWidth: "300px" }}>
             <SearchInput
@@ -30,16 +30,15 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
             />
           </div>
         )}
-
         <div className="collapse navbar-collapse d-lg-block" id={collapseButtonId}>
-
           <ul className="navbar-nav bg-color-main gap-2 w-100 p-2 m-0 d-flex flex-column flex-lg-row justify-content-end">
-
             {buttons && buttons.map(({ label, action }, index) => (
               <li key={index} className="nav-item list-group-item">
-                <button className="btn btn-sm btn-outline-light d-sm-block" onClick={action}>
-                  {label}
-                </button>
+                <CustomButton
+                  className="light"
+                  onClick={action}
+                  label={label}
+                />
               </li>
             ))}
             {links.map(({ label, url }, index) => (

@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useMainContext } from '../../../../context/MainContext';
 import { useTranslation } from 'react-i18next';
+import { CustomButton } from '../../../common/CustomButton';
 
 export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe }) => {
     const { t } = useTranslation();
@@ -131,19 +132,18 @@ export const RecipeFeaturesModal = ({ setRecipeFeaturesModal, recipe, setRecipe 
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button
+                            <CustomButton
                                 type="button"
-                                className="btn btn-sm btn-outline-secondary"
+                                className="secondary"
                                 onClick={() => setRecipeFeaturesModal(false)}
-                            >
-                                {t('common.cancel')}
-                            </button>
-                            <button
+                                label={t('common.cancel')}
+                            />
+
+                            <CustomButton
                                 type="submit"
-                                className="btn btn-sm btn-outline-primary"
-                            >
-                                {t('common.saveChanges')}
-                            </button>
+                                className="primary"
+                                label={t('common.saveChanges')}
+                            />
                         </div>
                     </form>
                 </div>

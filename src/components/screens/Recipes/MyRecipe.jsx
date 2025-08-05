@@ -7,6 +7,8 @@ import { EditRecipeIngredient } from './recipeModals/EditRecipeIngredient';
 import { RemoveIngredientModal } from './recipeModals/RemoveIngredientModal';
 import { ConfirmDeleteRecipe } from './ConfirmDeleteRecipe';
 import { useMainContext } from '../../../context/MainContext';
+import { CustomButton } from '../../common/CustomButton';
+import { CustomTable } from '../../common/CustomTable';
 
 export const MyRecipe = () => {
   const { t } = useTranslation();
@@ -103,34 +105,51 @@ export const MyRecipe = () => {
           <RecipeNavBar currentRecipe={recipe} setRecipe={setRecipe} />
 
           {loading && <p className="alert alert-warning m-0">{t("myRecipe.updating")}</p>}
-          <table className="table table-light table-striped table-bordered table-hover mw-25 mb-0">
-            <thead>
-              <tr>
-                <th scope="col">{t("myRecipe.ingredient")}</th>
-                <th scope="col">{t("myRecipe.weight")}</th>
-                <th scope="col">{t("myRecipe.edit")}</th>
-                <th scope="col">{t("myRecipe.remove")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
-                <tr key={index}>
-                  <td>{ingredient.name}</td>
-                  <td>{ingredient.weight} {ingredient.unitOfMeasure}</td>
-                  <td>
-                    <button className='btn btn-sm btn-outline-primary text-primary' onClick={() => handleEdit(ingredient)}><i className="bi bi-pen"></i></button>
-                  </td>
-                  <td>
-                    <button className='btn btn-sm btn-outline-danger text-danger' onClick={() => handleRemove(ingredient)}><i className="bi bi-trash"></i></button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+          <CustomTable
+          thead={[
+            t("myRecipe.ingredient"),
+            t("myRecipe.weight"),
+            t("myRecipe.edit"),
+            t("myRecipe.remove")
+          ]}
+          tableData={recipe.ingredients?.map((ingredient) => ({
+            [t("myRecipe.ingredient")]: ingredient.name,
+            [t("myRecipe.weight")]: `${ingredient.weight} ${ingredient.unitOfMeasure}`,
+            [t("myRecipe.edit")]: (
+              <CustomButton
+                className="primary"
+                onClick={() => handleEdit(ingredient)}
+                label={<i className="bi bi-pen"></i>}
+              />
+            ),
+            [t("myRecipe.remove")]: (
+              <CustomButton
+                className="danger"
+                onClick={() => handleRemove(ingredient)}
+                label={<i className="bi bi-trash"></i>}
+              />
+            ),
+          }))}
+        />
           <div className='container d-flex justify-content-end bg-light p-2 gap-2'>
-            <button onClick={() => { navigate("/my-recipes"); setRecipe({}) }} className='btn btn-sm btn-outline-info'>{t("myRecipe.goBack")}</button>
-            <button className='btn btn-sm btn-outline-primary' onClick={handleSaveChanges}>{t("myRecipe.saveChanges")}</button>
-            <button className='btn btn-sm btn-outline-danger' onClick={() => setDeleteRecipe(true)}>{t("myRecipe.delete")}</button>
+            <CustomButton
+              onClick={() => { navigate("/my-recipes"); setRecipe({}) }}
+              className="info"
+              label={t("myRecipe.goBack")}
+            />
+
+            <CustomButton
+              onClick={handleSaveChanges}
+              className="primary"
+              label={t("myRecipe.saveChanges")}
+            />
+
+            <CustomButton
+              onClick={() => setDeleteRecipe(true)}
+              className="danger"
+              label={t("myRecipe.delete")}
+            />
           </div>
         </>
       ) : (

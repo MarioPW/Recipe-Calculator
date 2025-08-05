@@ -6,6 +6,7 @@ import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { GenerateExelButton } from '../../common/GenerateExelButton';
 import { GeneratePdfButton } from '../../common/GeneratePdfButton';
+import { CustomTable } from '../../common/CustomTable';
 
 export const MyIngredients = () => {
   const { t } = useTranslation();
@@ -26,7 +27,6 @@ export const MyIngredients = () => {
   };
 
   const ingredientData = {
-    title: t('myIngredients.title'),
     tableData: ingredients.map((item) => ({
       [t('myIngredients.table.ref')]: item.reference,
       [t('myIngredients.table.name')]: item.name,
@@ -39,6 +39,25 @@ export const MyIngredients = () => {
       [t('myIngredients.table.cost')]: item.costPerKg,
     })),
   }
+  const tableData = {
+    title: t('myIngredients.title'),
+    tableData: ingredients.map((ingredient) => ({
+      [t('myIngredients.table.ref')]: ingredient.reference,
+      [t('myIngredients.table.name')]: (
+        <Link to={`/ingredient/${ingredient.id}`}>
+          {ingredient.name}
+        </Link>
+      ),
+      [t('myIngredients.table.stock')]: ingredient.stock,
+      [t('myIngredients.table.unit')]: ingredient.unitOfMeasure,
+      [t('myIngredients.table.brand')]: ingredient.brand,
+      [t('myIngredients.table.supplier')]: ingredient.supplier,
+      [t('myIngredients.table.batch')]: ingredient.batch,
+      [t('myIngredients.table.expiration')]: ingredient.expirationDate,
+      [t('myIngredients.table.cost')]: `$ ${ingredient.costPerKg}`,
+    })),
+  };
+  
   return (
     <>
       <SecondaryNavbar
@@ -62,7 +81,7 @@ export const MyIngredients = () => {
         <div className="container p-0">
 
           <div className="table-responsive">
-            <table className="table table-light table-striped text-nowrap">
+            {/* <table className="table table-light table-striped text-nowrap">
               <thead>
                 <tr>
                   <th>{t('myIngredients.table.ref')}</th>
@@ -91,7 +110,8 @@ export const MyIngredients = () => {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table> */}
+            <CustomTable {...tableData} className="table table-light table-striped text-nowrap" />
           </div>
         </div>
       ) : (

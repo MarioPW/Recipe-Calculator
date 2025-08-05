@@ -11,6 +11,7 @@ import { auth, firebaseErrors } from "../firebaseConfig.js";
 import { useNavigate } from 'react-router-dom';
 import { useMainContext } from '../context/MainContext';
 import { useTranslation } from 'react-i18next';
+import { CustomButton } from './common/CustomButton.jsx';
 
 export const LoginRegister = () => {
     const { t } = useTranslation();
@@ -106,17 +107,40 @@ export const LoginRegister = () => {
                                     {t("auth.not_registered")}
                                 </a>
                             </div>
-                            <button type="submit" className="btn btn-sm btn-primary">{t("auth.login")}</button>
+                            <CustomButton
+                                type="submit"
+                                className="primary"
+                                label={t("auth.login")}
+                            />
                         </div>
                         <hr />
-                        <button className="btn btn-info my-1 text-light w-100" type="button" onClick={() => handleSocialLogin(new GoogleAuthProvider(), auth)}>
-                            <img src="https://cdn-teams-slug.flaticon.com/google.jpg" style={{ width: "1.5rem", height: "1.5rem" }} className="me-2 rounded-1" alt="Google" />
+                        <CustomButton
+                            type="button"
+                            className=" bg-info my-1 text-light w-100"
+                            onClick={() => handleSocialLogin(new GoogleAuthProvider(), auth)}
+                        >
+                            <img
+                                src="https://cdn-teams-slug.flaticon.com/google.jpg"
+                                style={{ width: "1.5rem", height: "1.5rem" }}
+                                className="me-2 rounded-1"
+                                alt="Google"
+                            />
                             {t("auth.sign_in_google")}
-                        </button>
-                        <button className="btn btn-primary my-1 text-light w-100" type="button" onClick={() => handleSocialLogin(new FacebookAuthProvider(), auth)}>
-                            <img src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg" style={{ width: "1.5rem", height: "1.5rem" }} className="me-2 rounded-1" alt="Facebook" />
+                        </CustomButton>
+
+                        <CustomButton
+                            type="button"
+                            className=" bg-primary my-1 text-light w-100"
+                            onClick={() => handleSocialLogin(new FacebookAuthProvider(), auth)}
+                        >
+                            <img
+                                src="https://i.pinimg.com/originals/67/5c/af/675cafde751be69ba38a16504cb93e39.jpg"
+                                style={{ width: "1.5rem", height: "1.5rem" }}
+                                className="me-2 rounded-1"
+                                alt="Facebook"
+                            />
                             {t("auth.sign_in_facebook")}
-                        </button>
+                        </CustomButton>
                     </form>
                 </div>
             ) : (
@@ -125,22 +149,26 @@ export const LoginRegister = () => {
                         <h5 className="text-center text-light rounded-2 p-2 bg-success">{t("auth.register")}</h5>
                         <div className="mb-3">
                             <label htmlFor="emailRegister" className="form-label">{t("auth.email")}:</label>
-                            <input type="email" className="form-control" id="emailRegister" name="email" onChange={(e) => handleRegisterChange(e)}/>
+                            <input type="email" className="form-control" id="emailRegister" name="email" onChange={(e) => handleRegisterChange(e)} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="passwordRegister" className="form-label">{t("auth.password")}:</label>
-                            <input type="password" className="form-control" id="passwordRegister" name="password" onChange={(e) => handleRegisterChange(e)}/>
+                            <input type="password" className="form-control" id="passwordRegister" name="password" onChange={(e) => handleRegisterChange(e)} />
                             <div id="emailHelp" className="form-text">{t("auth.password_requirement")}</div>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password2Register" className="form-label">{t("auth.repeat_password")}</label>
-                            <input type="password" className="form-control" id="password2Register" name="password2" onChange={(e) => handleRegisterChange(e)}/>
+                            <input type="password" className="form-control" id="password2Register" name="password2" onChange={(e) => handleRegisterChange(e)} />
                         </div>
                         <div className="d-flex gap-2 justify-content-between align-items-center">
                             <a className='fs-6' id="loginLink" onClick={() => setShowLogin(true)} style={{ cursor: 'pointer' }}>
                                 {t("auth.back_to_login")}
                             </a>
-                            <button type="submit" className="btn btn-primary">{t("auth.register")}</button>
+                            <CustomButton
+                                type="submit"
+                                className="primary"
+                                label={t("auth.register")}
+                            />
                         </div>
                     </form>
                 </div>

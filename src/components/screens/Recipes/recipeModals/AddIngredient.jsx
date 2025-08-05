@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CustomButton } from '../../../common/CustomButton';
 
 export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handleAddIngredientModal, setRecipe }) => {
     const { t } = useTranslation();
@@ -48,20 +49,18 @@ export const AddIngredient = ({ setWeightModal, ingredient, currentRecipe, handl
                         />
                     </div>
                     <div className="modal-footer">
-                        <button
+                        <CustomButton
                             type="button"
-                            className="btn btn-sm btn-outline-light bg-secondary"
+                            className="secondary"
                             onClick={() => setWeightModal(false)}
-                        >
-                            {t('addIngredient.cancel')}
-                        </button>
-                        <button
+                            label={t('addIngredient.cancel')}
+                        />
+                        <CustomButton
                             type="button"
-                            className="btn btn-sm btn-outline-light bg-primary"
+                            className="primary"
                             onClick={handleAddIngredient}
-                        >
-                            {t('addIngredient.save')}
-                        </button>
+                            label={t('addIngredient.save')}
+                        />
                     </div>
                 </div>
             </div>

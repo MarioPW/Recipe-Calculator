@@ -7,6 +7,8 @@ import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { AddSubstractModal } from './AddSubstractModal';
 import { GeneratePdfButton } from '../../common/GeneratePdfButton';
 import { GenerateExelButton } from '../../common/GenerateExelButton';
+import { CustomButton } from '../../common/CustomButton';
+import { CustomTable } from '../../common/CustomTable';
 
 export const Inventory = () => {
   const { t } = useTranslation();
@@ -118,6 +120,48 @@ export const Inventory = () => {
     ],
     collapseButtonId: 'inventoryNavbarCollapse'
   }
+  const tableData = {
+    title: t('inventory.title'),
+    thead: [
+      t('inventory.ref'),
+      t('inventory.item'),
+      t('inventory.stock'),
+      ...(newStockColumn ? [t('inventory.newStockColumn')] : [])
+    ],
+    tableData: currentInventory.map((ingredient) => {
+      const isLowStock = Number(ingredient.stock || 0) < Number(ingredient.minStock || 0);
+      const stockCell = (
+        <div className={isLowStock ? 'bg-danger p-1 text-light' : 'text-secondary'}>
+          {ingredient.stock || 0} {ingredient.unitOfMeasure}
+        </ div>
+      );
+      const stockControl = newStockColumn && (
+        !ingredient.adjustedAmount ? (
+          <CustomButton
+            id="AddNewValue"
+            className="success"
+            onClick={() => handleOpenStockModal(ingredient)}
+            label={<i className="bi bi-pen" />}
+          />
+        ) : (
+          <CustomButton
+            className="dark"
+            onClick={() => handleOpenStockModal(ingredient)}
+            label={`${ingredient.adjustedAmount} ${ingredient.unitOfMeasure}`}
+          />
+        )
+      );
+      const row = {
+        [t('inventory.ref')]: ingredient.reference,
+        [t('inventory.item')]: ingredient.name,
+        [t('inventory.stock')]: stockCell
+      };
+      if (newStockColumn) {
+        row[t('inventory.newStockColumn')] = stockControl;
+      }
+      return row;
+    })
+  };
 
   return (
     <>
@@ -133,48 +177,7 @@ export const Inventory = () => {
               <strong>Holy Pepperoni!</strong> {t('inventory.updateStockAlert')}
               <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>}
-            <table className="table table-light mb-0 text-nowrap">
-              <thead>
-                <tr>
-                  <th>{t('inventory.ref')}</th>
-                  <th>{t('inventory.item')}</th>
-                  <th>{t('inventory.stock')}</th>
-                  {newStockColumn && <th>{t('inventory.newStockColumn')}</th>}
-                </tr>
-              </thead>
-              <tbody className="table-group-divider">
-                {currentInventory.map((ingredient) => (
-                  <tr key={ingredient.id}>
-                    <td>{ingredient.reference}</td>
-                    <td>{ingredient.name}</td>
-                    <td className={
-                      Number(ingredient.stock || 0) < Number(ingredient.minStock || 0)
-                        ? 'bg-danger'
-                        : 'text-secondary'
-                    }>{ingredient.stock || 0} {ingredient.unitOfMeasure}</td>
-                    {newStockColumn && (
-                      <td className="text-center">
-                        {!ingredient.adjustedAmount
-                          ? <button
-                            id="AddNewValue"
-                            className="btn btn-outline-success btn-sm mb-1"
-                            onClick={() => handleOpenStockModal(ingredient)}
-                          >
-                            <i className="bi bi-pen" />
-                          </button>
-                          : <button
-                            className="btn btn-sm btn-outline-dark"
-                            onClick={() => handleOpenStockModal(ingredient)}
-                          >
-                            {ingredient.adjustedAmount} {ingredient.unitOfMeasure}
-                          </button>
-                        }
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <CustomTable {...tableData} />
           </div>
         </>
       ) : (

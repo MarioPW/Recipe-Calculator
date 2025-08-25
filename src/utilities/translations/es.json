@@ -110,6 +110,7 @@
     "enterAmount": "Ingresa una cantidad (puede ser negativa)",
     "newStockColumn": "Nuevo",
     "updateStockAlert": "Debes actualizar el stock principal antes de deducir recetas.",
+    "newConfirmation": "¿Estás seguro de que deseas crear un nuevo inventario? Esto reiniciará todos los stocks a cero.",
     "updateMainStockConfirmation": "¿Estás seguro de que deseas actualizar el stock principal de los ingredientes?",
     "insertValue": "Ingresa un valor:"
   },

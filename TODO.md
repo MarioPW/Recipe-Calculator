@@ -26,7 +26,13 @@
 
 --------------------------------------------------------
 
+
+-------------------- Version 2.0 -----------------------
+
 [ ] Migrate to Relational DB.
 [ ] Create new DB in data base for Inventory.
 [ ] Add Pagination to list of ingredients.
 [ ] Add Pagination to list of recipes.
+[ ] Create a new screen to manage requisitions based on recipes and a number of products.
+
+--------------------------------------------------------

@@ -8,7 +8,8 @@ export const CustomButton = ({
   type = 'button',
   className = '',
   id = '',
-  name = '',
+  action,
+  name
 }) => {
   return (
     <button
@@ -17,6 +18,7 @@ export const CustomButton = ({
       id={id}
       name={name}
       onClick={onClick}
+      action={action}
     >
       {children || label}
     </button>

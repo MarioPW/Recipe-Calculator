@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CustomTable = ({ tableData }) => {
+export const CustomTable = ({ tableData /* Type Objects List */ }) => { 
   if (!tableData || tableData.length === 0) {
     return <p className="text-center my-4">No data available</p>;
   }

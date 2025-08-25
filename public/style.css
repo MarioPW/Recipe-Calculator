@@ -10,7 +10,7 @@
 .custom-body {
 	font-family: sans-serif;
 	font-weight: lighter;
-	background-color: #000011;
+	background-color: #000f11;
 	margin: 0;
 	font-size: 14px;
 }
@@ -86,4 +86,13 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+/* ------------------------------- */
+/* Input Labels Margin */
+/* ------------------------------- */
+
+label {
+	margin-top: 8px !important;
+	margin-bottom: 2px !important;
 }

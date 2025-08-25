@@ -150,7 +150,7 @@ export const IngredientForm = () => {
 
           <div className="row">
             <div className="col-md-6 d-flex gap-3">
-              <div className="col-md-6">
+              {/* <div className="col-md-6">
                 <label htmlFor="stock" className="form-label">Stock</label>
                 <input
                   type="number"
@@ -160,7 +160,7 @@ export const IngredientForm = () => {
                   id="stock"
                   onChange={handleChange}
                 />
-              </div>
+              </div> */}
               <div className="form-check col-md-6 d-flex align-items-center">
                 <div>
                   <label htmlFor="setInInventory" className="form-check-label">{t('ingredientForm.setInInventory')}</label>

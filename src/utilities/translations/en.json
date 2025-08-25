@@ -111,6 +111,7 @@
     "newStockColumn": "New",
     "updateStockAlert": "You must update the main stock before deducting recipes.",
     "updateMainStockConfirmation": "Are you sure you want to update the main stock of the ingredients?",
+    "newConfirmation": "Are you sure you want to create a new inventory? This will reset all stocks to zero.",
     "insertValue": "Insert a value:"
   },
   "myRecipes": {

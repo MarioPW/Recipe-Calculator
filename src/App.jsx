@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Home } from "./components/Home";
 import { NavBar } from './components/NavBar'
 import { LoginRegister } from './components/LoginRegister'
+
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { auth } from "./firebaseConfig";
 import { Route, Routes } from 'react-router-dom'

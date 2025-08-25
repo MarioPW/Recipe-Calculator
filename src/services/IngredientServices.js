@@ -46,7 +46,7 @@ export class IngredientService {
       
         try {
           const querySnapshot = await getDocs(query(ingredientsCollectionRef, where("userId", "==", userId)));
-          const ingredients = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          const ingredients = querySnapshot.docs.map(doc => (this.ingredientAdapter.adapt({ id: doc.id, ...doc.data() })));
           return ingredients;
         } catch (error) {
           if (error.code === "unauthenticated") {

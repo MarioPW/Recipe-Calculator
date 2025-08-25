@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../common/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
@@ -12,83 +12,102 @@ import { CustomTable } from '../../common/CustomTable';
 
 export const Inventory = () => {
   const { t } = useTranslation();
-  const { ingredients, ingredientService } = useMainContext();
-  const [currentInventory, setCurrentInventory] = useState(ingredients);
+  const { ingredients } = useMainContext();
+
+  const [currentInventory, setCurrentInventory] = useState([]);
   const [fireRecipeModal, setFireRecipeModal] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [stockAlert, setStockAlert] = useState(false)
+  const [stockAlert, setStockAlert] = useState(false);
   const [newStockColumn, setNewStockColumn] = useState(false);
   const [showStockModal, setShowStockModal] = useState(false);
   const [stockAdjustment, setStockAdjustment] = useState('');
   const [selectedIngredient, setSelectedIngredient] = useState(null);
 
   useEffect(() => {
-    const inventory = ingredients.filter((ingredient) => ingredient.setInInventory);
-    setCurrentInventory(inventory);
+    const saved = localStorage.getItem('unsavedInventoryChanges');
+    if (saved) {
+      const lastStock = JSON.parse(saved);
+      setCurrentInventory(lastStock.items);
+    } else {
+      const baseInventory = ingredients
+        .filter(ing => ing.setInInventory)
+        .map(ing => ({
+          id: ing.id,
+          name: ing.name,
+          reference: ing.reference,
+          unitOfMeasure: ing.unitOfMeasure,
+          minStock: ing.minStock || 0,
+          stock: 0
+        }));
+      setCurrentInventory(baseInventory);
+    }
   }, [ingredients]);
+
   useEffect(() => {
-    if (fireRecipeModal && newStockColumn) {
+    if (fireRecipeModal) {
       setStockAlert(true);
     }
-  }, [fireRecipeModal, newStockColumn]);
+  }, [fireRecipeModal]);
 
-  const updateIngredientsStock = async () => {
+  const getStockCellStyles = (ingredient) => {
+    if (ingredient.stock !== undefined) {
+      if (Number(ingredient.stock) < Number(ingredient.minStock || 0)) {
+        return 'bg-danger text-light'; // Low stock warning
+      } else if (ingredient.stock > 0) {
+        return 'bg-info text-light'; // Stock adjusted but not low
+      }
+    }
+    return 'text-dark'; // No stock defined or zero
+  };
+
+  const handleNewInventory = () => {
+    if (confirm(t('inventory.newConfirmation'))) {
+      localStorage.removeItem('unsavedInventoryChanges');
+      const resetInventory = ingredients
+        .filter(ing => ing.setInInventory)
+        .map(ing => ({
+          ...ing,
+          stock: 0
+        }));
+      setCurrentInventory(resetInventory);
+      setNewStockColumn(true);
+    }
+  };
+
+  const saveInventory = () => {
     if (confirm(t('inventory.updateMainStockConfirmation'))) {
       setAlert(true);
-      const changedStockIngredients = currentInventory.filter((ingredient) => {
-        if (ingredient.adjustedAmount !== undefined) {
-          ingredient.stock = ingredient.adjustedAmount
-          ingredient.updated = false
-          delete ingredient.adjustedAmount
-          return true
-        }
-        return false
-      })
-      try {
-        await Promise.all(
-          changedStockIngredients.map(async (ingredient) => {
-            await ingredientService.updateMyIngredient(ingredient.id, ingredient);
-          })
-        );
-      } catch (error) {
-        console.error(t('inventory.updateError'), error);
-      }
-      setNewStockColumn(!newStockColumn)
+      const lastStock = {
+        lastUpdate: new Date().toISOString(),
+        items: currentInventory
+      };
+      localStorage.setItem('unsavedInventoryChanges', JSON.stringify(lastStock));
       setAlert(false);
     }
-  }
+  };
+
   const handleUpdateStock = (operation) => {
     if (!selectedIngredient || !stockAdjustment) return;
+    // console.log('Ajustando stock:', operation, selectedIngredient.id);
     setCurrentInventory(prev => {
-      const index = prev.findIndex(item => item.id === selectedIngredient.id);
-      if (index === -1) return prev;
-      const prevItem = prev[index];
-      const currentAdjusted = Number(prevItem.adjustedAmount ?? 0);
-      const adjustment = Number(stockAdjustment);
-
-      const updatedItem = {
-        ...prevItem,
-        updated: true,
-        adjustedAmount: operation === 'add'
-          ? currentAdjusted + adjustment
-          : currentAdjusted - adjustment,
-      };
-      const newInventory = [...prev];
-      newInventory[index] = updatedItem;
+      const newInventory = prev.map(item =>
+        item.id === selectedIngredient.id
+          ? {
+              ...item,
+              updated: true,
+              stock: operation === 'add'
+                ? Number(item.stock || 0) + Number(stockAdjustment)
+                : Number(item.stock || 0) - Number(stockAdjustment),
+            }
+          : item
+      );
+      localStorage.setItem(
+        'unsavedInventoryChanges',
+        JSON.stringify({ lastUpdate: new Date().toISOString(), items: newInventory })
+      );
       return newInventory;
     });
-
     setShowStockModal(false);
-  }
-
-  const fileGeneratorData = {
-    title: t('inventory.stockInventory'),
-    summary: { 'Stock': currentInventory.length },
-    tableData: currentInventory.map((ingredient) => ({
-      [t('inventory.ref')]: ingredient.reference,
-      [t('inventory.item')]: ingredient.name,
-      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
-    }))
   };
 
   const handleOpenStockModal = (ingredient) => {
@@ -104,61 +123,56 @@ export const Inventory = () => {
       items: currentInventory,
       action: handleOpenStockModal
     },
-    buttons: [
-      {
-        label: t('inventory.new'),
-        action: () => setNewStockColumn(!newStockColumn)
-      },
-      {
-        label: t('inventory.fireRecipes'),
-        action: () => setFireRecipeModal(true),
-      },
-      {
-        label: t('inventory.updateStock'),
-        action: updateIngredientsStock,
-      }
-    ],
+    // buttons: [
+    //   { label: t('inventory.new'), action: handleNewInventory },
+    //   { label: t('inventory.fireRecipes'), action: () => setFireRecipeModal(true) },
+    //   { label: t('common.save'), action: saveInventory }
+    // ],
     collapseButtonId: 'inventoryNavbarCollapse'
-  }
+  };
+
+  const fileGeneratorData = {
+    title: t('inventory.stockInventory'),
+    summary: { Stock: currentInventory.length },
+    tableData: currentInventory.map((ingredient) => ({
+      [t('inventory.ref')]: ingredient.reference,
+      [t('inventory.item')]: ingredient.name,
+      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+    }))
+  };
+
   const tableData = {
     title: t('inventory.title'),
     thead: [
       t('inventory.ref'),
       t('inventory.item'),
       t('inventory.stock'),
-      ...(newStockColumn ? [t('inventory.newStockColumn')] : [])
+      t('inventory.newStockColumn')
     ],
     tableData: currentInventory.map((ingredient) => {
-      const isLowStock = Number(ingredient.stock || 0) < Number(ingredient.minStock || 0);
+      const stockCellStyles = getStockCellStyles(ingredient);
       const stockCell = (
-        <div className={isLowStock ? 'bg-danger p-1 text-light' : 'text-secondary'}>
+        <div className={`${stockCellStyles} p-1 text-center`}>
           {ingredient.stock || 0} {ingredient.unitOfMeasure}
-        </ div>
+        </div>
       );
-      const stockControl = newStockColumn && (
-        !ingredient.adjustedAmount ? (
-          <CustomButton
-            id="AddNewValue"
-            className="success"
-            onClick={() => handleOpenStockModal(ingredient)}
-            label={<i className="bi bi-pen" />}
-          />
-        ) : (
-          <CustomButton
-            className="dark"
-            onClick={() => handleOpenStockModal(ingredient)}
-            label={`${ingredient.adjustedAmount} ${ingredient.unitOfMeasure}`}
-          />
-        )
+      const stockControl = (
+        <CustomButton
+          id="AddNewValue"
+          className="success"
+          onClick={() => handleOpenStockModal(ingredient)}
+          label={<i className="bi bi-pen" />}
+        />
       );
       const row = {
         [t('inventory.ref')]: ingredient.reference,
         [t('inventory.item')]: ingredient.name,
-        [t('inventory.stock')]: stockCell
+        [t('inventory.stock')]: stockCell,
+        [t('inventory.newStockColumn')]: stockControl
       };
-      if (newStockColumn) {
-        row[t('inventory.newStockColumn')] = stockControl;
-      }
+      // if (newStockColumn) {
+      //   row = stockControl;
+      // }
       return row;
     })
   };
@@ -168,15 +182,21 @@ export const Inventory = () => {
       {ingredients.length > 0 ? (
         <>
           <SecondaryNavbar {...navBarData} >
+          < CustomButton className='light' label = {t('inventory.new')} onClick={handleNewInventory}/>
+          < CustomButton className='light' label = {t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)}/>
+          {/* < CustomButton className='light' label = {t('inventory.fireRecipes')} onClick={ () => setFireRecipeModal(true)}/> */}
+          
             <GeneratePdfButton {...fileGeneratorData} />
             <GenerateExelButton {...fileGeneratorData} />
           </SecondaryNavbar>
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}
-            {stockAlert && <div className="alert alert-warning alert-dismissible fade show m-0" role="alert">
-              <strong>Holy Pepperoni!</strong> {t('inventory.updateStockAlert')}
-              <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>}
+            {/* {stockAlert && (
+              <div className="alert alert-warning alert-dismissible fade show m-0" role="alert">
+                <strong>Holy Pepperoni!</strong> {t('inventory.updateStockAlert')}
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            )} */}
             <CustomTable {...tableData} />
           </div>
         </>
@@ -184,20 +204,21 @@ export const Inventory = () => {
         <Spinner />
       )}
       {showStockModal && (
-        <AddSubstractModal setStockAdjustment={setStockAdjustment}
+        <AddSubstractModal
+          setStockAdjustment={setStockAdjustment}
           handleUpdateStock={handleUpdateStock}
           stockAdjustment={stockAdjustment}
           setShowStockModal={setShowStockModal}
-          selectedIngredient={selectedIngredient} />
+          selectedIngredient={selectedIngredient}
+        />
       )}
-      {fireRecipeModal && !newStockColumn && (
+      {fireRecipeModal && (
         <FireRecipeModal
           setFireRecipeModal={setFireRecipeModal}
           currentInventory={currentInventory}
           setCurrentInventory={setCurrentInventory}
         />
-      )
-      }
+      )}
     </>
   );
-}
+};

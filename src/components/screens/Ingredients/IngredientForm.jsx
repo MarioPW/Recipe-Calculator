@@ -18,6 +18,7 @@ export const IngredientForm = () => {
   const { t } = useTranslation();
 
   const emptyIngredient = {
+    id: null,
     name: '',
     unitOfMeasure: '',
     brand: '',
@@ -25,7 +26,6 @@ export const IngredientForm = () => {
     costPerKg: 0,
     expirationDate: '',
     batch: '',
-    stock: 0,
     reference: '',
     setInInventory: true,
     minStock: 0

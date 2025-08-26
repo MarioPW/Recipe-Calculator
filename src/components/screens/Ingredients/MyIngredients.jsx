@@ -30,7 +30,7 @@ export const MyIngredients = () => {
     tableData: ingredients.map((item) => ({
       [t('myIngredients.table.ref')]: item.reference,
       [t('myIngredients.table.name')]: item.name,
-      [t('myIngredients.table.stock')]: item.stock,
+      // [t('myIngredients.table.stock')]: item.stock,
       [t('myIngredients.table.unit')]: item.unitOfMeasure,
       [t('myIngredients.table.brand')]: item.brand,
       [t('myIngredients.table.supplier')]: item.supplier,
@@ -48,7 +48,7 @@ export const MyIngredients = () => {
           {ingredient.name}
         </Link>
       ),
-      [t('myIngredients.table.stock')]: ingredient.stock,
+      // [t('myIngredients.table.stock')]: ingredient.stock,
       [t('myIngredients.table.unit')]: ingredient.unitOfMeasure,
       [t('myIngredients.table.brand')]: ingredient.brand,
       [t('myIngredients.table.supplier')]: ingredient.supplier,

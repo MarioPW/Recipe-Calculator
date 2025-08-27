@@ -81,36 +81,6 @@ export const MyIngredients = () => {
         <div className="container p-0">
 
           <div className="table-responsive">
-            {/* <table className="table table-light table-striped text-nowrap">
-              <thead>
-                <tr>
-                  <th>{t('myIngredients.table.ref')}</th>
-                  <th>{t('myIngredients.table.name')}</th>
-                  <th>{t('myIngredients.table.stock')}</th>
-                  <th>{t('myIngredients.table.unit')}</th>
-                  <th>{t('myIngredients.table.brand')}</th>
-                  <th>{t('myIngredients.table.supplier')}</th>
-                  <th>{t('myIngredients.table.batch')}</th>
-                  <th>{t('myIngredients.table.expiration')}</th>
-                  <th>{t('myIngredients.table.cost')}</th>
-                </tr>
-              </thead>
-              <tbody className="table-group-divider">
-                {ingredients.map((ingredient) => (
-                  <tr key={ingredient.id} className="table-striped">
-                    <td>{ingredient.reference}</td>
-                    <td><Link to={`/ingredient/${ingredient.id}`}>{ingredient.name}</Link></td>
-                    <td>{ingredient.stock}</td>
-                    <td>{ingredient.unitOfMeasure}</td>
-                    <td>{ingredient.brand}</td>
-                    <td>{ingredient.supplier}</td>
-                    <td>{ingredient.batch}</td>
-                    <td>{ingredient.expirationDate}</td>
-                    <td>$ {ingredient.costPerKg}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table> */}
             <CustomTable {...tableData} className="table table-light table-striped text-nowrap" />
           </div>
         </div>

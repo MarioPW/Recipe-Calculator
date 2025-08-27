@@ -18,7 +18,7 @@ export const IngredientForm = () => {
   const { t } = useTranslation();
 
   const emptyIngredient = {
-    id: null,
+    id: '',
     name: '',
     unitOfMeasure: '',
     brand: '',
@@ -35,7 +35,15 @@ export const IngredientForm = () => {
     const fetchIngredient = async () => {
       try {
         const fetchedIngredient = await ingredientService.getIngredientByid(ingredientId);
-        setIngredientData(fetchedIngredient);
+        setIngredientData({
+          ...emptyIngredient,
+          ...Object.fromEntries(
+            Object.entries(fetchedIngredient || {}).map(([key, value]) => [
+              key,
+              value === null ? emptyIngredient[key] : value
+            ])
+          )
+        });
       } catch (error) {
         console.error(t("errors.fetch"), error);
       }

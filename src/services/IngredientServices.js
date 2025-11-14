@@ -1,5 +1,4 @@
 import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-// import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 
 import { IngredientAdapter } from "../adapters/ingredientAdapters";
@@ -14,11 +13,8 @@ export class IngredientService {
 
         try {
             const userId = this.auth.currentUser.uid;
-            const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
             const ingredientsCollectionRef = collection(this.db, `ingredients`);
             const newIngredient = await addDoc(ingredientsCollectionRef, { userId: userId, ...ingredient });
-        console.log("Document written with ID: ", newIngredient);
-
             alert(`Ingerdient "${ingredient.name}" saved successfully`)
             return newIngredient.id
         } catch (error) {
@@ -62,7 +58,7 @@ export class IngredientService {
       }
     async updateMyIngredient(id, ingredient) {
         try {
-            const adaptedIngredient = this.ingredientAdapter.adapt(ingredient);
+            const adaptedIngredient = this.ingredientAdapter.adapt({...ingredient, id: id});
             const ingredientDocRef = doc(this.db, "ingredients", id);
             await setDoc(ingredientDocRef, { id, userId: this.auth.currentUser.uid, ...adaptedIngredient});
             return true

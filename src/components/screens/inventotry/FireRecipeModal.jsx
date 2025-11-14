@@ -31,40 +31,40 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
     });
   };
   const handleUpdateInventory = () => {
-  let updatedInventory = currentInventory;
+    let updatedInventory = currentInventory;
 
-  validRecipes.forEach((recipe) => {
-    if (amount[recipe.name] > 0) {
-      const recipeData = {
-        amount: amount[recipe.name],
-        weightPerUnit: recipe.productWeight,
-      };
+    validRecipes.forEach((recipe) => {
+      if (amount[recipe.name] > 0) {
+        const recipeData = {
+          amount: amount[recipe.name],
+          weightPerUnit: recipe.productWeight,
+        };
 
-      const conversions = calculator.calculateInProportion(recipeData, recipe.ingredients);
-      const baseConversions = conversions.filter((r) => !r.isSubRecipe);
-      const subRecipeConversions = conversions.filter((r) => r.isSubRecipe);
+        const conversions = calculator.calculateInProportion(recipeData, recipe.ingredients);
+        const baseConversions = conversions.filter((r) => !r.isSubRecipe);
+        const subRecipeConversions = conversions.filter((r) => r.isSubRecipe);
 
-      updatedInventory = calculator.updateInventoryWithRecipe(updatedInventory, baseConversions);
+        updatedInventory = calculator.updateInventoryWithRecipe(updatedInventory, baseConversions);
 
-      subRecipeConversions.forEach((subRecipe) => {
-        const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
-        if (subRecipeWithIngredients) {
-          const subRecipeData = {
-            amount: 1,
-            weightPerUnit: subRecipe.conversion,
-          };
+        subRecipeConversions.forEach((subRecipe) => {
+          const subRecipeWithIngredients = recipes.find((r) => r.id === subRecipe.id);
+          if (subRecipeWithIngredients) {
+            const subRecipeData = {
+              amount: 1,
+              weightPerUnit: subRecipe.conversion,
+            };
 
-          const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
-          updatedInventory = calculator.updateInventoryWithRecipe(updatedInventory, subRecipeCalc);
-        }
-      });
+            const subRecipeCalc = calculator.calculateInProportion(subRecipeData, subRecipeWithIngredients.ingredients);
+            updatedInventory = calculator.updateInventoryWithRecipe(updatedInventory, subRecipeCalc);
+          }
+        });
 
-      setAmount({});
-    }
-  });
+        setAmount({});
+      }
+    });
 
-  setCurrentInventory(updatedInventory);
-  setFireRecipeModal(false);
+    setCurrentInventory(updatedInventory);
+    setFireRecipeModal(false);
   }
 
   return (
@@ -102,19 +102,19 @@ export const FireRecipeModal = ({ setFireRecipeModal, currentInventory, setCurre
                       <td className="fw-bold"><span className="fw-bold bg-success text-white p-1 rounded me-2">{amount[recipe.name] || 0}</span> {recipe.name} x {recipe.productWeight || '?'}g</td>
                       <td className="">
                         <button
-                          className="btn btn-sm btn-outline-success text-success me-2"
+                          className="btn btn-sm btn-outline-danger text-danger me-2"
+                          name={recipe.name}
+                          onClick={handleClick}
+                          data-action="decrement"
+                        > -
+                        </button>
+                        <button
+                          className="btn btn-sm btn-outline-success text-success"
                           name={recipe.name}
                           onClick={handleClick}
                           data-action="increment"
                         >
                           +
-                        </button>
-                        <button
-                          className="btn btn-sm btn-outline-danger text-danger"
-                          name={recipe.name}
-                          onClick={handleClick}
-                          data-action="decrement"
-                        > -
                         </button>
                       </td>
                     </tr>))}

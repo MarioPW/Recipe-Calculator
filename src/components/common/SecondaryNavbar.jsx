@@ -3,7 +3,30 @@ import { SearchInput } from './SearchInput';
 import { Link } from 'react-router-dom';
 import { CustomButton } from './CustomButton';
 
+import { useEffect, useRef } from 'react';
+
 export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput = null, collapseButtonId = null, children = null, border = true }) => {
+  const collapseRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize the Bootstrap collapse when the component mounts
+    if (collapseRef.current && window.bootstrap) {
+      const bsCollapse = new window.bootstrap.Collapse(collapseRef.current, {
+        toggle: false
+      });
+      
+      // Save the instance in the ref for later use
+      collapseRef.current.bsCollapse = bsCollapse;
+    }
+  }, []);
+
+  const handleLinkClick = () => {
+    // Collapse the menu only on small screens
+    if (window.innerWidth < 992 && collapseRef.current?.bsCollapse) {
+      collapseRef.current.bsCollapse.hide();
+    }
+  };
+
   return (
     <nav className={`navbar navbar-expand-lg ${border ? 'border' : ''} bg-color-main w-100`}>
       <div className="container-fluid d-flex flex-wrap align-items-center">
@@ -30,26 +53,41 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
             />
           </div>
         )}
-        <div className="collapse navbar-collapse d-lg-block" id={collapseButtonId}>
+        <div 
+          ref={collapseRef}
+          className="collapse navbar-collapse d-lg-block" 
+          id={collapseButtonId}
+        >
           <ul className="navbar-nav bg-color-main gap-2 w-100 p-2 m-0 d-flex flex-column flex-lg-row justify-content-end">
             {buttons && buttons.map(({ label, action }, index) => (
               <li key={index} className="nav-item list-group-item">
                 <CustomButton
                   className="light"
-                  onClick={action}
+                  onClick={() => {
+                    handleLinkClick();
+                    action();
+                  }}
                   label={label}
                 />
               </li>
             ))}
             {links.map(({ label, url }, index) => (
               <li key={index} className="nav-item list-group-item">
-                <Link className="btn btn-sm btn-outline-success text-light" to={url}>{label}</Link>
+                <Link 
+                  className="btn btn-sm btn-outline-success text-light" 
+                  to={url}
+                  onClick={handleLinkClick}
+                >
+                  {label}
+                </Link>
               </li>
             ))}
             {children && children.map(
               (child, index) => (
                 <li key={index} className="nav-item list-group-item">
-                  {child}
+                  <span>
+                    {child}
+                  </span>
                 </li>
               )
             )}

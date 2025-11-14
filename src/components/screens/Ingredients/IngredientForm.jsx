@@ -72,7 +72,7 @@ export const IngredientForm = () => {
       ingredientSchema.parse(ingredientData);
       setLoading(true);
       if (isEditing) {
-        await ingredientService.updateMyIngredient(ingredientData.id, ingredientData);
+        await ingredientService.updateMyIngredient(ingredientId, ingredientData);
         setIngredients(
           ingredients.map((item) => (item.id === ingredientData.id ? ingredientData : item))
         );

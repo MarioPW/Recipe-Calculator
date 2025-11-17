@@ -123,17 +123,12 @@ export const Inventory = () => {
       items: currentInventory,
       action: handleOpenStockModal
     },
-    // buttons: [
-    //   { label: t('inventory.new'), action: handleNewInventory },
-    //   { label: t('inventory.fireRecipes'), action: () => setFireRecipeModal(true) },
-    //   { label: t('common.save'), action: saveInventory }
-    // ],
+
     collapseButtonId: 'inventoryNavbarCollapse'
   };
 
   const fileGeneratorData = {
-    title: t('inventory.stockInventory'),
-    summary: { Stock: currentInventory.length },
+    title: t('inventory.stockInventory') + ' - ' + new Date().toLocaleDateString(),
     tableData: currentInventory.map((ingredient) => ({
       [t('inventory.ref')]: ingredient.reference,
       [t('inventory.item')]: ingredient.name,
@@ -170,9 +165,6 @@ export const Inventory = () => {
         [t('inventory.stock')]: stockCell,
         [t('inventory.newStockColumn')]: stockControl
       };
-      // if (newStockColumn) {
-      //   row = stockControl;
-      // }
       return row;
     })
   };
@@ -184,19 +176,12 @@ export const Inventory = () => {
           <SecondaryNavbar {...navBarData} >
           < CustomButton className='light' label = {t('inventory.new')} onClick={handleNewInventory}/>
           < CustomButton className='light' label = {t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)}/>
-          {/* < CustomButton className='light' label = {t('inventory.fireRecipes')} onClick={ () => setFireRecipeModal(true)}/> */}
           
             <GeneratePdfButton {...fileGeneratorData} />
             <GenerateExelButton {...fileGeneratorData} />
           </SecondaryNavbar>
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}
-            {/* {stockAlert && (
-              <div className="alert alert-warning alert-dismissible fade show m-0" role="alert">
-                <strong>Holy Pepperoni!</strong> {t('inventory.updateStockAlert')}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            )} */}
             <CustomTable {...tableData} />
           </div>
         </>

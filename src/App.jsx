@@ -1,21 +1,30 @@
-import React, { useEffect } from "react";
+// React
+import { useEffect } from "react";
+import { Route, Routes } from 'react-router-dom'
+import { Suspense } from "react";
+
+// Components
 import { Home } from "./components/Home";
 import { NavBar } from './components/NavBar'
 import { LoginRegister } from './components/LoginRegister'
-
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { auth } from "./firebaseConfig";
-import { Route, Routes } from 'react-router-dom'
 import { MyRecipes } from './components/screens/Recipes/MyRecipes';
 import { MyRecipe } from './components/screens/Recipes/MyRecipe';
 import { MyIngredients } from './components/screens/Ingredients/MyIngredients';
-import { cleanLocalStorage, checkIngredientsOrder } from './utilities/utils';
 import { IngredientForm } from './components/screens/Ingredients/IngredientForm';
 import { Inventory } from './components/screens/inventotry/Inventory';
+import { Spinner } from './components/Spinner';
+
+// Utilities
+import { cleanLocalStorage, checkIngredientsOrder } from './utilities/utils';
 import { useMainContext } from "./context/MainContext";
 
+// Firebase
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { auth } from "./firebaseConfig";
+
+
 function App() {
-  const { setUser, ingredients, setIngredients, ingredientService, recipeService, setRecipes } = useMainContext();
+  const { setUser, setIngredients, ingredientService, recipeService, setRecipes } = useMainContext();
 
   useEffect(() => {
     cleanLocalStorage()
@@ -59,20 +68,22 @@ function App() {
 
   return (
     <>
-      <div className="fixed-top">
-        <NavBar />
-      </div>
-      <div style={{ paddingTop: '64px' }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login-register" element={<LoginRegister />} />
-          <Route path="/my-recipes" element={<MyRecipes />} />
-          <Route path="/my-recipe/:recipeId?" element={<MyRecipe />} />
-          <Route path="/my-ingredients" element={<MyIngredients />} />
-          <Route path="/ingredient/:ingredientId?" element={<IngredientForm />} />
-          <Route path="/inventory" element={<Inventory />} />
-        </Routes>
-      </div>
+      <Suspense fallback={<Spinner />}>
+        <div className="fixed-top">
+          <NavBar />
+        </div>
+        <div style={{ paddingTop: '64px' }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login-register" element={<LoginRegister />} />
+            <Route path="/my-recipes" element={<MyRecipes />} />
+            <Route path="/my-recipe/:recipeId?" element={<MyRecipe />} />
+            <Route path="/my-ingredients" element={<MyIngredients />} />
+            <Route path="/ingredient/:ingredientId?" element={<IngredientForm />} />
+            <Route path="/inventory" element={<Inventory />} />
+          </Routes>
+        </div>
+      </Suspense>
     </>
   )
 }

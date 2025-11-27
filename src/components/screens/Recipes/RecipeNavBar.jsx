@@ -8,9 +8,8 @@ import { RecipeFeaturesModal } from './recipeModals/RecipeFeaturesModal';
 import { TraceabilityModal } from './recipeModals/TraceabilityModal';
 import { useMainContext } from '../../../context/MainContext';
 import { useTranslation } from "react-i18next";
-import { GeneratePdfButton } from '../../common/GeneratePdfButton';
 import { CostModal } from './recipeModals/CostModal';
-import { GenerateExelButton } from '../../common/GenerateExelButton';
+import { ExportDropdown } from '../../common/ExportDropdown';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 
 
@@ -213,10 +212,7 @@ export const RecipeNavBar = ({ currentRecipe }) => {
     <>
       <SecondaryNavbar {...navbarData}>
         {fileGeneratorButton &&
-          [
-            <GeneratePdfButton key="pdf" {...fileGeneratorData} />,
-            <GenerateExelButton key="excel" {...fileGeneratorData} />
-          ]}
+          <ExportDropdown fileGeneratorData={fileGeneratorData} />}
       </SecondaryNavbar>
 
       {missingIngredient && (

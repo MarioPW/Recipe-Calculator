@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { GeneratePdfButton } from '../../../common/GeneratePdfButton';
-import { GenerateExelButton } from '../../../common/GenerateExelButton';
+import { ExportDropdown } from '../../../common/ExportDropdown';
 import { CustomButton } from "../../../common/CustomButton";
 
 
@@ -13,7 +12,7 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
   const fileGeneratorData = {
     title: t("costModal.title"),
     tableData: recipeCosts.ingredients.map((item) => ({
-      [t("costModal.name")]: item.name,
+      [t("costModal.ingredients")]: item.name,
       [t("costModal.cost")]: `$ ${item.cost}`,
       [t("costModal.percentage")]: `${item.percentage || "N/A"} %`,
       [t("costModal.requiredQuantity")]: `${item.requiredQuantity} ${item.unitOfMeasure || "g"}`,
@@ -40,8 +39,7 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
               <h5 className="modal-title m-0">{t("costModal.title")}</h5>
             </div>
             <div className='d-flex justify-content-end align-items-center gap-2'>
-              <GeneratePdfButton {...fileGeneratorData} />
-              <GenerateExelButton {...fileGeneratorData} />
+              <ExportDropdown fileGeneratorData={fileGeneratorData} className="light" />
               <button
                 type="button"
                 className="btn-close ms-2 bg-white text-light"

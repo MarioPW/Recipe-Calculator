@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../common/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
 import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { AddSubstractModal } from './AddSubstractModal';
-import { GeneratePdfButton } from '../../common/GeneratePdfButton';
-import { GenerateExelButton } from '../../common/GenerateExelButton';
 import { CustomButton } from '../../common/CustomButton';
 import { CustomTable } from '../../common/CustomTable';
+import { ExportDropdown } from '../../common/ExportDropdown';
 
 export const Inventory = () => {
   const { t } = useTranslation();
@@ -93,12 +92,12 @@ export const Inventory = () => {
       const newInventory = prev.map(item =>
         item.id === selectedIngredient.id
           ? {
-              ...item,
-              updated: true,
-              stock: operation === 'add'
-                ? Number(item.stock || 0) + Number(stockAdjustment)
-                : Number(item.stock || 0) - Number(stockAdjustment),
-            }
+            ...item,
+            updated: true,
+            stock: operation === 'add'
+              ? Number(item.stock || 0) + Number(stockAdjustment)
+              : Number(item.stock || 0) - Number(stockAdjustment),
+          }
           : item
       );
       localStorage.setItem(
@@ -174,11 +173,13 @@ export const Inventory = () => {
       {ingredients.length > 0 ? (
         <>
           <SecondaryNavbar {...navBarData} >
-          < CustomButton className='light' label = {t('inventory.new')} onClick={handleNewInventory}/>
-          < CustomButton className='light' label = {t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)}/>
-          
-            <GeneratePdfButton {...fileGeneratorData} />
-            <GenerateExelButton {...fileGeneratorData} />
+            < CustomButton className='light' label={t('inventory.new')} onClick={handleNewInventory} />
+            < CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
+            <ExportDropdown
+              fileGeneratorData={fileGeneratorData}
+              label={t('download.export')}
+              className="light"
+            />
           </SecondaryNavbar>
           <div className="table-responsive overflow-x-auto">
             {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}

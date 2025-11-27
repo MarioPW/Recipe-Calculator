@@ -14,7 +14,7 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
       const bsCollapse = new window.bootstrap.Collapse(collapseRef.current, {
         toggle: false
       });
-      
+
       // Save the instance in the ref for later use
       collapseRef.current.bsCollapse = bsCollapse;
     }
@@ -53,9 +53,9 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
             />
           </div>
         )}
-        <div 
+        <div
           ref={collapseRef}
-          className="collapse navbar-collapse d-lg-block" 
+          className="collapse navbar-collapse d-lg-block"
           id={collapseButtonId}
         >
           <ul className="navbar-nav bg-color-main gap-2 w-100 p-2 m-0 d-flex flex-column flex-lg-row justify-content-end">
@@ -73,8 +73,8 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
             ))}
             {links.map(({ label, url }, index) => (
               <li key={index} className="nav-item list-group-item">
-                <Link 
-                  className="btn btn-sm btn-outline-success text-light" 
+                <Link
+                  className="btn btn-sm btn-outline-success text-light"
                   to={url}
                   onClick={handleLinkClick}
                 >
@@ -82,7 +82,7 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
                 </Link>
               </li>
             ))}
-            {children && children.map(
+            {children && (Array.isArray(children) ? children : [children]).map(
               (child, index) => (
                 <li key={index} className="nav-item list-group-item">
                   <span>

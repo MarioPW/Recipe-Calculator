@@ -18,7 +18,6 @@ export const IngredientForm = () => {
   const { t } = useTranslation();
 
   const emptyIngredient = {
-    id: '',
     name: '',
     unitOfMeasure: '',
     brand: '',
@@ -59,11 +58,15 @@ export const IngredientForm = () => {
 
   const handleSaveIngredient = async (e) => {
     e.preventDefault();
+
     const nameExists = ingredients.some(
-      (item) => item.name === ingredientData.name && item.id !== ingredientData.id && item.reference !== ingredientData.reference
+      (item) =>
+        item.name === ingredientData.name &&
+        item.id !== ingredientId &&
+        item.reference !== ingredientData.reference
     );
 
-    if (nameExists) {
+    if (!isEditing && nameExists) {
       alert(t("ingredientForm.nameExists", { name: ingredientData.name }));
       return;
     }
@@ -71,10 +74,14 @@ export const IngredientForm = () => {
     try {
       ingredientSchema.parse(ingredientData);
       setLoading(true);
+
       if (isEditing) {
         await ingredientService.updateMyIngredient(ingredientId, ingredientData);
+
         setIngredients(
-          ingredients.map((item) => (item.id === ingredientData.id ? ingredientData : item))
+          ingredients.map((item) =>
+            item.id === ingredientId ? { ...ingredientData, id: ingredientId } : item
+          )
         );
       } else {
         const newIngredientId = await ingredientService.saveIngredient(ingredientData);
@@ -85,9 +92,8 @@ export const IngredientForm = () => {
       const message =
         error instanceof z.ZodError
           ? error.errors.map((e) => e.message).join("\n")
-          : "Ha ocurrido un error de validación.";
+          : t("ingredientForm.validationError") || "Ha ocurrido un error de validación.";
       alert(message);
-      return;
     } finally {
       setLoading(false);
     }
@@ -98,6 +104,7 @@ export const IngredientForm = () => {
     const newValue = type === "checkbox" ? checked : value;
     setIngredientData((prevData) => ({ ...prevData, [name]: newValue }));
   };
+
 
   if (!ingredientData) return <Spinner />;
 
@@ -158,17 +165,6 @@ export const IngredientForm = () => {
 
           <div className="row">
             <div className="col-md-6 d-flex gap-3">
-              {/* <div className="col-md-6">
-                <label htmlFor="stock" className="form-label">Stock</label>
-                <input
-                  type="number"
-                  name="stock"
-                  value={ingredientData.stock}
-                  className="form-control"
-                  id="stock"
-                  onChange={handleChange}
-                />
-              </div> */}
               <div className="form-check col-md-6 d-flex align-items-center">
                 <div>
                   <label htmlFor="setInInventory" className="form-check-label">{t('ingredientForm.setInInventory')}</label>

@@ -92,7 +92,7 @@
     "missingCostIngredients": "Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: {{items}}"
   },
   "inventory": {
-    "stockInventory": "Inventario de Stock",
+    "stockInventory": "Inventario",
     "actions": "Acciones",
     "fireRecipes": "Ejecutar Recetas",
     "updateStock": "Actualizar Stock",
@@ -195,11 +195,10 @@
     "weightPerUnit": "Peso por unidad",
     "amount": "Cantidad",
     "ingredients": "Ingredientes",
+    "requiredQuantity": "Cantidad Requerida",
     "ref": "Ref",
     "batch": "Lote",
     "expirationDate": "Fecha de vencimiento",
-    "downloadPDF": "Descargar PDF",
-    "downloadExcel": "Descargar Excel",
     "close": "Cerrar"
   },
   "calculatedRecipeModal": {
@@ -253,10 +252,10 @@
     "nameRequired": "El nombre del ingrediente es obligatorio."
   },
   "deleteIngredientModal": {
-  "title": "Confirmar eliminación",
-  "confirm": "¿Estás seguro de que deseas eliminar el ingrediente {{ingredient}}?",
-  "message": "Eliminar este ingrediente lo quitará de TODAS tus recetas."
-},
+    "title": "Confirmar eliminación",
+    "confirm": "¿Estás seguro de que deseas eliminar el ingrediente {{ingredient}}?",
+    "message": "Eliminar este ingrediente lo quitará de TODAS tus recetas."
+  },
   "auth": {
     "login": "Iniciar sesión",
     "register": "Registrarse",
@@ -274,5 +273,11 @@
     "repeat_password": "Repetir contraseña",
     "password_requirement": "Al menos 6 caracteres.",
     "back_to_login": "Volver al inicio de sesión"
+  },
+  "download": {
+    "pdf": "PDF",
+    "excel": "Excel",
+    "svg": "SVG",
+    "export": "Exportar"
   }
 }

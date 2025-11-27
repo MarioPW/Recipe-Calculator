@@ -10,7 +10,6 @@ export class IngredientService {
         this.ingredientAdapter = new IngredientAdapter();
     }
     async saveIngredient(ingredient) {
-
         try {
             const userId = this.auth.currentUser.uid;
             const ingredientsCollectionRef = collection(this.db, `ingredients`);

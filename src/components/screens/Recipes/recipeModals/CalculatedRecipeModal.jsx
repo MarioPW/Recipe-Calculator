@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { GeneratePdfButton } from '../../../common/GeneratePdfButton';
-import { GenerateExelButton } from '../../../common/GenerateExelButton';
+import { ExportDropdown } from '../../../common/ExportDropdown';
 import { CustomButton } from '../../../common/CustomButton';
 
 export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertionsModal }) => {
@@ -27,8 +26,7 @@ export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertio
                     <div className="modal-header bg-color-main text-white">
                         <h5 className="modal-title">{t("calculatedRecipeModal.title")}</h5>
                         <div className='d-flex justify-content-end align-items-center gap-2'>
-                            <GeneratePdfButton {...fileGeneratorData} />
-                            <GenerateExelButton {...fileGeneratorData} />
+                            <ExportDropdown fileGeneratorData={fileGeneratorData} className="light" />
                             <button
                                 type="button"
                                 className="btn-close bg-white"

@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../common/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
-import { GenerateExelButton } from '../../common/GenerateExelButton';
-import { GeneratePdfButton } from '../../common/GeneratePdfButton';
+import { ExportDropdown } from '../../common/ExportDropdown';
 import { CustomTable } from '../../common/CustomTable';
 
 export const MyRecipes = () => {
@@ -56,30 +55,9 @@ export const MyRecipes = () => {
         ]}
         collapseButtonId="myRecipesNavbarCollapse"
       >
-        <GenerateExelButton {...exportData} />
-        <GeneratePdfButton {...exportData} />
+        <ExportDropdown fileGeneratorData={exportData} />
       </SecondaryNavbar>
       {recipes.length > 0 ? (
-        // <table className="table table-light table-hover">
-        //   <thead>
-        //     <tr>
-        //       <th scope="col">#</th>
-        //       <th scope="col">{t('myRecipes.recipeName')}</th>
-        //       <th scope="col">{t('myRecipes.weightPerUnit')}</th>
-        //       <th scope="col">{t('myRecipes.isSubRecipe')}</th>
-        //     </tr>
-        //   </thead>
-        //   <tbody>
-        //     {recipes.map((recipe, index) => (
-        //       <tr key={index}>
-        //         <th scope="row">{index + 1}</th>
-        //         <td><Link to={`/my-recipe/${recipe.id}`}>{recipe.name || `${t('myRecipes.defaultRecipe')} ${index + 1}`}</Link></td>
-        //         <td>{recipe.productWeight}</td>
-        //         <td>{recipe.isSubRecipe ? t('common.yes') : t('common.no')}</td>
-        //       </tr>
-        //     ))}
-        //   </tbody>
-        // </table>
         <CustomTable {...tableData} className="table table-light table-hover" />
       ) : (
         <Spinner />

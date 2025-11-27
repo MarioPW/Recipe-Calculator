@@ -1,17 +1,14 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../common/Spinner';
 import { Link } from 'react-router-dom';
 import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
-import { GenerateExelButton } from '../../common/GenerateExelButton';
-import { GeneratePdfButton } from '../../common/GeneratePdfButton';
 import { CustomTable } from '../../common/CustomTable';
+import { ExportDropdown } from '../../common/ExportDropdown';
 
 export const MyIngredients = () => {
   const { t } = useTranslation();
   const { ingredients, setIngredients } = useMainContext();
-
   const sortByName = () => {
     setIngredients([...ingredients].sort((a, b) => a.name.localeCompare(b.name)));
     localStorage.setItem('ingredientsSort', 'name');
@@ -26,19 +23,19 @@ export const MyIngredients = () => {
     localStorage.setItem('ingredientsSort', 'reference');
   };
 
-const ingredientData = {
-  title: t('myIngredients.title'),
-  tableData: ingredients.map((item) => ({
-    [t('myIngredients.table.ref')]: item.reference,
-    [t('myIngredients.table.name')]: item.name, // Sin el Link, solo el texto
-    [t('myIngredients.table.unit')]: item.unitOfMeasure,
-    [t('myIngredients.table.brand')]: item.brand,
-    [t('myIngredients.table.supplier')]: item.supplier,
-    [t('myIngredients.table.batch')]: item.batch,
-    [t('myIngredients.table.expiration')]: item.expirationDate,
-    [t('myIngredients.table.cost')]: `$ ${item.costPerKg}`, // Formateado igual que tableData
-  })),
-};
+  const ingredientData = {
+    title: t('myIngredients.title'),
+    tableData: ingredients.map((item) => ({
+      [t('myIngredients.table.ref')]: item.reference,
+      [t('myIngredients.table.name')]: item.name,
+      [t('myIngredients.table.unit')]: item.unitOfMeasure,
+      [t('myIngredients.table.brand')]: item.brand,
+      [t('myIngredients.table.supplier')]: item.supplier,
+      [t('myIngredients.table.batch')]: item.batch,
+      [t('myIngredients.table.expiration')]: item.expirationDate,
+      [t('myIngredients.table.cost')]: `$ ${item.costPerKg}`
+    })),
+  };
   const tableData = {
     title: t('myIngredients.title'),
     tableData: ingredients.map((ingredient) => ({
@@ -48,7 +45,6 @@ const ingredientData = {
           {ingredient.name}
         </Link>
       ),
-      // [t('myIngredients.table.stock')]: ingredient.stock,
       [t('myIngredients.table.unit')]: ingredient.unitOfMeasure,
       [t('myIngredients.table.brand')]: ingredient.brand,
       [t('myIngredients.table.supplier')]: ingredient.supplier,
@@ -57,7 +53,7 @@ const ingredientData = {
       [t('myIngredients.table.cost')]: `$ ${ingredient.costPerKg}`,
     })),
   };
-  
+
   return (
     <>
       <SecondaryNavbar
@@ -73,10 +69,9 @@ const ingredientData = {
         collapseButtonText={t('myIngredients.actions')}
         collapseButtonId="myIngredientsNavbarCollapse"
       >
-        <GenerateExelButton {...ingredientData} />
-        <GeneratePdfButton {...ingredientData} />
+        <ExportDropdown fileGeneratorData={ingredientData} />
       </SecondaryNavbar>
-      
+
       {ingredients.length > 0 ? (
         <div className="container p-0">
 

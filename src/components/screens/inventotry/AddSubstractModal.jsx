@@ -11,8 +11,8 @@ export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stock
     <div className="modal-dialog" role="document">
       <div className="modal-content border">
         <div className="modal-header bg-color-main gap-2 w-100 p-2 m-0 text-light">
-          <h5 className="modal-title fw-bold">
-            {selectedIngredient?.name}: Sotck {selectedIngredient.stock} ({selectedIngredient.unitOfMeasure})
+          <h5 className="modal-title">
+            {selectedIngredient?.name}: <span className='fw-bold'>{selectedIngredient.stock} ({selectedIngredient.unitOfMeasure})</span>
           </h5>
           <button
             type="button"

@@ -58,7 +58,7 @@
     "saveChanges": "Save Changes",
     "name": "Name",
     "substract": "Substract",
-    "add": "Add", 
+    "add": "Add",
     "actions": "Actions",
     "amount": "Amount",
     "weight": "Weight"
@@ -92,7 +92,7 @@
     "missingCostIngredients": "You must enter the cost per Kg, L, or unit of the ingredients: {{items}}"
   },
   "inventory": {
-    "stockInventory": "Stock Inventory",
+    "stockInventory": "Inventory",
     "actions": "Actions",
     "fireRecipes": "Fire Recipes",
     "updateStock": "Update Stock",
@@ -193,6 +193,7 @@
     "weightPerUnit": "Weight per Unit",
     "amount": "Amount",
     "ingredients": "Ingredients",
+    "requiredQuantity": "Required Quantity",
     "ref": "Ref",
     "batch": "Batch",
     "expirationDate": "Expiration Date",
@@ -272,5 +273,11 @@
     "repeat_password": "Repeat password",
     "password_requirement": "At least 6 characters.",
     "back_to_login": "Back to login"
+  },
+  "download": {
+    "pdf": "PDF",
+    "excel": "Excel",
+    "svg": "SVG",
+    "export": "Export"
   }
 }

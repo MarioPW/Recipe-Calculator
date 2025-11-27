@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { GeneratePdfButton } from "../../../common/GeneratePdfButton";
-import { GenerateExelButton } from "../../../common/GenerateExelButton";
+import { ExportDropdown } from "../../../common/ExportDropdown";
 import { SecondaryNavbar } from "../../../common/SecondaryNavbar";
 import { CustomButton } from "../../../common/CustomButton";
 
@@ -11,13 +10,14 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
     if (!traceability) return null;
 
     const fileGeneratorData = {
+
         title: t("traceabilityModal.title"),
         tableData: traceability.ingredients.map((item) => ({
             [t("traceabilityModal.ref")]: item.reference,
             [t("traceabilityModal.name")]: item.name,
             [t("traceabilityModal.batch")]: item.batch,
             [t("traceabilityModal.expirationDate")]: item.expirationDate,
-            [t("traceabilityModal.calculatedProportion")]: `${item.calculatedProportion || 0} ${item.unitOfMeasure || ""}`,
+            [t("traceabilityModal.requiredQuantity")]: `${item.calculatedProportion || 0} ${item.unitOfMeasure || ""}`,
         })),
         summary: {
             [t("traceabilityModal.name")]: traceability.name,
@@ -32,8 +32,7 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                 <div className="modal-content">
 
                     <SecondaryNavbar title={t("traceabilityModal.title")} collapseButtonId={'traceabilityModalNavbar'} >
-                        <GeneratePdfButton {...fileGeneratorData} />
-                        <GenerateExelButton {...fileGeneratorData} />
+                        <ExportDropdown fileGeneratorData={fileGeneratorData} />
                     </SecondaryNavbar>
 
                     <div className="modal-body">
@@ -51,7 +50,7 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                                         <th className="text-nowrap">{t("traceabilityModal.name")}</th>
                                         <th className="text-nowrap">{t("traceabilityModal.batch")}</th>
                                         <th className="text-nowrap">{t("traceabilityModal.expirationDate")}</th>
-                                        <th className="text-nowrap">{t("costModal.requiredQuantity")}</th>
+                                        <th className="text-nowrap">{t("traceabilityModal.requiredQuantity")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

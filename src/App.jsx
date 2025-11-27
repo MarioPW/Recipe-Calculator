@@ -12,7 +12,7 @@ import { MyRecipe } from './components/screens/Recipes/MyRecipe';
 import { MyIngredients } from './components/screens/Ingredients/MyIngredients';
 import { IngredientForm } from './components/screens/Ingredients/IngredientForm';
 import { Inventory } from './components/screens/inventotry/Inventory';
-import { Spinner } from './components/Spinner';
+import { Spinner } from './components/common/Spinner';
 
 // Utilities
 import { cleanLocalStorage, checkIngredientsOrder } from './utilities/utils';
@@ -68,10 +68,10 @@ function App() {
 
   return (
     <>
+      <div className="fixed-top">
+        <NavBar />
+      </div>
       <Suspense fallback={<Spinner />}>
-        <div className="fixed-top">
-          <NavBar />
-        </div>
         <div style={{ paddingTop: '64px' }}>
           <Routes>
             <Route path="/" element={<Home />} />

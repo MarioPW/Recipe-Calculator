@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebaseConfig";
-import { useMainContext } from "../context/MainContext";
+import { auth } from "../../../firebaseConfig";
+import { useMainContext } from "../../../context/MainContext";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { useTranslation } from "react-i18next";
-import { SecondaryNavbar } from "./common/SecondaryNavbar";
+import { SecondaryNavbar } from "../../common/SecondaryNavbar";
 import { UserMenu } from "./UserMenu";
 
 export const NavBar = () => {

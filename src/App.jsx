@@ -4,9 +4,9 @@ import { Route, Routes } from 'react-router-dom'
 import { Suspense } from "react";
 
 // Components
-import { Home } from "./components/Home";
-import { NavBar } from './components/NavBar'
-import { LoginRegister } from './components/LoginRegister'
+import { Home } from "./components/screens/Home/Home";
+import { NavBar } from './components/screens/Home/NavBar'
+import { LoginRegister } from './components/screens/Home/LoginRegister'
 import { MyRecipes } from './components/screens/Recipes/MyRecipes';
 import { MyRecipe } from './components/screens/Recipes/MyRecipe';
 import { MyIngredients } from './components/screens/Ingredients/MyIngredients';

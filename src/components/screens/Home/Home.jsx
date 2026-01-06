@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMainContext } from '../context/MainContext';
+import { useMainContext } from '../../../context/MainContext';
 import { useTranslation } from 'react-i18next';
 
 export const Home = () => {

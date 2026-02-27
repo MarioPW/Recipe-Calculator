@@ -1,119 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../common/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
-import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { AddSubstractModal } from './AddSubstractModal';
 import { CustomButton } from '../../common/CustomButton';
 import { CustomTable } from '../../common/CustomTable';
 import { ExportDropdown } from '../../common/ExportDropdown';
+import { useInventoryState } from './useInventory';
+
+// Helper to determine styling for stock levels
+const getStockCellStyles = (ingredient) => {
+  if (ingredient.stock !== undefined) {
+    if (Number(ingredient.stock) < Number(ingredient.minStock || 0)) {
+      return 'bg-danger text-light'; // Low stock warning
+    } else if (ingredient.stock > 0) {
+      return 'bg-info text-light'; // Stock adjusted but not low
+    }
+  }
+  return 'text-dark'; // No stock defined or zero
+};
 
 export const Inventory = () => {
   const { t } = useTranslation();
-  const { ingredients } = useMainContext();
+  const {
+    ingredients,
+    currentInventory,
+    setCurrentInventory,
+    countColumns,
+    selectedIngredient,
+    selectedSection,
+    setSelectedSection,
+    fireRecipeModal,
+    setFireRecipeModal,
+    alert,
+    showStockModal,
+    setShowStockModal,
+    stockAdjustment,
+    setStockAdjustment,
+    handleNewInventory,
+    handleUpdateStock,
+    handleOpenStockModal,
+    handleAddCountColumn,
+    handleDeleteCountColumn
+  } = useInventoryState();
 
-  const [currentInventory, setCurrentInventory] = useState([]);
-  const [fireRecipeModal, setFireRecipeModal] = useState(false);
-  const [alert, setAlert] = useState(false);
-  const [stockAlert, setStockAlert] = useState(false);
-  const [newStockColumn, setNewStockColumn] = useState(false);
-  const [showStockModal, setShowStockModal] = useState(false);
-  const [stockAdjustment, setStockAdjustment] = useState('');
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('unsavedInventoryChanges');
-    if (saved) {
-      const lastStock = JSON.parse(saved);
-      setCurrentInventory(lastStock.items);
-    } else {
-      const baseInventory = ingredients
-        .filter(ing => ing.setInInventory)
-        .map(ing => ({
-          id: ing.id,
-          name: ing.name,
-          reference: ing.reference,
-          unitOfMeasure: ing.unitOfMeasure,
-          minStock: ing.minStock || 0,
-          stock: 0
-        }));
-      setCurrentInventory(baseInventory);
-    }
-  }, [ingredients]);
-
-  useEffect(() => {
-    if (fireRecipeModal) {
-      setStockAlert(true);
-    }
-  }, [fireRecipeModal]);
-
-  const getStockCellStyles = (ingredient) => {
-    if (ingredient.stock !== undefined) {
-      if (Number(ingredient.stock) < Number(ingredient.minStock || 0)) {
-        return 'bg-danger text-light'; // Low stock warning
-      } else if (ingredient.stock > 0) {
-        return 'bg-info text-light'; // Stock adjusted but not low
-      }
-    }
-    return 'text-dark'; // No stock defined or zero
-  };
-
-  const handleNewInventory = () => {
-    if (confirm(t('inventory.newConfirmation'))) {
-      localStorage.removeItem('unsavedInventoryChanges');
-      const resetInventory = ingredients
-        .filter(ing => ing.setInInventory)
-        .map(ing => ({
-          ...ing,
-          stock: 0
-        }));
-      setCurrentInventory(resetInventory);
-      setNewStockColumn(true);
-    }
-  };
-
-  const saveInventory = () => {
-    if (confirm(t('inventory.updateMainStockConfirmation'))) {
-      setAlert(true);
-      const lastStock = {
-        lastUpdate: new Date().toISOString(),
-        items: currentInventory
-      };
-      localStorage.setItem('unsavedInventoryChanges', JSON.stringify(lastStock));
-      setAlert(false);
-    }
-  };
-
-  const handleUpdateStock = (operation) => {
-    if (!selectedIngredient || !stockAdjustment) return;
-    // console.log('Ajustando stock:', operation, selectedIngredient.id);
-    setCurrentInventory(prev => {
-      const newInventory = prev.map(item =>
-        item.id === selectedIngredient.id
-          ? {
-            ...item,
-            updated: true,
-            stock: operation === 'add'
-              ? Number(item.stock || 0) + Number(stockAdjustment)
-              : Number(item.stock || 0) - Number(stockAdjustment),
-          }
-          : item
-      );
-      localStorage.setItem(
-        'unsavedInventoryChanges',
-        JSON.stringify({ lastUpdate: new Date().toISOString(), items: newInventory })
-      );
-      return newInventory;
-    });
-    setShowStockModal(false);
-  };
-
-  const handleOpenStockModal = (ingredient) => {
-    setSelectedIngredient(ingredient);
-    setStockAdjustment('');
-    setShowStockModal(true);
-  };
+  // --- Data Preparation for Components ---
 
   const navBarData = {
     title: t('inventory.stockInventory'),
@@ -122,12 +54,11 @@ export const Inventory = () => {
       items: currentInventory,
       action: handleOpenStockModal
     },
-
     collapseButtonId: 'inventoryNavbarCollapse'
   };
 
   const fileGeneratorData = {
-    title: t('inventory.stockInventory') + ' - ' + new Date().toLocaleDateString(),
+    title: `${t('inventory.stockInventory')} - ${new Date().toLocaleDateString()}`,
     tableData: currentInventory.map((ingredient) => ({
       [t('inventory.ref')]: ingredient.reference,
       [t('inventory.item')]: ingredient.name,
@@ -140,55 +71,100 @@ export const Inventory = () => {
     thead: [
       t('inventory.ref'),
       t('inventory.item'),
-      t('inventory.stock'),
-      t('inventory.newStockColumn')
+      ...countColumns.map((col, index) => {
+        const isSelected = selectedSection === index;
+        return (
+          <div
+            key={col.id}
+            className={`d-flex align-items-center gap-2 p-1 ${isSelected ? 'bg-primary bg-opacity-10' : ''}`}
+            onClick={() => setSelectedSection(index)}
+          >
+            <span
+              className={`p-0 text-decoration-none text-reset fw-bold ${isSelected ? 'text-primary' : ''}`}
+              style={{ fontSize: '0.90rem' }}
+            >
+              {col.name}
+            </span>
+            <button
+              className="btn btn-sm btn-light p-0 px-1 hover-danger"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteCountColumn(index);
+              }}
+              title={t('common.delete')}
+              style={{ fontSize: '1rem', lineHeight: '1' }}
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+          </div>
+        );
+      }),
+      t('inventory.total')
     ],
     tableData: currentInventory.map((ingredient) => {
       const stockCellStyles = getStockCellStyles(ingredient);
-      const stockCell = (
-        <div className={`${stockCellStyles} p-1 text-center`}>
-          {ingredient.stock || 0} {ingredient.unitOfMeasure}
-        </div>
-      );
-      const stockControl = (
-        <CustomButton
-          id="AddNewValue"
-          className="success"
-          onClick={() => handleOpenStockModal(ingredient)}
-          label={<i className="bi bi-pen" />}
-        />
-      );
+
       const row = {
         [t('inventory.ref')]: ingredient.reference,
-        [t('inventory.item')]: ingredient.name,
-        [t('inventory.stock')]: stockCell,
-        [t('inventory.newStockColumn')]: stockControl
+        [t('inventory.item')]: (
+          <CustomButton
+            className="none"
+            onClick={() => handleOpenStockModal(ingredient)}
+            label={ingredient.name}
+          />
+        ),
       };
+
+      // Add dynamic count columns
+      countColumns.forEach((col, index) => {
+        const isSelected = selectedSection === index;
+        row[col.name] = (
+          <div className={`p-1 text-start ${isSelected ? 'bg-primary bg-opacity-10 fw-bold' : ''}`}
+            onClick={() => setSelectedSection(index)}
+          >
+            {ingredient.counts?.[index] || 0}
+          </div>
+        );
+      });
+
+      // Total counts column - moved to the end
+      row[t('inventory.total')] = (
+        <div className={`${stockCellStyles} p-1`}>
+          {ingredient.stock}
+        </div>
+      );
+
       return row;
     })
   };
 
+  // --- Render ---
+
+  if (ingredients.length === 0) return <Spinner />;
+
   return (
     <>
-      {ingredients.length > 0 ? (
-        <>
-          <SecondaryNavbar {...navBarData} >
-            < CustomButton className='light' label={t('inventory.new')} onClick={handleNewInventory} />
-            < CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
-            <ExportDropdown
-              fileGeneratorData={fileGeneratorData}
-              label={t('download.export')}
-              className="light"
-            />
-          </SecondaryNavbar>
-          <div className="table-responsive overflow-x-auto">
-            {alert && <p className="alert alert-warning position-fixed top-50 start-50">{t('inventory.updating')}...</p>}
-            <CustomTable {...tableData} />
+      <SecondaryNavbar {...navBarData}>
+        <CustomButton className='light' label={t('inventory.new')} onClick={handleNewInventory} />
+        <CustomButton className='light' label={t('inventory.addCount')} onClick={handleAddCountColumn} />
+        <CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
+        <ExportDropdown
+          fileGeneratorData={fileGeneratorData}
+          label={t('download.export')}
+          className="light"
+        />
+      </SecondaryNavbar>
+
+      <main className="table-responsive overflow-x-auto">
+        {alert && (
+          <div className="alert alert-warning position-fixed top-50 start-50 translate-middle" style={{ zIndex: 1050 }}>
+            {t('inventory.updating')}...
           </div>
-        </>
-      ) : (
-        <Spinner />
-      )}
+        )}
+        <CustomTable {...tableData} />
+      </main>
+
+      {/* Modals */}
       {showStockModal && (
         <AddSubstractModal
           setStockAdjustment={setStockAdjustment}
@@ -196,8 +172,10 @@ export const Inventory = () => {
           stockAdjustment={stockAdjustment}
           setShowStockModal={setShowStockModal}
           selectedIngredient={selectedIngredient}
+          columnIndex={selectedSection}
         />
       )}
+
       {fireRecipeModal && (
         <FireRecipeModal
           setFireRecipeModal={setFireRecipeModal}

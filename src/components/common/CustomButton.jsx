@@ -19,6 +19,7 @@ export const CustomButton = ({
       name={name}
       onClick={onClick}
       action={action}
+      style={{ fontSize: '0.75rem' }}
     >
       {children || label}
     </button>

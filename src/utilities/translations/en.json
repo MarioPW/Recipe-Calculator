@@ -61,7 +61,8 @@
     "add": "Add",
     "actions": "Actions",
     "amount": "Amount",
-    "weight": "Weight"
+    "weight": "Weight",
+    "total": "Total"
   },
   "myRecipe": {
     "ingredient": "Ingredient",
@@ -112,7 +113,12 @@
     "updateStockAlert": "You must update the main stock before deducting recipes.",
     "updateMainStockConfirmation": "Are you sure you want to update the main stock of the ingredients?",
     "newConfirmation": "Are you sure you want to create a new inventory? This will reset all stocks to zero.",
-    "insertValue": "Insert a value:"
+    "insertValue": "Insert a value:",
+    "count": "Count",
+    "addCount": "Add Count",
+    "deleteCountConfirm": "Are you sure you want to delete this count column? All entered data will be lost.",
+    "section": "Section",
+    "total": "Total"
   },
   "myRecipes": {
     "title": "My Recipes",

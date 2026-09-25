@@ -26,3 +26,18 @@ export function startNewRecipe() {
     cleanLocalStorage()
   }
 }
+
+export function formatNumber(val) {
+  if (val === null || val === undefined || val === '') return '0';
+  if (typeof val === 'number') {
+    return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 4 }).format(val);
+  }
+  if (typeof val === 'string') {
+    const normalized = val.trim().replace(',', '.');
+    const num = Number(normalized);
+    if (!isNaN(num) && val.trim() !== '') {
+      return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 4 }).format(num);
+    }
+  }
+  return val;
+}

@@ -8,6 +8,7 @@ import { CustomButton } from '../../common/CustomButton';
 import { CustomTable } from '../../common/CustomTable';
 import { ExportDropdown } from '../../common/ExportDropdown';
 import { useInventoryState } from './useInventory';
+import { formatNumber } from '../../../utilities/utils';
 
 // Helper to determine styling for stock levels
 const getStockCellStyles = (ingredient) => {
@@ -62,7 +63,7 @@ export const Inventory = () => {
     tableData: currentInventory.map((ingredient) => ({
       [t('inventory.ref')]: ingredient.reference,
       [t('inventory.item')]: ingredient.name,
-      [t('inventory.stock')]: `${ingredient.stock || 0} ${ingredient.unitOfMeasure}`,
+      [t('inventory.stock')]: `${formatNumber(ingredient.stock || 0)} ${ingredient.unitOfMeasure}`,
     }))
   };
 
@@ -122,7 +123,7 @@ export const Inventory = () => {
           <div className={`p-1 text-start ${isSelected ? 'bg-primary bg-opacity-10 fw-bold' : ''}`}
             onClick={() => setSelectedSection(index)}
           >
-            {ingredient.counts?.[index] || 0}
+            {formatNumber(ingredient.counts?.[index] || 0)}
           </div>
         );
       });
@@ -130,7 +131,7 @@ export const Inventory = () => {
       // Total counts column - moved to the end
       row[t('inventory.total')] = (
         <div className={`${stockCellStyles} p-1`}>
-          {ingredient.stock}
+          {formatNumber(ingredient.stock)}
         </div>
       );
 

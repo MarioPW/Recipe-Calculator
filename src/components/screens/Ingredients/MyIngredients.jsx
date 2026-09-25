@@ -5,6 +5,7 @@ import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { CustomTable } from '../../common/CustomTable';
 import { ExportDropdown } from '../../common/ExportDropdown';
+import { formatNumber } from '../../../utilities/utils';
 
 export const MyIngredients = () => {
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ export const MyIngredients = () => {
       [t('myIngredients.table.supplier')]: item.supplier,
       [t('myIngredients.table.batch')]: item.batch,
       [t('myIngredients.table.expiration')]: item.expirationDate,
-      [t('myIngredients.table.cost')]: `$ ${item.costPerKg}`
+      [t('myIngredients.table.cost')]: `$ ${formatNumber(item.costPerKg)}`
     })),
   };
   const tableData = {
@@ -50,7 +51,7 @@ export const MyIngredients = () => {
       [t('myIngredients.table.supplier')]: ingredient.supplier,
       [t('myIngredients.table.batch')]: ingredient.batch,
       [t('myIngredients.table.expiration')]: ingredient.expirationDate,
-      [t('myIngredients.table.cost')]: `$ ${ingredient.costPerKg}`,
+      [t('myIngredients.table.cost')]: `$ ${formatNumber(ingredient.costPerKg)}`,
     })),
   };
 

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ExportDropdown } from "../../../common/ExportDropdown";
 import { SecondaryNavbar } from "../../../common/SecondaryNavbar";
 import { CustomButton } from "../../../common/CustomButton";
+import { formatNumber } from "../../../../utilities/utils";
 
 export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => {
     const { t } = useTranslation();
@@ -17,12 +18,12 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
             [t("traceabilityModal.name")]: item.name,
             [t("traceabilityModal.batch")]: item.batch,
             [t("traceabilityModal.expirationDate")]: item.expirationDate,
-            [t("traceabilityModal.requiredQuantity")]: `${item.calculatedProportion || 0} ${item.unitOfMeasure || ""}`,
+            [t("traceabilityModal.requiredQuantity")]: `${formatNumber(item.calculatedProportion || 0)} ${item.unitOfMeasure || ""}`,
         })),
         summary: {
             [t("traceabilityModal.name")]: traceability.name,
-            [t("traceabilityModal.weightPerUnit")]: `${traceability.weightPerUnit} g`,
-            [t("traceabilityModal.amount")]: traceability.amount
+            [t("traceabilityModal.weightPerUnit")]: `${formatNumber(traceability.weightPerUnit)} g`,
+            [t("traceabilityModal.amount")]: formatNumber(traceability.amount)
         }
     };
 
@@ -38,8 +39,8 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                     <div className="modal-body">
                         <div>
                             <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.name")}: </strong>{traceability.name}</p>
-                            <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.weightPerUnit")}: </strong>{traceability.weightPerUnit}</p>
-                            <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.amount")}: </strong>{traceability.amount}</p>
+                            <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.weightPerUnit")}: </strong>{formatNumber(traceability.weightPerUnit)}</p>
+                            <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.amount")}: </strong>{formatNumber(traceability.amount)}</p>
                         </div>
                         <h5 className="mt-4 mb-3">{t("traceabilityModal.ingredients")}:</h5>
                         <div className="table-responsive">
@@ -60,7 +61,7 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
                                             <td className="text-nowrap">{ingredient.name}</td>
                                             <td className="text-nowrap">{ingredient.batch || "?"}</td>
                                             <td className="text-nowrap">{ingredient.expirationDate || "N/A"}</td>
-                                            <td className="text-nowrap">{ingredient.calculatedProportion ? ingredient.calculatedProportion + " " + (ingredient.unitOfMeasure || "") : "N/A"}</td>
+                                            <td className="text-nowrap">{ingredient.calculatedProportion ? formatNumber(ingredient.calculatedProportion) + " " + (ingredient.unitOfMeasure || "") : "N/A"}</td>
                                         </tr>
                                     ))}
                                 </tbody>

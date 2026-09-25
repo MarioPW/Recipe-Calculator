@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatNumber } from '../../utilities/utils';
 
 export const CustomTable = ({ tableData /* Type Objects List */, thead /* Optional custom headers */ }) => {
   if (!tableData || tableData.length === 0) {
@@ -25,9 +26,14 @@ export const CustomTable = ({ tableData /* Type Objects List */, thead /* Option
       <tbody className="table-group-divider">
         {tableData.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            {headers.map((header, cellIndex) => (
-              <td key={cellIndex} className="p-1">{row[header]}</td>
-            ))}
+            {headers.map((header, cellIndex) => {
+              const cellValue = row[header];
+              return (
+                <td key={cellIndex} className="p-1">
+                  {typeof cellValue === 'number' ? formatNumber(cellValue) : cellValue}
+                </td>
+              );
+            })}
           </tr>
         ))}
       </tbody>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ExportDropdown } from '../../../common/ExportDropdown';
 import { CustomButton } from '../../../common/CustomButton';
+import { formatNumber } from '../../../../utilities/utils';
 
 export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertionsModal }) => {
     const { t } = useTranslation();
@@ -10,12 +11,12 @@ export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertio
         title: recipeData.name,
         tableData: convertions.map((ingredient) => ({
             [t("calculatedRecipeModal.ingredient")]: ingredient.name,
-            [t("calculatedRecipeModal.weight")]: ingredient.conversion + ' ' + ingredient.unitOfMeasure,
+            [t("calculatedRecipeModal.weight")]: formatNumber(ingredient.conversion) + ' ' + ingredient.unitOfMeasure,
         })),
         summary: {
             [t("calculatedRecipeModal.recipe")]: recipeData.name,
-            [t("calculatedRecipeModal.numberOfUnits")]: recipeData.amount,
-            [t("calculatedRecipeModal.weightPerUnit")]: `${recipeData.weightPerUnit} g`,
+            [t("calculatedRecipeModal.numberOfUnits")]: formatNumber(recipeData.amount),
+            [t("calculatedRecipeModal.weightPerUnit")]: `${formatNumber(recipeData.weightPerUnit)} g`,
         },
     };
 
@@ -38,8 +39,8 @@ export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertio
                     <div className="modal-header">
                         <ul className='list-unstyled'>
                             <li className="modal-title">{`${t("calculatedRecipeModal.recipe")}: ${recipeData.name}`}</li>
-                            <li>{`${t("calculatedRecipeModal.numberOfUnits")}: ${recipeData.amount}`}</li>
-                            <li>{`${t("calculatedRecipeModal.weightPerUnit")}: ${recipeData.weightPerUnit}g`}</li>
+                            <li>{`${t("calculatedRecipeModal.numberOfUnits")}: ${formatNumber(recipeData.amount)}`}</li>
+                            <li>{`${t("calculatedRecipeModal.weightPerUnit")}: ${formatNumber(recipeData.weightPerUnit)}g`}</li>
                         </ul>
                     </div>
 
@@ -55,7 +56,7 @@ export const CalculatedRecipeModal = ({ recipeData, convertions, handleConvertio
                                 {convertions && convertions.map((ingredient, index) => (
                                     <tr key={index}>
                                         <td>{ingredient.name}</td>
-                                        <td>{ingredient.conversion} {ingredient.unitOfMeasure}</td>
+                                        <td>{formatNumber(ingredient.conversion)} {ingredient.unitOfMeasure}</td>
                                     </tr>
                                 ))}
                             </tbody>

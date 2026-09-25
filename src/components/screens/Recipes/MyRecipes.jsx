@@ -6,6 +6,7 @@ import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { ExportDropdown } from '../../common/ExportDropdown';
 import { CustomTable } from '../../common/CustomTable';
+import { formatNumber } from '../../../utilities/utils';
 
 export const MyRecipes = () => {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ export const MyRecipes = () => {
     title: t('myRecipes.title'),
     tableData: recipes.map((item) => ({
       [t('common.name')]: item.name,
-      [t('myRecipes.weightPerUnit')]: item.productWeight,
+      [t('myRecipes.weightPerUnit')]: formatNumber(item.productWeight),
       [t('myRecipes.isSubRecipe')]: item.isSubRecipe ? t('common.yes') : t('common.no'),
     })),
   };
@@ -35,7 +36,7 @@ export const MyRecipes = () => {
           {item.name || `${t('myRecipes.defaultRecipe')} ${index + 1}`}
         </Link>
       ),
-      [t('myRecipes.weightPerUnit')]: item.productWeight,
+      [t('myRecipes.weightPerUnit')]: formatNumber(item.productWeight),
       [t('myRecipes.isSubRecipe')]: item.isSubRecipe ? t('common.yes') : t('common.no'),
     })),
   };

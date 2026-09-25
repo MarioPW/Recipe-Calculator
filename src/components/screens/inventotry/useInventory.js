@@ -104,9 +104,10 @@ export const useInventoryState = () => {
     };
 
     const handleUpdateStock = (operation, index) => {
-        if (!selectedIngredient || !stockAdjustment) return;
+        if (!selectedIngredient || stockAdjustment === undefined || stockAdjustment === '') return;
 
-        const adjustment = Number(stockAdjustment);
+        const adjustment = Number(String(stockAdjustment).replace(/\./g, '').replace(',', '.'));
+        if (isNaN(adjustment)) return;
 
         setCurrentInventory(prev =>
             prev.map(item => {

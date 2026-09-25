@@ -9,6 +9,7 @@ import { ConfirmDeleteRecipe } from './ConfirmDeleteRecipe';
 import { useMainContext } from '../../../context/MainContext';
 import { CustomButton } from '../../common/CustomButton';
 import { CustomTable } from '../../common/CustomTable';
+import { formatNumber } from '../../../utilities/utils';
 
 export const MyRecipe = () => {
   const { t } = useTranslation();
@@ -107,31 +108,31 @@ export const MyRecipe = () => {
           {loading && <p className="alert alert-warning m-0">{t("myRecipe.updating")}</p>}
 
           <CustomTable
-          thead={[
-            t("myRecipe.ingredient"),
-            t("myRecipe.weight"),
-            t("myRecipe.edit"),
-            t("myRecipe.remove")
-          ]}
-          tableData={recipe.ingredients?.map((ingredient) => ({
-            [t("myRecipe.ingredient")]: ingredient.name,
-            [t("myRecipe.weight")]: `${ingredient.weight} ${ingredient.unitOfMeasure}`,
-            [t("myRecipe.edit")]: (
-              <CustomButton
-                className="primary"
-                onClick={() => handleEdit(ingredient)}
-                label={<i className="bi bi-pen"></i>}
-              />
-            ),
-            [t("myRecipe.remove")]: (
-              <CustomButton
-                className="danger"
-                onClick={() => handleRemove(ingredient)}
-                label={<i className="bi bi-trash"></i>}
-              />
-            ),
-          }))}
-        />
+            thead={[
+              t("myRecipe.ingredient"),
+              t("myRecipe.weight"),
+              t("myRecipe.edit"),
+              t("myRecipe.remove")
+            ]}
+            tableData={recipe.ingredients?.map((ingredient) => ({
+              [t("myRecipe.ingredient")]: ingredient.name,
+              [t("myRecipe.weight")]: `${formatNumber(ingredient.weight)} ${ingredient.unitOfMeasure}`,
+              [t("myRecipe.edit")]: (
+                <CustomButton
+                  className="primary"
+                  onClick={() => handleEdit(ingredient)}
+                  label={<i className="bi bi-pen"></i>}
+                />
+              ),
+              [t("myRecipe.remove")]: (
+                <CustomButton
+                  className="danger"
+                  onClick={() => handleRemove(ingredient)}
+                  label={<i className="bi bi-trash"></i>}
+                />
+              ),
+            }))}
+          />
           <div className='container d-flex justify-content-end bg-light p-2 gap-2'>
             <CustomButton
               onClick={() => { navigate("/my-recipes"); setRecipe({}) }}

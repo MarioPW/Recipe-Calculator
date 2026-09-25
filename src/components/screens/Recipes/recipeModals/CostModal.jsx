@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { ExportDropdown } from '../../../common/ExportDropdown';
 import { CustomButton } from "../../../common/CustomButton";
+import { formatNumber } from "../../../../utilities/utils";
 
 
 export const CostModal = ({ handleCostModal, recipeCosts }) => {
@@ -13,16 +14,16 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
     title: t("costModal.title"),
     tableData: recipeCosts.ingredients.map((item) => ({
       [t("costModal.ingredients")]: item.name,
-      [t("costModal.cost")]: `$ ${item.cost}`,
+      [t("costModal.cost")]: `$ ${formatNumber(item.cost)}`,
       [t("costModal.percentage")]: `${item.percentage || "N/A"} %`,
-      [t("costModal.requiredQuantity")]: `${item.requiredQuantity} ${item.unitOfMeasure || "g"}`,
+      [t("costModal.requiredQuantity")]: `${formatNumber(item.requiredQuantity)} ${item.unitOfMeasure || "g"}`,
     })),
     summary: {
       [t("costModal.name")]: recipeCosts.name,
-      [t("costModal.costPerUnit")]: `${'$ ' + recipeCosts.costPerUnit}`,
-      [t("costModal.totalCost")]: `${'$ ' + recipeCosts.totalCost}`,
-      [t("traceabilityModal.amount")]: recipeCosts.amount,
-      [t("costModal.weightPerUnit")]: `${recipeCosts.weightPerUnit + ' g'}`,
+      [t("costModal.costPerUnit")]: `$ ${formatNumber(recipeCosts.costPerUnit)}`,
+      [t("costModal.totalCost")]: `$ ${formatNumber(recipeCosts.totalCost)}`,
+      [t("traceabilityModal.amount")]: formatNumber(recipeCosts.amount),
+      [t("costModal.weightPerUnit")]: `${formatNumber(recipeCosts.weightPerUnit)} g`,
     }
   };
 
@@ -57,20 +58,20 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
               </p>
               <p className="m-1 border-bottom">
                 <strong className="fw-bold">{t("costModal.costPerUnit")}: </strong>
-                $ {recipeCosts.costPerUnit}
+                $ {formatNumber(recipeCosts.costPerUnit)}
               </p>
 
               <p className="m-1 border-bottom">
                 <strong className="fw-bold">{t("traceabilityModal.amount")}: </strong>
-                {recipeCosts.amount}
+                {formatNumber(recipeCosts.amount)}
               </p>
               <p className="m-1 border-bottom">
                 <strong className="fw-bold">{t("costModal.weightPerUnit")}: </strong>
-                {recipeCosts.weightPerUnit} g
+                {formatNumber(recipeCosts.weightPerUnit)} g
               </p>
               <p className="m-1 border-bottom">
                 <strong className="fw-bold">{t("costModal.totalCost")}: </strong>
-                $ {recipeCosts.totalCost}
+                $ {formatNumber(recipeCosts.totalCost)}
               </p>
             </div>
 
@@ -90,9 +91,9 @@ export const CostModal = ({ handleCostModal, recipeCosts }) => {
                   {recipeCosts.ingredients?.map((ingredient, index) => (
                     <tr key={index}>
                       <td className="text-nowrap">{ingredient.name}</td>
-                      <td className="text-nowrap">$ {ingredient.cost}</td>
+                      <td className="text-nowrap">$ {formatNumber(ingredient.cost)}</td>
                       <td className="text-nowrap">{ingredient.percentage} % </td>
-                      <td className="text-nowrap">{ingredient.requiredQuantity + " " + (ingredient.unitOfMeasure || " g")}</td>
+                      <td className="text-nowrap">{formatNumber(ingredient.requiredQuantity) + " " + (ingredient.unitOfMeasure || " g")}</td>
                     </tr>
                   ))}
                 </tbody>

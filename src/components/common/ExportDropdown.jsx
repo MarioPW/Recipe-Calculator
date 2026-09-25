@@ -4,12 +4,18 @@ import { useTranslation } from 'react-i18next';
 export const ExportDropdown = ({
     fileGeneratorData,
     className = 'light',
-    id = 'exportDropdown'
+    id = 'exportDropdown',
+    onExportPDF,
+    onExportXLS
 }) => {
     const { t } = useTranslation();
-    const { title, tableData, summary = {} } = fileGeneratorData;
+    const { title, tableData, summary = {} } = fileGeneratorData || {};
 
     const handleExportPDF = () => {
+        if (onExportPDF) {
+            onExportPDF();
+            return;
+        }
         try {
             generatePDF(title, tableData, summary);
         } catch (error) {
@@ -18,6 +24,10 @@ export const ExportDropdown = ({
     };
 
     const handleExportXLS = () => {
+        if (onExportXLS) {
+            onExportXLS();
+            return;
+        }
         try {
             generateXlsxTable(title, tableData, summary);
         } catch (error) {

@@ -38,11 +38,6 @@ export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stock
                 }
               }}
             />
-            {/* {stockAdjustment && stockAdjustment !== '0' && (
-              <div className="form-text text-muted mt-2">
-                Valor: <span className="fw-bold text-primary">{displayFormatted} {selectedIngredient?.unitOfMeasure}</span>
-              </div>
-            )} */}
           </div>
           <div className="modal-footer">
             <CustomButton

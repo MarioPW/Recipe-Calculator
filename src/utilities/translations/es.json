@@ -117,6 +117,7 @@
     "count": "Conteo",
     "addCount": "Agregar Conteo",
     "deleteCountConfirm": "¿Estás seguro de que deseas eliminar esta columna de conteo? Se perderán todos los datos ingresados.",
+    "maxColumnsLimit": "No se pueden agregar más de 6 columnas de conteo.",
     "section": "Sección",
     "total": "Total"
   },
@@ -285,5 +286,11 @@
     "excel": "Excel",
     "svg": "SVG",
     "export": "Exportar"
+  },
+  "exportModal": {
+    "title": "Exportar Inventario",
+    "question": "¿Deseas incluir las secciones de conteo en la exportación o solo los totales?",
+    "includeCounts": "Incluir Conteos y Totales",
+    "onlyTotals": "Solo Totales"
   }
 }

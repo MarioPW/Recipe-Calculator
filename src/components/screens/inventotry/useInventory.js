@@ -13,6 +13,7 @@ export const useInventoryState = () => {
 
     const [fireRecipeModal, setFireRecipeModal] = useState(false);
     const [alert, setAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
     const [showStockModal, setShowStockModal] = useState(false);
     const [stockAdjustment, setStockAdjustment] = useState('');
 
@@ -137,6 +138,19 @@ export const useInventoryState = () => {
     };
 
     const handleAddCountColumn = () => {
+        if (countColumns.length >= 6) {
+            setAlertMessage(t('inventory.maxColumnsLimit'));
+            setTimeout(() => {
+                setAlertMessage('');
+            }, 4000);
+            try {
+                alert(t('inventory.maxColumnsLimit'));
+            } catch (e) {
+                console.error(e);
+            }
+            return;
+        }
+
         const isFirstTime = countColumns.length === 0;
         const newColumn = {
             id: Date.now(),
@@ -233,6 +247,7 @@ export const useInventoryState = () => {
         fireRecipeModal,
         setFireRecipeModal,
         alert,
+        alertMessage,
         showStockModal,
         setShowStockModal,
         stockAdjustment,

@@ -117,6 +117,7 @@
     "count": "Count",
     "addCount": "Add Count",
     "deleteCountConfirm": "Are you sure you want to delete this count column? All entered data will be lost.",
+    "maxColumnsLimit": "You cannot add more than 6 count columns.",
     "section": "Section",
     "total": "Total"
   },
@@ -285,5 +286,11 @@
     "excel": "Excel",
     "svg": "SVG",
     "export": "Export"
+  },
+  "exportModal": {
+    "title": "Export Inventory",
+    "question": "Do you want to include count sections in the export or only totals?",
+    "includeCounts": "Include Counts and Totals",
+    "onlyTotals": "Only Totals"
   }
 }

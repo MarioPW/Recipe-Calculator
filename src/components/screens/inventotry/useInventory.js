@@ -19,8 +19,33 @@ export const useInventoryState = () => {
     useEffect(() => {
         const saved = localStorage.getItem('unsavedInventoryChanges');
         if (saved) {
-            const lastStock = JSON.parse(saved);
-            setCurrentInventory(lastStock.items);
+            try {
+                const lastStock = JSON.parse(saved);
+                if (lastStock && Array.isArray(lastStock.items)) {
+                    setCurrentInventory(lastStock.items);
+
+                    // Show count columns ONLY if there are 2 or more counts; otherwise show only totals
+                    const maxCounts = Math.max(
+                        0,
+                        ...lastStock.items.map(item => (Array.isArray(item.counts) ? item.counts.length : 0))
+                    );
+
+                    let restoredColumns = [];
+                    if (Array.isArray(lastStock.countColumns) && lastStock.countColumns.length >= 2 && lastStock.countColumns.length >= maxCounts) {
+                        restoredColumns = lastStock.countColumns;
+                    } else if (maxCounts >= 2) {
+                        restoredColumns = Array.from({ length: maxCounts }, (_, index) => ({
+                            id: Date.now() + index,
+                            name: `${t('inventory.section')} ${index + 1}`,
+                            date: new Date().toLocaleDateString(),
+                            value: 0
+                        }));
+                    }
+                    setCountColumns(restoredColumns);
+                }
+            } catch (e) {
+                console.error("Error loading unsavedInventoryChanges from localStorage:", e);
+            }
         } else {
             const baseInventory = ingredients
                 .filter(ing => ing.setInInventory)
@@ -34,6 +59,7 @@ export const useInventoryState = () => {
                     counts: []
                 }));
             setCurrentInventory(baseInventory);
+            setCountColumns([]);
         }
     }, [ingredients]);
 
@@ -42,20 +68,23 @@ export const useInventoryState = () => {
         if (currentInventory.length > 0) {
             const lastStock = {
                 lastUpdate: new Date().toISOString(),
-                items: currentInventory
+                items: currentInventory,
+                countColumns: countColumns
             };
             localStorage.setItem('unsavedInventoryChanges', JSON.stringify(lastStock));
         }
-    }, [currentInventory]);
+    }, [currentInventory, countColumns]);
 
     const handleNewInventory = () => {
         if (confirm(t('inventory.newConfirmation'))) {
             localStorage.removeItem('unsavedInventoryChanges');
+            setCountColumns([]);
             const resetInventory = ingredients
                 .filter(ing => ing.setInInventory)
                 .map(ing => ({
                     ...ing,
-                    stock: 0
+                    stock: 0,
+                    counts: []
                 }));
             setCurrentInventory(resetInventory);
         }
@@ -66,7 +95,8 @@ export const useInventoryState = () => {
             setAlert(true);
             const lastStock = {
                 lastUpdate: new Date().toISOString(),
-                items: currentInventory
+                items: currentInventory,
+                countColumns: countColumns
             };
             localStorage.setItem('unsavedInventoryChanges', JSON.stringify(lastStock));
             setAlert(false);

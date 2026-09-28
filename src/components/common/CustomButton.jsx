@@ -9,7 +9,8 @@ export const CustomButton = ({
   className = '',
   id = '',
   action,
-  name
+  name,
+  title
 }) => {
   return (
     <button
@@ -19,6 +20,7 @@ export const CustomButton = ({
       name={name}
       onClick={onClick}
       action={action}
+      title={title}
       style={{ fontSize: '0.75rem' }}
     >
       {children || label}

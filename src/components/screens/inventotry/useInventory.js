@@ -104,7 +104,7 @@ export const useInventoryState = () => {
         }
     };
 
-    const handleUpdateStock = (operation, index) => {
+    const handleUpdateStock = (operation, index, keepOpen = false) => {
         if (!selectedIngredient || stockAdjustment === undefined || stockAdjustment === '') return;
 
         const adjustment = Number(String(stockAdjustment).replace(/\./g, '').replace(',', '.'));
@@ -117,18 +117,31 @@ export const useInventoryState = () => {
                 const updatedCounts = [...(item.counts || [])];
                 const currentValue = Number(updatedCounts[index] || 0);
 
-                updatedCounts[index] = operation === 'add'
+                const updatedValue = operation === 'add'
                     ? currentValue + adjustment
                     : currentValue - adjustment;
-                return {
+
+                updatedCounts[index] = updatedValue;
+                const updatedStock = updatedCounts.reduce((acc, count) => acc + count, 0);
+
+                const updatedIngredient = {
                     ...item,
                     updated: true,
                     counts: updatedCounts,
-                    stock: updatedCounts.reduce((acc, count) => acc + count, 0)
+                    stock: updatedStock
                 };
+
+                setSelectedIngredient(updatedIngredient);
+
+                return updatedIngredient;
             })
         );
-        setShowStockModal(false);
+
+        setStockAdjustment('');
+
+        if (!keepOpen) {
+            setShowStockModal(false);
+        }
     };
 
     const handleOpenStockModal = (ingredient) => {

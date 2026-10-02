@@ -31,9 +31,10 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         const orderedIngredients = checkIngredientsOrder()
+        const currentOrder = orderedIngredients || 'reference';
         try {
           const ingredients = await ingredientService.getAllIngredients();
-          switch (orderedIngredients) {
+          switch (currentOrder) {
             case 'name':
               setIngredients(ingredients.sort((a, b) => a.name.localeCompare(b.name)));
               break;

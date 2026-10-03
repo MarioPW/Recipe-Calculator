@@ -115,6 +115,8 @@
     "updateMainStockConfirmation": "¿Estás seguro de que deseas actualizar el stock principal de los ingredientes?",
     "insertValue": "Ingresa un valor:",
     "keepOpen": "Mantener abierto",
+    "tare": "Tara",
+    "enterTareValue": "Ingresa el valor de tara:",
     "count": "Conteo",
     "addCount": "Agregar Conteo",
     "deleteCountConfirm": "¿Estás seguro de que deseas eliminar esta columna de conteo? Se perderán todos los datos ingresados.",

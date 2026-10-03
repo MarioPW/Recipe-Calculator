@@ -4,11 +4,12 @@ import { CustomButton } from '../../common/CustomButton';
 import { formatNumber } from '../../../utilities/utils';
 
 
-export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stockAdjustment, setShowStockModal, selectedIngredient, columnIndex }) => {
+export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stockAdjustment, setShowStockModal, selectedIngredient, columnIndex, tareValue = 0 }) => {
   const { t } = useTranslation();
   const [keepOpen, setKeepOpen] = useState(false);
 
   const displayFormatted = stockAdjustment ? formatNumber(stockAdjustment) : '';
+  const placeholderText = tareValue > 0 ? `${t('inventory.tare')}: ${formatNumber(tareValue)}` : '0';
 
   return (
     <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -30,7 +31,7 @@ export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stock
               type="text"
               inputMode="numeric"
               className="form-control mt-1 fs-5"
-              placeholder="0"
+              placeholder={placeholderText}
               value={displayFormatted}
               onChange={(e) => {
                 const val = e.target.value.replace(/\./g, '').replace(',', '.');

@@ -41,6 +41,8 @@ export const Inventory = () => {
     setShowStockModal,
     stockAdjustment,
     setStockAdjustment,
+    tareValue,
+    handleToggleTare,
     handleNewInventory,
     handleUpdateStock,
     handleOpenStockModal,
@@ -203,6 +205,11 @@ export const Inventory = () => {
       <SecondaryNavbar {...navBarData}>
         <CustomButton className='light' label={t('inventory.new')} onClick={handleNewInventory} />
         <CustomButton className='light' label={t('inventory.addCount')} onClick={handleAddCountColumn} />
+        <CustomButton
+          className={tareValue > 0 ? 'warning active text-dark fw-bold' : 'light'}
+          label={tareValue > 0 ? `${t('inventory.tare')}: ${formatNumber(tareValue)}` : t('inventory.tare')}
+          onClick={handleToggleTare}
+        />
         <CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
         <ExportDropdown
           fileGeneratorData={fileGeneratorData}
@@ -231,6 +238,7 @@ export const Inventory = () => {
           setShowStockModal={setShowStockModal}
           selectedIngredient={selectedIngredient}
           columnIndex={selectedSection}
+          tareValue={tareValue}
         />
       )}
 

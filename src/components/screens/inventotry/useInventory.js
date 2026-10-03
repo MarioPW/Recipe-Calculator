@@ -16,6 +16,7 @@ export const useInventoryState = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [showStockModal, setShowStockModal] = useState(false);
     const [stockAdjustment, setStockAdjustment] = useState('');
+    const [tareValue, setTareValue] = useState(0);
 
     useEffect(() => {
         const saved = localStorage.getItem('unsavedInventoryChanges');
@@ -107,8 +108,10 @@ export const useInventoryState = () => {
     const handleUpdateStock = (operation, index, keepOpen = false) => {
         if (!selectedIngredient || stockAdjustment === undefined || stockAdjustment === '') return;
 
-        const adjustment = Number(String(stockAdjustment).replace(/\./g, '').replace(',', '.'));
-        if (isNaN(adjustment)) return;
+        const rawAdjustment = Number(String(stockAdjustment).replace(/\./g, '').replace(',', '.'));
+        if (isNaN(rawAdjustment)) return;
+
+        const adjustment = tareValue > 0 ? rawAdjustment - tareValue : rawAdjustment;
 
         setCurrentInventory(prev =>
             prev.map(item => {
@@ -141,6 +144,20 @@ export const useInventoryState = () => {
 
         if (!keepOpen) {
             setShowStockModal(false);
+        }
+    };
+
+    const handleToggleTare = () => {
+        if (tareValue > 0) {
+            setTareValue(0);
+        } else {
+            const input = prompt(t('inventory.enterTareValue'), '');
+            if (input !== null && input.trim() !== '') {
+                const val = Number(input.replace(/\./g, '').replace(',', '.'));
+                if (!isNaN(val) && val > 0) {
+                    setTareValue(val);
+                }
+            }
         }
     };
 
@@ -265,6 +282,9 @@ export const useInventoryState = () => {
         setShowStockModal,
         stockAdjustment,
         setStockAdjustment,
+        tareValue,
+        setTareValue,
+        handleToggleTare,
         handleNewInventory,
         saveInventory,
         handleUpdateStock,

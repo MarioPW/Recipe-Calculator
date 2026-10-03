@@ -115,6 +115,8 @@
     "newConfirmation": "Are you sure you want to create a new inventory? This will reset all stocks to zero.",
     "insertValue": "Insert a value:",
     "keepOpen": "Keep open",
+    "tare": "Tare",
+    "enterTareValue": "Enter tare value:",
     "count": "Count",
     "addCount": "Add Count",
     "deleteCountConfirm": "Are you sure you want to delete this count column? All entered data will be lost.",

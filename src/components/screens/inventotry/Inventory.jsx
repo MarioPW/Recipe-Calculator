@@ -7,7 +7,9 @@ import { AddSubstractModal } from './AddSubstractModal';
 import { CustomButton } from '../../common/CustomButton';
 import { CustomTable } from '../../common/CustomTable';
 import { ExportDropdown } from '../../common/ExportDropdown';
+import { InventoryHistory } from './InventoryHistory';
 import { useInventoryState } from './useInventory';
+import { useMainContext } from '../../../context/MainContext';
 import { formatNumber } from '../../../utilities/utils';
 import { generatePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
 
@@ -25,11 +27,13 @@ const getStockCellStyles = (ingredient) => {
 
 export const Inventory = () => {
   const { t } = useTranslation();
+  const { inventoryService } = useMainContext();
   const {
     ingredients,
     currentInventory,
     setCurrentInventory,
     countColumns,
+    setCountColumns,
     selectedIngredient,
     selectedSection,
     setSelectedSection,
@@ -44,6 +48,7 @@ export const Inventory = () => {
     tareValue,
     setTareValue,
     creationDate,
+    setCreationDate,
     handleToggleTare,
     handleNewInventory,
     handleUpdateStock,
@@ -53,6 +58,28 @@ export const Inventory = () => {
   } = useInventoryState();
 
   const [exportModalType, setExportModalType] = useState(null); // 'pdf' | 'excel' | null
+  const [showHistory, setShowHistory] = useState(false);
+
+  const handleSaveToFirebase = async () => {
+    if (!currentInventory || currentInventory.length === 0) return;
+    const inventoryData = {
+      creationDate: creationDate || new Date().toISOString(),
+      items: currentInventory,
+      countColumns: countColumns,
+      tareValue: tareValue
+    };
+    await inventoryService.saveInventory(inventoryData);
+  };
+
+  const handleLoadInventoryFromHistory = (record) => {
+    if (confirm(t('inventory.loadConfirmation') || '¿Estás seguro de que deseas cargar este inventario? Se reemplazarán los datos actuales.')) {
+      if (record.items) setCurrentInventory(record.items);
+      if (record.countColumns) setCountColumns(record.countColumns);
+      if (record.creationDate || record.createdAt) setCreationDate(record.creationDate || record.createdAt);
+      if (record.tareValue !== undefined) setTareValue(record.tareValue);
+      setShowHistory(false);
+    }
+  };
 
   // --- Export Handling ---
 
@@ -222,6 +249,15 @@ export const Inventory = () => {
 
   // --- Render ---
 
+  if (showHistory) {
+    return (
+      <InventoryHistory
+        onBack={() => setShowHistory(false)}
+        onLoadInventory={handleLoadInventoryFromHistory}
+      />
+    );
+  }
+
   if (ingredients.length === 0) return <Spinner />;
 
   return (
@@ -235,6 +271,8 @@ export const Inventory = () => {
           onClick={handleToggleTare}
         />
         <CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
+        <CustomButton className='light' label={t('inventory.save')} onClick={handleSaveToFirebase} />
+        <CustomButton className='light' label={t('inventory.history')} onClick={() => setShowHistory(true)} />
         <ExportDropdown
           fileGeneratorData={fileGeneratorData}
           label={t('download.export')}

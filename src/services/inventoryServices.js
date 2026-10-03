@@ -1,5 +1,6 @@
 import { collection, addDoc, doc, getDoc, getDocs, where, query, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { db, auth } from "../firebaseConfig";
+import { getLocalISOString } from "../utilities/utils";
 
 export class InventoryService {
     constructor() {
@@ -19,8 +20,8 @@ export class InventoryService {
 
             const payload = {
                 userId: userId,
-                createdAt: new Date().toISOString(),
-                creationDate: inventoryData.creationDate || new Date().toISOString(),
+                createdAt: getLocalISOString(),
+                creationDate: inventoryData.creationDate ? getLocalISOString(inventoryData.creationDate) : getLocalISOString(),
                 items: inventoryData.items || [],
                 countColumns: inventoryData.countColumns || [],
                 tareValue: inventoryData.tareValue || 0

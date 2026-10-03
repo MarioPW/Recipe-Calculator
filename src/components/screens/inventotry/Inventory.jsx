@@ -10,7 +10,7 @@ import { ExportDropdown } from '../../common/ExportDropdown';
 import { InventoryHistory } from './InventoryHistory';
 import { useInventoryState } from './useInventory';
 import { useMainContext } from '../../../context/MainContext';
-import { formatNumber } from '../../../utilities/utils';
+import { formatNumber, getLocalISOString } from '../../../utilities/utils';
 import { generatePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
 
 // Helper to determine styling for stock levels
@@ -63,7 +63,7 @@ export const Inventory = () => {
   const handleSaveToFirebase = async () => {
     if (!currentInventory || currentInventory.length === 0) return;
     const inventoryData = {
-      creationDate: creationDate || new Date().toISOString(),
+      creationDate: creationDate || getLocalISOString(),
       items: currentInventory,
       countColumns: countColumns,
       tareValue: tareValue

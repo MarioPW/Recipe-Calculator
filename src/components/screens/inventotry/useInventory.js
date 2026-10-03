@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMainContext } from '../../../context/MainContext';
+import { getLocalISOString } from '../../../utilities/utils';
 
 export const useInventoryState = () => {
     const { t } = useTranslation();
@@ -73,7 +74,7 @@ export const useInventoryState = () => {
     useEffect(() => {
         if (currentInventory.length > 0) {
             const lastStock = {
-                lastUpdate: new Date().toISOString(),
+                lastUpdate: getLocalISOString(),
                 creationDate: creationDate,
                 items: currentInventory,
                 countColumns: countColumns
@@ -84,7 +85,7 @@ export const useInventoryState = () => {
 
     const handleNewInventory = () => {
         if (confirm(t('inventory.newConfirmation'))) {
-            const newDate = new Date().toISOString();
+            const newDate = getLocalISOString();
             setCreationDate(newDate);
             localStorage.removeItem('unsavedInventoryChanges');
             setCountColumns([]);

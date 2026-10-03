@@ -2,6 +2,7 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { getLocalISOString } from './utils';
 
 export const generateTablePDF = (pdfData) => {
   const doc = new jsPDF();
@@ -53,7 +54,7 @@ export const generateXlsxTable = (title, tableData, summary = {}) => {
 
   XLSX.utils.book_append_sheet(wb, ws, sanitizeSheetName(title));
   const buffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  saveAs(new Blob([buffer]), `${title}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  saveAs(new Blob([buffer]), `${title}_${getLocalISOString().slice(0, 10)}.xlsx`);
 };
 
 

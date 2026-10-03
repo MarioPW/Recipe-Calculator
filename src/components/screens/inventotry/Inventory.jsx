@@ -42,6 +42,7 @@ export const Inventory = () => {
     stockAdjustment,
     setStockAdjustment,
     tareValue,
+    setTareValue,
     creationDate,
     handleToggleTare,
     handleNewInventory,
@@ -262,6 +263,8 @@ export const Inventory = () => {
           selectedIngredient={selectedIngredient}
           columnIndex={selectedSection}
           tareValue={tareValue}
+          setTareValue={setTareValue}
+          handleToggleTare={handleToggleTare}
         />
       )}
 

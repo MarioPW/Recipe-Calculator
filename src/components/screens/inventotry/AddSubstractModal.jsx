@@ -4,12 +4,20 @@ import { CustomButton } from '../../common/CustomButton';
 import { formatNumber } from '../../../utilities/utils';
 
 
-export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stockAdjustment, setShowStockModal, selectedIngredient, columnIndex, tareValue = 0 }) => {
+export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stockAdjustment, setShowStockModal, selectedIngredient, columnIndex, tareValue = 0, setTareValue, handleToggleTare }) => {
   const { t } = useTranslation();
   const [keepOpen, setKeepOpen] = useState(false);
 
   const displayFormatted = stockAdjustment ? formatNumber(stockAdjustment) : '';
   const placeholderText = tareValue > 0 ? `${t('inventory.tare')}: ${formatNumber(tareValue)}` : '0';
+
+  const handleDisableTare = () => {
+    if (setTareValue) {
+      setTareValue(0);
+    } else if (handleToggleTare) {
+      handleToggleTare();
+    }
+  };
 
   return (
     <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -27,19 +35,31 @@ export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stock
           </div>
           <div className="modal-body">
             <label className="form-label fw-bold">{t('inventory.insertValue')}</label>
-            <input
-              type="text"
-              inputMode="numeric"
-              className="form-control mt-1 fs-5"
-              placeholder={placeholderText}
-              value={displayFormatted}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\./g, '').replace(',', '.');
-                if (val === '' || val === '-' || !isNaN(Number(val))) {
-                  setStockAdjustment(val);
-                }
-              }}
-            />
+            <div className="input-group mt-1">
+              <input
+                type="text"
+                inputMode="numeric"
+                className="form-control fs-5"
+                placeholder={placeholderText}
+                value={displayFormatted}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\./g, '').replace(',', '.');
+                  if (val === '' || val === '-' || !isNaN(Number(val))) {
+                    setStockAdjustment(val);
+                  }
+                }}
+              />
+              {tareValue > 0 && (
+                <button
+                  type="button"
+                  className="btn btn-warning text-dark fw-bold px-3 fs-5"
+                  onClick={handleDisableTare}
+                  title={`${t('inventory.tare')}: ${formatNumber(tareValue)}`}
+                >
+                  T
+                </button>
+              )}
+            </div>
           </div>
           <div className="modal-footer justify-content-between">
             <CustomButton

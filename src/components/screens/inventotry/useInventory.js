@@ -17,6 +17,7 @@ export const useInventoryState = () => {
     const [showStockModal, setShowStockModal] = useState(false);
     const [stockAdjustment, setStockAdjustment] = useState('');
     const [tareValue, setTareValue] = useState(0);
+    const [creationDate, setCreationDate] = useState(null);
 
     useEffect(() => {
         const saved = localStorage.getItem('unsavedInventoryChanges');
@@ -25,6 +26,9 @@ export const useInventoryState = () => {
                 const lastStock = JSON.parse(saved);
                 if (lastStock && Array.isArray(lastStock.items)) {
                     setCurrentInventory(lastStock.items);
+                    if (lastStock.creationDate) {
+                        setCreationDate(lastStock.creationDate);
+                    }
 
                     // Show count columns ONLY if there are 2 or more counts; otherwise show only totals
                     const maxCounts = Math.max(
@@ -70,15 +74,18 @@ export const useInventoryState = () => {
         if (currentInventory.length > 0) {
             const lastStock = {
                 lastUpdate: new Date().toISOString(),
+                creationDate: creationDate,
                 items: currentInventory,
                 countColumns: countColumns
             };
             localStorage.setItem('unsavedInventoryChanges', JSON.stringify(lastStock));
         }
-    }, [currentInventory, countColumns]);
+    }, [currentInventory, countColumns, creationDate]);
 
     const handleNewInventory = () => {
         if (confirm(t('inventory.newConfirmation'))) {
+            const newDate = new Date().toISOString();
+            setCreationDate(newDate);
             localStorage.removeItem('unsavedInventoryChanges');
             setCountColumns([]);
             const resetInventory = ingredients
@@ -97,6 +104,7 @@ export const useInventoryState = () => {
             setAlert(true);
             const lastStock = {
                 lastUpdate: new Date().toISOString(),
+                creationDate: creationDate,
                 items: currentInventory,
                 countColumns: countColumns
             };
@@ -284,6 +292,8 @@ export const useInventoryState = () => {
         setStockAdjustment,
         tareValue,
         setTareValue,
+        creationDate,
+        setCreationDate,
         handleToggleTare,
         handleNewInventory,
         saveInventory,

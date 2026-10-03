@@ -42,6 +42,7 @@ export const Inventory = () => {
     stockAdjustment,
     setStockAdjustment,
     tareValue,
+    creationDate,
     handleToggleTare,
     handleNewInventory,
     handleUpdateStock,
@@ -105,8 +106,30 @@ export const Inventory = () => {
 
   // --- Data Preparation for Components ---
 
+  const formatCreationDate = (dateStr) => {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr;
+      return d.toLocaleDateString();
+    } catch (e) {
+      return dateStr;
+    }
+  };
+
+  const navBarTitle = (
+    <span className="d-flex flex-column align-items-start">
+      <span className="lh-sm">{t('inventory.stockInventory')}</span>
+      {creationDate && (
+        <span className="fw-normal text-light text-opacity-75" style={{ fontSize: '0.75rem', lineHeight: '1.2' }}>
+          {formatCreationDate(creationDate)}
+        </span>
+      )}
+    </span>
+  );
+
   const navBarData = {
-    title: t('inventory.stockInventory'),
+    title: navBarTitle,
     collapseButtonText: t('inventory.actions'),
     searchInput: {
       items: currentInventory,

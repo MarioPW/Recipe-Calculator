@@ -43,11 +43,13 @@ export const ExportDropdown = ({
     //     }
     // };
 
+    const isFullWidth = className.includes('w-100');
+
     return (
-        <div className="dropdown">
+        <div className={`dropdown ${isFullWidth ? 'w-100' : ''}`}>
             <button
                 type="button"
-                className={`btn btn-sm btn-outline-${className} dropdown-toggle`}
+                className={`btn btn-sm btn-outline-${className} dropdown-toggle ${isFullWidth ? 'w-100' : ''}`}
                 id={id}
                 data-bs-toggle="dropdown"
                 aria-expanded="false"

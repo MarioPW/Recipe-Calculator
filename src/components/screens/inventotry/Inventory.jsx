@@ -263,23 +263,51 @@ export const Inventory = () => {
   return (
     <>
       <SecondaryNavbar {...navBarData}>
-        <CustomButton className='light' label={t('inventory.new')} onClick={handleNewInventory} />
-        <CustomButton className='light' label={t('inventory.addCount')} onClick={handleAddCountColumn} />
-        <CustomButton
-          className={tareValue > 0 ? 'warning active text-dark fw-bold' : 'light'}
-          label={tareValue > 0 ? `${t('inventory.tare')}: ${formatNumber(tareValue)}` : t('inventory.tare')}
-          onClick={handleToggleTare}
-        />
-        <CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
-        <CustomButton className='light' label={t('inventory.save')} onClick={handleSaveToFirebase} />
-        <CustomButton className='light' label={t('inventory.history')} onClick={() => setShowHistory(true)} />
-        <ExportDropdown
-          fileGeneratorData={fileGeneratorData}
-          label={t('download.export')}
-          className="light"
-          onExportPDF={handleExportPDF}
-          onExportXLS={handleExportXLS}
-        />
+        {/* Vista móvil: 2 columnas */}
+        <div className="row g-2 w-100 m-0 d-lg-none">
+          <div className="col-6 d-flex flex-column gap-2 p-0 pe-1">
+            <CustomButton className='light w-100' label={t('inventory.new')} onClick={handleNewInventory} />
+            <CustomButton className='light w-100' label={t('inventory.save')} onClick={handleSaveToFirebase} />
+            <CustomButton className='light w-100' label={t('inventory.history')} onClick={() => setShowHistory(true)} />
+            <ExportDropdown
+              fileGeneratorData={fileGeneratorData}
+              label={t('download.export')}
+              className="light w-100"
+              onExportPDF={handleExportPDF}
+              onExportXLS={handleExportXLS}
+            />
+          </div>
+          <div className="col-6 d-flex flex-column gap-2 p-0 ps-1">
+            <CustomButton className='light w-100' label={t('inventory.addCount')} onClick={handleAddCountColumn} />
+            <CustomButton
+              className={tareValue > 0 ? 'warning active text-dark fw-bold w-100' : 'light w-100'}
+              label={tareValue > 0 ? `${t('inventory.tare')}: ${formatNumber(tareValue)}` : t('inventory.tare')}
+              onClick={handleToggleTare}
+            />
+            <CustomButton className='light w-100' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
+          </div>
+        </div>
+
+        {/* Vista escritorio: 1 fila horizontal */}
+        <div className="d-none d-lg-flex flex-row gap-2 justify-content-end align-items-center">
+          <CustomButton className='light' label={t('inventory.new')} onClick={handleNewInventory} />
+          <CustomButton className='light' label={t('inventory.addCount')} onClick={handleAddCountColumn} />
+          <CustomButton
+            className={tareValue > 0 ? 'warning active text-dark fw-bold' : 'light'}
+            label={tareValue > 0 ? `${t('inventory.tare')}: ${formatNumber(tareValue)}` : t('inventory.tare')}
+            onClick={handleToggleTare}
+          />
+          <CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
+          <CustomButton className='light' label={t('inventory.save')} onClick={handleSaveToFirebase} />
+          <CustomButton className='light' label={t('inventory.history')} onClick={() => setShowHistory(true)} />
+          <ExportDropdown
+            fileGeneratorData={fileGeneratorData}
+            label={t('download.export')}
+            className="light"
+            onExportPDF={handleExportPDF}
+            onExportXLS={handleExportXLS}
+          />
+        </div>
       </SecondaryNavbar>
 
       <main className="table-responsive overflow-x-auto">
@@ -300,6 +328,7 @@ export const Inventory = () => {
           setShowStockModal={setShowStockModal}
           selectedIngredient={selectedIngredient}
           columnIndex={selectedSection}
+          countColumns={countColumns}
           tareValue={tareValue}
           setTareValue={setTareValue}
           handleToggleTare={handleToggleTare}

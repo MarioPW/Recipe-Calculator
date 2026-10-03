@@ -121,18 +121,28 @@ export const useInventoryState = () => {
 
         const adjustment = tareValue > 0 ? rawAdjustment - tareValue : rawAdjustment;
 
+        const targetItem = currentInventory.find(item => item.id === selectedIngredient.id) || selectedIngredient;
+        const targetIndex = (index !== undefined && index !== null) ? index : 0;
+        const targetCounts = [...(targetItem.counts || [])];
+        const currentValue = Number(targetCounts[targetIndex] || 0);
+
+        const isSubstract = operation === 'substract' || operation === 'subtract';
+        const expectedValue = isSubstract
+            ? currentValue - adjustment
+            : currentValue + adjustment;
+
+        if (expectedValue < 0) {
+            if (!confirm(t('inventory.negativeStockConfirm'))) {
+                return;
+            }
+        }
+
         setCurrentInventory(prev =>
             prev.map(item => {
                 if (item.id !== selectedIngredient.id) return item;
 
                 const updatedCounts = [...(item.counts || [])];
-                const currentValue = Number(updatedCounts[index] || 0);
-
-                const updatedValue = operation === 'add'
-                    ? currentValue + adjustment
-                    : currentValue - adjustment;
-
-                updatedCounts[index] = updatedValue;
+                updatedCounts[targetIndex] = expectedValue;
                 const updatedStock = updatedCounts.reduce((acc, count) => acc + count, 0);
 
                 const updatedIngredient = {

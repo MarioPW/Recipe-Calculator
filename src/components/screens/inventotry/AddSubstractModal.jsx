@@ -4,9 +4,13 @@ import { CustomButton } from '../../common/CustomButton';
 import { formatNumber } from '../../../utilities/utils';
 
 
-export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stockAdjustment, setShowStockModal, selectedIngredient, columnIndex, tareValue = 0, setTareValue, handleToggleTare }) => {
+export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stockAdjustment, setShowStockModal, selectedIngredient, columnIndex, countColumns = [], tareValue = 0, setTareValue, handleToggleTare }) => {
   const { t } = useTranslation();
   const [keepOpen, setKeepOpen] = useState(false);
+
+  const activeIndex = columnIndex || 0;
+  const sectionName = countColumns?.[activeIndex]?.name || `${t('inventory.section')} ${activeIndex + 1}`;
+  const sectionValue = selectedIngredient?.counts?.[activeIndex] ?? 0;
 
   const displayFormatted = stockAdjustment ? formatNumber(stockAdjustment) : '';
   const placeholderText = tareValue > 0 ? `${t('inventory.tare')}: ${formatNumber(tareValue)}` : '0';
@@ -23,10 +27,17 @@ export const AddSubstractModal = ({ setStockAdjustment, handleUpdateStock, stock
     <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
       <div className="modal-dialog" role="document">
         <div className="modal-content border">
-          <div className="modal-header bg-color-main gap-2 w-100 p-2 m-0 text-light">
-            <h5 className="modal-title">
-              {selectedIngredient?.name}: <span className='fw-bold'>{formatNumber(selectedIngredient?.stock)} ({selectedIngredient?.unitOfMeasure})</span>
-            </h5>
+          <div className="modal-header bg-color-main text-light p-2 px-3 m-0 d-flex align-items-center justify-content-between">
+            <div className="d-flex flex-column lh-sm me-2">
+              <h5 className="modal-title fs-6 fw-bold m-0 text-light">
+                {selectedIngredient?.name}
+              </h5>
+              <span className="text-light text-opacity-75" style={{ fontSize: '0.75rem' }}>
+                {sectionName}: <strong className="text-warning">{formatNumber(sectionValue)} {selectedIngredient?.unitOfMeasure}</strong>
+                <span className="mx-1.5">•</span>
+                {t('inventory.total')}: <strong className="text-light">{formatNumber(selectedIngredient?.stock)} {selectedIngredient?.unitOfMeasure}</strong>
+              </span>
+            </div>
             <button
               type="button"
               className="bg-light btn-close me-1"

@@ -58,9 +58,9 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
           className="collapse navbar-collapse d-lg-block"
           id={collapseButtonId}
         >
-          <ul className="navbar-nav bg-color-main gap-2 w-100 p-2 m-0 d-flex flex-column flex-lg-row justify-content-end">
+          <div className="bg-color-main gap-2 w-100 p-2 m-0 d-flex flex-column flex-lg-row justify-content-end align-items-stretch align-items-lg-center">
             {buttons && buttons.map(({ label, action }, index) => (
-              <li key={index} className="nav-item list-group-item">
+              <div key={index} className="nav-item">
                 <CustomButton
                   className="light"
                   onClick={() => {
@@ -69,10 +69,10 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
                   }}
                   label={label}
                 />
-              </li>
+              </div>
             ))}
-            {links.map(({ label, url }, index) => (
-              <li key={index} className="nav-item list-group-item">
+            {links && links.map(({ label, url }, index) => (
+              <div key={index} className="nav-item">
                 <Link
                   className="btn btn-sm btn-outline-success text-light"
                   to={url}
@@ -80,18 +80,20 @@ export const SecondaryNavbar = ({ title, buttons = [], links = [], searchInput =
                 >
                   {label}
                 </Link>
-              </li>
+              </div>
             ))}
-            {children && (Array.isArray(children) ? children : [children]).map(
-              (child, index) => (
-                <li key={index} className="nav-item list-group-item">
-                  <span>
+            {children && (
+              Array.isArray(children) ? (
+                children.map((child, index) => (
+                  <div key={index} className="nav-item">
                     {child}
-                  </span>
-                </li>
+                  </div>
+                ))
+              ) : (
+                children
               )
             )}
-          </ul>
+          </div>
         </div>
       </div>
     </nav>

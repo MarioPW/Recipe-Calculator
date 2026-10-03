@@ -49,9 +49,16 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
         title: t('inventory.historyTitle') || 'Historial de Inventarios',
         tableData: historyList.map((record) => ({
             [t('inventory.creationDate') || 'Fecha de creación']: formatDate(record.creationDate || record.createdAt),
+            [t('myIngredients.title') || 'Productos']: record.items ? record.items.length : 0,
             [t('inventory.count') || 'Conteos']: record.countColumns ? record.countColumns.length : 0,
             [t('common.actions') || 'Acciones']: (
                 <div className="d-flex gap-2">
+                    <CustomButton
+                        className="info"
+                        onClick={() => setSelectedRecord(record)}
+                        label={<i className="bi bi-eye"></i>}
+                        title={t('common.view') || 'Ver'}
+                    />
                     {onLoadInventory && (
                         <CustomButton
                             className="success"
@@ -60,12 +67,6 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                             title={t('common.load') || 'Cargar'}
                         />
                     )}
-                    <CustomButton
-                        className="info"
-                        onClick={() => setSelectedRecord(record)}
-                        label={<i className="bi bi-eye"></i>}
-                        title={t('common.view') || 'Ver'}
-                    />
                     <CustomButton
                         className="danger"
                         onClick={() => handleDelete(record.id)}

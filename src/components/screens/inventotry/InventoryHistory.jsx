@@ -36,10 +36,25 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
 
     const formatDate = (dateStr) => {
         if (!dateStr) return '-';
+
         try {
-            const d = new Date(dateStr);
+            const normalizedInput = typeof dateStr === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateStr)
+                ? dateStr.replace(/-/g, '/')
+                : dateStr;
+
+            const d = new Date(normalizedInput);
+
             if (isNaN(d.getTime())) return dateStr;
-            return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+            // 'es-CO' fuerza estrictamente el formato DD/MM/YYYY
+            return d.toLocaleString('es-CO', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
         } catch (e) {
             return dateStr;
         }

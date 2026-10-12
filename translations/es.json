@@ -1,0 +1,307 @@
+{
+  "recipeMaster": {
+    "title": "Gestor de Recetas",
+    "description": "Crea y gestiona tus creaciones culinarias con facilidad."
+  },
+  "rMingredients": {
+    "title": "Ingredientes",
+    "description": "Guarda tus ingredientes para crear y administrar tus recetas."
+  },
+  "rMrecipes": {
+    "title": "Recetas",
+    "description": "Combina tus ingredientes para elaborar recetas deliciosas con medidas precisas."
+  },
+  "rMtraceability": {
+    "title": "Trazabilidad",
+    "description": "Haz fácilmente la trazabilidad de tus recetas."
+  },
+  "rMcost": {
+    "title": "Costo",
+    "description": "Calcula el costo de tus recetas para mantener la rentabilidad y el control."
+  },
+  "rMinventory": {
+    "title": "Inventario",
+    "description": "Gestiona el stock y el inventario de tus ingredientes."
+  },
+  "navbar": {
+    "title": "Gestor de Recetas",
+    "ingredients": "Ingredientes",
+    "recipes": "Recetas",
+    "inventory": "Inventario",
+    "logout": "Cerrar sesión",
+    "login_register": "Iniciar sesión / Registrarse",
+    "logout_confirm": "¿Estás seguro de que deseas cerrar sesión?",
+    "logout_success": "Sesión cerrada exitosamente"
+  },
+  "language": {
+    "select": "Idioma",
+    "en": "Inglés",
+    "es": "Español",
+    "fr": "Francés",
+    "it": "Italiano"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "remove": "Eliminar",
+    "edit": "Editar",
+    "update": "Actualizar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "search": "Buscar",
+    "yes": "Sí",
+    "no": "No",
+    "saveChanges": "Guardar Cambios",
+    "name": "Nombre",
+    "substract": "Restar",
+    "add": "Agregar",
+    "actions": "Acciones",
+    "amount": "Cantidad",
+    "weight": "Peso",
+    "total": "Total"
+  },
+  "myRecipe": {
+    "ingredient": "Ingrediente",
+    "weight": "Peso",
+    "edit": "Editar",
+    "remove": "Eliminar",
+    "updating": "Actualizando...",
+    "goBack": "Volver",
+    "saveChanges": "Guardar cambios",
+    "nameExists": "Ya existe una receta llamada {{name}}.",
+    "delete": "Eliminar",
+    "notSaved": "Aún no has guardado esta receta",
+    "deleteError": "Ocurrió un error al eliminar la receta."
+  },
+  "recipeNavbar": {
+    "notSaved": "Aún no has guardado esta receta",
+    "deleteError": "Ocurrió un error al eliminar la receta.",
+    "features": "Características",
+    "calculate": "Calcular",
+    "cost": "Costear",
+    "traceability": "Trazabilidad",
+    "addIngredient": "Agregar Ingrediente",
+    "addSubRecipe": "Agregar Subreceta",
+    "ingredients": "Ingredientes",
+    "weight": "Peso",
+    "missingIngredient": "Ingrediente faltante",
+    "missingIngredientDescription": "Este ingrediente aún no ha sido agregado o fue eliminado de tu tabla de ingredientes. Agrégalo o elimínalo de tus recetas para poder calcular correctamente la trazabilidad o el costo.",
+    "missingCostIngredients": "Debes ingresar el costo por Kg, L ó Unidad de los ingredientes: {{items}}"
+  },
+  "inventory": {
+    "stockInventory": "Inventario",
+    "actions": "Acciones",
+    "fireRecipes": "Ejecutar Recetas",
+    "updateStock": "Actualizar Stock",
+    "downloadPDF": "PDF",
+    "downloadExcel": "XLSX",
+    "updating": "Actualizando",
+    "updateError": "Error al actualizar el stock:",
+    "new": "Nuevo",
+    "ref": "Ref",
+    "item": "Producto",
+    "stock": "Último Stock",
+    "adjust": "Ajustar",
+    "adjustStock": "Ajustar Stock",
+    "adjustFor": "Ajustar cantidad para",
+    "enterAmount": "Ingresa una cantidad (puede ser negativa)",
+    "newStockColumn": "Nuevo",
+    "updateStockAlert": "Debes actualizar el stock principal antes de deducir recetas.",
+    "newConfirmation": "¿Estás seguro de que deseas crear un nuevo inventario? Esto reiniciará todos los stocks a cero.",
+    "updateMainStockConfirmation": "¿Estás seguro de que deseas actualizar el stock principal de los ingredientes?",
+    "negativeStockConfirm": "El resultado es negativo. ¿Estás seguro de que deseas continuar?",
+    "insertValue": "Ingresa un valor:",
+    "keepOpen": "Mantener abierto",
+    "tare": "Tara",
+    "enterTareValue": "Ingresa el valor de tara:",
+    "creationDate": "Fecha de creación",
+    "save": "Guardar",
+    "history": "Historial",
+    "historyTitle": "Historial de Inventarios",
+    "noHistory": "No hay registros de inventario guardados.",
+    "deleteConfirm": "¿Estás seguro de que deseas eliminar este registro de inventario?",
+    "loadConfirmation": "¿Estás seguro de que deseas cargar este inventario? Se reemplazarán los datos actuales.",
+    "count": "Conteo",
+    "addCount": "Agregar Conteo",
+    "deleteCountConfirm": "¿Estás seguro de que deseas eliminar esta columna de conteo? Se perderán todos los datos ingresados.",
+    "maxColumnsLimit": "No se pueden agregar más de 6 columnas de conteo.",
+    "section": "Sección",
+    "total": "Total"
+  },
+  "myRecipes": {
+    "title": "Mis Recetas",
+    "addNew": "Agregar Nueva",
+    "recipeName": "Nombre",
+    "weightPerUnit": "Peso por unidad",
+    "isSubRecipe": "Es Subreceta",
+    "defaultRecipe": "Receta",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "confirmDeleteRecipe": {
+    "title": "Confirmar eliminación:",
+    "message": "¿Estás seguro de que deseas eliminar la receta {{recipe}}?"
+  },
+  "addIngredient": {
+    "alertEnterWeight": "Debes ingresar un peso",
+    "enterWeight": "Ingresar peso de",
+    "enterWeightPlaceholder": "Ingresar peso",
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "myIngredients": {
+    "title": "Mis Ingredientes",
+    "actions": "Acciones",
+    "sortByName": "Ordenar por Nombre",
+    "sortByRef": "Ordenar por Referencia",
+    "addNew": "Agregar Nuevo",
+    "table": {
+      "ref": "Ref",
+      "name": "Nombre",
+      "stock": "Stock",
+      "unit": "Unidad de medida",
+      "brand": "Marca",
+      "supplier": "Proveedor",
+      "batch": "Lote",
+      "expiration": "Fecha de vencimiento",
+      "cost": "Costo por Kg"
+    }
+  },
+  "amountWeightModal": {
+    "title": "Ingresar Cantidad y Peso",
+    "amount": "Cantidad",
+    "weightPerUnit": "Peso por unidad"
+  },
+  "recipeFeaturesModal": {
+    "title": "Características de la Receta",
+    "namePlaceholder": "Ingresa el nombre de la receta",
+    "weightPerUnit": "Peso por unidad",
+    "defaultRecipe": "Receta predeterminada",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Ingresa una descripción para la receta",
+    "steps": "Pasos",
+    "stepsPlaceholder": "Ingresa los pasos para preparar la receta",
+    "imageUrl": "URL de la imagen",
+    "imageUrlPlaceholder": "Ingresa una URL de imagen para la receta",
+    "productWeight": "Peso del producto",
+    "isSubRecipe": "¿Es una sub-receta?"
+  },
+  "costModal": {
+    "title": "Tabla de Costos",
+    "cost": "Costo",
+    "name": "Nombre de la Receta",
+    "numberOfUnits": "Número de Unidades",
+    "costPerUnit": "Costo por Unidad",
+    "weightPerUnit": "Peso por Unidad",
+    "totalCost": "Costo Total",
+    "ingredients": "Ingredientes",
+    "requiredQuantity": "Cantidad Requerida",
+    "percentage": "Porcentaje",
+    "costPerKg": "Costo por Kg o L",
+    "totalWeight": "Peso Total",
+    "ingredient": "Ingrediente",
+    "downloadPDF": "Descargar PDF",
+    "downloadExcel": "Descargar Excel"
+  },
+  "traceabilityModal": {
+    "title": "Detalles de Trazabilidad",
+    "name": "Nombre",
+    "weightPerUnit": "Peso por unidad",
+    "amount": "Cantidad",
+    "ingredients": "Ingredientes",
+    "requiredQuantity": "Cantidad Requerida",
+    "ref": "Ref",
+    "batch": "Lote",
+    "expirationDate": "Fecha de vencimiento",
+    "close": "Cerrar"
+  },
+  "calculatedRecipeModal": {
+    "title": "Receta Calculada",
+    "downloadPDF": "Generar PDF",
+    "recipe": "Receta",
+    "numberOfUnits": "Número de Unidades",
+    "weightPerUnit": "Peso por Unidad",
+    "ingredient": "Ingrediente",
+    "weight": "Peso",
+    "unitOfMeasure": "Unidad de Medida",
+    "close": "Cerrar"
+  },
+  "addIngredientModal": {
+    "title": "Ingredientes",
+    "alreadyAddedAlert": "Ya has agregado este ingrediente"
+  },
+  "addSubRecipeModal": {
+    "title": "Agregar sub-receta",
+    "alreadyAddedAlert": "Ya has agregado esta sub-receta"
+  },
+  "editRecipeIngredient": {
+    "title": "Ingresa el peso de {{ingredient}}:",
+    "weightAlert": "Debes ingresar un peso",
+    "cuurentWeight": "Peso actual"
+  },
+  "removeIngredientModal": {
+    "title": "¿Estás seguro de que deseas eliminar {{ingredient}} de la receta?"
+  },
+  "ingredientForm": {
+    "updateStock": "Actualizar Stock",
+    "enterAmount": "Ingresar cantidad",
+    "add": "Agregar",
+    "subtract": "Restar",
+    "updating": "Actualizando...",
+    "name": "Nombre del Ingrediente",
+    "reference": "Referencia",
+    "unitOfMeasure": "Unidad de Medida",
+    "choose": "Elegir",
+    "stock": "Stock",
+    "setInInventory": "Establecer en Inventario",
+    "supplier": "Proveedor",
+    "minStock": "Stock Mínimo",
+    "costPerKg": "Costo por Kg o L",
+    "expirationDate": "Fecha de vencimiento",
+    "batch": "Lote",
+    "brand": "Marca",
+    "delete": "Eliminar",
+    "saveChanges": "Guardar Cambios",
+    "nameExists": "Ya existe un ingrediente llamado {{name}}",
+    "nameRequired": "El nombre del ingrediente es obligatorio."
+  },
+  "deleteIngredientModal": {
+    "title": "Confirmar eliminación",
+    "confirm": "¿Estás seguro de que deseas eliminar el ingrediente {{ingredient}}?",
+    "message": "Eliminar este ingrediente lo quitará de TODAS tus recetas."
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "not_registered": "¿No tienes cuenta? ¡Regístrate aquí!",
+    "sign_in_google": "Iniciar sesión con Google",
+    "sign_in_facebook": "Iniciar sesión con Facebook",
+    "welcome": "Bienvenido",
+    "login_error": "Error al iniciar sesión",
+    "enter_email_reset": "Por favor, ingrese su correo para restablecer la contraseña.",
+    "password_reset_sent": "Se ha enviado un correo para restablecer la contraseña.",
+    "password_reset_error": "Error al enviar el correo de restablecimiento.",
+    "repeat_password": "Repetir contraseña",
+    "password_requirement": "Al menos 6 caracteres.",
+    "back_to_login": "Volver al inicio de sesión"
+  },
+  "download": {
+    "pdf": "PDF",
+    "excel": "Excel",
+    "svg": "SVG",
+    "export": "Exportar"
+  },
+  "exportModal": {
+    "title": "Exportar Inventario",
+    "question": "¿Deseas incluir las secciones de conteo en la exportación o solo los totales?",
+    "includeCounts": "Incluir Conteos y Totales",
+    "onlyTotals": "Solo Totales"
+  }
+}

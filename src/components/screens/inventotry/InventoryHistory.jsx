@@ -63,17 +63,20 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
     const tableData = {
         title: t('inventory.historyTitle') || 'Historial de Inventarios',
         tableData: historyList.map((record) => ({
-            [t('inventory.creationDate') || 'Fecha de creación']: formatDate(record.creationDate || record.createdAt),
+            [t('inventory.creationDate') || 'Fecha de creación']: (
+                <button
+                    type="button"
+                    className="btn btn-link p-0 text-decoration-none text-start"
+                    onClick={() => setSelectedRecord(record)}
+                    title={t('common.view') || 'Ver'}
+                >
+                    {formatDate(record.creationDate || record.createdAt)}
+                </button>
+            ),
             [t('myIngredients.title') || 'Productos']: record.items ? record.items.length : 0,
             [t('inventory.count') || 'Conteos']: record.countColumns ? record.countColumns.length : 0,
             [t('common.actions') || 'Acciones']: (
                 <div className="d-flex gap-2">
-                    <CustomButton
-                        className="info"
-                        onClick={() => setSelectedRecord(record)}
-                        label={<i className="bi bi-eye"></i>}
-                        title={t('common.view') || 'Ver'}
-                    />
                     {onLoadInventory && (
                         <CustomButton
                             className="success"

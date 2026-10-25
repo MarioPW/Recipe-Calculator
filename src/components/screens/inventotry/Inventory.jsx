@@ -58,17 +58,30 @@ export const Inventory = () => {
   } = useInventoryState();
 
   const [exportModalType, setExportModalType] = useState(null); // 'pdf' | 'excel' | null
+  const [showSaveModal, setShowSaveModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
 
-  const handleSaveToFirebase = async () => {
+  // includeAll: true → guarda con todas las secciones de conteo
+  //             false → guarda solo los totales (sin countColumns)
+  const handleSaveToFirebase = async (includeAll = true) => {
     if (!currentInventory || currentInventory.length === 0) return;
+    const itemsToSave = includeAll
+      ? currentInventory
+      : currentInventory.map(({ counts, ...rest }) => rest);
     const inventoryData = {
       creationDate: creationDate || getLocalISOString(),
-      items: currentInventory,
-      countColumns: countColumns,
+      items: itemsToSave,
+      countColumns: includeAll ? countColumns : [],
       tareValue: tareValue
     };
     await inventoryService.saveInventory(inventoryData);
+    setShowSaveModal(false);
+  };
+
+  // Siempre muestra el modal de selección al guardar
+  const handleSaveClick = () => {
+    if (!currentInventory || currentInventory.length === 0) return;
+    setShowSaveModal(true);
   };
 
   const handleLoadInventoryFromHistory = (record) => {
@@ -267,7 +280,7 @@ export const Inventory = () => {
         <div className="row g-2 w-100 m-0 d-lg-none">
           <div className="col-6 d-flex flex-column gap-2 p-0 pe-1">
             <CustomButton className='light w-100' label={t('inventory.new')} onClick={handleNewInventory} />
-            <CustomButton className='light w-100' label={t('inventory.save')} onClick={handleSaveToFirebase} />
+            <CustomButton className='light w-100' label={t('inventory.save')} onClick={handleSaveClick} />
             <CustomButton className='light w-100' label={t('inventory.history')} onClick={() => setShowHistory(true)} />
             <ExportDropdown
               fileGeneratorData={fileGeneratorData}
@@ -298,7 +311,7 @@ export const Inventory = () => {
             onClick={handleToggleTare}
           />
           <CustomButton className='light' label={t('inventory.fireRecipes')} onClick={() => setFireRecipeModal(true)} />
-          <CustomButton className='light' label={t('inventory.save')} onClick={handleSaveToFirebase} />
+          <CustomButton className='light' label={t('inventory.save')} onClick={handleSaveClick} />
           <CustomButton className='light' label={t('inventory.history')} onClick={() => setShowHistory(true)} />
           <ExportDropdown
             fileGeneratorData={fileGeneratorData}
@@ -341,6 +354,58 @@ export const Inventory = () => {
           currentInventory={currentInventory}
           setCurrentInventory={setCurrentInventory}
         />
+      )}
+
+      {showSaveModal && (
+        <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content border shadow">
+              <div className="modal-header bg-color-main text-light">
+                <h5 className="modal-title">
+                  <i className="bi bi-floppy me-2"></i>
+                  {t('saveModal.title')}
+                </h5>
+                <button
+                  type="button"
+                  className="bg-light btn-close"
+                  onClick={() => setShowSaveModal(false)}
+                />
+              </div>
+              <div className="modal-body text-center py-4">
+                <p className="fs-5 fw-semibold mb-4">
+                  {t('saveModal.question')}
+                </p>
+                <div className="d-grid gap-3 col-11 mx-auto">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={() => handleSaveToFirebase(true)}
+                  >
+                    <i className="bi bi-grid-3x3-gap me-2"></i>
+                    {t('saveModal.includeCounts')}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary btn-lg"
+                    onClick={() => handleSaveToFirebase(false)}
+                  >
+                    <i className="bi bi-calculator me-2"></i>
+                    {t('saveModal.onlyTotals')}
+                  </button>
+                </div>
+              </div>
+              <div className="modal-footer justify-content-center">
+                <button
+                  type="button"
+                  className="btn btn-light"
+                  onClick={() => setShowSaveModal(false)}
+                >
+                  {t('common.cancel')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {exportModalType && (

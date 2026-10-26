@@ -96,11 +96,12 @@ export const Inventory = () => {
       ? currentInventory
       : currentInventory.map(({ counts, ...rest }) => rest);
     const inventoryData = {
-      creationDate: creationDate || getLocalISOString(),
+      creationDate: getLocalISOString(),
       items: itemsToSave,
       countColumns: includeAll ? countColumns : [],
       tareValue: tareValue
     };
+    setCreationDate(inventoryData.creationDate);
 
     let result;
     try {

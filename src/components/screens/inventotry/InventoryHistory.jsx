@@ -329,7 +329,7 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                             </div>
 
                             {/* Footer */}
-                            <div className="modal-footer justify-content-between flex-wrap gap-2">
+                            <div className="modal-footer justify-content-between flex-wrap gap-2 bg-dark">
                                 <div className="d-flex gap-2 flex-wrap">
                                     {/* Load full */}
                                     {onLoadInventory && (

@@ -130,7 +130,17 @@
     "deleteCountConfirm": "Are you sure you want to delete this count column? All entered data will be lost.",
     "maxColumnsLimit": "You cannot add more than 6 count columns.",
     "section": "Section",
-    "total": "Total"
+    "total": "Total",
+    "selectRow": "Select entire row",
+    "selectColumn": "Select entire column",
+    "selectCell": "Select individual value",
+    "legendRow": "Click on Ref / Name → entire row",
+    "legendCol": "Click on section header → entire column",
+    "legendCell": "Click on count cell → individual value",
+    "selectionHint": "Select rows, columns or individual cells to load only that part. Without a selection, the full inventory is loaded.",
+    "loadFull": "Load full",
+    "loadSelection": "Load selection",
+    "noSelection": "Select at least one row, column or cell"
   },
   "myRecipes": {
     "title": "My Recipes",

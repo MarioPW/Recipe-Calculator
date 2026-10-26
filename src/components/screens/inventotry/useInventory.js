@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMainContext } from '../../../context/MainContext';
 import { getLocalISOString } from '../../../utilities/utils';
@@ -20,53 +20,55 @@ export const useInventoryState = () => {
     const [tareValue, setTareValue] = useState(0);
     const [creationDate, setCreationDate] = useState(null);
 
+    const isInitialized = useRef(false);
+
     useEffect(() => {
         const saved = localStorage.getItem('unsavedInventoryChanges');
-        if (saved) {
-            try {
-                const lastStock = JSON.parse(saved);
-                if (lastStock && Array.isArray(lastStock.items)) {
-                    setCurrentInventory(lastStock.items);
-                    if (lastStock.creationDate) {
-                        setCreationDate(lastStock.creationDate);
-                    }
+        if (!isInitialized.current) {
+            if (saved) {
+                try {
+                    const lastStock = JSON.parse(saved);
+                    if (lastStock && Array.isArray(lastStock.items)) {
+                        setCurrentInventory(lastStock.items);
+                        if (lastStock.creationDate) setCreationDate(lastStock.creationDate);
 
-                    // Show count columns ONLY if there are 2 or more counts; otherwise show only totals
-                    const maxCounts = Math.max(
-                        0,
-                        ...lastStock.items.map(item => (Array.isArray(item.counts) ? item.counts.length : 0))
-                    );
+                        const maxCounts = Math.max(
+                            0,
+                            ...lastStock.items.map(item => (Array.isArray(item.counts) ? item.counts.length : 0))
+                        );
 
-                    let restoredColumns = [];
-                    if (Array.isArray(lastStock.countColumns) && lastStock.countColumns.length >= 2 && lastStock.countColumns.length >= maxCounts) {
-                        restoredColumns = lastStock.countColumns;
-                    } else if (maxCounts >= 2) {
-                        restoredColumns = Array.from({ length: maxCounts }, (_, index) => ({
-                            id: Date.now() + index,
-                            name: `${t('inventory.section')} ${index + 1}`,
-                            date: new Date().toLocaleDateString(),
-                            value: 0
-                        }));
+                        let restoredColumns = [];
+                        if (Array.isArray(lastStock.countColumns) && lastStock.countColumns.length >= 2 && lastStock.countColumns.length >= maxCounts) {
+                            restoredColumns = lastStock.countColumns;
+                        } else if (maxCounts >= 2) {
+                            restoredColumns = Array.from({ length: maxCounts }, (_, index) => ({
+                                id: Date.now() + index,
+                                name: `${t('inventory.section')} ${index + 1}`,
+                                date: new Date().toLocaleDateString(),
+                                value: 0
+                            }));
+                        }
+                        setCountColumns(restoredColumns);
                     }
-                    setCountColumns(restoredColumns);
+                } catch (e) {
+                    console.error("Error loading unsavedInventoryChanges from localStorage:", e);
                 }
-            } catch (e) {
-                console.error("Error loading unsavedInventoryChanges from localStorage:", e);
+            } else if (ingredients && ingredients.length > 0) {
+                const baseInventory = ingredients
+                    .filter(ing => ing.setInInventory)
+                    .map(ing => ({
+                        id: ing.id,
+                        name: ing.name,
+                        reference: ing.reference,
+                        unitOfMeasure: ing.unitOfMeasure,
+                        minStock: ing.minStock || 0,
+                        stock: 0,
+                        counts: []
+                    }));
+                setCurrentInventory(baseInventory);
+                setCountColumns([]);
             }
-        } else {
-            const baseInventory = ingredients
-                .filter(ing => ing.setInInventory)
-                .map(ing => ({
-                    id: ing.id,
-                    name: ing.name,
-                    reference: ing.reference,
-                    unitOfMeasure: ing.unitOfMeasure,
-                    minStock: ing.minStock || 0,
-                    stock: 0,
-                    counts: []
-                }));
-            setCurrentInventory(baseInventory);
-            setCountColumns([]);
+            isInitialized.current = true;
         }
     }, [ingredients]);
 
@@ -98,6 +100,37 @@ export const useInventoryState = () => {
                 }));
             setCurrentInventory(resetInventory);
         }
+    };
+
+    const handleLoadInventory = (record) => {
+        if (!record) return;
+
+        const itemsToLoad = record.items || [];
+        const dateToLoad = record.creationDate || record.createdAt || getLocalISOString();
+        const tareToLoad = record.tareValue !== undefined ? record.tareValue : 0;
+
+        // 1. Normalizar y transformar las columnas dentro del hook
+        const transformedColumns = (record.countColumns || []).map((col, idx) => {
+            const name = col.name && col.name.includes('inventory.section')
+                ? `${t('inventory.section')} ${idx + 1}`
+                : col.name;
+            return { ...col, name };
+        });
+
+        // 2. Actualizar estados
+        setCurrentInventory(itemsToLoad);
+        setCountColumns(transformedColumns);
+        setCreationDate(dateToLoad);
+        setTareValue(tareToLoad);
+
+        // 3. Persistir de inmediato
+        const newStockState = {
+            lastUpdate: getLocalISOString(),
+            creationDate: dateToLoad,
+            items: itemsToLoad,
+            countColumns: transformedColumns
+        };
+        localStorage.setItem('unsavedInventoryChanges', JSON.stringify(newStockState));
     };
 
     const saveInventory = () => {
@@ -290,6 +323,7 @@ export const useInventoryState = () => {
         currentInventory,
         setCurrentInventory,
         countColumns,
+        setCountColumns,      // ← exportado para que Inventory.jsx pueda usarlo
         selectedIngredient,
         selectedSection,
         setSelectedSection,
@@ -307,6 +341,7 @@ export const useInventoryState = () => {
         setCreationDate,
         handleToggleTare,
         handleNewInventory,
+        handleLoadInventory,
         saveInventory,
         handleUpdateStock,
         handleOpenStockModal,

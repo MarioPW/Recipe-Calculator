@@ -85,13 +85,33 @@ export const Inventory = () => {
   };
 
   const handleLoadInventoryFromHistory = (record) => {
-    if (confirm(t('inventory.loadConfirmation') || '¿Estás seguro de que deseas cargar este inventario? Se reemplazarán los datos actuales.')) {
-      if (record.items) setCurrentInventory(record.items);
-      if (record.countColumns) setCountColumns(record.countColumns);
-      if (record.creationDate || record.createdAt) setCreationDate(record.creationDate || record.createdAt);
-      if (record.tareValue !== undefined) setTareValue(record.tareValue);
-      setShowHistory(false);
+    if (!confirm(t('inventory.loadConfirmation') || '¿Estás seguro de que deseas cargar este inventario? Se reemplazarán los datos actuales.')) return;
+
+    // 1. Si usas selección parcial, procesamos el registro primero (si no, ignora esta línea y usa 'record')
+    const processedRecord = typeof buildPartialRecord === 'function' ? buildPartialRecord(record) : record;
+
+    // 2. Transformar nombres de columnas si contienen claves de traducción
+    const transformedColumns = (processedRecord.countColumns || []).map((col, idx) => {
+      const name = col.name && col.name.includes('inventory.section')
+        ? `${t('inventory.section')} ${idx + 1}`
+        : col.name;
+      return { ...col, name };
+    });
+
+    // 3. ORDEN CRÍTICO: Primero establecemos las columnas y fecha/tara, y de último los items.
+    // Esto evita que la tabla intente pintar ítems con un número de columnas desincronizado.
+    if (processedRecord.countColumns) setCountColumns(transformedColumns);
+    if (processedRecord.creationDate || processedRecord.createdAt) {
+      setCreationDate(processedRecord.creationDate || processedRecord.createdAt);
     }
+    if (processedRecord.tareValue !== undefined) setTareValue(processedRecord.tareValue);
+
+    if (processedRecord.items) {
+      setCurrentInventory(processedRecord.items);
+    }
+
+    // 4. Cerramos la vista de historial
+    setShowHistory(false);
   };
 
   // --- Export Handling ---
@@ -194,6 +214,9 @@ export const Inventory = () => {
       t('inventory.ref'),
       t('inventory.item'),
       ...countColumns.map((col, index) => {
+        const displayName = col.name && col.name.includes('inventory.section')
+          ? `${t('inventory.section')} ${index + 1}`
+          : col.name;
         const isSelected = selectedSection === index;
         return (
           <div
@@ -205,7 +228,7 @@ export const Inventory = () => {
               className={`p-0 text-decoration-none text-reset fw-bold ${isSelected ? 'text-primary' : ''}`}
               style={{ fontSize: '0.90rem' }}
             >
-              {col.name}
+              {displayName}
             </span>
             <button
               className="btn btn-sm btn-light p-0 px-1 hover-danger"
@@ -329,7 +352,9 @@ export const Inventory = () => {
             {alertMessage || `${t('inventory.updating')}...`}
           </div>
         )}
-        <CustomTable {...tableData} />
+        <CustomTable
+          key={`inventory-table-${countColumns.length}`}
+          {...tableData} />
       </main>
 
       {/* Modals */}

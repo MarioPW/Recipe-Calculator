@@ -130,7 +130,17 @@
     "deleteCountConfirm": "¿Estás seguro de que deseas eliminar esta columna de conteo? Se perderán todos los datos ingresados.",
     "maxColumnsLimit": "No se pueden agregar más de 6 columnas de conteo.",
     "section": "Sección",
-    "total": "Total"
+    "total": "Total",
+    "selectRow": "Seleccionar fila completa",
+    "selectColumn": "Seleccionar columna completa",
+    "selectCell": "Seleccionar valor individual",
+    "legendRow": "Clic en Ref / Nombre → fila completa",
+    "legendCol": "Clic en encabezado de sección → columna completa",
+    "legendCell": "Clic en celda de conteo → valor individual",
+    "selectionHint": "Selecciona filas, columnas o celdas individuales para cargar solo esa parte. Sin selección se carga el inventario completo.",
+    "loadFull": "Cargar completo",
+    "loadSelection": "Cargar selección",
+    "noSelection": "Selecciona al menos una fila, columna o celda"
   },
   "myRecipes": {
     "title": "Mis Recetas",
@@ -303,5 +313,11 @@
     "question": "¿Deseas incluir las secciones de conteo en la exportación o solo los totales?",
     "includeCounts": "Incluir Conteos y Totales",
     "onlyTotals": "Solo Totales"
+  },
+  "saveModal": {
+    "title": "Guardar Inventario",
+    "question": "¿Deseas guardar el inventario con todas las secciones de conteo o solo los totales?",
+    "includeCounts": "Guardar con Conteos y Totales",
+    "onlyTotals": "Guardar Solo Totales"
   }
 }

@@ -140,7 +140,13 @@
     "selectionHint": "Selecciona filas, columnas o celdas individuales para cargar solo esa parte. Sin selección se carga el inventario completo.",
     "loadFull": "Cargar completo",
     "loadSelection": "Cargar selección",
-    "noSelection": "Selecciona al menos una fila, columna o celda"
+    "noSelection": "Selecciona al menos una fila, columna o celda",
+    "saveSynced": "Inventario guardado exitosamente.",
+    "savedLocally": "Guardado en este dispositivo. Se sincronizará automáticamente al recuperar la conexión.",
+    "pendingSave": "Tienes un inventario guardado en este dispositivo pendiente de sincronizar.",
+    "saveSyncError": "No se pudo sincronizar el inventario pendiente.",
+    "loginRequired": "Debes iniciar sesión para guardar el inventario.",
+    "saveError": "Error al guardar el inventario:"
   },
   "myRecipes": {
     "title": "Mis Recetas",

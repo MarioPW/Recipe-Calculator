@@ -363,7 +363,7 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                                 </div>
 
                                 <CustomButton
-                                    className="light"
+                                    className="secondary"
                                     onClick={() => setSelectedRecord(null)}
                                     label={t('common.close') || 'Cerrar'}
                                 />

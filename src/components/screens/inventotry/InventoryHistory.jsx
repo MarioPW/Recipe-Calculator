@@ -117,14 +117,6 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
             [t('inventory.count') || 'Conteos']: record.countColumns ? record.countColumns.length : 0,
             [t('common.actions') || 'Acciones']: (
                 <div className="d-flex gap-2">
-                    {onLoadInventory && (
-                        <CustomButton
-                            className="success"
-                            onClick={() => onLoadInventory(record)}
-                            label={<i className="bi bi-download" />}
-                            title={t('common.load') || 'Cargar'}
-                        />
-                    )}
                     <CustomButton
                         className="danger"
                         onClick={() => handleDelete(record.id)}
@@ -341,38 +333,40 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                                 <div className="d-flex gap-2 flex-wrap">
                                     {/* Load full */}
                                     {onLoadInventory && (
-                                        <button
-                                            type="button"
-                                            className="btn btn-success"
+                                        <CustomButton
+                                            className="light"
                                             onClick={handleLoadFull}
-                                        >
-                                            <i className="bi bi-download me-1" />
-                                            {t('inventory.loadFull') || 'Cargar completo'}
-                                        </button>
+                                            label={
+                                                <>
+                                                    <i className="bi bi-download me-1" />
+                                                    {t('inventory.loadFull') || 'Cargar completo'}
+                                                </>
+                                            }
+                                        />
                                     )}
 
                                     {/* Load selection (only enabled when something is selected) */}
                                     {onLoadInventory && (
-                                        <button
-                                            type="button"
-                                            className="btn btn-warning text-dark"
+                                        <CustomButton
+                                            className="light"
                                             onClick={handleLoadSelection}
+                                            label={
+                                                <>
+                                                    <i className="bi bi-ui-checks me-1" />
+                                                    {t('inventory.loadSelection') || 'Cargar selección'}
+                                                </>
+                                            }
                                             disabled={!hasSelection}
                                             title={hasSelection ? '' : (t('inventory.noSelection') || 'Selecciona al menos una fila, columna o celda')}
-                                        >
-                                            <i className="bi bi-ui-checks me-1" />
-                                            {t('inventory.loadSelection') || 'Cargar selección'}
-                                        </button>
+                                        />
                                     )}
                                 </div>
 
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
+                                <CustomButton
+                                    className="light"
                                     onClick={() => setSelectedRecord(null)}
-                                >
-                                    {t('common.close') || 'Cerrar'}
-                                </button>
+                                    label={t('common.close') || 'Cerrar'}
+                                />
                             </div>
                         </div>
                     </div>

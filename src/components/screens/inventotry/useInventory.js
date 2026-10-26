@@ -106,7 +106,7 @@ export const useInventoryState = () => {
         if (!record) return;
 
         const itemsToLoad = record.items || [];
-        const dateToLoad = record.creationDate || record.createdAt || getLocalISOString();
+        const dateToLoad = getLocalISOString();
         const tareToLoad = record.tareValue !== undefined ? record.tareValue : 0;
 
         // 1. Normalizar y transformar las columnas dentro del hook

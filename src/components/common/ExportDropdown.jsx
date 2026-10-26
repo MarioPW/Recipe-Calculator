@@ -1,4 +1,3 @@
-import { generatePDF, generateXlsxTable } from '../../utilities/filesGenerator';
 import { useTranslation } from 'react-i18next';
 
 export const ExportDropdown = ({
@@ -11,24 +10,26 @@ export const ExportDropdown = ({
     const { t } = useTranslation();
     const { title, tableData, summary = {} } = fileGeneratorData || {};
 
-    const handleExportPDF = () => {
+    const handleExportPDF = async () => {
         if (onExportPDF) {
             onExportPDF();
             return;
         }
         try {
+            const { generatePDF } = await import('../../utilities/pdfGenerator');
             generatePDF(title, tableData, summary);
         } catch (error) {
             console.error('Error generating PDF:', error);
         }
     };
 
-    const handleExportXLS = () => {
+    const handleExportXLS = async () => {
         if (onExportXLS) {
             onExportXLS();
             return;
         }
         try {
+            const { generateXlsxTable } = await import('../../utilities/xlsxGenerator');
             generateXlsxTable(title, tableData, summary);
         } catch (error) {
             console.error('Error generating Excel:', error);

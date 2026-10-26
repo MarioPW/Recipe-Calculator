@@ -1,18 +1,19 @@
 // React
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Route, Routes } from 'react-router-dom'
-import { Suspense } from "react";
 
 // Components
-import { Home } from "./components/screens/Home/Home";
 import { NavBar } from './components/screens/Home/NavBar'
-import { LoginRegister } from './components/screens/Home/LoginRegister'
-import { MyRecipes } from './components/screens/Recipes/MyRecipes';
-import { MyRecipe } from './components/screens/Recipes/MyRecipe';
-import { MyIngredients } from './components/screens/Ingredients/MyIngredients';
-import { IngredientForm } from './components/screens/Ingredients/IngredientForm';
 import { Inventory } from './components/screens/inventotry/Inventory';
 import { Spinner } from './components/common/Spinner';
+
+// Screens loaded on demand to keep the initial bundle small
+const Home = lazy(() => import('./components/screens/Home/Home').then(m => ({ default: m.Home })));
+const LoginRegister = lazy(() => import('./components/screens/Home/LoginRegister').then(m => ({ default: m.LoginRegister })));
+const MyRecipes = lazy(() => import('./components/screens/Recipes/MyRecipes').then(m => ({ default: m.MyRecipes })));
+const MyRecipe = lazy(() => import('./components/screens/Recipes/MyRecipe').then(m => ({ default: m.MyRecipe })));
+const MyIngredients = lazy(() => import('./components/screens/Ingredients/MyIngredients').then(m => ({ default: m.MyIngredients })));
+const IngredientForm = lazy(() => import('./components/screens/Ingredients/IngredientForm').then(m => ({ default: m.IngredientForm })));
 
 // Utilities
 import { cleanLocalStorage, checkIngredientsOrder } from './utilities/utils';

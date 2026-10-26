@@ -1,24 +1,32 @@
 export class IngredientAdapter {
-    adapt(ingredient) {
+    static adapt(ingredient) {
       return {
         id: ingredient.id || ingredient.FSUid || ingredient.FSId,
         name: ingredient.name,
         unitOfMeasure: ingredient.unitOfMeasure,
         brand: ingredient.brand || "",
         supplier: ingredient.supplier || "",
-        costPerKg: this.parseNumber(ingredient.costPerKg),
+        costPerKg: IngredientAdapter.parseNumber(ingredient.costPerKg),
         expirationDate: ingredient.expirationDate || "",
         batch: ingredient.batch || "",
-        minStock: this.parseNumber(ingredient.minStock),
+        minStock: IngredientAdapter.parseNumber(ingredient.minStock),
         reference: ingredient.reference || "",
         setInInventory: ingredient.setInInventory || false
       };
     }
-  
-    parseNumber(value) {
+
+    static parseNumber(value) {
       if (value === null || value === undefined || value === "") return null;
-  
+
       const parsed = Number(value);
       return isNaN(parsed) ? null : parsed;
+    }
+
+    adapt(ingredient) {
+      return IngredientAdapter.adapt(ingredient);
+    }
+
+    parseNumber(value) {
+      return IngredientAdapter.parseNumber(value);
     }
   }

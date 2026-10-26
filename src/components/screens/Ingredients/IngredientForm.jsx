@@ -4,7 +4,7 @@ import { Spinner } from '../../common/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { ConfirmDeleteModal } from './ingredientModals/ConfirmDeleteModal';
 import { useTranslation } from 'react-i18next';
-import { ingredientSchema } from '../../../validations/ingredientValidation';
+import { validateIngredient } from '../../../validations/ingredientValidation';
 import { z } from "zod";
 import { CustomButton } from '../../common/CustomButton';
 
@@ -72,27 +72,31 @@ export const IngredientForm = () => {
     }
 
     try {
-      ingredientSchema.parse(ingredientData);
+      const validation = validateIngredient(ingredientData);
+      if (!validation.success) {
+        const message = validation.errors.join("\n");
+        alert(message);
+        setLoading(false);
+        return;
+      }
+      const ingredientDataToSave = validation.data;
       setLoading(true);
 
       if (isEditing) {
-        await ingredientService.updateMyIngredient(ingredientId, ingredientData);
+        await ingredientService.updateMyIngredient(ingredientId, ingredientDataToSave);
 
         setIngredients(
           ingredients.map((item) =>
-            item.id === ingredientId ? { ...ingredientData, id: ingredientId } : item
+            item.id === ingredientId ? { ...ingredientDataToSave, id: ingredientId } : item
           )
         );
       } else {
-        const newIngredientId = await ingredientService.saveIngredient(ingredientData);
-        setIngredients([...ingredients, { ...ingredientData, id: newIngredientId }]);
+        const newIngredientId = await ingredientService.saveIngredient(ingredientDataToSave);
+        setIngredients([...ingredients, { ...ingredientDataToSave, id: newIngredientId }]);
         setIngredientData(emptyIngredient);
       }
     } catch (error) {
-      const message =
-        error instanceof z.ZodError
-          ? error.errors.map((e) => e.message).join("\n")
-          : t("ingredientForm.validationError") || "Ha ocurrido un error de validación.";
+      const message = t("ingredientForm.validationError") || "Ha ocurrido un error de validación.";
       alert(message);
     } finally {
       setLoading(false);

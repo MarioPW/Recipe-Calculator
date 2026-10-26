@@ -1,6 +1,7 @@
 import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 // import { collection, addDoc, doc, setDoc, getDoc, getDocs, where, query, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
+import { RecipeAdapter } from "../adapters/recipeAdapters";
 
 export class RecipeService {
     constructor() {
@@ -18,7 +19,7 @@ export class RecipeService {
             const q = query(collection(this.db, "recipes"), where("userId", "==", userId));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-                recipes.push({ id: doc.id, ...doc.data() });
+                recipes.push({ id: doc.id, ...RecipeAdapter.adapt(doc.data()) });
             });
             return recipes;
         } catch (error) {
@@ -29,11 +30,12 @@ export class RecipeService {
     async saveRecipe(recipe) { /* -> type: Recipe() || false */
         try {
             const querySnapshot = collection(this.db, "recipes");
-            const response = await addDoc(querySnapshot, {...recipe, userId: this.auth.currentUser.uid});
+            const adaptedRecipe = RecipeAdapter.adapt(recipe);
+            const response = await addDoc(querySnapshot, {...adaptedRecipe, userId: this.auth.currentUser.uid});
             alert(`Recipe "${recipe.name}" saved successfully`)
             return response.id
         } catch (error) {
-            console.error("Error parsing or saving data to localStorage:", error);
+            console.error("Error saving recipe:", error);
             return false;
         }
     }
@@ -49,15 +51,18 @@ export class RecipeService {
     async getRecipeById(id) { /* -> type: Recipe() || console.error */
         try {
             const querySnapshot = await getDoc(doc(this.db, "recipes", id));
-            return querySnapshot.data();
+            const data = querySnapshot.data();
+            if (!data) return null;
+            return { id: querySnapshot.id, ...RecipeAdapter.adapt(data) };
         } catch (error) {
-            console.error("Error parsing or retrieving data from localStorage:", error);
+            console.error("Error getting recipe by id:", error);
         }
     }
     async update(updates, recipeId) { /* -> alert || error */
         try {
             const recipeDocRef = doc(this.db, "recipes", recipeId);
-            await setDoc(recipeDocRef, {userId: this.auth.currentUser.uid, ...updates});
+            const adaptedRecipe = RecipeAdapter.adapt(updates);
+            await setDoc(recipeDocRef, {userId: this.auth.currentUser.uid, ...adaptedRecipe});
             alert(`Recipe "${updates.name}" updated successfully`)
         } catch (error) {
             alert("Error updating recipe. Make sure you are logged in." + error);

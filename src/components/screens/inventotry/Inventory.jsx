@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../common/Spinner';
 import { FireRecipeModal } from './FireRecipeModal';
@@ -11,7 +11,7 @@ import { InventoryHistory } from './InventoryHistory';
 import { useInventoryState } from './useInventory';
 import { useMainContext } from '../../../context/MainContext';
 import { formatNumber, getLocalISOString } from '../../../utilities/utils';
-import { generatePDF, generateXlsxTable } from '../../../utilities/filesGenerator';
+import { hasPendingInventorySave, flushPendingInventorySaves } from '../../../services/inventoryServices';
 
 // Helper to determine styling for stock levels
 const getStockCellStyles = (ingredient) => {
@@ -60,6 +60,33 @@ export const Inventory = () => {
   const [exportModalType, setExportModalType] = useState(null); // 'pdf' | 'excel' | null
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [saveNotice, setSaveNotice] = useState(null);
+
+  useEffect(() => {
+    if (!saveNotice) return undefined;
+    const timeoutId = setTimeout(() => setSaveNotice(null), 6000);
+    return () => clearTimeout(timeoutId);
+  }, [saveNotice]);
+
+  useEffect(() => {
+    const handleInventorySync = (event) => {
+      const { status } = event.detail || {};
+      if (status === 'synced') {
+        setSaveNotice({ type: 'success', message: t('inventory.saveSynced') });
+      } else if (status === 'error') {
+        setSaveNotice({ type: 'danger', message: t('inventory.saveSyncError') });
+      }
+    };
+
+    window.addEventListener('inventory-sync', handleInventorySync);
+
+    if (hasPendingInventorySave()) {
+      setSaveNotice({ type: 'warning', message: t('inventory.pendingSave') });
+      flushPendingInventorySaves();
+    }
+
+    return () => window.removeEventListener('inventory-sync', handleInventorySync);
+  }, [t]);
 
   // includeAll: true → guarda con todas las secciones de conteo
   //             false → guarda solo los totales (sin countColumns)
@@ -74,8 +101,34 @@ export const Inventory = () => {
       countColumns: includeAll ? countColumns : [],
       tareValue: tareValue
     };
-    await inventoryService.saveInventory(inventoryData);
+
+    let result;
+    try {
+      result = await inventoryService.saveInventory(inventoryData);
+    } catch (error) {
+      result = { status: 'error', error };
+    }
     setShowSaveModal(false);
+
+    switch (result?.status) {
+      case 'synced':
+        setSaveNotice({ type: 'success', message: t('inventory.saveSynced') });
+        break;
+      case 'queued':
+        setSaveNotice({ type: 'warning', message: t('inventory.savedLocally') });
+        break;
+      case 'unauthenticated':
+        setSaveNotice({ type: 'danger', message: t('inventory.loginRequired') });
+        break;
+      case 'error':
+        setSaveNotice({
+          type: 'danger',
+          message: `${t('inventory.saveError')} ${result.error?.message || ''}`.trim()
+        });
+        break;
+      default:
+        break;
+    }
   };
 
   // Siempre muestra el modal de selección al guardar
@@ -101,9 +154,7 @@ export const Inventory = () => {
     // 3. ORDEN CRÍTICO: Primero establecemos las columnas y fecha/tara, y de último los items.
     // Esto evita que la tabla intente pintar ítems con un número de columnas desincronizado.
     if (processedRecord.countColumns) setCountColumns(transformedColumns);
-    if (processedRecord.creationDate || processedRecord.createdAt) {
-      setCreationDate(processedRecord.creationDate || processedRecord.createdAt);
-    }
+    setCreationDate(getLocalISOString());
     if (processedRecord.tareValue !== undefined) setTareValue(processedRecord.tareValue);
 
     if (processedRecord.items) {
@@ -116,7 +167,7 @@ export const Inventory = () => {
 
   // --- Export Handling ---
 
-  const generateExport = (type, includeCounts) => {
+  const generateExport = async (type, includeCounts) => {
     const exportTitle = `${t('inventory.stockInventory')} - ${new Date().toLocaleDateString()}`;
     let exportTableData = [];
 
@@ -140,10 +191,16 @@ export const Inventory = () => {
       }));
     }
 
-    if (type === 'pdf') {
-      generatePDF(exportTitle, exportTableData);
-    } else if (type === 'excel') {
-      generateXlsxTable(exportTitle, exportTableData);
+    try {
+      if (type === 'pdf') {
+        const { generatePDF } = await import('../../../utilities/pdfGenerator');
+        generatePDF(exportTitle, exportTableData);
+      } else if (type === 'excel') {
+        const { generateXlsxTable } = await import('../../../utilities/xlsxGenerator');
+        generateXlsxTable(exportTitle, exportTableData);
+      }
+    } catch (error) {
+      console.error(`Error generating ${type.toUpperCase()}:`, error);
     }
 
     setExportModalType(null);
@@ -345,6 +402,22 @@ export const Inventory = () => {
           />
         </div>
       </SecondaryNavbar>
+
+      {saveNotice && (
+        <div
+          className={`alert alert-${saveNotice.type} position-fixed bottom-0 start-50 translate-middle-x shadow-lg d-flex align-items-center gap-2 mb-3`}
+          style={{ zIndex: 1060, maxWidth: '92vw' }}
+          role="alert"
+        >
+          <span>{saveNotice.message}</span>
+          <button
+            type="button"
+            className="btn-close"
+            aria-label={t('common.close')}
+            onClick={() => setSaveNotice(null)}
+          />
+        </div>
+      )}
 
       <main className="table-responsive overflow-x-auto">
         {(alert || alertMessage) && (

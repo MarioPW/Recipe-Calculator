@@ -7,10 +7,26 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth
 const getInventoryStorageKey = () => {
     const auth = getAuth();
     const uid = auth.currentUser?.uid;
+    const legacyKey = "unsavedInventoryChanges";
+
     if (uid) {
-        return `unsavedInventoryChanges_${uid}`;
+        const namespacedKey = `unsavedInventoryChanges_${uid}`;
+        // Migrar borrador antiguo al namespace del usuario actual
+        if (!localStorage.getItem(namespacedKey) && localStorage.getItem(legacyKey)) {
+            try {
+                const legacyData = localStorage.getItem(legacyKey);
+                if (legacyData) {
+                    localStorage.setItem(namespacedKey, legacyData);
+                    localStorage.removeItem(legacyKey);
+                }
+            } catch (e) {
+                console.error("Error migrating unsavedInventoryChanges to namespaced key:", e);
+            }
+        }
+        return namespacedKey;
     }
-    return "unsavedInventoryChanges";
+
+    return legacyKey;
 };
 
 export const useInventoryState = () => {

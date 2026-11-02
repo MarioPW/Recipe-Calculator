@@ -140,7 +140,13 @@
     "selectionHint": "Select rows, columns or individual cells to load only that part. Without a selection, the full inventory is loaded.",
     "loadFull": "Load full",
     "loadSelection": "Load selection",
-    "noSelection": "Select at least one row, column or cell"
+    "noSelection": "Select at least one row, column or cell",
+    "saveSynced": "Inventory saved successfully.",
+    "savedLocally": "Saved on this device. It will sync automatically when the connection returns.",
+    "pendingSave": "You have an inventory saved on this device pending synchronization.",
+    "saveSyncError": "The pending inventory could not be synchronized.",
+    "loginRequired": "You must be signed in to save the inventory.",
+    "saveError": "Error saving the inventory:"
   },
   "myRecipes": {
     "title": "My Recipes",

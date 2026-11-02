@@ -1,5 +1,5 @@
 // React
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { Route, Routes } from 'react-router-dom'
 
 // Components
@@ -26,11 +26,22 @@ import { auth } from "./firebaseConfig";
 
 function App() {
   const { setUser, setIngredients, ingredientService, recipeService, setRecipes } = useMainContext();
+  const prevUidRef = useRef(null);
 
   useEffect(() => {
     cleanLocalStorage()
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+        if (prevUidRef.current && prevUidRef.current !== currentUser.uid) {
+          localStorage.removeItem("unsavedInventoryChanges");
+          localStorage.removeItem(`unsavedInventoryChanges_${prevUidRef.current}`);
+          localStorage.removeItem("ingredientsSort");
+          localStorage.removeItem("recipeTitle");
+          localStorage.removeItem("ingredients");
+          localStorage.removeItem("valuesList");
+        }
+        prevUidRef.current = currentUser.uid;
+
         const orderedIngredients = checkIngredientsOrder()
         const currentOrder = orderedIngredients || 'reference';
         try {
@@ -61,6 +72,15 @@ function App() {
           console.error("Error fetching data:", error);
         }
       } else {
+        if (prevUidRef.current) {
+          localStorage.removeItem(`unsavedInventoryChanges_${prevUidRef.current}`);
+        }
+        localStorage.removeItem("unsavedInventoryChanges");
+        localStorage.removeItem("ingredientsSort");
+        localStorage.removeItem("recipeTitle");
+        localStorage.removeItem("ingredients");
+        localStorage.removeItem("valuesList");
+        prevUidRef.current = null;
         setUser(null);
       }
     });

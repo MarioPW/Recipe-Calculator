@@ -2,6 +2,16 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMainContext } from '../../../context/MainContext';
 import { getLocalISOString } from '../../../utilities/utils';
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+const getInventoryStorageKey = () => {
+    const auth = getAuth();
+    const uid = auth.currentUser?.uid;
+    if (uid) {
+        return `unsavedInventoryChanges_${uid}`;
+    }
+    return "unsavedInventoryChanges";
+};
 
 export const useInventoryState = () => {
     const { t } = useTranslation();
@@ -23,7 +33,7 @@ export const useInventoryState = () => {
     const isInitialized = useRef(false);
 
     useEffect(() => {
-        const saved = localStorage.getItem('unsavedInventoryChanges');
+        const saved = localStorage.getItem(getInventoryStorageKey());
         if (!isInitialized.current) {
             if (saved) {
                 try {
@@ -81,7 +91,7 @@ export const useInventoryState = () => {
                 items: currentInventory,
                 countColumns: countColumns
             };
-            localStorage.setItem('unsavedInventoryChanges', JSON.stringify(lastStock));
+            localStorage.setItem(getInventoryStorageKey(), JSON.stringify(lastStock));
         }
     }, [currentInventory, countColumns, creationDate]);
 
@@ -89,7 +99,7 @@ export const useInventoryState = () => {
         if (confirm(t('inventory.newConfirmation'))) {
             const newDate = getLocalISOString();
             setCreationDate(newDate);
-            localStorage.removeItem('unsavedInventoryChanges');
+            localStorage.removeItem(getInventoryStorageKey());
             setCountColumns([]);
             const resetInventory = ingredients
                 .filter(ing => ing.setInInventory)
@@ -130,7 +140,7 @@ export const useInventoryState = () => {
             items: itemsToLoad,
             countColumns: transformedColumns
         };
-        localStorage.setItem('unsavedInventoryChanges', JSON.stringify(newStockState));
+        localStorage.setItem(getInventoryStorageKey(), JSON.stringify(newStockState));
     };
 
     const saveInventory = () => {
@@ -142,7 +152,7 @@ export const useInventoryState = () => {
                 items: currentInventory,
                 countColumns: countColumns
             };
-            localStorage.setItem('unsavedInventoryChanges', JSON.stringify(lastStock));
+            localStorage.setItem(getInventoryStorageKey(), JSON.stringify(lastStock));
             setAlert(false);
         }
     };

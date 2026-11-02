@@ -118,7 +118,7 @@ describe('useLoadInventory - buildPartialRecord', () => {
     expect(partial.items[0].stock).toBe(10)
   })
 
-  it('keeps original stock when total column is selected', () => {
+  it('ignores total selection when the record has count columns', () => {
     const { result } = renderHook(() => useLoadInventory())
 
     const record = {
@@ -138,6 +138,50 @@ describe('useLoadInventory - buildPartialRecord', () => {
     const partial = result.current.buildPartialRecord(record)
 
     expect(partial.items[0].counts).toEqual([0, 0])
+    expect(partial.items[0].stock).toBe(0)
+  })
+
+  it('recalculates the total from the selected column even if the total was selected', () => {
+    const { result } = renderHook(() => useLoadInventory())
+
+    const record = {
+      items: [
+        { id: '1', counts: [10, 20], stock: 30 },
+      ],
+      countColumns: [
+        { id: 1, name: 'Sección 1' },
+        { id: 2, name: 'Sección 2' },
+      ]
+    }
+
+    act(() => {
+      result.current.toggleCol(1)
+      result.current.toggleCell('1', 2) // totalColIndex = 2
+    })
+
+    const partial = result.current.buildPartialRecord(record)
+
+    expect(partial.items[0].counts).toEqual([0, 20])
+    expect(partial.items[0].stock).toBe(20)
+  })
+
+  it('keeps the saved stock for totals-only records', () => {
+    const { result } = renderHook(() => useLoadInventory())
+
+    const record = {
+      items: [
+        { id: '1', name: 'Harina', counts: [], stock: 30 },
+      ],
+      countColumns: []
+    }
+
+    act(() => {
+      result.current.toggleCol(0) // totalColIndex = 0
+    })
+
+    const partial = result.current.buildPartialRecord(record)
+
+    expect(partial.items[0].counts).toEqual([])
     expect(partial.items[0].stock).toBe(30)
   })
 })

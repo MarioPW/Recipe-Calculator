@@ -128,6 +128,19 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
         }))
     };
 
+    // ── Derived total warning ─────────────────────────────────────────────────
+    // The saved stock can differ from the sum of the counts when recipes were
+    // fired. Explain why loading only counts will recalculate the total.
+    const selectedHasTotalMismatch = (() => {
+        if (!selectedRecord) return false;
+        const cols = selectedRecord.countColumns || [];
+        if (cols.length === 0) return false;
+        return (selectedRecord.items || []).some((item) => {
+            const countsTotal = (item.counts || []).reduce((acc, c) => acc + Number(c || 0), 0);
+            return Math.abs(Number(item.stock || 0) - countsTotal) > 0.001;
+        });
+    })();
+
     // ── Interactive selection table ───────────────────────────────────────────
     const renderSelectionTable = () => {
         if (!selectedRecord) return null;
@@ -135,6 +148,9 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
         const items = selectedRecord.items || [];
         const cols = selectedRecord.countColumns || [];
         const totalColIdx = cols.length; // virtual index for the Total column
+        // The Total is a derived value when the record has count columns, so it
+        // cannot be selected on its own. Totals-only records keep it selectable.
+        const totalSelectable = cols.length === 0;
 
         const anyRowSel = items.some(item => isRowSelected(item.id));
 
@@ -169,16 +185,20 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                                 </th>
                             ))}
 
-                            {/* Total column header – click to select all totals */}
+                            {/* Total column header – only selectable for totals-only records */}
                             <th
-                                className={`p-1 ${isColSelected(totalColIdx) ? SEL_HEADER_COL : ''}`}
-                                style={colToggleStyle}
-                                onClick={() => toggleCol(totalColIdx)}
-                                title={t('inventory.selectColumn') || 'Seleccionar columna total'}
+                                className={`p-1 ${totalSelectable && isColSelected(totalColIdx) ? SEL_HEADER_COL : ''} ${totalSelectable ? '' : 'text-muted'}`}
+                                style={totalSelectable ? colToggleStyle : undefined}
+                                onClick={totalSelectable ? () => toggleCol(totalColIdx) : undefined}
+                                title={totalSelectable
+                                    ? (t('inventory.selectColumn') || 'Seleccionar columna total')
+                                    : (t('inventory.totalComputed') || 'Calculado con los conteos seleccionados')}
                             >
                                 {t('inventory.total')}
-                                {isColSelected(totalColIdx) && (
-                                    <i className="bi bi-check2 ms-1" />
+                                {totalSelectable ? (
+                                    isColSelected(totalColIdx) && <i className="bi bi-check2 ms-1" />
+                                ) : (
+                                    <i className="bi bi-calculator ms-1" />
                                 )}
                             </th>
                         </tr>
@@ -230,17 +250,19 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                                         );
                                     })}
 
-                                    {/* Total cell */}
+                                    {/* Total cell – derived unless the record is totals-only */}
                                     {(() => {
-                                        const colSel = isColSelected(totalColIdx);
-                                        const cellSel = !rowSel && !colSel && isCellSelected(item.id, totalColIdx);
+                                        const colSel = totalSelectable && isColSelected(totalColIdx);
+                                        const cellSel = totalSelectable && !rowSel && !colSel && isCellSelected(item.id, totalColIdx);
                                         const cls = rowSel ? SEL_ROW : colSel ? SEL_COL : cellSel ? SEL_CELL : '';
                                         return (
                                             <td
-                                                className={`p-1 ${cls}`}
-                                                style={cellStyle}
-                                                onClick={() => !rowSel && !colSel && toggleCell(item.id, totalColIdx)}
-                                                title={t('inventory.selectCell') || 'Seleccionar celda'}
+                                                className={`p-1 ${cls} ${totalSelectable || rowSel ? '' : 'text-muted'}`}
+                                                style={totalSelectable ? cellStyle : undefined}
+                                                onClick={totalSelectable ? () => !rowSel && !colSel && toggleCell(item.id, totalColIdx) : undefined}
+                                                title={totalSelectable
+                                                    ? (t('inventory.selectCell') || 'Seleccionar celda')
+                                                    : (t('inventory.totalComputed') || 'Calculado con los conteos seleccionados')}
                                             >
                                                 {formatNumber(item.stock || 0)} {item.unitOfMeasure || ''}
                                             </td>
@@ -266,6 +288,12 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                         <span className="badge bg-warning text-dark me-1">&nbsp;</span>
                         {t('inventory.legendCell') || 'Clic en celda de conteo → valor individual'}
                     </span>
+                    {!totalSelectable && (
+                        <span>
+                            <i className="bi bi-calculator me-1" />
+                            {t('inventory.legendTotal') || 'El total se calcula con los conteos seleccionados'}
+                        </span>
+                    )}
                 </div>
             </div>
         );
@@ -325,6 +353,12 @@ export const InventoryHistory = ({ onBack, onLoadInventory }) => {
                                     <i className="bi bi-info-circle me-1" />
                                     {t('inventory.selectionHint') || 'Selecciona filas, columnas o celdas individuales para cargar solo esa parte del inventario. Sin selección, se carga el inventario completo.'}
                                 </p>
+                                {selectedHasTotalMismatch && (
+                                    <div className="alert alert-info py-2 px-3 small mb-2 mx-1" role="note">
+                                        <i className="bi bi-calculator me-1" />
+                                        {t('inventory.totalMismatchNote') || 'Este inventario tiene ajustes que no están reflejados en los conteos (por ejemplo, recetas ejecutadas). Si cargas solo conteos, el total se recalculará.'}
+                                    </div>
+                                )}
                                 {renderSelectionTable()}
                             </div>
 

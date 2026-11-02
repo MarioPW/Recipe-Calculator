@@ -43,8 +43,9 @@ export function formatNumber(val) {
 }
 
 export function getLocalISOString(date = new Date()) {
-  const d = date instanceof Date ? date : new Date(date);
-  if (isNaN(d.getTime())) return new Date().toLocaleString();
+  const parsed = date instanceof Date ? date : new Date(date);
+  // Invalid input falls back to "now", but always in the same local ISO format.
+  const d = isNaN(parsed.getTime()) ? new Date() : parsed;
   const pad = (num) => String(num).padStart(2, '0');
   const year = d.getFullYear();
   const month = pad(d.getMonth() + 1);

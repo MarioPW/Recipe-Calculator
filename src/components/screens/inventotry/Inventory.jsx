@@ -141,28 +141,27 @@ export const Inventory = () => {
   const handleLoadInventoryFromHistory = (record) => {
     if (!confirm(t('inventory.loadConfirmation') || '¿Estás seguro de que deseas cargar este inventario? Se reemplazarán los datos actuales.')) return;
 
-    // 1. Si usas selección parcial, procesamos el registro primero (si no, ignora esta línea y usa 'record')
-    const processedRecord = typeof buildPartialRecord === 'function' ? buildPartialRecord(record) : record;
+    // El registro ya llega procesado desde InventoryHistory (buildPartialRecord).
 
-    // 2. Transformar nombres de columnas si contienen claves de traducción
-    const transformedColumns = (processedRecord.countColumns || []).map((col, idx) => {
+    // 1. Transformar nombres de columnas si contienen claves de traducción
+    const transformedColumns = (record.countColumns || []).map((col, idx) => {
       const name = col.name && col.name.includes('inventory.section')
         ? `${t('inventory.section')} ${idx + 1}`
         : col.name;
       return { ...col, name };
     });
 
-    // 3. ORDEN CRÍTICO: Primero establecemos las columnas y fecha/tara, y de último los items.
+    // 2. ORDEN CRÍTICO: Primero establecemos las columnas y fecha/tara, y de último los items.
     // Esto evita que la tabla intente pintar ítems con un número de columnas desincronizado.
-    if (processedRecord.countColumns) setCountColumns(transformedColumns);
+    if (record.countColumns) setCountColumns(transformedColumns);
     setCreationDate(getLocalISOString());
-    if (processedRecord.tareValue !== undefined) setTareValue(processedRecord.tareValue);
+    if (record.tareValue !== undefined) setTareValue(record.tareValue);
 
-    if (processedRecord.items) {
-      setCurrentInventory(processedRecord.items);
+    if (record.items) {
+      setCurrentInventory(record.items);
     }
 
-    // 4. Cerramos la vista de historial
+    // 3. Cerramos la vista de historial
     setShowHistory(false);
   };
 

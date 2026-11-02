@@ -144,9 +144,9 @@ describe('utils', () => {
       expect(result).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/)
     })
 
-    it('returns formatted string for invalid date', () => {
+    it('falls back to the current date for invalid input', () => {
       const result = getLocalISOString('invalid')
-      expect(result).toMatch(/^\d{2}\/\d{2}\/\d{4}/)
+      expect(result).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/)
     })
   })
 })

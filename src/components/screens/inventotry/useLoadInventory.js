@@ -86,13 +86,19 @@ export const useLoadInventory = () => {
      * ALL items are included; unselected items/cells default to 0.
      * Columns represent count sections; "total" col index = countColumns.length (special).
      * All columns from the original record are preserved.
-     * 
+     *
+     * The Total column is only selectable for records without count columns
+     * (totals-only saves). When the record has count columns, the total is a
+     * derived value: it is always recalculated from the selected counts, so it
+     * can never disagree with the visible values.
+     *
      * @param {Object} record historical inventory record
      * @returns {Object} Partial record ready to merge into currentInventory
      */
     const buildPartialRecord = useCallback((record) => {
         const { items = [], countColumns = [] } = record;
         const totalColIndex = countColumns.length; // virtual index for the "Total" column
+        const totalSelectable = countColumns.length === 0;
 
         const partialItems = items.map((item) => {
             const rowSel = selectedRows.has(item.id);
@@ -100,7 +106,7 @@ export const useLoadInventory = () => {
             const includedCounts = countColumns.map((_, idx) => {
                 return isCellSelected(item.id, idx);
             });
-            const includeTotal = isCellSelected(item.id, totalColIndex);
+            const includeTotal = totalSelectable && isCellSelected(item.id, totalColIndex);
 
             const anySelected = rowSel || includedCounts.some(Boolean) || includeTotal;
 
@@ -130,10 +136,12 @@ export const useLoadInventory = () => {
                 return 0;
             });
 
-            // Recalculate stock only from included counts
+            // Totals-only records keep their stored stock. Otherwise the total
+            // is recalculated from the selected counts (never from the
+            // historical stock, which may include recipe adjustments).
             const newStock = includeTotal
                 ? (item.stock || 0)
-                : newCounts.reduce((acc, c) => acc + c, 0);
+                : newCounts.reduce((acc, c) => acc + Number(c || 0), 0);
 
             return {
                 ...item,

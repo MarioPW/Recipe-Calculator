@@ -9,12 +9,14 @@ export class IngredientService {
         this.auth = auth;
         this.ingredientAdapter = new IngredientAdapter();
     }
-    async saveIngredient(ingredient) {
+    async saveIngredient(ingredient, showAlert = true) {
         try {
             const userId = this.auth.currentUser.uid;
             const ingredientsCollectionRef = collection(this.db, `ingredients`);
             const newIngredient = await addDoc(ingredientsCollectionRef, { userId: userId, ...ingredient });
-            alert(`Ingerdient "${ingredient.name}" saved successfully`)
+            if (showAlert) {
+                alert(`Ingredient "${ingredient.name}" saved successfully`)
+            }
             return newIngredient.id
         } catch (error) {
             alert("Error adding ingredient. Make sure you are logged in." + error);

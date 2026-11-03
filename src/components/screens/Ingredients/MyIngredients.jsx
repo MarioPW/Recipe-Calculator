@@ -80,7 +80,7 @@ export const MyIngredients = () => {
         await ingredientService.updateMyIngredient(id, { ...current, ...updates });
       }));
 
-      const createdResults = await Promise.all(toAdd.map(def => ingredientService.saveIngredient(def)));
+      const createdResults = await Promise.all(toAdd.map(def => ingredientService.saveIngredient(def, false)));
       for (let i = 0; i < toAdd.length; i++) {
         const def = toAdd[i];
         const newId = createdResults[i];

@@ -176,8 +176,10 @@
     "sortByName": "Sort by Name",
     "sortByRef": "Sort by Reference",
     "addNew": "Add New",
-    "loadDefaults": "Add default ingredients",
-    "defaultCatalog": "Default catalog",
+    "loadDefaults": "Sets",
+    "sets": {
+      "pizzeria": "Pizzeria"
+    },
     "loadDefaultsConfirm": "Only missing ingredients will be added. Existing ingredients that match by name will be updated to use the default catalog reference and set to show in inventory. Only the reference and \"show in inventory\" will be changed. Continue?",
     "loadDefaultsEmpty": "No default ingredients to load.",
     "loadDefaultsResult": "Process completed. Added: {added}, Updated: {updated}",

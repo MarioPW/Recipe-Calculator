@@ -12,7 +12,7 @@ export const MyIngredients = () => {
   const { ingredients, setIngredients, ingredientService } = useMainContext();
 
   const defaultFiles = [
-    { key: 'defaultIngredients', file: 'defaultIngredients.json', label: t('myIngredients.defaultCatalog') || 'Catálogo por defecto' }
+    { key: 'pizzeria', file: 'defaultIngredients.json', label: t('myIngredients.sets.pizzeria') || 'Pizzería' }
   ];
 
   const norm = (s) => (s || '').toString().trim().toLowerCase();
@@ -34,7 +34,6 @@ export const MyIngredients = () => {
         return;
       }
 
-      const existingById = new Map(ingredients.map(i => [i.id, i]));
       const existingByName = new Map(ingredients.filter(i => norm(i.name)).map(i => [norm(i.name), i]));
       const existingRefs = new Set(ingredients.map(i => (i.reference || '').toString().trim()).filter(Boolean));
 
@@ -56,8 +55,8 @@ export const MyIngredients = () => {
               existingRefs.add(defRef);
             }
           }
-          if (match.setInInventory !== false) {
-            updates.setInInventory = false;
+          if (match.setInInventory !== true) {
+            updates.setInInventory = true;
           }
           if (Object.keys(updates).length > 0) {
             toUpdate.push({ id: match.id, current: match, updates });
@@ -66,14 +65,14 @@ export const MyIngredients = () => {
         }
 
         if (defRef && existingRefs.has(defRef)) {
-          toAdd.push({ ...def, reference: '' });
+          toAdd.push({ ...def, reference: '', setInInventory: true });
           continue;
         }
 
         if (defRef) {
           existingRefs.add(defRef);
         }
-        toAdd.push(def);
+        toAdd.push({ ...def, setInInventory: true });
       }
 
       await Promise.all(toUpdate.map(async ({ id, current, updates }) => {
@@ -167,13 +166,15 @@ export const MyIngredients = () => {
       >
         <div className="dropdown">
           <button
-            className="btn btn-light dropdown-toggle"
             type="button"
+            className="btn btn-sm btn-outline-light dropdown-toggle"
             id="loadDefaultsDropdown"
             data-bs-toggle="dropdown"
             aria-expanded="false"
+            style={{ fontSize: '0.75rem' }}
           >
-            {t('myIngredients.loadDefaults') || 'Añadir ingredientes por defecto'}
+            <i className="bi bi-grid-3x3-gap me-1"></i>
+            {t('myIngredients.loadDefaults') || 'Sets'}
           </button>
           <ul className="dropdown-menu" aria-labelledby="loadDefaultsDropdown">
             {defaultFiles.map((df) => (

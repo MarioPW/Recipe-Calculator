@@ -6,15 +6,18 @@ import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { CustomTable } from '../../common/CustomTable';
 import { ExportDropdown } from '../../common/ExportDropdown';
 import { formatNumber } from '../../../utilities/utils';
-import { CustomButton } from '../../common/CustomButton';
 
 export const MyIngredients = () => {
   const { t } = useTranslation();
   const { ingredients, setIngredients, ingredientService } = useMainContext();
 
+  const defaultFiles = [
+    { key: 'defaultIngredients', file: 'defaultIngredients.json', label: t('myIngredients.defaultCatalog') || 'Catálogo por defecto' }
+  ];
+
   const norm = (s) => (s || '').toString().trim().toLowerCase();
 
-  const loadDefaultIngredients = async () => {
+  const loadDefaultIngredients = async (fileName = 'defaultIngredients.json') => {
     if (!confirm(t('myIngredients.loadDefaultsConfirm') || 'Se añadirán los ingredientes que falten y se actualizarán los existentes que coincidan por nombre para asignarles la referencia del catálogo por defecto y ponerlos en inventario. Solo se cambiarán la referencia y "mostrar en inventario". ¿Continuar?')) {
       return;
     }
@@ -23,7 +26,7 @@ export const MyIngredients = () => {
       const baseUrl = import.meta.env.BASE_URL.endsWith('/')
         ? import.meta.env.BASE_URL
         : `${import.meta.env.BASE_URL}/`;
-      const res = await fetch(`${baseUrl}defaults/defaultIngredients.json`);
+      const res = await fetch(`${baseUrl}defaults/${fileName}`);
       const defaults = await res.json();
 
       if (!Array.isArray(defaults) || defaults.length === 0) {
@@ -153,8 +156,7 @@ export const MyIngredients = () => {
         title={t('myIngredients.title')}
         buttons={[
           { label: t('myIngredients.sortByName'), action: sortByName },
-          { label: t('myIngredients.sortByRef'), action: sortByReference },
-          { label: t('myIngredients.loadDefaults') || 'Añadir ingredientes por defecto', action: loadDefaultIngredients }
+          { label: t('myIngredients.sortByRef'), action: sortByReference }
         ]}
         links={[
           { label: t('myIngredients.addNew'), url: "/ingredient" }
@@ -163,6 +165,26 @@ export const MyIngredients = () => {
         collapseButtonText={t('myIngredients.actions')}
         collapseButtonId="myIngredientsNavbarCollapse"
       >
+        <div className="dropdown">
+          <button
+            className="btn btn-light dropdown-toggle"
+            type="button"
+            id="loadDefaultsDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {t('myIngredients.loadDefaults') || 'Añadir ingredientes por defecto'}
+          </button>
+          <ul className="dropdown-menu" aria-labelledby="loadDefaultsDropdown">
+            {defaultFiles.map((df) => (
+              <li key={df.key}>
+                <button className="dropdown-item" onClick={() => loadDefaultIngredients(df.file)}>
+                  {df.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
         <ExportDropdown fileGeneratorData={ingredientData} />
       </SecondaryNavbar>
 

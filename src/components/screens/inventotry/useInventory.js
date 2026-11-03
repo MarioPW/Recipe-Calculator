@@ -31,7 +31,7 @@ const getInventoryStorageKey = () => {
 
 export const useInventoryState = () => {
     const { t } = useTranslation();
-    const { ingredients } = useMainContext();
+    const { ingredients, user } = useMainContext();
 
     const [currentInventory, setCurrentInventory] = useState([]);
     const [countColumns, setCountColumns] = useState([]);
@@ -49,54 +49,64 @@ export const useInventoryState = () => {
     const isInitialized = useRef(false);
 
     useEffect(() => {
+        if (isInitialized.current) return;
+
+        // Esperar a que Firebase Auth resuelva: user = [] significa "aún no resuelta".
+        // Sin esto, getAuth().currentUser es null al montar y no se leería la clave namespaced.
+        if (Array.isArray(user)) return;
+
         const saved = localStorage.getItem(getInventoryStorageKey());
-        if (!isInitialized.current) {
-            if (saved) {
-                try {
-                    const lastStock = JSON.parse(saved);
-                    if (lastStock && Array.isArray(lastStock.items)) {
-                        setCurrentInventory(lastStock.items);
-                        if (lastStock.creationDate) setCreationDate(lastStock.creationDate);
+        if (saved) {
+            try {
+                const lastStock = JSON.parse(saved);
+                if (lastStock && Array.isArray(lastStock.items)) {
+                    setCurrentInventory(lastStock.items);
+                    if (lastStock.creationDate) setCreationDate(lastStock.creationDate);
 
-                        const maxCounts = Math.max(
-                            0,
-                            ...lastStock.items.map(item => (Array.isArray(item.counts) ? item.counts.length : 0))
-                        );
+                    const maxCounts = Math.max(
+                        0,
+                        ...lastStock.items.map(item => (Array.isArray(item.counts) ? item.counts.length : 0))
+                    );
 
-                        let restoredColumns = [];
-                        if (Array.isArray(lastStock.countColumns) && lastStock.countColumns.length >= 2 && lastStock.countColumns.length >= maxCounts) {
-                            restoredColumns = lastStock.countColumns;
-                        } else if (maxCounts >= 2) {
-                            restoredColumns = Array.from({ length: maxCounts }, (_, index) => ({
-                                id: Date.now() + index,
-                                name: `${t('inventory.section')} ${index + 1}`,
-                                date: new Date().toLocaleDateString(),
-                                value: 0
-                            }));
-                        }
-                        setCountColumns(restoredColumns);
+                    let restoredColumns = [];
+                    if (Array.isArray(lastStock.countColumns) && lastStock.countColumns.length >= 2 && lastStock.countColumns.length >= maxCounts) {
+                        restoredColumns = lastStock.countColumns;
+                    } else if (maxCounts >= 2) {
+                        restoredColumns = Array.from({ length: maxCounts }, (_, index) => ({
+                            id: Date.now() + index,
+                            name: `${t('inventory.section')} ${index + 1}`,
+                            date: new Date().toLocaleDateString(),
+                            value: 0
+                        }));
                     }
-                } catch (e) {
-                    console.error("Error loading unsavedInventoryChanges from localStorage:", e);
+                    setCountColumns(restoredColumns);
                 }
-            } else if (ingredients && ingredients.length > 0) {
-                const baseInventory = ingredients
-                    .filter(ing => ing.setInInventory)
-                    .map(ing => ({
-                        id: ing.id,
-                        name: ing.name,
-                        reference: ing.reference,
-                        unitOfMeasure: ing.unitOfMeasure,
-                        minStock: ing.minStock || 0,
-                        stock: 0,
-                        counts: []
-                    }));
-                setCurrentInventory(baseInventory);
-                setCountColumns([]);
+            } catch (e) {
+                console.error("Error loading unsavedInventoryChanges from localStorage:", e);
             }
             isInitialized.current = true;
+            return;
         }
-    }, [ingredients]);
+
+        // Sin borrador: construir el inventario base cuando ya cargaron los ingredientes.
+        // Si aún no cargaron, NO marcamos como inicializado para reintentar después.
+        if (ingredients && ingredients.length > 0) {
+            const baseInventory = ingredients
+                .filter(ing => ing.setInInventory)
+                .map(ing => ({
+                    id: ing.id,
+                    name: ing.name,
+                    reference: ing.reference,
+                    unitOfMeasure: ing.unitOfMeasure,
+                    minStock: ing.minStock || 0,
+                    stock: 0,
+                    counts: []
+                }));
+            setCurrentInventory(baseInventory);
+            setCountColumns([]);
+            isInitialized.current = true;
+        }
+    }, [ingredients, user]);
 
     // Auto-save changes to localStorage
     useEffect(() => {

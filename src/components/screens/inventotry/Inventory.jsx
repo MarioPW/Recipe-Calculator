@@ -351,7 +351,7 @@ export const Inventory = () => {
     );
   }
 
-  if (ingredients.length === 0) return <Spinner />;
+  if (ingredients.length === 0 && currentInventory.length === 0) return <Spinner />;
 
   return (
     <>

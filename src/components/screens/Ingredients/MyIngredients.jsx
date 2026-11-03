@@ -56,8 +56,8 @@ export const MyIngredients = () => {
               existingRefs.add(defRef);
             }
           }
-          if (match.setInInventory !== true) {
-            updates.setInInventory = true;
+          if (match.setInInventory !== false) {
+            updates.setInInventory = false;
           }
           if (Object.keys(updates).length > 0) {
             toUpdate.push({ id: match.id, current: match, updates });

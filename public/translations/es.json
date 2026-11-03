@@ -178,6 +178,12 @@
     "sortByName": "Ordenar por Nombre",
     "sortByRef": "Ordenar por Referencia",
     "addNew": "Agregar Nuevo",
+    "loadDefaults": "Añadir ingredientes por defecto",
+    "defaultCatalog": "Catálogo por defecto",
+    "loadDefaultsConfirm": "Se añadirán los ingredientes que falten y se actualizarán los existentes que coincidan por nombre para asignarles la referencia del catálogo por defecto y ponerlos en inventario. Solo se cambiarán la referencia y \"mostrar en inventario\". ¿Continuar?",
+    "loadDefaultsEmpty": "No hay ingredientes por defecto para cargar.",
+    "loadDefaultsResult": "Proceso finalizado. Añadidos: {added}, Actualizados: {updated}",
+    "loadDefaultsError": "Error al cargar los ingredientes por defecto.",
     "table": {
       "ref": "Ref",
       "name": "Nombre",

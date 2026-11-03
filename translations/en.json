@@ -141,6 +141,9 @@
     "loadFull": "Load full",
     "loadSelection": "Load selection",
     "noSelection": "Select at least one row, column or cell",
+    "totalComputed": "Calculated from the selected counts",
+    "legendTotal": "The total is calculated from the selected counts",
+    "totalMismatchNote": "This inventory has adjustments that are not reflected in the counts (for example, fired recipes). If you load only counts, the total will be recalculated.",
     "saveSynced": "Inventory saved successfully.",
     "savedLocally": "Saved on this device. It will sync automatically when the connection returns.",
     "pendingSave": "You have an inventory saved on this device pending synchronization.",
@@ -173,6 +176,14 @@
     "sortByName": "Sort by Name",
     "sortByRef": "Sort by Reference",
     "addNew": "Add New",
+    "loadDefaults": "Sets",
+    "sets": {
+      "pizzeria": "Pizzeria"
+    },
+    "loadDefaultsConfirm": "Only missing ingredients will be added. Existing ingredients that match by name will be updated to use the default catalog reference and set to show in inventory. Only the reference and \"show in inventory\" will be changed. Continue?",
+    "loadDefaultsEmpty": "No default ingredients to load.",
+    "loadDefaultsResult": "Process completed. Added: {added}, Updated: {updated}",
+    "loadDefaultsError": "Error loading default ingredients.",
     "table": {
       "ref": "Ref",
       "name": "Name",

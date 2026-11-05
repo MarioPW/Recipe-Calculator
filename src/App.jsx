@@ -11,6 +11,7 @@ import { Spinner } from './components/common/Spinner';
 const Home = lazy(() => import('./components/screens/Home/Home').then(m => ({ default: m.Home })));
 const LoginRegister = lazy(() => import('./components/screens/Home/LoginRegister').then(m => ({ default: m.LoginRegister })));
 const MyRecipes = lazy(() => import('./components/screens/Recipes/MyRecipes').then(m => ({ default: m.MyRecipes })));
+const Requisitions = lazy(() => import('./components/screens/Recipes/Requisitions').then(m => ({ default: m.Requisitions })));
 const MyRecipe = lazy(() => import('./components/screens/Recipes/MyRecipe').then(m => ({ default: m.MyRecipe })));
 const MyIngredients = lazy(() => import('./components/screens/Ingredients/MyIngredients').then(m => ({ default: m.MyIngredients })));
 const IngredientForm = lazy(() => import('./components/screens/Ingredients/IngredientForm').then(m => ({ default: m.IngredientForm })));
@@ -99,6 +100,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login-register" element={<LoginRegister />} />
             <Route path="/my-recipes" element={<MyRecipes />} />
+            <Route path="/requisitions" element={<Requisitions />} />
             <Route path="/my-recipe/:recipeId?" element={<MyRecipe />} />
             <Route path="/my-ingredients" element={<MyIngredients />} />
             <Route path="/ingredient/:ingredientId?" element={<IngredientForm />} />

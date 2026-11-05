@@ -1,68 +1,65 @@
-import React, { useEffect } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { Spinner } from '../../common/Spinner';
 import { useMainContext } from '../../../context/MainContext';
 import { SecondaryNavbar } from '../../common/SecondaryNavbar';
 import { ExportDropdown } from '../../common/ExportDropdown';
 import { CustomTable } from '../../common/CustomTable';
 import { formatNumber } from '../../../utilities/utils';
+import { useTranslation } from 'react-i18next';
 
 export const MyRecipes = () => {
   const { t } = useTranslation();
-  const { recipes, setRecipes } = useMainContext();
+  const { recipes } = useMainContext();
 
-  useEffect(() => {
-    const sortRecipes = () => {
-      const sortedItems = recipes.sort((a, b) => a.name.localeCompare(b.name));
-      setRecipes(sortedItems);
-    };
-    sortRecipes();
-  }, []);
+  const sortedRecipes = useMemo(
+    () => [...recipes].sort((a, b) => (a.name || '').localeCompare(b.name || '')),
+    [recipes]
+  );
 
   const exportData = {
     title: t('myRecipes.title'),
-    tableData: recipes.map((item) => ({
+    tableData: sortedRecipes.map((item) => ({
       [t('common.name')]: item.name,
       [t('myRecipes.weightPerUnit')]: formatNumber(item.productWeight),
-      [t('myRecipes.isSubRecipe')]: item.isSubRecipe ? t('common.yes') : t('common.no'),
-    })),
+      [t('myRecipes.isSubRecipe')]: item.isSubRecipe ? t('common.yes') : t('common.no')
+    }))
   };
+
   const tableData = {
     title: t('myRecipes.title'),
-    tableData: recipes.map((item, index) => ({
+    tableData: sortedRecipes.map((item, index) => ({
       [t('common.name')]: (
         <Link to={`/my-recipe/${item.id}`}>
           {item.name || `${t('myRecipes.defaultRecipe')} ${index + 1}`}
         </Link>
       ),
       [t('myRecipes.weightPerUnit')]: formatNumber(item.productWeight),
-      [t('myRecipes.isSubRecipe')]: item.isSubRecipe ? t('common.yes') : t('common.no'),
-    })),
+      [t('myRecipes.isSubRecipe')]: item.isSubRecipe ? t('common.yes') : t('common.no')
+    }))
   };
+
   return (
     <>
       <SecondaryNavbar
         title={t('myRecipes.title')}
         collapseButtonText={t('common.actions')}
-        searchInput={
-          {
-            items: recipes,
-            url: "/my-recipe",
-            setItemsList: setRecipes
-          }}
+        searchInput={{
+          items: sortedRecipes,
+          url: '/my-recipe'
+        }}
         links={[
-          { label: t('myRecipes.addNew'), url: "/my-recipe" }
+          { label: t('myRecipes.addNew'), url: '/my-recipe' },
+          { label: t('myRecipes.requisitions'), url: '/requisitions' }
         ]}
         collapseButtonId="myRecipesNavbarCollapse"
       >
         <ExportDropdown fileGeneratorData={exportData} />
       </SecondaryNavbar>
-      {recipes.length > 0 ? (
-        <CustomTable {...tableData} className="table table-light table-hover" />
-      ) : (
-        <Spinner />
-      )}
+      <div className="container p-0">
+        <div className="table-responsive">
+          <CustomTable {...tableData} />
+        </div>
+      </div>
     </>
   );
 };

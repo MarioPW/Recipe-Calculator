@@ -154,10 +154,27 @@
   "myRecipes": {
     "title": "My Recipes",
     "addNew": "Add New",
+    "requisitions": "Requisitions",
+    "backToRecipes": "Back to Recipes",
     "recipeName": "Name",
     "weightPerUnit": "Weight per unit",
     "isSubRecipe": "Is Subrecipe",
-    "defaultRecipe": "Recipe"
+    "defaultRecipe": "Recipe",
+    "products": "Products",
+    "weightPerUnitInput": "Weight per unit (g)",
+    "requiredWeight": "Required weight",
+    "requisitionTitle": "Ingredient Requisition",
+    "ingredient": "Ingredient",
+    "requiredQuantity": "Required quantity",
+    "sources": "Recipes",
+    "usedRecipes": "Recipes",
+    "onlyRecipes": "Only Recipes",
+    "onlySubRecipes": "Only Subrecipes",
+    "totalProducts": "Total products",
+    "totalWeight": "Total weight",
+    "calculationRequired": "Enter products and weight per unit for at least one selected recipe.",
+    "calculate": "Calculate",
+    "back": "Back"
   },
   "confirmDeleteRecipe": {
     "title": "Confirm Deletion:",

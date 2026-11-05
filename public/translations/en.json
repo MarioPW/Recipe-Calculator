@@ -216,7 +216,8 @@
   "amountWeightModal": {
     "title": "Enter Amount and Weight",
     "amount": "Amount",
-    "weightPerUnit": "Weight per Unit"
+    "weightPerUnit": "Weight per Unit",
+    "weightPerUnitPlaceholder": "Enter weight"
   },
   "recipeFeaturesModal": {
     "title": "Recipe Features",
@@ -285,10 +286,11 @@
   "editRecipeIngredient": {
     "title": "Enter Weight of {{ingredient}}:",
     "weightAlert": "You must enter a weight",
-    "cuurentWeight": "Current Weight"
+    "currentWeight": "Current Weight"
   },
   "removeIngredientModal": {
-    "title": "Are you sure you want to remove {{ingredient}} from the recipe?"
+    "title": "Are you sure you want to remove {{ingredient}} from the recipe?",
+    "description": "This action will remove the ingredient from the current recipe. You can add it again later if needed."
   },
   "ingredientForm": {
     "updateStock": "Update Stock",

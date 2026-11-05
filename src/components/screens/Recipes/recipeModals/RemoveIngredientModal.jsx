@@ -1,53 +1,42 @@
-import React from 'react'
 import { useTranslation } from "react-i18next";
-import { SecondaryNavbar } from '../../../common/SecondaryNavbar';
 import { CustomButton } from '../../../common/CustomButton';
+import { CustomModal } from '../../../common/CustomModal';
 
 export const RemoveIngredientModal = ({ ingredient, setRecipe, recipe, setRemoveIngredient }) => {
   const { t } = useTranslation();
-  const prevRecipe = recipe;
+
   const handleRemove = () => {
-    const modifiedRecipe = prevRecipe.ingredients.filter((item) => item.id !== ingredient.id);
-    prevRecipe.ingredients = modifiedRecipe
-    setRecipe(prevRecipe);
+    const modifiedRecipe = {
+      ...recipe,
+      ingredients: recipe.ingredients.filter((item) => item.id !== ingredient.id)
+    };
+    setRecipe(modifiedRecipe);
     setRemoveIngredient(false)
   }
-  const navbarData = {
-    title: t("removeIngredientModal.title", { ingredient: ingredient.name }),
-    collapseButtonId: "removeIngredientNavbar",
-    buttons: [
-      { label: 'X', action: () => setRemoveIngredient(false) },
-    ],
-    border: false, // puedes activarlo si deseas mostrar borde
-  };
+
   return (
-
-    <div
-      className="modal fade show d-block"
-      tabIndex="-1"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    <CustomModal
+      id="remove-ingredient-modal"
+      title={t("removeIngredientModal.title", { ingredient: ingredient.name })}
+      onClose={() => setRemoveIngredient(false)}
+      footer={
+        <>
+          <CustomButton
+            type="button"
+            className="danger"
+            onClick={handleRemove}
+            label={t("common.remove")}
+          />
+          <CustomButton
+            type="button"
+            className="primary"
+            onClick={() => setRemoveIngredient(false)}
+            label={t("common.cancel")}
+          />
+        </>
+      }
     >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <SecondaryNavbar {...navbarData} />
-
-          <div className="modal-footer d-flex justify-content-evenly">
-            <CustomButton
-              type="button"
-              className="danger"
-              onClick={handleRemove}
-              label={t("common.remove")}
-            />
-
-            <CustomButton
-              type="button"
-              className="primary"
-              onClick={() => setRemoveIngredient(false)}
-              label={t("common.cancel")}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+      <p className="mb-0">{t("removeIngredientModal.description", { ingredient: ingredient.name })}</p>
+    </CustomModal>
   )
 }

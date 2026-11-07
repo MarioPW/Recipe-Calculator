@@ -80,4 +80,26 @@ describe('CustomModal', () => {
     expect(container.querySelector('.modal-body')).not.toBeInTheDocument();
     expect(container.querySelector('.modal-footer')).not.toBeInTheDocument();
   });
+
+  it('wraps body and footer in a form when form props are provided', () => {
+    const onSubmit = vi.fn();
+    const { container } = renderModal({
+      form: { onSubmit },
+      footer: <button type="submit">Save</button>
+    });
+
+    const form = container.querySelector('form');
+    expect(form).toBeInTheDocument();
+    expect(form.querySelector('.modal-body')).toBeInTheDocument();
+    expect(form.querySelector('.modal-footer')).toBeInTheDocument();
+
+    fireEvent.submit(form);
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not render a form element by default', () => {
+    const { container } = renderModal();
+
+    expect(container.querySelector('form')).not.toBeInTheDocument();
+  });
 });

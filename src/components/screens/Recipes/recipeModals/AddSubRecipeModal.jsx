@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { AddIngredient } from './AddIngredient';
 import { useTranslation } from "react-i18next";
 import { SearchInput } from '../../../common/SearchInput';
+import { CustomModal } from '../../../common/CustomModal';
 
 
 export const AddSubRecipeModal = ({ handleAddSubRecipeModal, recipes, setRecipe, currentRecipe }) => {
@@ -20,37 +21,35 @@ export const AddSubRecipeModal = ({ handleAddSubRecipeModal, recipes, setRecipe,
         }
     }
     return (
-        <div className='modal fade show d-block ' tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} id='add-ingredient-modal' >
-
-            < div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">{t("addSubRecipeModal.title")}</h5>
-                        <SearchInput
-                            items={recipes.filter((recipe) => recipe.isSubRecipe)}
-                            action={handleAddSubRecipeModal}
-                        />
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleAddSubRecipeModal}></button>
-                    </div>
-                    <div className="modal-body">
-                        <ul className='list-unstyled'>
-                            {recipes
-                                .filter((recipe) => recipe.isSubRecipe)
-                                .map((recipe) => (
-                                    <li
-                                        key={recipe.id}
-                                        value={recipe.name}
-                                        className="btn btn-light d-block text-start"
-                                        onClick={() => handleWeightModal(recipe)}
-                                    >
-                                        {recipe.name}
-                                    </li>
-                                )
-                                )}
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <>
+            <CustomModal
+                id="add-sub-recipe-modal"
+                title={t("addSubRecipeModal.title")}
+                // Escape must only close the nested weight modal while it is open
+                onClose={() => { if (!weightModal) handleAddSubRecipeModal(); }}
+                headerActions={
+                    <SearchInput
+                        items={recipes.filter((recipe) => recipe.isSubRecipe)}
+                        action={handleAddSubRecipeModal}
+                    />
+                }
+            >
+                <ul className='list-unstyled'>
+                    {recipes
+                        .filter((recipe) => recipe.isSubRecipe)
+                        .map((recipe) => (
+                            <li
+                                key={recipe.id}
+                                value={recipe.name}
+                                className="btn btn-light d-block text-start"
+                                onClick={() => handleWeightModal(recipe)}
+                            >
+                                {recipe.name}
+                            </li>
+                        )
+                        )}
+                </ul>
+            </CustomModal>
             {weightModal && <AddIngredient
                 setWeightModal={setWeightModal}
                 ingredient={currentIngredient}
@@ -58,6 +57,6 @@ export const AddSubRecipeModal = ({ handleAddSubRecipeModal, recipes, setRecipe,
                 setRecipe={setRecipe}
                 currentRecipe={currentRecipe}
             />}
-        </div>
+        </>
     )
 }

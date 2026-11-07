@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ExportDropdown } from "../../../common/ExportDropdown";
-import { SecondaryNavbar } from "../../../common/SecondaryNavbar";
 import { CustomButton } from "../../../common/CustomButton";
+import { CustomModal } from "../../../common/CustomModal";
 import { formatNumber } from "../../../../utilities/utils";
 
 export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => {
@@ -22,62 +22,58 @@ export const TraceabilityModal = ({ handleTraceabilityModal, traceability }) => 
         })),
         summary: {
             [t("traceabilityModal.name")]: traceability.name,
-            [t("traceabilityModal.weightPerUnit")]: `${formatNumber(traceability.weightPerUnit)} g`,
+            [t("traceabilityModal.weightPerUnit")]: formatNumber(traceability.weightPerUnit),
             [t("traceabilityModal.amount")]: formatNumber(traceability.amount)
         }
     };
 
     return (
-        <div className="modal fade show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)", transition: "opacity 0.3s ease" }}>
-            <div className="modal-dialog modal-lg modal-dialog-centered">
-                <div className="modal-content">
-
-                    <SecondaryNavbar title={t("traceabilityModal.title")} collapseButtonId={'traceabilityModalNavbar'} >
-                        <ExportDropdown fileGeneratorData={fileGeneratorData} />
-                    </SecondaryNavbar>
-
-                    <div className="modal-body">
-                        <div>
-                            <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.name")}: </strong>{traceability.name}</p>
-                            <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.weightPerUnit")}: </strong>{formatNumber(traceability.weightPerUnit)}</p>
-                            <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.amount")}: </strong>{formatNumber(traceability.amount)}</p>
-                        </div>
-                        <h5 className="mt-4 mb-3">{t("traceabilityModal.ingredients")}:</h5>
-                        <div className="table-responsive">
-                            <table className="table table-bordered table-hover">
-                                <thead className="bg-color-main text-white">
-                                    <tr>
-                                        <th className="text-nowrap">{t("traceabilityModal.ref")}</th>
-                                        <th className="text-nowrap">{t("traceabilityModal.name")}</th>
-                                        <th className="text-nowrap">{t("traceabilityModal.batch")}</th>
-                                        <th className="text-nowrap">{t("traceabilityModal.expirationDate")}</th>
-                                        <th className="text-nowrap">{t("traceabilityModal.requiredQuantity")}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {traceability.ingredients.map((ingredient, index) => (
-                                        <tr key={index}>
-                                            <td className="text-nowrap">{ingredient.reference}</td>
-                                            <td className="text-nowrap">{ingredient.name}</td>
-                                            <td className="text-nowrap">{ingredient.batch || "?"}</td>
-                                            <td className="text-nowrap">{ingredient.expirationDate || "N/A"}</td>
-                                            <td className="text-nowrap">{ingredient.calculatedProportion ? formatNumber(ingredient.calculatedProportion) + " " + (ingredient.unitOfMeasure || "") : "N/A"}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div className="modal-footer">
-                        <CustomButton
-                            type="button"
-                            className="secondary"
-                            onClick={handleTraceabilityModal}
-                            label={t("traceabilityModal.close")}
-                        />
-                    </div>
-                </div>
+        <CustomModal
+            id="traceability-modal"
+            title={t("traceabilityModal.title")}
+            onClose={handleTraceabilityModal}
+            size="modal-lg"
+            centered
+            headerActions={<ExportDropdown fileGeneratorData={fileGeneratorData} />}
+            footer={
+                <CustomButton
+                    type="button"
+                    className="secondary"
+                    onClick={handleTraceabilityModal}
+                    label={t("traceabilityModal.close")}
+                />
+            }
+        >
+            <div>
+                <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.name")}: </strong>{traceability.name}</p>
+                <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.weightPerUnit")}: </strong>{formatNumber(traceability.weightPerUnit)}</p>
+                <p className="m-1 border-bottom"><strong className="fw-bold">{t("traceabilityModal.amount")}: </strong>{formatNumber(traceability.amount)}</p>
             </div>
-        </div>
+            <h5 className="mt-4 mb-3">{t("traceabilityModal.ingredients")}:</h5>
+            <div className="table-responsive">
+                <table className="table table-bordered table-hover">
+                    <thead className="bg-color-main text-white">
+                        <tr>
+                            <th className="text-nowrap">{t("traceabilityModal.ref")}</th>
+                            <th className="text-nowrap">{t("traceabilityModal.name")}</th>
+                            <th className="text-nowrap">{t("traceabilityModal.batch")}</th>
+                            <th className="text-nowrap">{t("traceabilityModal.expirationDate")}</th>
+                            <th className="text-nowrap">{t("traceabilityModal.requiredQuantity")}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {traceability.ingredients.map((ingredient, index) => (
+                            <tr key={index}>
+                                <td className="text-nowrap">{ingredient.reference}</td>
+                                <td className="text-nowrap">{ingredient.name}</td>
+                                <td className="text-nowrap">{ingredient.batch || "?"}</td>
+                                <td className="text-nowrap">{ingredient.expirationDate || "N/A"}</td>
+                                <td className="text-nowrap">{ingredient.calculatedProportion ? formatNumber(ingredient.calculatedProportion) + " " + (ingredient.unitOfMeasure || "") : "N/A"}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </CustomModal>
     );
 };

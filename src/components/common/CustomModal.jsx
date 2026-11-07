@@ -11,6 +11,7 @@ export const CustomModal = ({
   centered = false,
   headerActions = null,
   footer = null,
+  form = null,
   closeOnBackdrop = true,
   children
 }) => {
@@ -33,6 +34,22 @@ export const CustomModal = ({
       onClose?.();
     }
   };
+
+  const bodyNode = children ? <div className="modal-body">{children}</div> : null;
+  const footerNode = footer ? <div className="modal-footer">{footer}</div> : null;
+
+  // `form` wraps body + footer so submit buttons in the footer belong to the form
+  const content = form ? (
+    <form {...form}>
+      {bodyNode}
+      {footerNode}
+    </form>
+  ) : (
+    <>
+      {bodyNode}
+      {footerNode}
+    </>
+  );
 
   return (
     <div
@@ -65,9 +82,7 @@ export const CustomModal = ({
             </div>
           </div>
 
-          {children && <div className="modal-body">{children}</div>}
-
-          {footer && <div className="modal-footer">{footer}</div>}
+          {content}
         </div>
       </div>
     </div>

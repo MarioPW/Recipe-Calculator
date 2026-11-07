@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { AddIngredient } from './AddIngredient';
 import { SearchInput } from '../../../common/SearchInput';
+import { CustomModal } from '../../../common/CustomModal';
 import { useTranslation } from "react-i18next";
 
 export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, setRecipe, currentRecipe }) => {
@@ -20,28 +21,26 @@ export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, s
         }
     }
     return (
-        <div className='modal fade show d-block ' tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} id='add-ingredient-modal' >
-
-            < div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header gap-3">
-                        <h5 className="modal-title">{t("addIngredientModal.title") }</h5>
-                        <SearchInput items={allIngredients} setItemsList={setIngredients} withDropdown={false} />
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleAddIngredientModal}></button>
-                    </div>
-                    <div className="modal-body">
-                        <ul className='list-unstyled'>
-                            {ingredients.map((ingredient) => {
-                                return (
-                                    <li key={ingredient.id} value={ingredient.name} className='btn btn-light d-block text-start' onClick={() => { handleWeightModal(ingredient) }}>
-                                        {ingredient.name}
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <>
+            <CustomModal
+                id="add-ingredient-modal"
+                title={t("addIngredientModal.title")}
+                // Escape must only close the nested weight modal while it is open
+                onClose={() => { if (!weightModal) handleAddIngredientModal(); }}
+                headerActions={
+                    <SearchInput items={allIngredients} setItemsList={setIngredients} withDropdown={false} />
+                }
+            >
+                <ul className='list-unstyled'>
+                    {ingredients.map((ingredient) => {
+                        return (
+                            <li key={ingredient.id} value={ingredient.name} className='btn btn-light d-block text-start' onClick={() => { handleWeightModal(ingredient) }}>
+                                {ingredient.name}
+                            </li>
+                        )
+                    })}
+                </ul>
+            </CustomModal>
             {weightModal && <AddIngredient
                 setWeightModal={setWeightModal}
                 ingredient={currentIngredient}
@@ -49,6 +48,6 @@ export const AddIngredientModal = ({ handleAddIngredientModal, allIngredients, s
                 setRecipe={setRecipe}
                 currentRecipe={currentRecipe}
             />}
-        </div>
+        </>
     )
 }
